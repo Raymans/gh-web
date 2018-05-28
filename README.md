@@ -10,7 +10,7 @@
 
 ## Description
 
-Geekhob web interface 
+Geekhub web interface 
 
 ## Features:
 
