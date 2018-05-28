@@ -1,25 +1,16 @@
-# HeroBlog
+# GeekHub Web interface
 
-A [GatsbyJS](https://www.gatsbyjs.org/) blog starter. <br /><br />
 
-[![GitHub tag](https://img.shields.io/github/tag/greglobinski/gatsby-starter-hero-blog.svg)](https://github.com/greglobinski/gatsby-starter-personal-blog)
-[![GitHub stars](https://img.shields.io/github/stars/greglobinski/gatsby-starter-hero-blog.svg)](https://github.com/greglobinski/gatsby-starter-personal-blog/stargazers)
-[![GitHub license](https://img.shields.io/github/license/greglobinski/gatsby-starter-hero-blog.svg)](https://github.com/greglobinski/gatsby-starter-personal-blog/blob/master/LICENSE)
+[![GitHub tag](https://img.shields.io/github/tag/raymans/gh-web.svg)](https://github.com/raymans/gatsby-starter-personal-blog)
+[![GitHub stars](https://img.shields.io/github/stars/raymans/gh-web.svg)](https://github.com/raymans/gatsby-starter-personal-blog/stargazers)
+[![GitHub license](https://img.shields.io/github/license/raymans/gh-web.svg)](https://github.com/raymans/gatsby-starter-personal-blog/blob/master/LICENSE)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-![GitHub contributors](https://img.shields.io/github/contributors/greglobinski/gatsby-starter-hero-blog.svg)
-[![Twitter](https://img.shields.io/twitter/url/https/github.com/greglobinski/gatsby-starter-hero-blog.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fgreglobinski%2Fgatsby-starter-hero-blog)
+![GitHub contributors](https://img.shields.io/github/contributors/raymans/gh-web.svg)
 
-  <br />
-
-![](static/screens/gatsby-starter-hero-blog.gif) <br />
-
-  <br />
-
-See the starter in action » [demo website](https://gatsby-starter-hero-blog.greglobinski.com/) <br />For more information visit » [dev.greglobinski.com/gatsby-starter-hero-blog](https://dev.greglobinski.com/gatsby-starter-hero-blog/)
 
 ## Description
 
-A ready to use, easy to customize 'like theme' starter with a 'Hero' section on the home page.
+Geekhob web interface 
 
 ## Features:
 
@@ -59,7 +50,7 @@ More information on [GatsbyJS.org](https://www.gatsbyjs.org/tutorial/part-one)
 Install the starter using Gatsby Cli `gatsby new` command.
 
 ```text
-gatsby new [NEW_SITE_DIRECTORY_FOR_YOUR_BLOG] https://github.com/greglobinski/gatsby-starter-hero-blog.git
+gatsby new [NEW_SITE_DIRECTORY_FOR_YOUR_BLOG] https://github.com/raymans/gh-web.git
 ```
 
 Go into the newly created directory and run
@@ -91,17 +82,9 @@ ALGOLIA_INDEX_NAME=...
 FB_APP_ID=...
 ```
 
-### Instructions & tutorials
-
-* [How to install, setup and add new content to a Blog starter](https://dev.greglobinski.com/install-blog-starter/)
-* [Setup Algolia account for your GatsbyJS blog](https://dev.greglobinski.com/setup-algolia-account/)
-* More articles soon at [Front-end web development with Greg](https://dev.greglobinski.com/gatsby-starter-hero-blog/)
-
 ## Authors
 
-* Greg Lobinski [@greglobinski](https://github.com/greglobinski)
-
-See also the list of [contributors](https://github.com/greglobinski/gatsby-starter-personal-blog/graphs/contributors) who participated in this project.
+* Raymans [@raymans](https://github.com/raymans)
 
 ## Contributing
 
@@ -115,7 +98,7 @@ See also the list of [contributors](https://github.com/greglobinski/gatsby-start
 
 MIT License
 
-Copyright (c) 2017 gatsbyjs <br />Copyright (c) 2018 greg lobinski
+Copyright (c) 2017 gatsbyjs <br />Copyright (c) 2018 greg lobinski <br /> Copyright (c) 2018 raymans
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
