@@ -8,9 +8,13 @@ import Seo from "../components/Seo";
 
 import { Input, Select, Icon } from 'antd';
 
-import CodeMirror from 'react-codemirror';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/lib/codemirror.css';
+
+let CodeMirror = null;
+if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
+  CodeMirror = require('react-codemirror');
+  require('codemirror/mode/javascript/javascript');
+  require('codemirror/lib/codemirror.css');
+}
 
 const Option = Select.Option;
 
@@ -63,7 +67,11 @@ const QuestionPage = props => {
                 <Input addonAfter={<Icon type="setting" />} defaultValue="mysite" />
               </div>
             </div>
-            <CodeMirror value={'function(){}'} onChange={updateCode} options={{lineNumbers: true, mode: 'javascript' }} />
+
+            {CodeMirror &&
+            <CodeMirror value={'function(){}'} onChange={updateCode}
+                        options={{ lineNumbers: true, mode: 'javascript' }}/>
+            }
           </Article>
         )}
       </ThemeContext.Consumer>
