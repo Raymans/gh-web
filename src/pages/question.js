@@ -3,11 +3,15 @@ import React from "react";
 
 import { ThemeContext } from "../layouts";
 import Article from "../components/Article";
-import Contact from "../components/Contact";
 import Headline from "../components/Article/Headline";
 import Seo from "../components/Seo";
 
 import { Input, Select, Icon } from 'antd';
+
+import CodeMirror from 'react-codemirror';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/lib/codemirror.css';
+
 const Option = Select.Option;
 
 const selectBefore = (
@@ -25,7 +29,13 @@ const selectAfter = (
   </Select>
 );
 
-const Contact1Page = props => {
+const updateCode = (newCode) => {
+  this.setState({
+    code: newCode,
+  });
+};
+
+const QuestionPage = props => {
   const {
     data: {
       site: {
@@ -53,6 +63,7 @@ const Contact1Page = props => {
                 <Input addonAfter={<Icon type="setting" />} defaultValue="mysite" />
               </div>
             </div>
+            <CodeMirror value={'function(){}'} onChange={updateCode} options={{lineNumbers: true, mode: 'javascript' }} />
           </Article>
         )}
       </ThemeContext.Consumer>
@@ -62,11 +73,11 @@ const Contact1Page = props => {
   );
 };
 
-Contact1Page.propTypes = {
+QuestionPage.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default Contact1Page;
+export default QuestionPage;
 
 //eslint-disable-next-line no-undef
 export const query = graphql`
