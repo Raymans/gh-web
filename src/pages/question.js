@@ -5,39 +5,11 @@ import { ThemeContext } from "../layouts";
 import Article from "../components/Article";
 import Headline from "../components/Article/Headline";
 import Seo from "../components/Seo";
+import Question from "../components/Question"
 
 import { Input, Select, Icon } from 'antd';
 
-
-let CodeMirror = null;
-if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
-  CodeMirror = require('react-codemirror');
-  require('codemirror/mode/javascript/javascript');
-  require('codemirror/lib/codemirror.css');
-}
-
 const Option = Select.Option;
-
-const selectBefore = (
-  <Select defaultValue="Http://" style={{ width: 90 }}>
-    <Option value="Http://">Http://</Option>
-    <Option value="Https://">Https://</Option>
-  </Select>
-);
-const selectAfter = (
-  <Select defaultValue=".com" style={{ width: 80 }}>
-    <Option value=".com">.com</Option>
-    <Option value=".jp">.jp</Option>
-    <Option value=".cn">.cn</Option>
-    <Option value=".org">.org</Option>
-  </Select>
-);
-
-const updateCode = (newCode) => {
-  this.setState({
-    code: newCode,
-  });
-};
 
 const QuestionPage = props => {
   const {
@@ -56,22 +28,7 @@ const QuestionPage = props => {
             <header>
               <Headline title="Questions" theme={theme} />
             </header>
-            <div>
-              <div style={{ marginBottom: 16 }}>
-                <Input addonBefore="Http://" addonAfter=".com" defaultValue="mysite" />
-              </div>
-              <div style={{ marginBottom: 16 }}>
-                <Input addonBefore={selectBefore} addonAfter={selectAfter} defaultValue="mysite" />
-              </div>
-              <div style={{ marginBottom: 16 }}>
-                <Input addonAfter={<Icon type="setting" />} defaultValue="mysite" />
-              </div>
-            </div>
-
-            {CodeMirror &&
-            <CodeMirror value={'function(){}'} onChange={updateCode}
-                        options={{ lineNumbers: true, mode: 'javascript' }}/>
-            }
+            <Question theme={theme}/>
           </Article>
         )}
       </ThemeContext.Consumer>
