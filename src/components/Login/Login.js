@@ -42,7 +42,7 @@ const Login = props => {
       })
       .catch(error => {
         console.error("Form submission error:", error);
-        this.handleNetworkError();
+        handleNetworkError();
       });
   }
 
@@ -108,6 +108,6 @@ Login.propTypes = {
   form: PropTypes.object
 };
 
-const QuestionForm = Form.create({})(Login);
+const LoginForm = Form.create({})(Login);
 
-export default QuestionForm;
+export default LoginForm;
