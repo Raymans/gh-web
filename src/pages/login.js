@@ -3,13 +3,11 @@ import React from "react";
 
 import { ThemeContext } from "../layouts";
 import Article from "../components/Article";
-import Contact from "../components/Contact";
+import Login from "../components/Login";
 import Headline from "../components/Article/Headline";
 import Seo from "../components/Seo";
 
-import { Input } from "antd";
-
-const Contact1Page = props => {
+const LoginPage = props => {
   const {
     data: {
       site: {
@@ -24,10 +22,9 @@ const Contact1Page = props => {
         {theme => (
           <Article theme={theme}>
             <header>
-              <Headline title="Contact" theme={theme} />
+              <Headline title="Login" theme={theme} />
             </header>
-            <Input placeholder="User Name" />
-            <Input placeholder="Password" />
+            <Login theme={theme}/>
           </Article>
         )}
       </ThemeContext.Consumer>
@@ -37,11 +34,11 @@ const Contact1Page = props => {
   );
 };
 
-Contact1Page.propTypes = {
+LoginPage.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default Contact1Page;
+export default LoginPage;
 
 //eslint-disable-next-line no-undef
 export const query = graphql`

@@ -129,10 +129,6 @@ class Layout extends React.Component {
                 strong {
                   font-weight: ${this.state.font600loaded ? 600 : 400};
                 }
-                a {
-                  text-decoration: none;
-                  color: #666;
-                }
                 main {
                   width: auto;
                   display: block;
