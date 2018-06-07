@@ -19,7 +19,7 @@ const Login = props => {
       .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
       .join("&");
   }
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     props.form.validateFields((err, values) => {
@@ -81,13 +81,13 @@ const Login = props => {
                 <Button type="primary" htmlType="submit" className="login-form-button">
                   Log in
                 </Button>
-                Or <a href="">register now!</a>
+                Or <a href="/register/">register now!</a>
               </FormItem>
               <style jsx>{`
                 :global(.login-form-button) {
                   width: 100%;
                 }
-                
+
                   .login-form {
                     max-width: 300px;
                   }
