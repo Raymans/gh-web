@@ -1,10 +1,11 @@
 /* eslint no-unused-vars: 0 */
 
 import { navigateTo } from "gatsby-link";
-import { Form, Input, Button, Tabs, Icon, Checkbox } from 'antd';
+import { Form, Input, Button, Tabs, Icon, Checkbox, Switch } from 'antd';
 import PropTypes from "prop-types";
 import React from "react";
 
+const InputGroup = Input.Group;
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 const { TextArea } = Input;
@@ -23,7 +24,7 @@ if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
 
 const Question = props => {
   const { getFieldDecorator, getFieldValue } = props.form;
-  
+
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -40,7 +41,7 @@ const Question = props => {
       sm: { span: 20, offset: 4 },
     },
   };
-  
+
   const remove = (k) => {
     const { form } = props;
     // can use data-binding to get
@@ -49,13 +50,13 @@ const Question = props => {
     if (keys.length === 1) {
       return;
     }
-    
+
     // can use data-binding to set
     form.setFieldsValue({
       keys: keys.filter(key => key !== k),
     });
   }
-  
+
   const add = () => {
     const { form } = props;
     // can use data-binding to get
@@ -68,13 +69,13 @@ const Question = props => {
       keys: nextKeys,
     });
   }
-  
+
   function encode(data) {
     return Object.keys(data)
       .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
       .join("&");
   }
-  
+
   function handleSubmit(e) {
     e.preventDefault();
     props.form.validateFields((err, values) => {
@@ -84,7 +85,7 @@ const Question = props => {
       }
     });
   }
-  
+
   function sendMessage(values) {
     fetch("/", {
       method: "POST",
@@ -100,11 +101,11 @@ const Question = props => {
         handleNetworkError();
       });
   }
-  
+
   function handleNetworkError(e) {
     console.log("submit Error");
   }
-  
+
   getFieldDecorator('keys', { initialValue: [] });
   const keys = getFieldValue('keys');
   const formItems = keys.map((k, index) => {
@@ -115,7 +116,14 @@ const Question = props => {
         required={false}
         key={k}
       >
-      
+
+        <InputGroup compact>
+          {getFieldDecorator(`corrects[${k}]`, {
+
+          })(
+            <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} defaultChecked />
+          )}
+
       {getFieldDecorator(`names[${k}]`, {
         validateTrigger: ['onChange', 'onBlur'],
         rules: [{
@@ -125,10 +133,8 @@ const Question = props => {
           initialValue: { number: 0, currency: 'rmb' },
         }],
       })(
-        <span>
-            <Checkbox />
             <Input placeholder="Please input answer and check if corrected" style={{ width: '60%', marginRight: 8 }} />
-          </span>
+
       )}
         {keys.length > 1 ? (
           <Icon
@@ -138,11 +144,12 @@ const Question = props => {
             onClick={() => remove(k)}
           />
         ) : null}
+        </InputGroup>
     </FormItem>
-    
+
     );
   });
-  
+
   return (
     <React.Fragment>
       <div className="form">
@@ -166,7 +173,7 @@ const Question = props => {
                       required: true,
                       message: "Please enter description!",
                       whitespace: true,
-                      
+
                     }
                   ]
                 })(<Input placeholder="please input question's description"/>)}
