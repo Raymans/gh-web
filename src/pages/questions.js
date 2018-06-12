@@ -5,13 +5,11 @@ import { ThemeContext } from "../layouts";
 import Article from "../components/Article";
 import Headline from "../components/Article/Headline";
 import Seo from "../components/Seo";
-import Question from "../components/Question"
+import Questions from "../components/Questions"
 
-import { Input, Select, Icon } from 'antd';
+import { Select } from 'antd';
 
-const Option = Select.Option;
-
-const QuestionPage = props => {
+const QuestionsPage = props => {
   const {
     data: {
       site: {
@@ -26,9 +24,9 @@ const QuestionPage = props => {
         {theme => (
           <Article theme={theme}>
             <header>
-              <Headline title="Create Question" theme={theme} />
+              <Headline title="Questions" theme={theme} />
             </header>
-            <Question theme={theme}/>
+            <Questions theme={theme}/>
           </Article>
         )}
       </ThemeContext.Consumer>
@@ -38,15 +36,15 @@ const QuestionPage = props => {
   );
 };
 
-QuestionPage.propTypes = {
+QuestionsPage.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default QuestionPage;
+export default QuestionsPage;
 
 //eslint-disable-next-line no-undef
 export const query = graphql`
-  query QuestionQuery {
+  query QuestionsQuery {
     site {
       siteMetadata {
         facebook {
