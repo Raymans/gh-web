@@ -1,0 +1,3 @@
+GeekHub is the platform for Software professionals to prepare for their interviews. The platform offers an abundance of interview resources, including fundamental interview questions pertaining to specific categories, algorithmic challenges and online real person 1 on 1 interviews to help a candidate be as prepared as one could be to excel in their dream job interviews.
+
+Another service offering GeekHub provides is enterprise solutions. Without a doubt, companies are always seeking and hiring candidates. GeekHub provides feature-packed and intuitive user experience for companies to conduct interviews over an online experience. It provides a great screening service and reporting to companies to better make informed decisions.
