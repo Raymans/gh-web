@@ -1,4 +1,4 @@
-# GeekHub Web interface
+# GeekHub Web Interface
 
 
 [![GitHub tag](https://img.shields.io/github/tag/raymans/gh-web.svg)](https://github.com/raymans/gatsby-starter-personal-blog)
@@ -10,7 +10,7 @@
 
 ## Description
 
-Geekhub web interface 
+GeekHub is the platform for Software professionals to prepare for their interviews.
 
 ## Features:
 
