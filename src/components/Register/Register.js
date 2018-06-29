@@ -6,6 +6,8 @@ import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Butto
 import PropTypes from "prop-types";
 import React from "react";
 
+import {signup} from '../../utils/api';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
@@ -78,23 +80,17 @@ const Register = props => {
   }
 
   function sendMessage(values) {
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({ "form-name": "Question", ...values })
+    signup({
+      "username": "raymans123123",
+      "email": "tingjan1982132@gmail.com",
+      "password": "password"
+    }).then(() => {
+      console.log("Form submission success");
+      //navigateTo("/success");
     })
-      .then(() => {
-        console.log("Form submission success");
-        navigateTo("/success");
-      })
       .catch(error => {
         console.error("Form submission error:", error);
-        handleNetworkError();
       });
-  }
-
-  function handleNetworkError(e) {
-    console.log("submit Error");
   }
 
   return (
@@ -149,11 +145,11 @@ const Register = props => {
                 {...formItemLayout}
                 label={(
                   <span>
-              Nickname&nbsp;
-                    <Tooltip title="What do you want others to call you?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
+                    Nickname&nbsp;
+                    <Tooltip title="What do you want others to see you?">
+                      <Icon type="question-circle-o" />
+                  </Tooltip>
+                  </span>
                 )}
               >
                 {getFieldDecorator('nickname', {

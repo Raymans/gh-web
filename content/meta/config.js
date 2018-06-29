@@ -18,5 +18,6 @@ module.exports = {
   manifestBackgroundColor: "white",
   manifestThemeColor: "#666",
   manifestDisplay: "standalone",
-  authorSocialLinks: [{ name: "github", url: "https://github.com/raymans" }]
+  authorSocialLinks: [{ name: "github", url: "https://github.com/raymans" }],
+  ghServiceUrl: 'http://gh-stack2-ecs-apploadbalancer-175295624.ap-northeast-1.elb.amazonaws.com'
 };
