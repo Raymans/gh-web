@@ -6,12 +6,15 @@ import React from "react";
 import { getScreenWidth, timeoutThrottlerHandler } from "../utils/helpers";
 import Footer from "../components/Footer/";
 import Header from "../components/Header";
+import {AuthProvider} from "react-check-auth";
+import {getUserUrl} from "../utils/api";
 
 export const ThemeContext = React.createContext(null);
 export const ScreenWidthContext = React.createContext(0);
 export const FontLoadedContext = React.createContext(false);
 
 import themeObjectFromYaml from "../theme/theme.yaml";
+import config from "../../content/meta/config";
 
 class Layout extends React.Component {
   constructor() {
@@ -85,56 +88,58 @@ class Layout extends React.Component {
       <ThemeContext.Provider value={this.state.theme}>
         <FontLoadedContext.Provider value={this.state.font400loaded}>
           <ScreenWidthContext.Provider value={this.state.screenWidth}>
-            <React.Fragment>
-              <Header path={this.props.location.pathname} pages={pages} theme={this.state.theme} />
-              <main>{children()}</main>
-              <Footer html={footnoteHTML} theme={this.state.theme} />
-
-              {/* --- STYLES --- */}
-              <style jsx>{`
-                main {
-                  min-height: 80vh;
-                }
-              `}</style>
-              <style jsx global>{`
-                html {
-                  box-sizing: border-box;
-                }
-                *,
-                *:after,
-                *:before {
-                  box-sizing: inherit;
-                  margin: 0;
-                  padding: 0;
-                }
-                body {
-                  font-family: ${this.state.font400loaded
-                    ? "'Open Sans', sans-serif;"
-                    : "Arial, sans-serif;"};
-                }
-                h1,
-                h2,
-                h3 {
-                  font-weight: ${this.state.font600loaded ? 600 : 400};
-                  line-height: 1.1;
-                  letter-spacing: -0.03em;
-                  margin: 0;
-                }
-                h1 {
-                  letter-spacing: -0.04em;
-                }
-                p {
-                  margin: 0;
-                }
-                strong {
-                  font-weight: ${this.state.font600loaded ? 600 : 400};
-                }
-                main {
-                  width: auto;
-                  display: block;
-                }
-              `}</style>
-            </React.Fragment>
+            <AuthProvider {...getUserUrl()}>
+              <React.Fragment>
+                <Header path={this.props.location.pathname} pages={pages} theme={this.state.theme} />
+                <main>{children()}</main>
+                <Footer html={footnoteHTML} theme={this.state.theme} />
+  
+                {/* --- STYLES --- */}
+                <style jsx>{`
+                  main {
+                    min-height: 80vh;
+                  }
+                `}</style>
+                <style jsx global>{`
+                  html {
+                    box-sizing: border-box;
+                  }
+                  *,
+                  *:after,
+                  *:before {
+                    box-sizing: inherit;
+                    margin: 0;
+                    padding: 0;
+                  }
+                  body {
+                    font-family: ${this.state.font400loaded
+                      ? "'Open Sans', sans-serif;"
+                      : "Arial, sans-serif;"};
+                  }
+                  h1,
+                  h2,
+                  h3 {
+                    font-weight: ${this.state.font600loaded ? 600 : 400};
+                    line-height: 1.1;
+                    letter-spacing: -0.03em;
+                    margin: 0;
+                  }
+                  h1 {
+                    letter-spacing: -0.04em;
+                  }
+                  p {
+                    margin: 0;
+                  }
+                  strong {
+                    font-weight: ${this.state.font600loaded ? 600 : 400};
+                  }
+                  main {
+                    width: auto;
+                    display: block;
+                  }
+                `}</style>
+              </React.Fragment>
+            </AuthProvider>
           </ScreenWidthContext.Provider>
         </FontLoadedContext.Provider>
       </ThemeContext.Provider>

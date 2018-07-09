@@ -5,6 +5,7 @@ import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Butto
 
 import PropTypes from "prop-types";
 import React from "react";
+import {AuthConsumer} from 'react-check-auth';
 
 import {signup} from '../../utils/api';
 
@@ -74,17 +75,16 @@ const Register = props => {
     props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        sendMessage(values);
+        return sendMessage(values);
       }
     });
-  }
-
+  };
+  
   function sendMessage(values) {
-    signup({
-      "username": "raymans123123",
-      "email": "tingjan1982132@gmail.com",
-      "password": "password"
-    }).then(() => {
+    return signup(Object.assign({
+      "firstName": "Joe",
+      "lastName": "Lin",
+    }, values)).then(() => {
       console.log("Form submission success");
       //navigateTo("/success");
     })
@@ -92,101 +92,88 @@ const Register = props => {
         console.error("Form submission error:", error);
       });
   }
-
+  
   return (
     <React.Fragment>
       <div className="form">
         <ThemeContext.Consumer>
           {theme => (
-            <Form onSubmit={handleSubmit}>
-              <FormItem
-                {...formItemLayout}
-                label="E-mail"
-              >
-                {getFieldDecorator('email', {
-                  rules: [{
-                    type: 'email', message: 'The input is not valid E-mail!',
-                  }, {
-                    required: true, message: 'Please input your E-mail!',
-                  }],
-                })(
-                  <Input />
+            <AuthConsumer>
+              {(refreshAuth) => (
+              <Form onSubmit={(e) => handleSubmit(e).then(() => refreshAuth())}>
+                <FormItem
+                  {...formItemLayout}
+                  label="E-mail"
+                >
+                  {getFieldDecorator('email', {
+                    rules: [{
+                      type: 'email', message: 'The input is not valid E-mail!',
+                    }, {
+                      required: true, message: 'Please input your E-mail!',
+                    }],
+                  })(
+                    <Input />
+                  )}
+                </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label={(
+                    <span>
+                      User Name&nbsp;
+                      <Tooltip title="What do you want others to see you?">
+                        <Icon type="question-circle-o" />
+                    </Tooltip>
+                    </span>
+                  )}
+                >
+                  {getFieldDecorator('username', {
+                    rules: [{ required: true, message: 'Please input your user name!', whitespace: true }],
+                  })(
+                    <Input />
+                  )}
+                </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="Password"
+                >
+                  {getFieldDecorator('password', {
+                    rules: [{
+                      required: true, message: 'Please input your password!',
+                    }, {
+                      validator: validateToNextPassword,
+                    }],
+                  })(
+                    <Input type="password" />
+                  )}
+                </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="Confirm Password"
+                >
+                  {getFieldDecorator('confirm', {
+                    rules: [{
+                      required: true, message: 'Please confirm your password!',
+                    }, {
+                      validator: compareToFirstPassword,
+                    }],
+                  })(
+                    <Input type="password" onBlur={handleConfirmBlur} />
+                  )}
+                </FormItem>
+                <FormItem {...tailFormItemLayout}>
+                  {getFieldDecorator('remember', {
+                    valuePropName: 'checked',
+                    initialValue: true,
+                  })(
+                    <Checkbox>Remember me</Checkbox>
+                  )}
+                </FormItem>
+                <FormItem {...tailFormItemLayout}>
+                  <Button type="primary" htmlType="submit" >Register</Button>
+                </FormItem>
+              </Form>
                 )}
-              </FormItem>
-              <FormItem
-                {...formItemLayout}
-                label="Password"
-              >
-                {getFieldDecorator('password', {
-                  rules: [{
-                    required: true, message: 'Please input your password!',
-                  }, {
-                    validator: validateToNextPassword,
-                  }],
-                })(
-                  <Input type="password" />
-                )}
-              </FormItem>
-              <FormItem
-                {...formItemLayout}
-                label="Confirm Password"
-              >
-                {getFieldDecorator('confirm', {
-                  rules: [{
-                    required: true, message: 'Please confirm your password!',
-                  }, {
-                    validator: compareToFirstPassword,
-                  }],
-                })(
-                  <Input type="password" onBlur={handleConfirmBlur} />
-                )}
-              </FormItem>
-              <FormItem
-                {...formItemLayout}
-                label={(
-                  <span>
-                    Nickname&nbsp;
-                    <Tooltip title="What do you want others to see you?">
-                      <Icon type="question-circle-o" />
-                  </Tooltip>
-                  </span>
-                )}
-              >
-                {getFieldDecorator('nickname', {
-                  rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
-                })(
-                  <Input />
-                )}
-              </FormItem>
-              <FormItem
-                {...formItemLayout}
-                label="Captcha"
-                extra="We must make sure that your are a human."
-              >
-                <Row gutter={8}>
-                  <Col span={12}>
-                    {getFieldDecorator('captcha', {
-                      rules: [{ required: true, message: 'Please input the captcha you got!' }],
-                    })(
-                      <Input />
-                    )}
-                  </Col>
-                  <Col span={12}>
-                    <Button>Get captcha</Button>
-                  </Col>
-                </Row>
-              </FormItem>
-              <FormItem {...tailFormItemLayout}>
-                {getFieldDecorator('agreement', {
-                  valuePropName: 'checked',
-                })(
-                  <Checkbox>I have read the <a href="">agreement</a></Checkbox>
-                )}
-              </FormItem>
-              <FormItem {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit">Register</Button>
-              </FormItem>
-            </Form>
+            </AuthConsumer>
           )}
         </ThemeContext.Consumer>
       </div>

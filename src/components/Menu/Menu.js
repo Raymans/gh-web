@@ -6,6 +6,7 @@ import FaHome from "react-icons/lib/fa/home";
 import FaEnvelope from "react-icons/lib/fa/envelope";
 import FaQuestionCircleO from 'react-icons/lib/fa/question-circle-o'
 //react-icons/lib/fa/info
+import {AuthConsumer} from 'react-check-auth';
 
 import Item from "./Item";
 import Expand from "./Expand";
@@ -25,7 +26,7 @@ class Menu extends React.Component {
 
     this.items = [
       { to: "/", label: "Home", icon: FaHome },
-      { to: "/login", label: "Login", icon: FaQuestionCircleO },
+      { to: "/login", label: "Login", icon: FaQuestionCircleO, needAuth: true },
       { to: "/question", label: "Question", icon: FaQuestionCircleO },
       { to: "/questions", label: "Questions", icon: FaQuestionCircleO },
       ...pages,
@@ -145,26 +146,33 @@ class Menu extends React.Component {
     const { open } = this.state;
 
     return (
-      <React.Fragment>
-        <nav className={`menu ${open ? "open" : ""}`} rel="js-menu">
-          <ul className="itemList" ref={this.itemList}>
-            {this.items.map(item => (
-              <Item item={item} key={item.label} icon={item.icon} theme={theme} />
-            ))}
-          </ul>
-          {this.state.hiddenItems.length > 0 && <Expand onClick={this.toggleMenu} theme={theme} />}
-          {open &&
-            screenWidth >= 1024 && (
-              <ul className="hiddenItemList">
-                {this.state.hiddenItems.map(item => (
-                  <Item item={item} key={item.label} hiddenItem theme={theme} />
-                ))}
+      <AuthConsumer>
+        {({userInfo}) => {
+          return <React.Fragment>
+            <nav className={`menu ${open ? "open" : ""}`} rel="js-menu">
+              <ul className="itemList" ref={this.itemList}>
+                {
+                  this.items.map(item => {
+                    if (item.needAuth && userInfo) {
+                      return <Item item={item} key={item.label} icon={item.icon} theme={theme}/>;
+                    }
+                    return <Item item={item} key={item.label} icon={item.icon} theme={theme}/>;
+                  })
+                }
               </ul>
-            )}
-        </nav>
-
-        {/* --- STYLES --- */}
-        <style jsx>{`
+              {this.state.hiddenItems.length > 0 && <Expand onClick={this.toggleMenu} theme={theme} />}
+              {open &&
+              screenWidth >= 1024 && (
+                <ul className="hiddenItemList">
+                  {this.state.hiddenItems.map(item => (
+                    <Item item={item} key={item.label} hiddenItem theme={theme} />
+                  ))}
+                </ul>
+              )}
+            </nav>
+    
+            {/* --- STYLES --- */}
+            <style jsx>{`
           .menu {
             align-items: center;
             background: ${theme.color.neutral.white};
@@ -277,9 +285,11 @@ class Menu extends React.Component {
             }
           }
         `}</style>
-      </React.Fragment>
+          </React.Fragment>
+        }}
+      
+      </AuthConsumer>
     );
   }
 }
-
 export default Menu;
