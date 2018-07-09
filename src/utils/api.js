@@ -16,7 +16,7 @@ export async function getUser(params) {
 
 export function getUserUrl() {
   return {
-    authUrl: `${config.ghServiceUrl}/api/users/8b5ed6e1-d1c3-4c1e-b7b8-02d79a5ccd58`,
+    authUrl: `${config.ghServiceUrl}/api/users/${localStorage.getItem('userid')}`,
     reqOptions: {
       'method': 'GET',
       'headers': {

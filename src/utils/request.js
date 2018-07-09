@@ -22,7 +22,7 @@ function checkStatus(error) {
   if (response.status >= 200 && response.status < 300) {
     return response.data.message;
   }
-  
+
   const errortext = codeMessage[response.status] || response.statusText;
   notification.error({
     message: `${errortext}`,
@@ -69,8 +69,6 @@ export default function request(url, options) {
       }
       return response;
     })
-    .then(data => {
-      return data;
-    })
+    .then(({data}) => data)
     .catch(checkStatus)
 }

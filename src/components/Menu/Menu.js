@@ -153,10 +153,15 @@ class Menu extends React.Component {
               <ul className="itemList" ref={this.itemList}>
                 {
                   this.items.map(item => {
-                    if (item.needAuth && userInfo) {
+                    if(item.label === 'Login') {
+                      if (userInfo) {
+                        return <span>Hi, {userInfo.username}</span>
+                      }
                       return <Item item={item} key={item.label} icon={item.icon} theme={theme}/>;
                     }
-                    return <Item item={item} key={item.label} icon={item.icon} theme={theme}/>;
+                    if (!item.needAuth || userInfo) {
+                      return <Item item={item} key={item.label} icon={item.icon} theme={theme}/>;
+                    }
                   })
                 }
               </ul>
@@ -170,7 +175,7 @@ class Menu extends React.Component {
                 </ul>
               )}
             </nav>
-    
+
             {/* --- STYLES --- */}
             <style jsx>{`
           .menu {
@@ -287,7 +292,7 @@ class Menu extends React.Component {
         `}</style>
           </React.Fragment>
         }}
-      
+
       </AuthConsumer>
     );
   }
