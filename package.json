@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "antd": "^3.6.1",
+    "auth0-js": "^9.6.1",
     "axios": "^0.18.0",
     "codemirror": "^5.38.0",
     "fontfaceobserver": "^2.0.13",
@@ -59,7 +60,7 @@
   ],
   "scripts": {
     "build": "gatsby build",
-    "develop": "gatsby develop",
+    "develop": "gatsby develop --host localhost --port 8001",
     "devhost": "gatsby develop --host 192.168.0.112",
     "format": "prettier --write 'src/**/*.js'",
     "lint-errors": "eslint src/**/*.{js,jsx} --quiet",

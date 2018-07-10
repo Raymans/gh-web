@@ -4,6 +4,7 @@ import { navigateTo } from "gatsby-link";
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import PropTypes from "prop-types";
 import React from "react";
+import Auth from '../../utils/auth';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -49,7 +50,14 @@ const Login = props => {
   function handleNetworkError(e) {
     console.log("submit Error");
   }
-
+  
+  const auth = new Auth();
+  auth.login();
+  console.log(auth.isAuthenticated())
+  //auth.logout()
+  
+  console.log(auth.isAuthenticated())
+  
   return (
     <React.Fragment>
       <div className="form">
