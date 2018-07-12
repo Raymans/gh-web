@@ -4,7 +4,7 @@ require("core-js/fn/array/from");
 
 import FaHome from "react-icons/lib/fa/home";
 import FaEnvelope from "react-icons/lib/fa/envelope";
-import FaQuestionCircleO from 'react-icons/lib/fa/question-circle-o'
+import FaQuestionCircleO from 'react-icons/lib/io/social-nodejs'
 //react-icons/lib/fa/info
 import {AuthConsumer} from 'react-check-auth';
 

@@ -10,11 +10,10 @@ const Hero = props => {
     <React.Fragment>
       <section className="hero">
         <h1>
-          Practice anonymously with engineers who have worked at great company.
+          Best prepare tools for interviews
         </h1>
-        <button onClick={scrollToContent} aria-label="scroll">
-          <FaArrowDown />
-        </button>
+        <h2>Store knowledge as your second brand</h2>
+        <h2>Practice anonymously with engineers who have worked at great company</h2>
       </section>
 
       {/* --- STYLES --- */}
@@ -28,7 +27,7 @@ const Hero = props => {
           display: flex;
           flex-flow: column nowrap;
           justify-content: center;
-          min-height: 100vh;
+          min-height: 78vh;
           height: 100px;
           padding: ${theme.space.inset.l};
           padding-top: ${theme.header.height.homepage};
@@ -41,7 +40,7 @@ const Hero = props => {
           color: ${theme.hero.h1.color};
           line-height: ${theme.hero.h1.lineHeight};
           text-remove-gap: both 0 "Open Sans";
-
+          font-weight: 400;
           :global(strong) {
             position: relative;
 
@@ -57,6 +56,11 @@ const Hero = props => {
               margin: 0 0 0 ${theme.space.xs};
             }
           }
+        }
+        
+        h2 {
+          color: #ffffff;
+          font-weight: 400;
         }
 
         button {
