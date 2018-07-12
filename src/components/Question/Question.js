@@ -1,17 +1,15 @@
 /* eslint no-unused-vars: 0 */
 
 import { navigateTo } from "gatsby-link";
-import { Form, Input, Button, Tabs, Icon, Checkbox, Switch } from 'antd';
+import { Form,  Input, Button, Tabs, Icon, Checkbox, Switch, Cascader } from 'antd';
 import PropTypes from "prop-types";
 import React from "react";
+import data from './data';
 
 const InputGroup = Input.Group;
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 const { TextArea } = Input;
-import "antd/lib/form/style/index.css";
-import "antd/lib/input/style/index.css";
-import "antd/lib/button/style/index.css";
 import { ThemeContext } from "../../layouts";
 
 let CodeMirror = null;
@@ -106,44 +104,51 @@ const Question = props => {
     console.log("submit Error");
   }
 
+  function onChange(value, selectedOptions) {
+    console.log(value, selectedOptions);
+  }
+
+  function filter(inputValue, path) {
+    return (path.some(option => (option.label).toLowerCase().indexOf(inputValue.toLowerCase()) > -1));
+  }
+
+
   getFieldDecorator('keys', { initialValue: [] });
   const keys = getFieldValue('keys');
   const formItems = keys.map((k, index) => {
     return (
       <FormItem
         {...(formItemLayout)}
-        label={index + 1}
         required={false}
         key={k}
       >
 
-        <InputGroup compact>
+        <InputGroup>
+          {keys.length > 1? (
+            <Icon
+              className="dynamic-delete-button"
+              type="minus-circle-o"
+              disabled={keys.length === 1}
+              onClick={() => remove(k)}
+            />
+          ) : null}
           {getFieldDecorator(`corrects[${k}]`, {
 
           })(
-            <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} defaultChecked />
+            <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} defaultChecked style={{float: "left", margin: "5px"}} />
           )}
 
       {getFieldDecorator(`names[${k}]`, {
         validateTrigger: ['onChange', 'onBlur'],
         rules: [{
           required: true,
-          whitespace: true,
           message: "Please input answer and check if corrected",
-          initialValue: { number: 0, currency: 'rmb' },
         }],
       })(
             <Input placeholder="Please input answer and check if corrected" style={{ width: '60%', marginRight: 8 }} />
 
       )}
-        {keys.length > 1 ? (
-          <Icon
-            className="dynamic-delete-button"
-            type="minus-circle-o"
-            disabled={keys.length === 1}
-            onClick={() => remove(k)}
-          />
-        ) : null}
+
         </InputGroup>
     </FormItem>
 
@@ -166,6 +171,23 @@ const Question = props => {
                   ]
                 })(<Input placeholder="please input question's title"/>)}
               </FormItem>
+              <FormItem label="Category">
+                {getFieldDecorator("category", {
+                  rules: [
+                    {
+                      required: true
+                    }
+                  ]
+                })(<Cascader
+                  options={data}
+                  onChange={onChange}
+                  placeholder="Please select one"
+                  showSearch={{ filter }}
+                  expandTrigger="hover"
+                />)}
+              </FormItem>
+
+
               <FormItem label="Description">
                 {getFieldDecorator("description", {
                   rules: [
@@ -176,10 +198,18 @@ const Question = props => {
 
                     }
                   ]
-                })(<Input placeholder="please input question's description"/>)}
+                })(<TextArea placeholder="please input question's description" autosize={{ minRows: 2, maxRows: 6 }} />)}
               </FormItem>
-              <Tabs defaultActiveKey="2">
-                <TabPane tab={<span><Icon type="code-o" />Coding</span>} key="1">
+              <Tabs defaultActiveKey="1">
+                <TabPane tab={<span><Icon type="check-square" />Multiple Question</span>} key="1">
+                  {formItems}
+                  <FormItem>
+                    <Button type="dashed" onClick={add} style={{ width: '60%' }}>
+                      <Icon type="plus" /> Add Answer
+                    </Button>
+                  </FormItem>
+                </TabPane>
+                <TabPane tab={<span><Icon type="code-o" />Coding</span>} key="2" disabled>
                   {CodeMirror &&
                   <FormItem label="code">
                     {getFieldDecorator("code", {
@@ -196,14 +226,6 @@ const Question = props => {
                     )}
                   </FormItem>
                   }
-                </TabPane>
-                <TabPane tab={<span><Icon type="check-square" />Multiple Question</span>} key="2">
-                  {formItems}
-                  <FormItem {...formItemLayoutWithOutLabel}>
-                    <Button type="dashed" onClick={add} style={{ width: '60%' }}>
-                      <Icon type="plus" /> Add Answer
-                    </Button>
-                  </FormItem>
                 </TabPane>
               </Tabs>
               <FormItem>
