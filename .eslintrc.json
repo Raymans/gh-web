@@ -14,7 +14,8 @@
       "jsx": true
     }
   },
-  "plugins": ["prettier", "react", "jsx-a11y", "import", "graphql"],
+  //"plugins": ["prettier", "react", "jsx-a11y", "import", "graphql"],
+  "plugins": ["react", "jsx-a11y", "import", "graphql"],
   "env": {
     "browser": true,
     "es6": true,

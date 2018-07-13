@@ -217,7 +217,12 @@ exports.modifyBabelrc = ({ babelrc }) => {
         }
       ],
       `syntax-dynamic-import`,
-      `dynamic-import-webpack`
+      `dynamic-import-webpack`,
+      `transform-regenerator`,
+      [`transform-runtime`,{
+        "polyfill": false,
+        "regenerator": true
+      }]
     ])
   };
 };

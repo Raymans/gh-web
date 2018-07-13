@@ -88,9 +88,6 @@ const Register = props => {
       "firstName": "Joe",
       "lastName": "Lin"
     }, values)).then((user) => {
-
-      localStorage.setItem("userid", user.id);
-      console.log(user, localStorage);
       console.log("Form submission success");
       //
     })
