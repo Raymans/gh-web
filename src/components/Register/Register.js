@@ -12,7 +12,6 @@ import { signup } from "../../utils/api";
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
-import "antd/dist/antd.css";
 import { ThemeContext } from "../../layouts";
 
 
