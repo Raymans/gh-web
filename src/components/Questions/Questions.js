@@ -1,16 +1,46 @@
 /* eslint no-unused-vars: 0 */
 
-import { Card, Tag, Avatar, Divider, List, Icon, message, Spin } from 'antd';
+import { Input, Card, Tag, Avatar, Divider, List, Icon, message, Spin, Cascader, Radio } from 'antd';
 
 import InfiniteScroll from 'react-infinite-scroller';
 
 import {getQuestions} from '../../utils/api';
 
 
+const Search = Input.Search;
+const RadioButton = Radio.Button;
+const RadioGroup = Radio.Group;
+
+
 import PropTypes from "prop-types";
 import React from "react";
 
 import { ThemeContext } from "../../layouts";
+
+const options = [{
+  value: 'zhejiang',
+  label: 'Zhejiang',
+  children: [{
+    value: 'hangzhou',
+    label: 'Hangzhou',
+    children: [{
+      value: 'xihu',
+      label: 'West Lake',
+    }],
+  }],
+}, {
+  value: 'jiangsu',
+  label: 'Jiangsu',
+  children: [{
+    value: 'nanjing',
+    label: 'Nanjing',
+    children: [{
+      value: 'zhonghuamen',
+      label: 'Zhong Hua Men',
+    }],
+  }],
+}];
+
 
 
 const data = [
@@ -64,6 +94,16 @@ class Questions extends React.Component{
     hasMore: true,
   }
 
+  onChange = (value) => {
+    console.log(value);
+  }
+
+// Just show the latest item.
+  displayRender = (label) => {
+    return label[label.length - 1];
+  }
+
+
   getData = (callback) => {
     getQuestions().then(callback)
   }
@@ -107,6 +147,27 @@ class Questions extends React.Component{
             {theme => (
 
               <div>
+                <section style={{marginBottom: '42px'}}>
+                  <RadioGroup defaultValue="a" size="large">
+                    <RadioButton value="a">Explore</RadioButton>
+                    <RadioButton value="b">Saved</RadioButton>
+                    <RadioButton value="c">Mine</RadioButton>
+                </RadioGroup>
+                </section>
+                <Divider />
+                <Cascader
+                  options={options}
+                  expandTrigger="hover"
+                  displayRender={this.displayRender}
+                  onChange={this.onChange}
+                />
+
+                <Search
+                  placeholder="search question"
+                  onSearch={value => console.log(value)}
+                  style={{ width: 200, float: 'right' }}
+                />
+
                 <InfiniteScroll
                   initialLoad={false}
                   pageStart={0}
@@ -118,56 +179,45 @@ class Questions extends React.Component{
                   <List
                     itemLayout="vertical"
                     size="large"
-                    pagination={{
-                      onChange: (page) => {
-                        console.log(page);
-                      },
-                      pageSize: 3,
-                    }}
                     dataSource={listData}
-                    footer={<div><b>ant design</b> footer part</div>}
                     renderItem={item => (
                       <List.Item
                         key={item.title}
                         actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <IconText type="message" text="2" />]}
-                        extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
+                        //extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
                       >
                         <List.Item.Meta
                           avatar={<Avatar src={item.avatar} />}
                           title={<a href={item.href}>{item.title}</a>}
-                          description={item.description}
+                          description={<div><Tag color="blue">JavaScript</Tag>
+                            <Tag color="blue">closure</Tag>Raymans</div>}
                         />
                         {item.content}
+                        <Divider orientation="left">Author</Divider>
+                        <Avatar src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A">
+                          Raymans
+                        </Avatar>
+                        <span>Raymans@DigitalRiver</span>
                       </List.Item>
                     )}
                   />
                 </InfiniteScroll>
-
-
-
-                <List
-                  grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 }}
-                  dataSource={data}
-                  renderItem={item => (
-                    <List.Item>
-                      <Card title={item.title}>
-                        <Tag color="blue">JavaScript</Tag>
-                        <Tag color="blue">closure</Tag>
-                        <p>Question description.............</p>
-                        <Divider orientation="left">Author</Divider>
-                        <Avatar src={item.src} >Raymans</Avatar>
-                        <span>Raymans Peng@DigitalRiver</span>
-                      </Card>
-                    </List.Item>
-                  )}
-                />
-                <Card title="Question title" style={{ width: 300 }}>
-                  <Tag color="blue">python</Tag>
-                  <p>Question description.............</p>
-                  <Divider orientation="left">Author</Divider>
-                  <Avatar src="bac" >Joe</Avatar>
-                  <span>Joe Lin@Apple</span>
-                </Card>
+                {/*<List*/}
+                  {/*grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 }}*/}
+                  {/*dataSource={data}*/}
+                  {/*renderItem={item => (*/}
+                    {/*<List.Item>*/}
+                      {/*<Card title={item.title}>*/}
+                        {/*<Tag color="blue">JavaScript</Tag>*/}
+                        {/*<Tag color="blue">closure</Tag>*/}
+                        {/*<p>Question description.............</p>*/}
+                        {/*<Divider orientation="left">Author</Divider>*/}
+                        {/*<Avatar src={item.src} >Raymans</Avatar>*/}
+                        {/*<span>Raymans Peng@DigitalRiver</span>*/}
+                      {/*</Card>*/}
+                    {/*</List.Item>*/}
+                  {/*)}*/}
+                {/*/>*/}
               </div>
             )}
           </ThemeContext.Consumer>
