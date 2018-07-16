@@ -22,6 +22,13 @@ export async function getUser(params) {
   });
 }
 
+export async function getQuestions(params) {
+  return request(`https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo`,{
+    method: 'GET',
+    data: params
+  });
+}
+
 export function getUserUrl() {
   return {
     authUrl: `${config.ghServiceUrl}/api/users/${_localStorage.getItem('userid')}`,
