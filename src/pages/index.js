@@ -2,25 +2,14 @@ import PropTypes from "prop-types";
 import React from "react";
 
 import { ThemeContext } from "../layouts";
-import Blog from "../components/Blog";
 import Hero from "../components/Hero";
 import Seo from "../components/Seo";
-import { Row, Col, Icon } from 'antd';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { faNode, faJava, faHtml5, faJs } from '@fortawesome/free-brands-svg-icons';
-
+import Home from "../components/Home";
 
 class IndexPage extends React.Component {
-  separator = React.createRef();
-
-  scrollToContent = e => {
-    this.separator.current.scrollIntoView({ block: "start", behavior: "smooth" });
-  };
-
   render() {
     const {
       data: {
-        posts: { edges: posts = [] },
         bgDesktop: {
           resize: { src: desktop }
         },
@@ -46,42 +35,11 @@ class IndexPage extends React.Component {
       <React.Fragment>
         <ThemeContext.Consumer>
           {theme => (
-            <Hero scrollToContent={this.scrollToContent} backgrounds={backgrounds} theme={theme} />
+            <Hero backgrounds={backgrounds} theme={theme} />
           )}
         </ThemeContext.Consumer>
-
-        <hr ref={this.separator} />
-        <div style={{padding: "0px 50px;"}}>
-          <h1>LANGUAGE</h1>
-          <ThemeContext.Consumer>
-            {theme => {
-              return <Row type="flex" justify="space-around" style={{"margin": "50px 60px"}}>
-                <Col span={6}><FontAwesomeIcon icon={faHtml5} size="7x" color="#08c"/><h2>HTML5</h2></Col>
-                <Col span={6}><FontAwesomeIcon icon={faJs} size="7x" color="#08c"/><h2>JavaScript</h2></Col>
-                <Col span={6}><FontAwesomeIcon icon={faNode} size="7x" color="#08c"/><h2>NodeJs</h2></Col>
-                <Col span={6}><FontAwesomeIcon icon={faJava} size="7x" color="#08c" spin={true}/><h2>Java</h2></Col>
-              </Row>
-            }}
-          </ThemeContext.Consumer>
-        </div>
+        <Home/>
         <Seo facebook={facebook} />
-        <style jsx>{`
-          h1{
-            font-weight: 200;
-            padding-top: 50px;
-            text-align: center;
-          }
-          hr {
-            margin: 0;
-            border: 0;
-          }
-          :global(.ant-col-6) {
-            text-align: center;
-          }
-          :global(.ant-col-6 > h2) {
-            margin-top: 20px;
-          }
-        `}</style>
       </React.Fragment>
     );
   }
@@ -96,34 +54,6 @@ export default IndexPage;
 //eslint-disable-next-line no-undef
 export const guery = graphql`
   query IndexQuery {
-    posts: allMarkdownRemark(
-      filter: { fileAbsolutePath: { regex: "//posts/[0-9]+.*--/" } }
-      sort: { fields: [fields___prefix], order: DESC }
-    ) {
-      edges {
-        node {
-          excerpt
-          fields {
-            slug
-            prefix
-          }
-          frontmatter {
-            title
-            category
-            author
-            cover {
-              children {
-                ... on ImageSharp {
-                  sizes(maxWidth: 800, maxHeight: 360) {
-                    ...GatsbyImageSharpSizes_withWebp
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
     site {
       siteMetadata {
         facebook {

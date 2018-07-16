@@ -1,10 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import FaArrowDown from "react-icons/lib/fa/arrow-down";
-
 const Hero = props => {
-  const { scrollToContent, backgrounds, theme } = props;
+  const { backgrounds, theme } = props;
 
   return (
     <React.Fragment>
@@ -63,41 +61,6 @@ const Hero = props => {
           font-weight: 400;
         }
 
-        button {
-          background: ${theme.background.color.brand};
-          border: 0;
-          border-radius: 50%;
-          font-size: ${theme.font.size.m};
-          padding: ${theme.space.s} ${theme.space.m};
-          cursor: pointer;
-          width: ${theme.space.xl};
-          height: ${theme.space.xl};
-
-          &:focus {
-            outline-style: none;
-            background: ${theme.color.brand.primary.active};
-          }
-
-          :global(svg) {
-            fill: ${theme.color.neutral.white};
-            animation-duration: ${theme.time.duration.long};
-            animation-name: buttonIconMove;
-            animation-iteration-count: infinite;
-          }
-        }
-
-        @keyframes buttonIconMove {
-          0% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-          100% {
-            transform: translateY(0);
-          }
-        }
-
         @from-width tablet {
           .hero {
             background-image: url(${backgrounds.tablet});
@@ -106,10 +69,6 @@ const Hero = props => {
           h1 {
             max-width: 90%;
             font-size: ${`calc(${theme.hero.h1.size} * 1.3)`};
-          }
-
-          button {
-            font-size: ${theme.font.size.l};
           }
         }
 
@@ -122,10 +81,6 @@ const Hero = props => {
             max-width: 80%;
             font-size: ${`calc(${theme.hero.h1.size} * 1.5)`};
           }
-
-          button {
-            font-size: ${theme.font.size.xl};
-          }
         }
       `}</style>
     </React.Fragment>
@@ -133,7 +88,6 @@ const Hero = props => {
 };
 
 Hero.propTypes = {
-  scrollToContent: PropTypes.func.isRequired,
   backgrounds: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired
 };
