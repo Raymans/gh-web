@@ -1,6 +1,6 @@
 /* eslint no-unused-vars: 0 */
 
-import { Input, Card, Tag, Avatar, Divider, List, Icon, message, Spin, Cascader, Radio } from 'antd';
+import { Input, Card, Tag, Avatar, Divider, List, Icon, message, Spin, Cascader, Radio, Menu, Layout, Affix } from 'antd';
 
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -10,63 +10,37 @@ import {getQuestions} from '../../utils/api';
 const Search = Input.Search;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
+const SubMenu = Menu.SubMenu;
+const MenuItemGroup = Menu.ItemGroup;
+const { Header, Footer, Sider, Content } = Layout;
 
-
-import PropTypes from "prop-types";
 import React from "react";
 
 import { ThemeContext } from "../../layouts";
 
 const options = [{
-  value: 'zhejiang',
-  label: 'Zhejiang',
+  value: 'js',
+  label: 'JavaScript',
   children: [{
-    value: 'hangzhou',
-    label: 'Hangzhou',
-    children: [{
-      value: 'xihu',
-      label: 'West Lake',
-    }],
+    value: 'basic',
+    label: 'Basic'
+  },{
+    value: 'closure',
+    label: 'Closure'
   }],
 }, {
-  value: 'jiangsu',
-  label: 'Jiangsu',
+  value: 'java',
+  label: 'Java',
   children: [{
-    value: 'nanjing',
-    label: 'Nanjing',
-    children: [{
-      value: 'zhonghuamen',
-      label: 'Zhong Hua Men',
+    value: 'basic',
+    label: 'Basic'
+    }, {
+      value: 'OOP',
+      label: 'OOP',
     }],
-  }],
 }];
 
 
-
-const data = [
-  {
-    title: 'Title 1',
-    src: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A'
-  },
-  {
-    title: 'Title 2',
-    src: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A'
-  },
-  {
-    title: 'Title 3',
-    src: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/c50.50.621.621/s240x240/941679_10151399630726945_727466790_n.jpg?_nc_cat=0&oh=067ece71da987d55f449584d09353d84&oe=5BB96159'
-  },
-  {
-    title: 'Title 4',
-    src: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/c50.50.621.621/s240x240/941679_10151399630726945_727466790_n.jpg?_nc_cat=0&oh=067ece71da987d55f449584d09353d84&oe=5BB96159'
-  },
-  {
-    title: 'Title 5',
-  },
-  {
-    title: 'Title 6',
-  },
-];
 
 const listData = [];
 for (let i = 0; i < 23; i++) {
@@ -93,16 +67,10 @@ class Questions extends React.Component{
     loading: false,
     hasMore: true,
   }
-
-  onChange = (value) => {
+  
+  handleClick  = (value) => {
     console.log(value);
   }
-
-// Just show the latest item.
-  displayRender = (label) => {
-    return label[label.length - 1];
-  }
-
 
   getData = (callback) => {
     getQuestions().then(callback)
@@ -117,7 +85,6 @@ class Questions extends React.Component{
   }
 
   handleInfiniteOnLoad = () => {
-    console.log(123)
     let data = this.state.data;
     this.setState({
       loading: true,
@@ -140,68 +107,79 @@ class Questions extends React.Component{
   }
 
   render() {
+    const menu = (
+      <Affix offsetTop={60}>
+      <Menu
+        onClick={this.handleClick}
+        defaultSelectedKeys={['explore']}
+        mode="inline"
+        style={{ height: '100%' }}
+      >
+        <Menu.Item key="explore">Explore</Menu.Item>
+        <Menu.Item key="saved">Saved</Menu.Item>
+        <Menu.Item key="mine">Mine</Menu.Item>
+      </Menu>
+      </Affix>
+    );
+    
     return (
       <React.Fragment>
         <div className="form">
           <ThemeContext.Consumer>
             {theme => (
-
               <div>
-                <section style={{marginBottom: '42px'}}>
-                  <RadioGroup defaultValue="a" size="large">
-                    <RadioButton value="a">Explore</RadioButton>
-                    <RadioButton value="b">Saved</RadioButton>
-                    <RadioButton value="c">Mine</RadioButton>
-                </RadioGroup>
-                </section>
-                <Divider />
-                <Cascader
-                  options={options}
-                  expandTrigger="hover"
-                  displayRender={this.displayRender}
-                  onChange={this.onChange}
-                />
-
-                <Search
-                  placeholder="search question"
-                  onSearch={value => console.log(value)}
-                  style={{ width: 200, float: 'right' }}
-                />
-
-                <InfiniteScroll
-                  initialLoad={false}
-                  pageStart={0}
-                  loadMore={this.handleInfiniteOnLoad}
-                  hasMore={!this.state.loading && this.state.hasMore}
-                  useWindow={true}
-                >
-
-                  <List
-                    itemLayout="vertical"
-                    size="large"
-                    dataSource={listData}
-                    renderItem={item => (
-                      <List.Item
-                        key={item.title}
-                        actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <IconText type="message" text="2" />]}
-                        //extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
-                      >
-                        <List.Item.Meta
-                          avatar={<Avatar src={item.avatar} />}
-                          title={<a href={item.href}>{item.title}</a>}
-                          description={<div><Tag color="blue">JavaScript</Tag>
-                            <Tag color="blue">closure</Tag>Raymans</div>}
-                        />
-                        {item.content}
-                        <Divider orientation="left">Author</Divider>
-                        <Avatar src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A">
-                          Raymans
-                        </Avatar>
-                        <span>Raymans@DigitalRiver</span>
-                      </List.Item>
-                    )}
-                  />
-                </InfiniteScroll>
+                <Layout>
+                  <Sider theme="light">{menu}</Sider>
+                  <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
+                    <Cascader
+                      options={options}
+                      expandTrigger="hover"
+                      displayRender={this.displayRender}
+                      onChange={this.onChange}
+                    />
+                    <Search
+                      placeholder="search question"
+                      onSearch={value => console.log(value)}
+                      style={{ width: 200, float: 'right' }}
+                    />
+  
+                    <InfiniteScroll
+                      initialLoad={false}
+                      pageStart={0}
+                      loadMore={this.handleInfiniteOnLoad}
+                      hasMore={!this.state.loading && this.state.hasMore}
+                      useWindow={true}
+                    >
+    
+                      <List
+                        itemLayout="vertical"
+                        size="large"
+                        dataSource={listData}
+                        renderItem={item => (
+                          <List.Item
+                            key={item.title}
+                            actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <IconText type="message" text="2" />]}
+                            //extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
+                          >
+                            <List.Item.Meta
+                              avatar={<Avatar src={item.avatar} />}
+                              title={<a href={item.href}>{item.title}</a>}
+                              description={<div><Tag color="green">JavaScript</Tag>
+                                <Tag color="green">closure</Tag>Raymans</div>}
+                            />
+                            {item.content}
+                            <Divider orientation="left">Author</Divider>
+                            <Avatar src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A">
+                              Raymans
+                            </Avatar>
+                            <span>Raymans@DigitalRiver</span>
+                          </List.Item>
+                        )}
+                      />
+                    </InfiniteScroll>
+                  </Content>
+                </Layout>
+                
                 {/*<List*/}
                   {/*grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 }}*/}
                   {/*dataSource={data}*/}
@@ -218,10 +196,24 @@ class Questions extends React.Component{
                     {/*</List.Item>*/}
                   {/*)}*/}
                 {/*/>*/}
+                <style jsx>{`
+                  :global(.ant-list-vertical .ant-list-item-meta-title){
+                    margin: 18px 0;
+                    font-size: 24px;
+                  }
+                  :global(.ant-list-split .ant-list-item){
+                    border-bottom-color: ${theme.color.neutral.blue};
+                    padding: 22px;
+                  }
+                  :global(.ant-list-split .ant-list-item):nth-child(even){
+                    background-color: #e1e3e30f;
+                  }
+              `}</style>
               </div>
             )}
           </ThemeContext.Consumer>
         </div>
+        
       </React.Fragment>
     );
   }

@@ -23,7 +23,7 @@ const Home = props => {
       </section>
       <style jsx>{`
         h1{
-          font-weight: 200;
+          font-weight: 500;
           text-align: center;
           max-width: 300px;
           margin: 50px auto 7px;

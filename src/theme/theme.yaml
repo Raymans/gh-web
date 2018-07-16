@@ -53,6 +53,7 @@ color:
       j: &color-gray-10 '#3e3e3c'
       k: '#2b2826'
     black: '#000000'
+    blue: '#80bbf6'
   brand:
     primary: &color-brand-primary '#709425'
     primaryActive: '#709425'
@@ -112,7 +113,8 @@ text:
     default: *font-line-height-l
   maxWidth:
     tablet: 650px
-    desktop: 700px
+    desktop: 1024px
+    desktopForm: 700px
 heading:
   family: *font-family-target
   size:

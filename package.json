@@ -69,7 +69,7 @@
   ],
   "scripts": {
     "build": "gatsby build",
-    "develop": "gatsby develop --host localhost --port 8001",
+    "develop": "gatsby develop --host 127.0.0.1 --port 8010",
     "devhost": "gatsby develop --host 192.168.0.112",
     "format": "prettier --write 'src/**/*.js'",
     "lint-errors": "eslint src/**/*.{js,jsx} --quiet",

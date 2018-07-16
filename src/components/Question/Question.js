@@ -1,7 +1,7 @@
 /* eslint no-unused-vars: 0 */
 
 import { navigateTo } from "gatsby-link";
-import { Form,  Input, Button, Tabs, Icon, Checkbox, Switch, Cascader } from 'antd';
+import { Form,  Input, Button, Tabs, Icon, Checkbox, Switch, Cascader, Tooltip } from 'antd';
 import PropTypes from "prop-types";
 import React from "react";
 import data from './data';
@@ -13,7 +13,7 @@ const { TextArea } = Input;
 import { ThemeContext } from "../../layouts";
 
 let CodeMirror = null;
-let uuid = 0;
+let uuid = 1;
 if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
   CodeMirror = require('react-codemirror');
   require('codemirror/mode/javascript/javascript');
@@ -33,13 +33,6 @@ const Question = props => {
       sm: { span: 20 },
     },
   };
-  const formItemLayoutWithOutLabel = {
-    wrapperCol: {
-      xs: { span: 24, offset: 0 },
-      sm: { span: 20, offset: 4 },
-    },
-  };
-
   const remove = (k) => {
     const { form } = props;
     // can use data-binding to get
@@ -113,7 +106,7 @@ const Question = props => {
   }
 
 
-  getFieldDecorator('keys', { initialValue: [] });
+  getFieldDecorator('keys', { initialValue: [0] });
   const keys = getFieldValue('keys');
   const formItems = keys.map((k, index) => {
     return (
@@ -135,7 +128,9 @@ const Question = props => {
           {getFieldDecorator(`corrects[${k}]`, {
 
           })(
-            <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} defaultChecked style={{float: "left", margin: "5px"}} />
+            <Tooltip placement="topLeft" title={<span>Check for Right answer</span>}>
+              <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} defaultChecked style={{float: "left", margin: "5px"}} />
+            </Tooltip>
           )}
 
       {getFieldDecorator(`names[${k}]`, {
@@ -145,10 +140,8 @@ const Question = props => {
           message: "Please input answer and check if corrected",
         }],
       })(
-            <Input placeholder="Please input answer and check if corrected" style={{ width: '60%', marginRight: 8 }} />
-
+        <Input placeholder="Please input answer option" style={{ width: '60%', marginRight: 8 }} />
       )}
-
         </InputGroup>
     </FormItem>
 
@@ -290,6 +283,11 @@ const Question = props => {
                 :global(.dynamic-delete-button[disabled]) {
                   cursor: not-allowed;
                   opacity: 0.5;
+                }
+                @from-width desktop {
+                  :global(.article) {
+                    max-width: ${theme.text.maxWidth.desktopForm} !important;
+                  }
                 }
               `}</style>
             </Form>

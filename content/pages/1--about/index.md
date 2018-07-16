@@ -1,5 +1,5 @@
 ---
-title: About GeekHub techs
+title: About GeekHub
 menuTitle: About
 icon: 
 ---

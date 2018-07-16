@@ -29,6 +29,13 @@ export async function getQuestions(params) {
   });
 }
 
+export async function createQuestion(params) {
+  return request(`${config.ghServiceUrl}/api/questions`,{
+    method: 'POST',
+    data: params
+  }).then(user => _localStorage.setItem("userid", user.id));
+}
+
 export function getUserUrl() {
   return {
     authUrl: `${config.ghServiceUrl}/api/users/${_localStorage.getItem('userid')}`,

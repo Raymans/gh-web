@@ -6,13 +6,20 @@ const Headline = props => {
 
   return (
     <React.Fragment>
-      {title ? <h1>{title}</h1> : <h1>{children}</h1>}
-
+      <section style={{padding: "0px 50px"}} className="title">
+        <h1><p>{title ? title : children}</p></h1>
+      </section>
       {/* --- STYLES --- */}
       <style jsx>{`
         h1 {
+          white-space: nowrap;
+          font-weight: 200;
+          text-align: center;
+          max-width: 400px;
+          margin: 30px auto 40px;
+          border-bottom: 1px solid #e8e8e8;
+          padding-bottom: 10px;
           font-size: ${theme.font.size.xxl};
-          margin: ${theme.space.stack.l};
           animation-name: headlineEntry;
           animation-duration: ${theme.time.duration.long};
 
