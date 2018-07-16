@@ -5,14 +5,13 @@ require('core-js/fn/array/from');
 
 import Link from 'gatsby-link';
 import {Menu as AntMenu, Icon} from 'antd';
-import 'antd/dist/antd.css';
 import {AuthConsumer} from 'react-check-auth';
 
 class Menu extends React.Component {
   state = {
     current: 'Home'
   };
-  
+
   constructor(props) {
     super(props);
     const pages = props.pages.map(page => ({
@@ -22,7 +21,7 @@ class Menu extends React.Component {
         : page.node.frontmatter.title,
       icon: page.node.icon
     }));
-    
+
     this.items = [
       {to: '/', label: 'Home', icon: 'home'},
       {to: '/login', label: 'Login', icon: 'question-circle-o', needAuth: true},
@@ -36,13 +35,13 @@ class Menu extends React.Component {
       }
     ];
   }
-  
+
   handleClick = (e) => {
     this.setState({
       current: e.key,
     });
   };
-  
+
   renderItem = item => (
     <AntMenu.Item key={item.label}>
       <Link
@@ -52,7 +51,7 @@ class Menu extends React.Component {
         <Icon type={item.icon}/>{item.label}
       </Link>
     </AntMenu.Item>);
-  
+
   renderSubMenu = item =>
     (
       <AntMenu.SubMenu key={item.label} title={<span><Icon type="setting"/>{item.label}</span>}>
@@ -68,7 +67,7 @@ class Menu extends React.Component {
         )}
       </AntMenu.SubMenu>
     );
-  
+
   render() {
     return (
       <AuthConsumer>
@@ -96,7 +95,7 @@ class Menu extends React.Component {
                 })
               }
             </AntMenu>
-            
+
             {/* --- STYLES --- */}
             <style jsx>{`
             :global(.ant-menu-horizontal){

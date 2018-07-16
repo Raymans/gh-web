@@ -8,7 +8,6 @@ import Auth from '../../utils/auth';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
-import 'antd/dist/antd.css';
 import { ThemeContext } from "../../layouts";
 
 
