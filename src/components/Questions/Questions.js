@@ -1,6 +1,6 @@
 /* eslint no-unused-vars: 0 */
 
-import { Input, Card, Tag, Avatar, Divider, List, Icon, message, Spin, Cascader, Radio, Menu, Layout, Affix } from 'antd';
+import { Input, Card, Tag, Avatar, Divider, List, Icon, message, Spin, Cascader, Radio, Menu, Layout, Affix, Collapse } from 'antd';
 
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -14,6 +14,7 @@ const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const { Header, Footer, Sider, Content } = Layout;
 
+const Panel = Collapse.Panel;
 import React from "react";
 
 import { ThemeContext } from "../../layouts";
@@ -67,7 +68,7 @@ class Questions extends React.Component{
     loading: false,
     hasMore: true,
   }
-  
+
   handleClick  = (value) => {
     console.log(value);
   }
@@ -122,7 +123,7 @@ class Questions extends React.Component{
         </Menu>
       </Affix>
     );
-    
+
     return (
       <React.Fragment>
         <div className="form">
@@ -143,7 +144,7 @@ class Questions extends React.Component{
                       onSearch={value => console.log(value)}
                       style={{ width: 200, float: 'right' }}
                     />
-  
+
                     <InfiniteScroll
                       initialLoad={false}
                       pageStart={0}
@@ -152,7 +153,7 @@ class Questions extends React.Component{
                       useWindow={true}
                       loader={<Spin indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} />}
                     >
-    
+
                       <List
                         itemLayout="vertical"
                         size="large"
@@ -165,14 +166,21 @@ class Questions extends React.Component{
                           >
                             <List.Item.Meta
                               description={<div>
-                                <Tag color="green">{item.category}</Tag>
-                                <Tag color="green">{item.topic}</Tag>
+                                <Tag color="geekblue">{item.category}</Tag>
+                                <Tag color="blue">{item.topic}</Tag>
                                 <Tag color="green">{item.difficulty}</Tag>
-                                <Tag color="green">{item.status}</Tag>
-                                <Tag color="green">{item.visibilityScope}</Tag>
+                                <Tag color="geekblue">{item.status}</Tag>
+                                <Tag color="#108ee9" style={{float: 'right'}}>{item.visibilityScope}</Tag>
                               </div>}
                             />
                             <span className="content">{item.question}</span>
+                            <div className="answer-collapse">
+                            <Collapse>
+                              <Panel header="Show Me Answer!" key="1">
+                                <p>Answer desc balabalabala</p>
+                              </Panel>
+                            </Collapse>
+                            </div>
                             <Divider orientation="left">Author</Divider>
                             <Avatar src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A">
                               Raymans- {item.contributedBy}
@@ -184,7 +192,7 @@ class Questions extends React.Component{
                     </InfiniteScroll>
                   </Content>
                 </Layout>
-                
+
                 {/*<List*/}
                   {/*grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 }}*/}
                   {/*dataSource={data}*/}
@@ -205,6 +213,14 @@ class Questions extends React.Component{
                   span.content {
                     color: rgba(0, 0, 0, 1)
                   }
+
+                  div.answer-collapse {
+                    padding-top: 20px;
+                    :global(.ant-collapse-item > .ant-collapse-header) {
+                      background-color: #517c7d;
+                      color: cornsilk;
+                    }
+                  }
                   :global(.ant-list-vertical .ant-list-item-meta-title){
                     margin: 18px 0;
                     font-size: 24px;
@@ -221,7 +237,7 @@ class Questions extends React.Component{
             )}
           </ThemeContext.Consumer>
         </div>
-        
+
       </React.Fragment>
     );
   }

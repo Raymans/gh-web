@@ -24,10 +24,10 @@ const Hero = props => {
           }}
           style={{
             position: "fixed",
-            top: 0,
+            top: 100,
             left: 0,
             width: "100%",
-            height: "100%"
+            height: "70%"
           }} />
       </div>
       <section className="hero">
@@ -79,7 +79,7 @@ const Hero = props => {
             }
           }
         }
-        
+
         h2 {
           color: #ffffff;
           font-weight: 400;

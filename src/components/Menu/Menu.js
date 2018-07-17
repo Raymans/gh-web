@@ -24,7 +24,6 @@ class Menu extends React.Component {
 
     this.items = [
       {to: '/', label: 'Home', icon: 'home'},
-      {to: '/login', label: 'Login', icon: 'user', needAuth: true},
       {to: '/question', label: 'Question', icon: 'question'},
       {to: '/questions', label: 'Questions', icon: 'question-circle-o'},
       {
@@ -32,10 +31,11 @@ class Menu extends React.Component {
           ...pages,
           {to: '/contact', label: 'Contact', icon: 'mail'}
         ]
-      }
+      },
+      {to: '/login', label: 'Login', icon: 'user', needAuth: true},
     ];
   }
-  
+
   componentDidMount = () =>
     this.setState({current: this.props.path});
 
