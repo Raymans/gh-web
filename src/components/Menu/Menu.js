@@ -77,6 +77,7 @@ class Menu extends React.Component {
               selectedKeys={[this.state.current]}
               onClick={this.handleClick}
               mode="horizontal"
+              style={{borderBottom: 'none', background: 'transparent'}}
             >
               {
                 this.items.map(item => {
@@ -95,14 +96,6 @@ class Menu extends React.Component {
                 })
               }
             </AntMenu>
-
-            {/* --- STYLES --- */}
-            <style jsx>{`
-            :global(.ant-menu-horizontal){
-              border-bottom: none;
-              background: transparent;
-            }
-        `}</style>
           </React.Fragment>
         }}
       </AuthConsumer>
