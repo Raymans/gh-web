@@ -1,11 +1,35 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import Particles from "react-particles-js"
 const Hero = props => {
   const { backgrounds, theme } = props;
 
   return (
     <React.Fragment>
+      <div className="wrapper">
+        <Particles
+          params={{
+            particles: {
+              number: {
+                value: 50
+              },
+              line_linked: {
+                shadow: {
+                  enable: false,
+                  color: "#3CA9D1",
+                  blur: 5
+                }
+              }
+            }
+          }}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%"
+          }} />
+      </div>
       <section className="hero">
         <h1>
           Best prepare tools for interviews
