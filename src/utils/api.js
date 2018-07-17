@@ -23,7 +23,7 @@ export async function getUser(params) {
 }
 
 export async function getQuestions(params) {
-  return request(`https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo`,{
+  return request(`${config.ghServiceUrl}/api/questions`,{
     method: 'GET',
     data: params
   });
@@ -33,7 +33,7 @@ export async function createQuestion(params) {
   return request(`${config.ghServiceUrl}/api/questions`,{
     method: 'POST',
     data: params
-  }).then(user => _localStorage.setItem("userid", user.id));
+  });
 }
 
 export function getUserUrl() {

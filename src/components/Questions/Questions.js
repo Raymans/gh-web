@@ -73,13 +73,13 @@ class Questions extends React.Component{
   }
 
   getData = (callback) => {
-    getQuestions().then(callback)
+    getQuestions({text: 'matter', category: 'General', topic: 'dummy'}).then(callback)
   }
 
   componentDidMount() {
     this.getData((res) => {
       this.setState({
-        data: res.results,
+        data: res.content,
       });
     });
   }
@@ -89,7 +89,7 @@ class Questions extends React.Component{
     this.setState({
       loading: true,
     });
-    if (data.length > 14) {
+    if (this.state.hasMore) {
       message.warning('Infinite List loaded all');
       this.setState({
         hasMore: false,
@@ -98,10 +98,11 @@ class Questions extends React.Component{
       return;
     }
     this.getData((res) => {
-      data = data.concat(res.results);
+      data = data.concat(res.content);
       this.setState({
         data,
         loading: false,
+        hasMore: !res.last
       });
     });
   }
@@ -109,16 +110,16 @@ class Questions extends React.Component{
   render() {
     const menu = (
       <Affix offsetTop={60}>
-      <Menu
-        onClick={this.handleClick}
-        defaultSelectedKeys={['explore']}
-        mode="inline"
-        style={{ height: '100%' }}
-      >
-        <Menu.Item key="explore">Explore</Menu.Item>
-        <Menu.Item key="saved">Saved</Menu.Item>
-        <Menu.Item key="mine">Mine</Menu.Item>
-      </Menu>
+        <Menu
+          onClick={this.handleClick}
+          defaultSelectedKeys={['explore']}
+          mode="inline"
+          style={{ height: '100%' }}
+        >
+          <Menu.Item key="explore">Explore</Menu.Item>
+          <Menu.Item key="saved">Saved</Menu.Item>
+          <Menu.Item key="mine">Mine</Menu.Item>
+        </Menu>
       </Affix>
     );
     
@@ -149,28 +150,32 @@ class Questions extends React.Component{
                       loadMore={this.handleInfiniteOnLoad}
                       hasMore={!this.state.loading && this.state.hasMore}
                       useWindow={true}
+                      loader={<Spin indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} />}
                     >
     
                       <List
                         itemLayout="vertical"
                         size="large"
-                        dataSource={listData}
+                        dataSource={this.state.data}
                         renderItem={item => (
                           <List.Item
-                            key={item.title}
+                            key={item.id}
                             actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <IconText type="message" text="2" />]}
                             //extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
                           >
                             <List.Item.Meta
-                              avatar={<Avatar src={item.avatar} />}
-                              title={<a href={item.href}>{item.title}</a>}
-                              description={<div><Tag color="green">JavaScript</Tag>
-                                <Tag color="green">closure</Tag>Raymans</div>}
+                              description={<div>
+                                <Tag color="green">{item.category}</Tag>
+                                <Tag color="green">{item.topic}</Tag>
+                                <Tag color="green">{item.difficulty}</Tag>
+                                <Tag color="green">{item.status}</Tag>
+                                <Tag color="green">{item.visibilityScope}</Tag>
+                              </div>}
                             />
-                            {item.content}
+                            <span className="content">{item.question}</span>
                             <Divider orientation="left">Author</Divider>
                             <Avatar src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A">
-                              Raymans
+                              Raymans- {item.contributedBy}
                             </Avatar>
                             <span>Raymans@DigitalRiver</span>
                           </List.Item>
@@ -197,6 +202,9 @@ class Questions extends React.Component{
                   {/*)}*/}
                 {/*/>*/}
                 <style jsx>{`
+                  span.content {
+                    color: rgba(0, 0, 0, 1)
+                  }
                   :global(.ant-list-vertical .ant-list-item-meta-title){
                     margin: 18px 0;
                     font-size: 24px;

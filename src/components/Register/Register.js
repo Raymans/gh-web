@@ -173,6 +173,13 @@ const Register = props => {
                   <FormItem {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">Register</Button>
                   </FormItem>
+                  <style jsx global>{`
+                   @from-width desktop {
+                      .article{
+                       max-width: ${theme.text.maxWidth.desktopForm} !important;
+                      }
+                    }
+                  `}</style>
                 </Form>
               )}
             </AuthConsumer>

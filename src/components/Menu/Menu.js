@@ -35,6 +35,9 @@ class Menu extends React.Component {
       }
     ];
   }
+  
+  componentDidMount = () =>
+    this.setState({current: this.props.path});
 
   handleClick = (e) => {
     this.setState({
@@ -43,7 +46,7 @@ class Menu extends React.Component {
   };
 
   renderItem = item => (
-    <AntMenu.Item key={item.label}>
+    <AntMenu.Item key={item.to}>
       <Link
         to={item.to}
         data-slug={item.to}
@@ -54,9 +57,9 @@ class Menu extends React.Component {
 
   renderSubMenu = item =>
     (
-      <AntMenu.SubMenu key={item.label} title={<span><Icon type="setting"/>{item.label}</span>}>
+      <AntMenu.SubMenu key={item.to} title={<span><Icon type="setting"/>{item.label}</span>}>
         {item.subMenu.map(subItem =>
-          <AntMenu.Item key={`about:${subItem.label}`}>
+          <AntMenu.Item key={subItem.to}>
             <Link
               to={subItem.to}
               data-slug={subItem.to}
@@ -104,7 +107,8 @@ class Menu extends React.Component {
 }
 
 Menu.propTypes = {
-  pages: PropTypes.array.isRequired
+  pages: PropTypes.array.isRequired,
+  path: PropTypes.string
 };
 
 export default Menu;
