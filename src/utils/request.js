@@ -1,5 +1,8 @@
 import { notification } from 'antd';
 import axios from 'axios';
+import qs from 'qs'
+axios.defaults.withCredentials = true;
+
 const codeMessage = {
   200: '服務器成功返回請求的數據。 ',
   201: '新建或修改數據成功。 ',
@@ -39,7 +42,7 @@ function checkStatus(error) {
  */
 export default function request(url, options) {
   const defaultOptions = {
-    credentials: 'include',
+    withCredentials: true,
   };
   const newOptions = { ...defaultOptions, ...options };
   if (
@@ -53,7 +56,11 @@ export default function request(url, options) {
         'Content-Type': 'application/json; charset=utf-8',
         ...newOptions.headers,
       };
-      newOptions.data = JSON.stringify(newOptions.data);
+      if(newOptions.headers['Content-Type'] === 'application/x-www-form-urlencoded'){
+        newOptions.data = qs.stringify(newOptions.data);
+      }else{
+        newOptions.data = JSON.stringify(newOptions.data);
+      }
     } else {
       // newOptions.data is FormData
       newOptions.headers = {
