@@ -24,8 +24,8 @@ class Menu extends React.Component {
 
     this.items = [
       {to: '/', label: 'Home', icon: 'home'},
-      {to: '/question', label: 'Question', icon: 'question'},
       {to: '/questions', label: 'Questions', icon: 'question-circle-o'},
+      {to: '/interviews', label: 'Interviews', icon: 'eye'},
       {
         label: 'About', subMenu: [
           ...pages,

@@ -1,10 +1,9 @@
 /* eslint no-unused-vars: 0 */
 
 import { Input, Card, Tag, Avatar, Divider, List, Icon, message, Spin, Cascader, Radio, Menu, Layout, Affix, Collapse } from 'antd';
-
 import InfiniteScroll from 'react-infinite-scroller';
-
 import {getQuestions} from '../../utils/api';
+import options from '../Question/data';
 
 
 const Search = Input.Search;
@@ -18,29 +17,6 @@ const Panel = Collapse.Panel;
 import React from "react";
 
 import { ThemeContext } from "../../layouts";
-
-const options = [{
-  value: 'js',
-  label: 'JavaScript',
-  children: [{
-    value: 'basic',
-    label: 'Basic'
-  },{
-    value: 'closure',
-    label: 'Closure'
-  }],
-}, {
-  value: 'java',
-  label: 'Java',
-  children: [{
-    value: 'basic',
-    label: 'Basic'
-    }, {
-      value: 'OOP',
-      label: 'OOP',
-    }],
-}];
-
 
 
 const listData = [];
@@ -71,10 +47,17 @@ class Questions extends React.Component{
 
   handleClick  = (value) => {
     console.log(value);
+    this.getData((res) => {
+      this.setState({
+        data: res.content,
+        loading: false,
+        hasMore: true,
+      });
+    }, value.key);
   }
 
-  getData = (callback) => {
-    getQuestions({text: 'matter', category: 'General', topic: 'dummy'}).then(callback)
+  getData = (callback, queryData = '') => {
+    getQuestions({text: 'matter', category: 'General', topic: 'dummy', belong: queryData}).then(callback)
   }
 
   componentDidMount() {
@@ -217,8 +200,8 @@ class Questions extends React.Component{
                   div.answer-collapse {
                     padding-top: 20px;
                     :global(.ant-collapse-item > .ant-collapse-header) {
-                      background-color: #517c7d;
-                      color: cornsilk;
+                      background-color: black;
+                      color: white;
                     }
                   }
                   :global(.ant-list-vertical .ant-list-item-meta-title){

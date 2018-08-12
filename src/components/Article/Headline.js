@@ -7,7 +7,7 @@ const Headline = props => {
   return (
     <React.Fragment>
       <section style={{padding: "0px 50px"}} className="title">
-        <h1><p>{title ? title : children}</p></h1>
+        <h1>{title ? <span>{title}</span> : children}</h1>
       </section>
       {/* --- STYLES --- */}
       <style jsx>{`
@@ -23,18 +23,18 @@ const Headline = props => {
           animation-name: headlineEntry;
           animation-duration: ${theme.time.duration.long};
 
-          :global(span) {
+          :global(a) {
             font-weight: ${theme.font.weight.standard};
-            display: block;
             font-size: 0.5em;
             letter-spacing: 0;
-            margin: ${theme.space.stack.xs};
+            margin-left: 20px;
           }
 
           :global(svg) {
             height: 0.75em;
             fill: ${theme.color.brand.primary};
           }
+
         }
 
         @keyframes headlineEntry {

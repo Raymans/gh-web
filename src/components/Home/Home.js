@@ -9,6 +9,7 @@ import { faNode, faJava, faHtml5, faJs } from '@fortawesome/free-brands-svg-icon
 
 
 const Home = props => {
+  const {backgrounds,  theme} = props;
   return (
     <React.Fragment>
       <section style={{padding: "0px 50px"}} className="title">
@@ -21,6 +22,21 @@ const Home = props => {
           <Col span={6}><FontAwesomeIcon icon={faJava} size="7x" color="#08c" spin={true}/><p>Java</p></Col>
         </Row>
       </section>
+      <section style={{padding: "0px 50px", 'background-color': theme.color.neutral.gray.a}} className="title">
+
+        <Row type="flex" justify="space-around" style={{"margin": "50px 60px"}}>
+          <Col span={12}>
+            <h1><p>Building questions</p></h1>
+            <p>Building your own questions for later use or share it</p>
+          </Col>
+          <Col span={12}>
+            <section className="buildQuestions">
+
+            </section>
+          </Col>
+        </Row>
+      </section>
+
       <style jsx>{`
         h1{
           font-weight: 500;
@@ -30,11 +46,16 @@ const Home = props => {
           border-bottom: 1px solid #e8e8e8;
           padding-bottom: 10px;
         }
-        .title > p{
+        .title p{
           text-align: center;
         }
-        :global(.ant-col-6) {
+        :global(.ant-col-6, .ant-col-12) {
           text-align: center;
+        }
+        .buildQuestions {
+          height: 250px;
+          background-image: url(${backgrounds.bq});
+          background-size: cover;
         }
       `}
       </style>

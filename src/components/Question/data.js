@@ -1,27 +1,21 @@
 export default [{
-  value: 'zhejiang',
-  label: 'Zhejiang',
+  value: 'js',
+  label: 'JavaScript',
   children: [{
-    value: 'hangzhou',
-    label: 'Hangzhou',
-    children: [{
-      value: 'xihu',
-      label: 'West Lake',
-    }, {
-      value: 'xiasha',
-      label: 'Xia Sha',
-      disabled: true,
-    }],
+    value: 'basic',
+    label: 'Basic'
+  },{
+    value: 'closure',
+    label: 'Closure'
   }],
 }, {
-  value: 'jiangsu',
-  label: 'Jiangsu',
+  value: 'java',
+  label: 'Java',
   children: [{
-    value: 'nanjing',
-    label: 'Nanjing',
-    children: [{
-      value: 'zhonghuamen',
-      label: 'Zhong Hua men',
-    }],
+    value: 'basic',
+    label: 'Basic'
+  }, {
+    value: 'OOP',
+    label: 'OOP',
   }],
 }];

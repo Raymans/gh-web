@@ -19,6 +19,9 @@ class IndexPage extends React.Component {
         bgMobile: {
           resize: { src: mobile }
         },
+        bgBuildingQ: {
+          resize: { src: bq }
+        },
         site: {
           siteMetadata: { facebook }
         }
@@ -28,17 +31,21 @@ class IndexPage extends React.Component {
     const backgrounds = {
       desktop,
       tablet,
-      mobile
+      mobile,
+      bq
     };
 
     return (
       <React.Fragment>
         <ThemeContext.Consumer>
           {theme => (
+            <div>
             <Hero backgrounds={backgrounds} theme={theme} />
+            <Home backgrounds={backgrounds} theme={theme}/>
+            </div>
           )}
         </ThemeContext.Consumer>
-        <Home/>
+
         <Seo facebook={facebook} />
       </React.Fragment>
     );
@@ -73,6 +80,11 @@ export const guery = graphql`
     }
     bgMobile: imageSharp(id: { regex: "/hero-background/" }) {
       resize(width: 450, height: 850, quality: 90, cropFocus: CENTER) {
+        src
+      }
+    }
+    bgBuildingQ: imageSharp(id: { regex: "/building-question/" }) {
+      resize(width: 1200, quality: 90, cropFocus: CENTER) {
         src
       }
     }
