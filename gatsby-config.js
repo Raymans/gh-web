@@ -97,6 +97,11 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-catch-links`,
+    {resolve: `gatsby-plugin-less`,
+      options: {
+        theme: `./src/theme/theme.js`
+      }
+    },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {

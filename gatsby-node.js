@@ -213,7 +213,7 @@ exports.modifyBabelrc = ({ babelrc }) => {
         "import",
         {
           libraryName: "antd",
-          style: "css"
+          style: true
         }
       ],
       `syntax-dynamic-import`,
