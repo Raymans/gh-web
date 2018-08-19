@@ -4,35 +4,57 @@ import request from '../utils/request';
 let _localStorage;
 if (typeof window !== 'undefined' && window) {
   _localStorage = localStorage;
-}else{
+} else {
   let localStorageMemory = require('localstorage-memory');
   _localStorage = localStorageMemory;
 }
 
 export async function signup(params) {
-  return request(`${config.ghServiceUrl}/api/users`,{
+  return request(`${config.ghServiceUrl}/api/users`, {
     method: 'POST',
     data: params
-  }).then(user => _localStorage.setItem("userid", user.id));
+  }).then(user => _localStorage.setItem('userid', user.id));
 }
+
+export async function login(params) {
+  return request(`${config.ghServiceUrl}/api/oauth/token`, {
+    method: 'POST',
+    data: {...params, grant_type: 'password'},
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Basic Z2hmcm9udDpzZWNyZXQ='
+    }
+  }).then(user => _localStorage.setItem('userid', user.access_token));
+}
+
+export async function logout(params) {
+  return request(`${config.ghServiceUrl}/api/users`, {
+    method: 'POST',
+    data: params
+  }).then(user => _localStorage.removeItem('userid', user.id));
+}
+
 export async function getUser(params) {
-  return request(`${config.ghServiceUrl}/api/users`,{
+  return request(`${config.ghServiceUrl}/api/users`, {
     method: 'GET',
     data: params
   });
 }
 
 export async function getQuestions(params) {
-  return request(`${config.ghServiceUrl}/api/questions`,{
+  return request(`${config.ghServiceUrl}/api/questions`, {
     method: 'GET',
     data: params
   });
 }
 
 export async function createQuestion(params) {
-  return request(`${config.ghServiceUrl}/api/questions`,{
+  return request(`${config.ghServiceUrl}/api/questions`, {
     method: 'POST',
-    data: params
+    data: params,
+    headers: {
+      'Authorization': `Bearer ${_localStorage.getItem('userid')}`
+    }
   });
 }
 
@@ -44,6 +66,7 @@ export function getUserUrl() {
       'headers': {
         'Content-Type': 'application/json',
         'Authorization': 'Basic YWRtaW46YWRtaW4='
-      }, }
+      },
+    }
   };
 }

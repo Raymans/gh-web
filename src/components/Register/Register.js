@@ -69,11 +69,9 @@ const Register = props => {
   }
 
   const handleSubmit = (e, refreshAuth) => {
-    console.log(refreshAuth);
     e.preventDefault();
     props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
         sendMessage(values).then(() => {
           refreshAuth();
           navigateTo("/");
@@ -88,7 +86,6 @@ const Register = props => {
       "lastName": "Lin"
     }, values)).then((user) => {
       console.log("Form submission success");
-      //
     })
       .catch(error => {
         console.error("Form submission error:", error);

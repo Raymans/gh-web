@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Particles from "react-particles-js"
+import particleConfig from "./particle-option.json"
 const Hero = props => {
   const { backgrounds, theme } = props;
 
@@ -8,20 +9,7 @@ const Hero = props => {
     <React.Fragment>
       <div className="wrapper">
         <Particles
-          params={{
-            particles: {
-              number: {
-                value: 50
-              },
-              line_linked: {
-                shadow: {
-                  enable: false,
-                  color: "#3CA9D1",
-                  blur: 5
-                }
-              }
-            }
-          }}
+          params={particleConfig}
           style={{
             position: "fixed",
             top: 100,
