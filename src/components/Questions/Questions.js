@@ -200,8 +200,8 @@ class Questions extends React.Component{
                   div.answer-collapse {
                     padding-top: 20px;
                     :global(.ant-collapse-item > .ant-collapse-header) {
-                      background-color: black;
-                      color: white;
+                      background-color: #1187ae94;
+                      color: #ffffff70;
                     }
                   }
                   :global(.ant-list-vertical .ant-list-item-meta-title){
@@ -209,8 +209,10 @@ class Questions extends React.Component{
                     font-size: 24px;
                   }
                   :global(.ant-list-split .ant-list-item){
-                    border-bottom-color: ${theme.color.neutral.blue};
+                    border-color: '#dadbdc';
                     padding: 22px;
+                    margin: 22px;
+                    border: 1px solid #e8e8e8;
                   }
                   :global(.ant-list-split .ant-list-item):nth-child(even){
                     background-color: #e1e3e30f;
