@@ -24,7 +24,7 @@ export async function login(params) {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Basic Z2hmcm9udDpzZWNyZXQ='
     }
-  }).then(user => _localStorage.setItem('userid', user.id));
+  }).then(user => _localStorage.setItem('userid', user.access_token));
 }
 
 export async function logout(params) {
@@ -51,7 +51,10 @@ export async function getQuestions(params) {
 export async function createQuestion(params) {
   return request(`${config.ghServiceUrl}/api/questions`, {
     method: 'POST',
-    data: params
+    data: params,
+    headers: {
+      'Authorization': `Bearer ${_localStorage.getItem('userid')}`
+    }
   });
 }
 

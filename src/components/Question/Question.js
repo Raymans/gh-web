@@ -5,6 +5,7 @@ import { Form,  Input, Button, Tabs, Icon, Checkbox, Switch, Cascader, Tooltip }
 import PropTypes from "prop-types";
 import React from "react";
 import data from './data';
+import {createQuestion} from "../../utils/api"
 
 const InputGroup = Input.Group;
 const FormItem = Form.Item;
@@ -78,19 +79,26 @@ const Question = props => {
   }
 
   function sendMessage(values) {
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({ "form-name": "Question", ...values })
-    })
-      .then(() => {
-        console.log("Form submission success");
-        navigateTo("/success");
-      })
-      .catch(error => {
-        console.error("Form submission error:", error);
-        handleNetworkError();
-      });
+
+    createQuestion({
+      "question": "what is the matter with you?!!!!",
+      "category": "General",
+      "topic": "dummy",
+      "difficulty": "EASY",
+      "contributedBy": null
+    }).then(() => alert('success'))
+    // fetch("/", {
+    //   method: "POST",
+    //   body: encode({ ...values })
+    // })
+    //   .then(() => {
+    //     console.log("Form submission success");
+    //     navigateTo("/success");
+    //   })
+    //   .catch(error => {
+    //     console.error("Form submission error:", error);
+    //     handleNetworkError();
+    //   });
   }
 
   function handleNetworkError(e) {

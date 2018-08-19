@@ -19,19 +19,19 @@ const Login = props => {
       .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
       .join("&");
   }
-  
+
   const handleSubmit = (e, refreshAuth) => {
     e.preventDefault();
     props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         sendMessage(values).then(() => {
-          /*refreshAuth();
-          navigateTo("/");*/
+          refreshAuth({userName: 'raymans'});
+          navigateTo("/");
         });
       }
     });
   };
-  
+
   function sendMessage(values) {
     return login(values).then((user) => {
       console.log('Form submission success', user);
@@ -40,7 +40,7 @@ const Login = props => {
       console.error('Form submission error:', error);
     });
   }
-  
+
   return (
     <React.Fragment>
       <div className="form">
@@ -80,7 +80,7 @@ const Login = props => {
                     :global(.login-form-button) {
                       width: 100%;
                     }
-    
+
                       .login-form {
                         max-width: 300px;
                       }
