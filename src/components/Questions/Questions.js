@@ -46,7 +46,6 @@ class Questions extends React.Component{
   }
 
   handleClick  = (value) => {
-    console.log(value);
     this.getData((res) => {
       this.setState({
         data: res.content,
@@ -57,7 +56,7 @@ class Questions extends React.Component{
   }
 
   getData = (callback, queryData = '') => {
-    getQuestions({text: 'matter', category: 'General', topic: 'dummy', belong: queryData}).then(callback)
+    getQuestions({text: '', category: 'General', topic: 'dummy', belong: queryData}).then(callback)
   }
 
   componentDidMount() {

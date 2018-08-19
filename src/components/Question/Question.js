@@ -81,11 +81,11 @@ const Question = props => {
   function sendMessage(values) {
 
     createQuestion({
-      "question": "what is the matter with you?!!!!",
+      ...values,
       "category": "General",
       "topic": "dummy",
       "difficulty": "EASY",
-      "contributedBy": null
+      "contributedBy": null,
     }).then(() => alert('success'))
     // fetch("/", {
     //   method: "POST",
@@ -163,7 +163,7 @@ const Question = props => {
           {theme => (
             <Form onSubmit={handleSubmit} data-netlify="true" data-netlify-honeypot="bot-field">
               <FormItem label="Title">
-                {getFieldDecorator("title", {
+                {getFieldDecorator("question", {
                   rules: [
                     {
                       required: true,

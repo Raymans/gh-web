@@ -44,7 +44,7 @@ export async function getUser(params) {
 export async function getQuestions(params) {
   return request(`${config.ghServiceUrl}/api/questions`, {
     method: 'GET',
-    data: params
+    params
   });
 }
 
