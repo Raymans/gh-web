@@ -17,14 +17,14 @@ export async function signup(params) {
 }
 
 export async function login(params) {
-  return request(`${config.ghServiceUrl}/api/oauth/token`, {
+  return await request(`${config.ghServiceUrl}/api/oauth/token`, {
     method: 'POST',
     data: {...params, grant_type: 'password'},
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Basic Z2hmcm9udDpzZWNyZXQ='
     }
-  }).then(user => _localStorage.setItem('userid', user.access_token));
+  }).then(user => _localStorage.setItem('access_token', user.access_token));
 }
 
 export async function logout(params) {
@@ -53,19 +53,19 @@ export async function createQuestion(params) {
     method: 'POST',
     data: params,
     headers: {
-      'Authorization': `Bearer ${_localStorage.getItem('userid')}`
+      'Authorization': `Bearer ${_localStorage.getItem('access_token')}`
     }
   });
 }
 
-export function getUserUrl() {
+export function getCurrentUserUrl() {
   return {
-    authUrl: `${config.ghServiceUrl}/api/users/${_localStorage.getItem('userid')}`,
+    authUrl: `${config.ghServiceUrl}/api/users/me`,
     reqOptions: {
       'method': 'GET',
       'headers': {
         'Content-Type': 'application/json',
-        'Authorization': 'Basic YWRtaW46YWRtaW4='
+        'Authorization': `Bearer ${_localStorage.getItem('access_token')}`
       },
     }
   };

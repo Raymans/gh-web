@@ -7,7 +7,7 @@ import { getScreenWidth, timeoutThrottlerHandler } from "../utils/helpers";
 import Footer from "../components/Footer/";
 import Header from "../components/Header";
 import {AuthProvider} from "react-check-auth";
-import {getUserUrl} from "../utils/api";
+import {getCurrentUserUrl} from "../utils/api";
 
 export const ThemeContext = React.createContext(null);
 export const ScreenWidthContext = React.createContext(0);
@@ -87,7 +87,7 @@ class Layout extends React.Component {
       <ThemeContext.Provider value={this.state.theme}>
         <FontLoadedContext.Provider value={this.state.font400loaded}>
           <ScreenWidthContext.Provider value={this.state.screenWidth}>
-            <AuthProvider {...getUserUrl()}>
+            <AuthProvider {...getCurrentUserUrl()}>
               <React.Fragment>
                 <Header path={this.props.location.pathname} pages={pages} theme={this.state.theme} />
                 <main>{children()}</main>

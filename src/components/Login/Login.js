@@ -25,8 +25,9 @@ const Login = props => {
     props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         sendMessage(values).then(() => {
-          refreshAuth({userName: 'raymans'});
+
           navigateTo("/");
+          refreshAuth({userName: 'raymans'});
         });
       }
     });
