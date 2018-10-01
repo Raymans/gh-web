@@ -133,13 +133,12 @@ const Question = props => {
               onClick={() => remove(k)}
             />
           ) : null}
-          {getFieldDecorator(`corrects[${k}]`, {
-
+          <Tooltip placement="topLeft" title={<span>Check for Right answer</span>}>
+          {getFieldDecorator(`corrects[${k}]`, { valuePropName: 'checked', initialValue: true
           })(
-            <Tooltip placement="topLeft" title={<span>Check for Right answer</span>}>
-              <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} defaultChecked style={{float: "left", margin: "5px"}} />
-            </Tooltip>
+              <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} style={{float: "left", margin: "5px"}} />
           )}
+          </Tooltip>
 
       {getFieldDecorator(`names[${k}]`, {
         validateTrigger: ['onChange', 'onBlur'],

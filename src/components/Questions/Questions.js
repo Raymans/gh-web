@@ -151,7 +151,6 @@ class Questions extends React.Component{
                                 <Tag color="geekblue">{item.category}</Tag>
                                 <Tag color="blue">{item.topic}</Tag>
                                 <Tag color="green">{item.difficulty}</Tag>
-                                <Tag color="geekblue">{item.status}</Tag>
                                 <Tag color="#108ee9" style={{float: 'right'}}>{item.visibilityScope}</Tag>
                               </div>}
                             />
