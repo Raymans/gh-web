@@ -77,17 +77,23 @@ const Login = props => {
                     </Button>
                     Or <a href="/register/">register now!</a>
                   </FormItem>
+                  <style jsx global>{`
+                   @from-width desktop {
+                      .article{
+                       max-width: ${theme.text.maxWidth.desktopForm} !important;
+                      }
+                    }
+                  `}</style>
                   <style jsx>{`
                     :global(.login-form-button) {
                       width: 100%;
                     }
-
-                      .login-form {
-                        max-width: 300px;
-                      }
-                      .login-form-forgot {
-                        float: right;
-                      }
+                    .login-form {
+                      max-width: 300px;
+                    }
+                    .login-form-forgot {
+                      float: right;
+                    }
                   `}</style>
                 </Form>
               )}
