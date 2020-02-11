@@ -1,7 +1,6 @@
 /* eslint no-unused-vars: 0 */
 
 import { Input, Card, Tag, Avatar, Divider, List, Icon, message, Spin, Cascader, Radio, Menu, Layout, Affix, Collapse } from 'antd';
-import InfiniteScroll from 'react-infinite-scroller';
 import {getQuestions} from '../../utils/api';
 import options from '../Question/data';
 
@@ -67,29 +66,6 @@ class Questions extends React.Component{
     });
   }
 
-  handleInfiniteOnLoad = () => {
-    let data = this.state.data;
-    this.setState({
-      loading: true,
-    });
-    if (this.state.hasMore) {
-      message.warning('Infinite List loaded all');
-      this.setState({
-        hasMore: false,
-        loading: false,
-      });
-      return;
-    }
-    this.getData((res) => {
-      data = data.concat(res.content);
-      this.setState({
-        data,
-        loading: false,
-        hasMore: !res.last
-      });
-    });
-  }
-
   render() {
     const menu = (
       <Affix offsetTop={60}>
@@ -126,51 +102,40 @@ class Questions extends React.Component{
                       onSearch={value => console.log(value)}
                       style={{ width: 200, float: 'right' }}
                     />
-
-                    <InfiniteScroll
-                      initialLoad={false}
-                      pageStart={0}
-                      loadMore={this.handleInfiniteOnLoad}
-                      hasMore={!this.state.loading && this.state.hasMore}
-                      useWindow={true}
-                      loader={<Spin indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} />}
-                    >
-
-                      <List
-                        itemLayout="vertical"
-                        size="large"
-                        dataSource={this.state.data}
-                        renderItem={item => (
-                          <List.Item
-                            key={item.id}
-                            actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <IconText type="message" text="2" />]}
-                            //extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
-                          >
-                            <List.Item.Meta
-                              description={<div>
-                                <Tag color="geekblue">{item.category}</Tag>
-                                <Tag color="blue">{item.topic}</Tag>
-                                <Tag color="green">{item.difficulty}</Tag>
-                                <Tag color="#108ee9" style={{float: 'right'}}>{item.visibilityScope}</Tag>
-                              </div>}
-                            />
-                            <span className="content">{item.question}</span>
-                            <div className="answer-collapse">
-                            <Collapse>
-                              <Panel header="Show Me Answer!" key="1">
-                                <p>Answer desc balabalabala</p>
-                              </Panel>
-                            </Collapse>
-                            </div>
-                            <Divider orientation="left">Author</Divider>
-                            <Avatar src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A">
-                              Raymans- {item.contributedBy}
-                            </Avatar>
-                            <span>Raymans@DigitalRiver</span>
-                          </List.Item>
-                        )}
-                      />
-                    </InfiniteScroll>
+                    <List
+                      itemLayout="vertical"
+                      size="large"
+                      dataSource={this.state.data}
+                      renderItem={item => (
+                        <List.Item
+                          key={item.id}
+                          actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <IconText type="message" text="2" />]}
+                          //extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
+                        >
+                          <List.Item.Meta
+                            description={<div>
+                              <Tag color="geekblue">{item.category}</Tag>
+                              <Tag color="blue">{item.topic}</Tag>
+                              <Tag color="green">{item.difficulty}</Tag>
+                              <Tag color="#108ee9" style={{float: 'right'}}>{item.visibilityScope}</Tag>
+                            </div>}
+                          />
+                          <span className="content">{item.question}</span>
+                          <div className="answer-collapse">
+                          <Collapse>
+                            <Panel header="Show Me Right Answer!" key="1">
+                              <p>{item.answer}</p>
+                            </Panel>
+                          </Collapse>
+                          </div>
+                          <Divider orientation="left">Author</Divider>
+                          <Avatar src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A">
+                            Raymans- {item.contributedBy}
+                          </Avatar>
+                          <span>Raymans@DigitalRiver</span>
+                        </List.Item>
+                      )}
+                    />
                   </Content>
                 </Layout>
 
@@ -209,7 +174,7 @@ class Questions extends React.Component{
                   :global(.ant-list-split .ant-list-item){
                     border-color: '#dadbdc';
                     padding: 22px;
-                    margin: 22px;
+                    margin: 22px 0;
                     border: 1px solid #e8e8e8;
                   }
                   :global(.ant-list-split .ant-list-item):nth-child(even){

@@ -14,7 +14,7 @@ const { TextArea } = Input;
 import { ThemeContext } from "../../layouts";
 
 let CodeMirror = null;
-let uuid = 1;
+let uuid = 4;
 if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
   CodeMirror = require('react-codemirror');
   require('codemirror/mode/javascript/javascript');
@@ -73,6 +73,8 @@ const Question = props => {
     props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
+        values.corrects = values.corrects.filter(value => value != null);
+        values.answers = values.answers.filter(value => value != null);
         sendMessage(values);
       }
     });
@@ -87,22 +89,6 @@ const Question = props => {
       "difficulty": "EASY",
       "contributedBy": null,
     }).then(() => alert('success'))
-    // fetch("/", {
-    //   method: "POST",
-    //   body: encode({ ...values })
-    // })
-    //   .then(() => {
-    //     console.log("Form submission success");
-    //     navigateTo("/success");
-    //   })
-    //   .catch(error => {
-    //     console.error("Form submission error:", error);
-    //     handleNetworkError();
-    //   });
-  }
-
-  function handleNetworkError(e) {
-    console.log("submit Error");
   }
 
   function onChange(value, selectedOptions) {
@@ -114,7 +100,7 @@ const Question = props => {
   }
 
 
-  getFieldDecorator('keys', { initialValue: [0] });
+  getFieldDecorator('keys', { initialValue: [0,1,2,3] });
   const keys = getFieldValue('keys');
   const formItems = keys.map((k, index) => {
     return (
@@ -140,7 +126,7 @@ const Question = props => {
           )}
           </Tooltip>
 
-      {getFieldDecorator(`names[${k}]`, {
+      {getFieldDecorator(`answers[${k}]`, {
         validateTrigger: ['onChange', 'onBlur'],
         rules: [{
           required: true,
@@ -195,7 +181,6 @@ const Question = props => {
                       required: true,
                       message: "Please enter description!",
                       whitespace: true,
-
                     }
                   ]
                 })(<TextArea placeholder="please input question's description" autosize={{ minRows: 2, maxRows: 6 }} />)}
@@ -216,7 +201,7 @@ const Question = props => {
                       rules: [
                         {
                           required: true,
-                          message: "Please enter description!",
+                          message: "Please enter your code!",
                           initialValue: 'function(){}'
                         }
                       ],
