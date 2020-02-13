@@ -5,6 +5,7 @@ import { ThemeContext } from "../layouts";
 import Hero from "../components/Hero";
 import Seo from "../components/Seo";
 import Home from "../components/Home";
+import { graphql } from 'gatsby';
 
 class IndexPage extends React.Component {
   render() {

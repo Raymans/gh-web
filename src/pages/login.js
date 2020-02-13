@@ -6,6 +6,7 @@ import Article from "../components/Article";
 import Login from "../components/Login";
 import Headline from "../components/Article/Headline";
 import Seo from "../components/Seo";
+import { graphql } from 'gatsby';
 
 const LoginPage = props => {
   const {

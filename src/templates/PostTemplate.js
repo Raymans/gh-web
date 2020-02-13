@@ -7,6 +7,7 @@ import Seo from "../components/Seo";
 import Article from "../components/Article";
 import Post from "../components/Post";
 import { ThemeContext } from "../layouts";
+import { graphql } from 'gatsby';
 
 const PostTemplate = props => {
   const {

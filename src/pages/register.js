@@ -6,6 +6,7 @@ import Article from "../components/Article";
 import Register from "../components/Register";
 import Headline from "../components/Article/Headline";
 import Seo from "../components/Seo";
+import { graphql } from 'gatsby';
 
 const RegisterPage = props => {
   const {

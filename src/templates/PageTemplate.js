@@ -5,6 +5,7 @@ import Seo from "../components/Seo";
 import Article from "../components/Article";
 import Page from "../components/Page";
 import { ThemeContext } from "../layouts";
+import { graphql } from 'gatsby';
 
 const PageTemplate = props => {
   const {

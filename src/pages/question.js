@@ -5,7 +5,8 @@ import { ThemeContext } from "../layouts";
 import Article from "../components/Article";
 import Headline from "../components/Article/Headline";
 import Seo from "../components/Seo";
-import Question from "../components/Question"
+import Question from "../components/Question";
+import { graphql } from 'gatsby';
 
 import { Input, Select, Icon } from 'antd';
 

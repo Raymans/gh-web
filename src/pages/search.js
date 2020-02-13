@@ -7,6 +7,7 @@ import Article from "../components/Article";
 import Search from "../components/Search";
 import { ThemeContext } from "../layouts";
 import Seo from "../components/Seo";
+import { graphql } from 'gatsby';
 
 import { ReactComponent as AlgoliaIcon } from "../images/svg-icons/search-by-algolia.svg";
 

@@ -6,6 +6,7 @@ import Article from "../components/Article";
 import Contact from "../components/Contact";
 import Headline from "../components/Article/Headline";
 import Seo from "../components/Seo";
+import { graphql } from 'gatsby'
 
 const ContactPage = props => {
   const {

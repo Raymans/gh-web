@@ -1,6 +1,5 @@
 /* eslint no-unused-vars: 0 */
 
-import { navigateTo } from "gatsby-link";
 import { Form,  Input, Button, Tabs, Icon, Checkbox, Switch, Cascader, Tooltip } from 'antd';
 import styled from 'styled-components';
 import PropTypes from "prop-types";
