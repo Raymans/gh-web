@@ -54,3 +54,6 @@ module.exports = class HTML extends React.Component {
     );
   }
 };
+
+
+export default HTML;

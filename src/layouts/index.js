@@ -8,6 +8,7 @@ import Footer from "../components/Footer/";
 import Header from "../components/Header";
 import {AuthProvider} from "react-check-auth";
 import {getCurrentUserUrl} from "../utils/api";
+import { graphql, StaticQuery } from "gatsby";
 
 export const ThemeContext = React.createContext(null);
 export const ScreenWidthContext = React.createContext(0);
@@ -77,29 +78,57 @@ class Layout extends React.Component {
   };
 
   render() {
-    const { children, data } = this.props;
-    const {
-      footnote: { html: footnoteHTML },
-      pages: { edges: pages }
-    } = data;
+    return (<StaticQuery
+      query={graphql`
+      query LayoutQuery {
+        pages: allMarkdownRemark(
+          filter: { fileAbsolutePath: { regex: "//pages//" }, fields: { prefix: { regex: "/^\\d+$/" } } }
+          sort: { fields: [fields___prefix], order: ASC }
+        ) {
+          edges {
+            node {
+              fields {
+                slug
+                prefix
+              }
+              frontmatter {
+                title
+                menuTitle
+              }
+            }
+          }
+        }
+        footnote: markdownRemark(fileAbsolutePath: { regex: "/footnote/" }) {
+          id
+          html
+        }
+      }
+    `}
+    render = {data => {
+      console.log(2222222222222222222222222222222222222222222222)
+      const { children } = this.props;
+      const {
+        footnote: { html: footnoteHTML },
+        pages: { edges: pages }
+      } = data;
 
-    return (
-      <ThemeContext.Provider value={this.state.theme}>
-        <FontLoadedContext.Provider value={this.state.font400loaded}>
-          <ScreenWidthContext.Provider value={this.state.screenWidth}>
-            <AuthProvider {...getCurrentUserUrl()}>
-              <React.Fragment>
-                <Header path={this.props.location.pathname} pages={pages} theme={this.state.theme} />
-                <main>{children()}</main>
-                <Footer html={footnoteHTML} theme={this.state.theme} />
-  
-                {/* --- STYLES --- */}
-                <style jsx>{`
+      return (
+        <ThemeContext.Provider value={this.state.theme}>
+          <FontLoadedContext.Provider value={this.state.font400loaded}>
+            <ScreenWidthContext.Provider value={this.state.screenWidth}>
+              <AuthProvider {...getCurrentUserUrl()}>
+                <React.Fragment>
+                  <Header path={this.props.location.pathname} pages={pages} theme={this.state.theme} />
+                  <main>{children}</main>
+                  <Footer html={footnoteHTML} theme={this.state.theme} />
+
+                  {/* --- STYLES --- */}
+                  <style jsx>{`
                   main {
                     min-height: 80vh;
                   }
                 `}</style>
-                <style jsx global>{`
+                  <style jsx global>{`
                   html {
                     box-sizing: border-box;
                   }
@@ -112,8 +141,8 @@ class Layout extends React.Component {
                   }
                   body {
                     font-family: ${this.state.font400loaded
-                      ? "'Open Sans', sans-serif;"
-                      : "Arial, sans-serif;"};
+                    ? "'Open Sans', sans-serif;"
+                    : "Arial, sans-serif;"};
                   }
                   h1,
                   h2,
@@ -137,46 +166,21 @@ class Layout extends React.Component {
                     display: block;
                   }
                 `}</style>
-              </React.Fragment>
-            </AuthProvider>
-          </ScreenWidthContext.Provider>
-        </FontLoadedContext.Provider>
-      </ThemeContext.Provider>
-    );
+                </React.Fragment>
+              </AuthProvider>
+            </ScreenWidthContext.Provider>
+          </FontLoadedContext.Provider>
+        </ThemeContext.Provider>
+      );
+    }}
+  />);
   }
 }
 
 Layout.propTypes = {
-  children: PropTypes.func,
+  children: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired
 };
 
 export default Layout;
-
-//eslint-disable-next-line no-undef
-export const postQuery = graphql`
-  query LayoutQuery {
-    pages: allMarkdownRemark(
-      filter: { id: { regex: "//pages//" }, fields: { prefix: { regex: "/^\\d+$/" } } }
-      sort: { fields: [fields___prefix], order: ASC }
-    ) {
-      edges {
-        node {
-          fields {
-            slug
-            prefix
-          }
-          frontmatter {
-            title
-            menuTitle
-          }
-        }
-      }
-    }
-    footnote: markdownRemark(id: { regex: "/footnote/" }) {
-      id
-      html
-    }
-  }
-`;

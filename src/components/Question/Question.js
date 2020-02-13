@@ -2,6 +2,7 @@
 
 import { navigateTo } from "gatsby-link";
 import { Form,  Input, Button, Tabs, Icon, Checkbox, Switch, Cascader, Tooltip } from 'antd';
+import styled from 'styled-components';
 import PropTypes from "prop-types";
 import React from "react";
 import data from './data';
@@ -21,6 +22,9 @@ if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
   require('codemirror/lib/codemirror.css');
 }
 
+const StyledButton = styled(Button)`
+  color: green;
+`;
 const Question = props => {
   const { getFieldDecorator, getFieldValue } = props.form;
 
@@ -189,9 +193,9 @@ const Question = props => {
                 <TabPane tab={<span><Icon type="check-square" />Multiple Question</span>} key="1">
                   {formItems}
                   <FormItem>
-                    <Button type="dashed" onClick={add} style={{ width: '60%' }}>
+                    <StyledButton type="dashed" onClick={add} style={{ width: '60%' }}>
                       <Icon type="plus" /> Add Answer
-                    </Button>
+                    </StyledButton>
                   </FormItem>
                 </TabPane>
                 <TabPane tab={<span><Icon type="code-o" />Coding</span>} key="2" disabled>

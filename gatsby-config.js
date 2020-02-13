@@ -38,9 +38,14 @@ module.exports = {
     }
   },
   plugins: [
-    `gatsby-plugin-react-next`,
     // `gatsby-plugin-styled-jsx`, // the plugin's code is inserted directly to gatsby-node.js and gatsby-ssr.js files
     // 'gatsby-plugin-styled-jsx-postcss', // as above
+    {
+      resolve: `gatsby-plugin-layout`,
+      options: {
+        component: require.resolve(`./src/layouts/`)
+      }
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -99,7 +104,8 @@ module.exports = {
     `gatsby-plugin-catch-links`,
     {resolve: `gatsby-plugin-less`,
       options: {
-        theme: `./src/theme/theme.js`
+        javascriptEnabled: true,
+        modifyVars: require(`./src/theme/theme.js`),
       }
     },
     {
@@ -217,6 +223,12 @@ module.exports = {
     },
     {
       resolve: "gatsby-plugin-svgr"
-    }
+    },
+    {
+      resolve: `gatsby-plugin-styled-jsx`,
+      options: {
+        jsxPlugins: ["styled-jsx-plugin-postcss"],
+      },
+    },
   ]
 };
