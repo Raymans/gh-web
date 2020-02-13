@@ -6,27 +6,37 @@ const Promise = require("bluebird");
 
 const { createFilePath } = require(`gatsby-source-filesystem`);
 
-exports.onCreateNode = ({ node, getNode, boundActionCreators }) => {
-  const { createNodeField } = boundActionCreators;
+exports.onCreateNode = ({ node, getNode, actions }) => {
+  const { createNodeField } = actions;
   if (node.internal.type === `MarkdownRemark`) {
-    const slug = createFilePath({ node, getNode, basePath: `pages` });
+    const slug = createFilePath({ node, getNode });
+    const fileNode = getNode(node.parent);
+    const source = fileNode.sourceInstanceName;
     const separtorIndex = ~slug.indexOf("--") ? slug.indexOf("--") : 0;
     const shortSlugStart = separtorIndex ? separtorIndex + 2 : 0;
-    createNodeField({
-      node,
-      name: `slug`,
-      value: `${separtorIndex ? "/" : ""}${slug.substring(shortSlugStart)}`
-    });
+
+    if (source !== "parts") {
+      createNodeField({
+        node,
+        name: `slug`,
+        value: `${separtorIndex ? "/" : ""}${slug.substring(shortSlugStart)}`
+      });
+    }
     createNodeField({
       node,
       name: `prefix`,
       value: separtorIndex ? slug.substring(1, separtorIndex) : ""
     });
+    createNodeField({
+      node,
+      name: `source`,
+      value: source
+    });
   }
 };
 
-exports.createPages = ({ graphql, boundActionCreators }) => {
-  const { createPage } = boundActionCreators;
+exports.createPages = ({ graphql, actions }) => {
+  const { createPage } = actions;
 
   return new Promise((resolve, reject) => {
     const pageTemplate = path.resolve("./src/templates/PageTemplate.js");
@@ -35,7 +45,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         `
           {
             allMarkdownRemark(
-              filter: { id: { regex: "//pages//" } }
+              filter: { fields: { slug: { ne: null } } }
               sort: { fields: [fields___prefix], order: DESC }
               limit: 1000
             ) {
@@ -45,6 +55,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
                   fields {
                     slug
                     prefix
+                    source
                   }
                   frontmatter {
                     title
@@ -64,15 +75,17 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 
 
         // Create pages.
-        const pages = items.filter(item => /pages/.test(item.node.id));
+        const pages = items.filter(item => item.node.fields.source === "pages");
         pages.forEach(({ node }) => {
           const slug = node.fields.slug;
+          const source = node.fields.source;
 
           createPage({
             path: slug,
             component: pageTemplate,
             context: {
-              slug
+              slug,
+              source
             }
           });
         });
@@ -85,6 +98,17 @@ exports.onCreateWebpackConfig = ({ stage, actions }) => {
   switch (stage) {
     case "build-javascript":
       {
+        actions.setWebpackConfig({
+          plugins: [
+            new BundleAnalyzerPlugin({
+              analyzerMode: "static",
+              reportFilename: "./report/treemap.html",
+              openAnalyzer: true,
+              logLevel: "error",
+              defaultSizes: "gzip"
+            })
+          ]
+        });
         // let components = store.getState().pages.map(page => page.componentChunkName);
         // components = _.uniq(components);
         // config.plugin("CommonsChunkPlugin", webpack.optimize.CommonsChunkPlugin, [
