@@ -10,12 +10,9 @@ icon:
 * **CSS** with `styled-jsx` and `PostCSS`
 * **SEO** (sitemap generation, robot.txt, meta and OpenGraph Tags)
 * **Social** sharing (Twitter, Facebook, Google, LinkedIn)
-* **Comments** (Facebook)
+* **Comments**
 * **Images** lazy loading and `webp` support (gatsby-image)
-* Post **categories** (category based post list)
 * Full text **searching** (Algolia)
-* **Contact** form (Netlify form handling)
-* **RSS** feed
 * 100% **PWA** (manifest.webmanifest, offline support, favicons)
 * Google **Analytics**
 * App **favicons** generator (node script)
