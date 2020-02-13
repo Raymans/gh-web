@@ -29,15 +29,13 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
   const { createPage } = boundActionCreators;
 
   return new Promise((resolve, reject) => {
-    const postTemplate = path.resolve("./src/templates/PostTemplate.js");
     const pageTemplate = path.resolve("./src/templates/PageTemplate.js");
-    const categoryTemplate = path.resolve("./src/templates/CategoryTemplate.js");
     resolve(
       graphql(
         `
           {
             allMarkdownRemark(
-              filter: { id: { regex: "//posts|pages//" } }
+              filter: { id: { regex: "//pages//" } }
               sort: { fields: [fields___prefix], order: DESC }
               limit: 1000
             ) {
@@ -50,7 +48,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
                   }
                   frontmatter {
                     title
-                    category
                   }
                 }
               }
@@ -65,51 +62,8 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 
         const items = result.data.allMarkdownRemark.edges;
 
-        // Create category list
-        const categorySet = new Set();
-        items.forEach(edge => {
-          const {
-            node: {
-              frontmatter: { category }
-            }
-          } = edge;
 
-          if (category && category !== null) {
-            categorySet.add(category);
-          }
-        });
-
-        // Create category pages
-        const categoryList = Array.from(categorySet);
-        categoryList.forEach(category => {
-          createPage({
-            path: `/category/${_.kebabCase(category)}/`,
-            component: categoryTemplate,
-            context: {
-              category
-            }
-          });
-        });
-
-        // Create posts
-        const posts = items.filter(item => /posts/.test(item.node.id));
-        posts.forEach(({ node }, index) => {
-          const slug = node.fields.slug;
-          const next = index === 0 ? undefined : posts[index - 1].node;
-          const prev = index === posts.length - 1 ? undefined : posts[index + 1].node;
-
-          createPage({
-            path: slug,
-            component: postTemplate,
-            context: {
-              slug,
-              prev,
-              next
-            }
-          });
-        });
-
-        // and pages.
+        // Create pages.
         const pages = items.filter(item => /pages/.test(item.node.id));
         pages.forEach(({ node }) => {
           const slug = node.fields.slug;
