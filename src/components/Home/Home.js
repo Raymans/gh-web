@@ -22,7 +22,7 @@ const Home = props => {
           <Col span={6}><FontAwesomeIcon icon={faJava} size="7x" color="#08c" spin={true}/><p>Java</p></Col>
         </Row>
       </section>
-      <section style={{padding: "0px 50px", 'background-color': theme.color.neutral.gray.a}} className="title">
+      <section style={{padding: "0px 50px", backgroundColor: theme.color.neutral.gray.a}} className="title">
 
         <Row type="flex" justify="space-around" style={{"margin": "50px 60px"}}>
           <Col span={12}>

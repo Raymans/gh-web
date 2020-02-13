@@ -1,5 +1,6 @@
 ---
 title: Success
+icon: check-circle
 ---
 
 Thank you. <br />

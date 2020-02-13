@@ -125,7 +125,7 @@ const Question = props => {
           <Tooltip placement="topLeft" title={<span>Check for Right answer</span>}>
           {getFieldDecorator(`corrects[${k}]`, { valuePropName: 'checked', initialValue: true
           })(
-              <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} style={{float: "left", margin: "5px"}} />
+              <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="close" />} style={{float: "left", margin: "5px"}} />
           )}
           </Tooltip>
 
@@ -186,7 +186,7 @@ const Question = props => {
                       whitespace: true,
                     }
                   ]
-                })(<TextArea placeholder="please input question's description" autosize={{ minRows: 2, maxRows: 6 }} />)}
+                })(<TextArea placeholder="please input question's description" autoSize={{ minRows: 2, maxRows: 6 }} />)}
               </FormItem>
               <Tabs defaultActiveKey="1">
                 <TabPane tab={<span><Icon type="check-square" />Multiple Question</span>} key="1">

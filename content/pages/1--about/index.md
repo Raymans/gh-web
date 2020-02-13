@@ -1,7 +1,7 @@
 ---
 title: About GeekHub
 menuTitle: About
-icon: 
+icon: info-circle
 ---
 
 ### Features:

@@ -85,7 +85,7 @@ const Contact = props => {
                 })(
                   <TextArea
                     placeholder="Autosize height with minimum and maximum number of lines"
-                    autosize={{ minRows: 4, maxRows: 10 }}
+                    autoSize={{ minRows: 4, maxRows: 10 }}
                   />
                 )}
               </FormItem>

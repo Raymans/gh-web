@@ -19,12 +19,12 @@ class Menu extends React.Component {
       label: page.node.frontmatter.menuTitle
         ? page.node.frontmatter.menuTitle
         : page.node.frontmatter.title,
-      icon: page.node.icon
+      icon: page.node.frontmatter.icon
     }));
 
     this.items = [
       {to: '/', label: 'Home', icon: 'home'},
-      {to: '/questions', label: 'Questions', icon: 'question-circle-o'},
+      {to: '/questions', label: 'Questions', icon: 'question-circle'},
       {to: '/interviews', label: 'Interviews', icon: 'eye'},
       {
         label: 'About', subMenu: [
@@ -55,9 +55,9 @@ class Menu extends React.Component {
       </Link>
     </AntMenu.Item>);
 
-  renderSubMenu = item =>
+  renderSubMenu = (item, index) =>
     (
-      <AntMenu.SubMenu key={item.to} title={<span><Icon type="setting"/>{item.label}</span>}>
+      <AntMenu.SubMenu key={index} title={<span><Icon type="setting"/>{item.label}</span>}>
         {item.subMenu.map(subItem =>
           <AntMenu.Item key={subItem.to}>
             <Link
@@ -72,13 +72,6 @@ class Menu extends React.Component {
     );
 
   render() {
-    const userSetting = (
-      <AntMenu.SubMenu title={<span><Avatar src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"/>Raymans</span>}>
-        <AntMenu.Item>
-          <Icon type='logout'/>Login out
-        </AntMenu.Item>
-      </AntMenu.SubMenu>
-    );
     return (
       <AuthConsumer>
         {({userInfo}) => {
@@ -90,16 +83,22 @@ class Menu extends React.Component {
               style={{borderBottom: 'none', background: 'transparent'}}
             >
               {
-                this.items.map(item => {
+                this.items.map((item, index) => {
                   if (item.label === 'Login') {
                     if (userInfo) {
-                      return userSetting;
+                        return (
+                          <AntMenu.SubMenu key={index} title={<span><Avatar src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"/>Raymans</span>}>
+                            <AntMenu.Item>
+                              <Icon type='logout'/>Login out
+                            </AntMenu.Item>
+                          </AntMenu.SubMenu>
+                        );
                     }
                     return this.renderItem(item);
                   }
                   if (!item.needAuth || userInfo) {
                     if (item.subMenu) {
-                      return this.renderSubMenu(item)
+                      return this.renderSubMenu(item, index)
                     }
                     return this.renderItem(item);
                   }

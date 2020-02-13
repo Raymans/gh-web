@@ -1,5 +1,6 @@
 ---
 title: Privacy Policy
+icon: eye-invisible
 ---
 
 This Privacy Policy (the “Policy”) describes how GeekHub, Inc. (“GeekHub”) may collect and use the personal information you provide when using the Service. “Service” includes the website www.GeekHub (the “Website”) and its subdomains and any related content, software, applications, materials and/or services made available by GeekHub through the Website.
