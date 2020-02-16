@@ -12,6 +12,7 @@ const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 const { TextArea } = Input;
 import { ThemeContext } from "../../layouts";
+import GatsbyLink from 'gatsby-link';
 
 let CodeMirror = null;
 let uuid = 4;
@@ -216,6 +217,9 @@ const Question = props => {
                   }
                 </TabPane>
               </Tabs>
+              <Button type="primary" htmlType="submit">
+                <GatsbyLink to={"/questions"} replace>Back</GatsbyLink>
+              </Button>
               <FormItem>
                 <Button type="primary" htmlType="submit">
                   Submit

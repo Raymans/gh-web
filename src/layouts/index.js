@@ -106,7 +106,6 @@ class Layout extends React.Component {
       }
     `}
     render = {data => {
-      console.log(2222222222222222222222222222222222222222222222)
       const { children } = this.props;
       const {
         footnote: { html: footnoteHTML },

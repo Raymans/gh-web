@@ -6,8 +6,7 @@ import Article from "../components/Article";
 import Headline from "../components/Article/Headline";
 import Seo from "../components/Seo";
 import { graphql } from 'gatsby';
-
-import Questions from "../components/Questions"
+import Interviews from '../components/Interviews';
 
 const InterviewsPage = props => {
   const {
@@ -26,7 +25,7 @@ const InterviewsPage = props => {
             <header>
               <Headline title="Interviews" theme={theme} />
             </header>
-            <Questions theme={theme}/>
+            <Interviews theme={theme}/>
           </Article>
         )}
       </ThemeContext.Consumer>

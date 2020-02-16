@@ -58,6 +58,19 @@ export async function createQuestion(params) {
   });
 }
 
+export async function getInterviews(params) {
+  return request(`${config.ghServiceUrl}/api/interviews`, {
+    method: 'GET',
+    params
+  });
+}
+
+export async function getInterview({id}) {
+  return request(`${config.ghServiceUrl}/api/interviews/${id}`, {
+    method: 'GET'
+  });
+}
+
 export function getCurrentUserUrl() {
   return {
     authUrl: `${config.ghServiceUrl}/api/users/me`,
