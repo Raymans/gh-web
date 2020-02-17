@@ -25,23 +25,14 @@ export const Layout = (props) => {
     headerMinimized: false,
     theme: themeObjectFromYaml
   })
-
-  let timeouts = {};
+  const timeouts = {};
 
   const resizeThrottler = () => {
     return timeoutThrottlerHandler(timeouts, "resize", 100, resizeHandler);
   };
 
   const resizeHandler = () => {
-    setLayoutState({ screenWidth: getScreenWidth() });
-  };
-
-  const isHomePage = () => {
-    if (props.location.pathname === "/") {
-      return true;
-    }
-
-    return false;
+    setLayoutState({ ...layoutState, screenWidth: getScreenWidth() });
   };
 
   const loadFont = (name, family, weight) => {
@@ -51,7 +42,7 @@ export const Layout = (props) => {
 
     font.load(null, 10000).then(
       () => {
-        setLayoutState({ [`${name}loaded`]: true });
+        setLayoutState({...layoutState, [`${name}loaded`]: true });
       },
       () => {
         console.log(`${name} is not available`);
@@ -59,19 +50,22 @@ export const Layout = (props) => {
     );
   };
 
-  if (typeof window !== `undefined`) {
-    loadFont("font400", "Open Sans", 400);
-    loadFont("font600", "Open Sans", 600);
-  }
+  useEffect(() =>{
+    if (typeof window !== `undefined`) {
+      loadFont("font400", "Open Sans", 400);
+      loadFont("font600", "Open Sans", 600);
+    }
+  }, []);
 
   useEffect(() =>{
     setLayoutState({
+      ...layoutState,
       screenWidth: getScreenWidth()
     });
     if (typeof window !== "undefined") {
       window.addEventListener("resize", resizeThrottler, false);
     }
-  });
+  }, []);
 
 
   return (<StaticQuery
