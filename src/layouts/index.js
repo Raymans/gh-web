@@ -1,7 +1,7 @@
 import "typeface-open-sans";
 import FontFaceObserver from "fontfaceobserver";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect, useState } from 'react';
 
 import { getScreenWidth, timeoutThrottlerHandler } from "../utils/helpers";
 import Footer from "../components/Footer/";
@@ -17,59 +17,41 @@ export const FontLoadedContext = React.createContext(false);
 import themeObjectFromYaml from "../theme/theme.yaml";
 import config from "../../content/meta/config";
 
-class Layout extends React.Component {
-  constructor() {
-    super();
+export const Layout = (props) => {
+  const [layoutState, setLayoutState] = useState({
+    font400loaded: false,
+    font600loaded: false,
+    screenWidth: 0,
+    headerMinimized: false,
+    theme: themeObjectFromYaml
+  })
 
-    this.state = {
-      font400loaded: false,
-      font600loaded: false,
-      screenWidth: 0,
-      headerMinimized: false,
-      theme: themeObjectFromYaml
-    };
+  let timeouts = {};
 
-    if (typeof window !== `undefined`) {
-      this.loadFont("font400", "Open Sans", 400);
-      this.loadFont("font600", "Open Sans", 600);
-    }
-  }
-
-  timeouts = {};
-
-  componentDidMount() {
-    this.setState({
-      screenWidth: getScreenWidth()
-    });
-    if (typeof window !== "undefined") {
-      window.addEventListener("resize", this.resizeThrottler, false);
-    }
-  }
-
-  resizeThrottler = () => {
-    return timeoutThrottlerHandler(this.timeouts, "resize", 100, this.resizeHandler);
+  const resizeThrottler = () => {
+    return timeoutThrottlerHandler(timeouts, "resize", 100, resizeHandler);
   };
 
-  resizeHandler = () => {
-    this.setState({ screenWidth: getScreenWidth() });
+  const resizeHandler = () => {
+    setLayoutState({ screenWidth: getScreenWidth() });
   };
 
-  isHomePage = () => {
-    if (this.props.location.pathname === "/") {
+  const isHomePage = () => {
+    if (props.location.pathname === "/") {
       return true;
     }
 
     return false;
   };
 
-  loadFont = (name, family, weight) => {
+  const loadFont = (name, family, weight) => {
     const font = new FontFaceObserver(family, {
       weight: weight
     });
 
     font.load(null, 10000).then(
       () => {
-        this.setState({ [`${name}loaded`]: true });
+        setLayoutState({ [`${name}loaded`]: true });
       },
       () => {
         console.log(`${name} is not available`);
@@ -77,9 +59,23 @@ class Layout extends React.Component {
     );
   };
 
-  render() {
-    return (<StaticQuery
-      query={graphql`
+  if (typeof window !== `undefined`) {
+    loadFont("font400", "Open Sans", 400);
+    loadFont("font600", "Open Sans", 600);
+  }
+
+  useEffect(() =>{
+    setLayoutState({
+      screenWidth: getScreenWidth()
+    });
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", resizeThrottler, false);
+    }
+  });
+
+
+  return (<StaticQuery
+    query={graphql`
       query LayoutQuery {
         pages: allMarkdownRemark(
           filter: { fileAbsolutePath: { regex: "//pages//" }, fields: { prefix: { regex: "/^\\d+$/" } } }
@@ -106,21 +102,21 @@ class Layout extends React.Component {
       }
     `}
     render = {data => {
-      const { children } = this.props;
+      const { children } = props;
       const {
         footnote: { html: footnoteHTML },
         pages: { edges: pages }
       } = data;
 
       return (
-        <ThemeContext.Provider value={this.state.theme}>
-          <FontLoadedContext.Provider value={this.state.font400loaded}>
-            <ScreenWidthContext.Provider value={this.state.screenWidth}>
+        <ThemeContext.Provider value={layoutState.theme}>
+          <FontLoadedContext.Provider value={layoutState.font400loaded}>
+            <ScreenWidthContext.Provider value={layoutState.screenWidth}>
               <AuthProvider {...getCurrentUserUrl()}>
                 <React.Fragment>
-                  <Header path={this.props.location.pathname} pages={pages} theme={this.state.theme} />
+                  <Header path={props.location.pathname} pages={pages} theme={layoutState.theme} />
                   <main>{children}</main>
-                  <Footer html={footnoteHTML} theme={this.state.theme} />
+                  <Footer html={footnoteHTML} theme={layoutState.theme} />
 
                   {/* --- STYLES --- */}
                   <style jsx>{`
@@ -140,14 +136,14 @@ class Layout extends React.Component {
                     padding: 0;
                   }
                   body {
-                    font-family: ${this.state.font400loaded
+                    font-family: ${layoutState.font400loaded
                     ? "'Open Sans', sans-serif;"
                     : "Arial, sans-serif;"};
                   }
                   h1,
                   h2,
                   h3 {
-                    font-weight: ${this.state.font600loaded ? 600 : 400};
+                    font-weight: ${layoutState.font600loaded ? 600 : 400};
                     line-height: 1.4;
                     letter-spacing: -0.03em;
                     margin: 0;
@@ -159,7 +155,7 @@ class Layout extends React.Component {
                     margin: 0;
                   }
                   strong {
-                    font-weight: ${this.state.font600loaded ? 600 : 400};
+                    font-weight: ${layoutState.font600loaded ? 600 : 400};
                   }
                   main {
                     width: auto;
@@ -174,7 +170,6 @@ class Layout extends React.Component {
       );
     }}
   />);
-  }
 }
 
 Layout.propTypes = {
