@@ -108,6 +108,7 @@ class Questions extends React.Component{
                               <Tag color="green">{item.difficulty}</Tag>
                               <Tag color="#108ee9" style={{float: 'right'}}>{item.visibilityScope}</Tag>
                             </div>}
+                            title={item.question}
                           />
                           <span className="content">{item.question}</span>
                           <div className="answer-collapse">
