@@ -1,5 +1,5 @@
-require("dotenv").config();
-const config = require("./content/meta/config");
+require('dotenv').config();
+const config = require('./content/meta/config');
 
 const query = `{
   allMarkdownRemark(filter: {fileAbsolutePath: {regex: "/posts|pages/[0-9]+.*--/"}}) {
@@ -34,7 +34,7 @@ module.exports = {
     siteUrl: config.siteUrl,
     pathPrefix: config.pathPrefix,
     facebook: {
-      appId: process.env.FB_APP_ID ? process.env.FB_APP_ID : ""
+      appId: process.env.FB_APP_ID ? process.env.FB_APP_ID : ''
     }
   },
   plugins: [
@@ -57,7 +57,7 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/content/pages/`,
-        name: "pages"
+        name: 'pages'
       }
     },
     {
@@ -76,7 +76,7 @@ module.exports = {
             resolve: `gatsby-remark-images`,
             options: {
               maxWidth: 800,
-              backgroundColor: "transparent"
+              backgroundColor: 'transparent'
             }
           },
           {
@@ -95,10 +95,11 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-catch-links`,
-    {resolve: `gatsby-plugin-less`,
+    {
+      resolve: `gatsby-plugin-less`,
       options: {
         javascriptEnabled: true,
-        modifyVars: require(`./src/theme/theme.js`),
+        modifyVars: require(`./src/theme/theme.js`)
       }
     },
     {
@@ -112,39 +113,39 @@ module.exports = {
         display: config.manifestDisplay,
         icons: [
           {
-            src: "/icons/icon-48x48.png",
-            sizes: "48x48",
-            type: "image/png"
+            src: '/icons/icon-48x48.png',
+            sizes: '48x48',
+            type: 'image/png'
           },
           {
-            src: "/icons/icon-96x96.png",
-            sizes: "96x96",
-            type: "image/png"
+            src: '/icons/icon-96x96.png',
+            sizes: '96x96',
+            type: 'image/png'
           },
           {
-            src: "/icons/icon-144x144.png",
-            sizes: "144x144",
-            type: "image/png"
+            src: '/icons/icon-144x144.png',
+            sizes: '144x144',
+            type: 'image/png'
           },
           {
-            src: "/icons/icon-192x192.png",
-            sizes: "192x192",
-            type: "image/png"
+            src: '/icons/icon-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
           },
           {
-            src: "/icons/icon-256x256.png",
-            sizes: "256x256",
-            type: "image/png"
+            src: '/icons/icon-256x256.png',
+            sizes: '256x256',
+            type: 'image/png'
           },
           {
-            src: "/icons/icon-384x384.png",
-            sizes: "384x384",
-            type: "image/png"
+            src: '/icons/icon-384x384.png',
+            sizes: '384x384',
+            type: 'image/png'
           },
           {
-            src: "/icons/icon-512x512.png",
-            sizes: "512x512",
-            type: "image/png"
+            src: '/icons/icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
           }
         ]
       }
@@ -160,13 +161,17 @@ module.exports = {
       resolve: `gatsby-plugin-sitemap`
     },
     {
-      resolve: "gatsby-plugin-svgr"
+      resolve: 'gatsby-plugin-svgr'
     },
     {
       resolve: `gatsby-plugin-styled-jsx`,
       options: {
-        jsxPlugins: ["styled-jsx-plugin-postcss"],
-      },
+        jsxPlugins: ['styled-jsx-plugin-postcss']
+      }
     },
+    {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/interviews/*`] }
+    }
   ]
 };
