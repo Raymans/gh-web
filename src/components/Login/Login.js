@@ -9,10 +9,18 @@ const FormItem = Form.Item;
 const { TextArea } = Input;
 import { ThemeContext } from "../../layouts";
 import {login} from '../../utils/api';
+import styled, { createGlobalStyle } from 'styled-components';
 
 
 const Login = props => {
   const { getFieldDecorator } = props.form;
+
+  const StyledLoginButton = styled(Button)`
+    width: 100%;
+  `;
+  const StyledForgetLink = styled.a`
+    float: right;
+  `;
 
   function encode(data) {
     return Object.keys(data)
@@ -46,59 +54,52 @@ const Login = props => {
     <React.Fragment>
       <div className="form">
         <ThemeContext.Consumer>
-          {theme => (
-            <AuthConsumer>
-              {({ refreshAuth }) => (
-                <Form onSubmit={(e) => handleSubmit(e, refreshAuth)} className="login-form">
-                  <FormItem>
-                    {getFieldDecorator('username', {
-                      rules: [{ required: true, message: 'Please input your username!' }],
-                    })(
-                      <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
-                    )}
-                  </FormItem>
-                  <FormItem>
-                    {getFieldDecorator('password', {
-                      rules: [{ required: true, message: 'Please input your Password!' }],
-                    })(
-                      <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
-                    )}
-                  </FormItem>
-                  <FormItem>
-                    {getFieldDecorator('remember', {
-                      valuePropName: 'checked',
-                      initialValue: true,
-                    })(
-                      <Checkbox>Remember me</Checkbox>
-                    )}
-                    <a className="login-form-forgot" href="">Forgot password</a>
-                    <Button type="primary" htmlType="submit" className="login-form-button">
-                      Log in
-                    </Button>
-                    Or <a href="/register/">register now!</a>
-                  </FormItem>
-                  <style jsx global>{`
-                   @from-width desktop {
-                      .article{
-                       max-width: ${theme.text.maxWidth.desktopForm} !important;
-                      }
-                    }
-                  `}</style>
-                  <style jsx>{`
-                    :global(.login-form-button) {
-                      width: 100%;
-                    }
-                    .login-form {
-                      max-width: 300px;
-                    }
-                    .login-form-forgot {
-                      float: right;
-                    }
-                  `}</style>
-                </Form>
-              )}
-            </AuthConsumer>
-          )}
+          {theme => {
+            const GlobalStyle = createGlobalStyle`
+                @media (min-width: 1024px) {
+                .article {
+                  max-width: ${theme.text.maxWidth.desktopForm} !important;
+                }
+              }
+            `;
+            return (
+              <AuthConsumer>
+                {({ refreshAuth }) => (
+                  <Form onSubmit={(e) => handleSubmit(e, refreshAuth)}>
+                    <GlobalStyle/>
+                    <FormItem>
+                      {getFieldDecorator('username', {
+                        rules: [{ required: true, message: 'Please input your username!' }],
+                      })(
+                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                      )}
+                    </FormItem>
+                    <FormItem>
+                      {getFieldDecorator('password', {
+                        rules: [{ required: true, message: 'Please input your Password!' }],
+                      })(
+                        <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                      )}
+                    </FormItem>
+                    <FormItem>
+                      {getFieldDecorator('remember', {
+                        valuePropName: 'checked',
+                        initialValue: true,
+                      })(
+                        <Checkbox>Remember me</Checkbox>
+                      )}
+                      <StyledForgetLink href="">Forgot password</StyledForgetLink>
+                      <StyledLoginButton type="primary" htmlType="submit">
+                        Log in
+                      </StyledLoginButton>
+                      Or <a href="/register/">register now!</a>
+                    </FormItem>
+                  </Form>
+                )}
+              </AuthConsumer>
+            )
+          }}
+
         </ThemeContext.Consumer>
       </div>
     </React.Fragment>
