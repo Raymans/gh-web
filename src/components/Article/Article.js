@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from 'styled-components';
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 const Article = props => {
-  const { children, theme } = props;
+  const {children, theme} = props
 
   const StyledArticle = styled.article`
     padding: ${theme.space.inset.default};
@@ -14,8 +14,8 @@ const Article = props => {
     }
     @media (min-width: 1024px) {
       padding: ${`calc(${theme.space.default} * 2 + 30px) 0 calc(${
-        theme.space.default
-      } * 2)`};
+    theme.space.default
+  } * 2)`};
       max-width: ${theme.text.maxWidth.desktop};
     }
   `
@@ -23,12 +23,12 @@ const Article = props => {
     <React.Fragment>
       <StyledArticle className="article">{children}</StyledArticle>
     </React.Fragment>
-  );
-};
+  )
+}
 
 Article.propTypes = {
   children: PropTypes.node.isRequired,
   theme: PropTypes.object.isRequired
-};
+}
 
-export default Article;
+export default Article

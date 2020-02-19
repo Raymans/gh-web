@@ -1,9 +1,9 @@
 # OPTIONS
 
 # SPACE
-space :
+space:
   # space options
-  default : 20px
+  default: 20px
   xxs: 2px
   xs: 5px
   s: 10px
@@ -11,20 +11,20 @@ space :
   l: 40px
   xl: 80px
   inset:
-    default : 20px
+    default: 20px
     xs: 5px
     s: 10px
     m: 20px
     l: 40px
   stack:
-    default : 0 0 20px 0
+    default: 0 0 20px 0
     xxs: 0 0 2px 0
     xs: 0 0 5px 0
     s: 0 0 10px 0
     m: 0 0 20px 0
     l: 0 0 40px 0
   inline:
-    default : 0 20px 0 0
+    default: 0 20px 0 0
     xxs: 0 2px 0 0
     xs: 0 5px 0 0
     s: 0 10px 0 0

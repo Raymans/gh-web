@@ -1,53 +1,54 @@
 /* eslint no-unused-vars: 0 */
 
-import { navigateTo } from "gatsby-link";
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import PropTypes from "prop-types";
-import React from "react";
-import { AuthConsumer } from "react-check-auth";
-const FormItem = Form.Item;
-const { TextArea } = Input;
-import { ThemeContext } from "../../layouts";
-import {login} from '../../utils/api';
-import styled, { createGlobalStyle } from 'styled-components';
+import { navigateTo } from 'gatsby-link'
+import { Button, Checkbox, Form, Icon, Input } from 'antd'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { AuthConsumer } from 'react-check-auth'
+import { ThemeContext } from '../../layouts'
+import { login } from '../../utils/api'
+import styled, { createGlobalStyle } from 'styled-components'
+
+const FormItem = Form.Item
+const {TextArea} = Input
 
 
 const Login = props => {
-  const { getFieldDecorator } = props.form;
+  const {getFieldDecorator} = props.form
 
   const StyledLoginButton = styled(Button)`
     width: 100%;
-  `;
+  `
   const StyledForgetLink = styled.a`
     float: right;
-  `;
+  `
 
-  function encode(data) {
+  function encode(data){
     return Object.keys(data)
-      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-      .join("&");
+    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+    .join('&')
   }
 
   const handleSubmit = (e, refreshAuth) => {
-    e.preventDefault();
+    e.preventDefault()
     props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
+      if(!err) {
         sendMessage(values).then(() => {
 
-          navigateTo("/");
-          refreshAuth({userName: 'raymans'});
-        });
+          navigateTo('/')
+          refreshAuth({userName: 'raymans'})
+        })
       }
-    });
-  };
+    })
+  }
 
-  function sendMessage(values) {
+  function sendMessage(values){
     return login(values).then((user) => {
-      console.log('Form submission success', user);
+      console.log('Form submission success', user)
       //
     }).catch(error => {
-      console.error('Form submission error:', error);
-    });
+      console.error('Form submission error:', error)
+    })
   }
 
   return (
@@ -61,30 +62,31 @@ const Login = props => {
                   max-width: ${theme.text.maxWidth.desktopForm} !important;
                 }
               }
-            `;
+            `
             return (
               <AuthConsumer>
-                {({ refreshAuth }) => (
+                {({refreshAuth}) => (
                   <Form onSubmit={(e) => handleSubmit(e, refreshAuth)}>
                     <GlobalStyle/>
                     <FormItem>
                       {getFieldDecorator('username', {
-                        rules: [{ required: true, message: 'Please input your username!' }],
+                        rules: [{required: true, message: 'Please input your username!'}]
                       })(
-                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                        <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} placeholder="Username"/>
                       )}
                     </FormItem>
                     <FormItem>
                       {getFieldDecorator('password', {
-                        rules: [{ required: true, message: 'Please input your Password!' }],
+                        rules: [{required: true, message: 'Please input your Password!'}]
                       })(
-                        <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                        <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password"
+                               placeholder="Password"/>
                       )}
                     </FormItem>
                     <FormItem>
                       {getFieldDecorator('remember', {
                         valuePropName: 'checked',
-                        initialValue: true,
+                        initialValue: true
                       })(
                         <Checkbox>Remember me</Checkbox>
                       )}
@@ -103,13 +105,13 @@ const Login = props => {
         </ThemeContext.Consumer>
       </div>
     </React.Fragment>
-  );
-};
+  )
+}
 
 Login.propTypes = {
   form: PropTypes.object
-};
+}
 
-const LoginForm = Form.create({})(Login);
+const LoginForm = Form.create({})(Login)
 
-export default LoginForm;
+export default LoginForm

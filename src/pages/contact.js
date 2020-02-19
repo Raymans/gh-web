@@ -1,21 +1,21 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from 'prop-types'
+import React from 'react'
 
-import { ThemeContext } from "../layouts";
-import Article from "../components/Article";
-import Contact from "../components/Contact";
-import Headline from "../components/Article/Headline";
-import Seo from "../components/Seo";
+import { ThemeContext } from '../layouts'
+import Article from '../components/Article'
+import Contact from '../components/Contact'
+import Headline from '../components/Article/Headline'
+import Seo from '../components/Seo'
 import { graphql } from 'gatsby'
 
 const ContactPage = props => {
   const {
     data: {
       site: {
-        siteMetadata: { facebook }
+        siteMetadata: {facebook}
       }
     }
-  } = props;
+  } = props
 
   return (
     <React.Fragment>
@@ -23,23 +23,23 @@ const ContactPage = props => {
         {theme => (
           <Article theme={theme}>
             <header>
-              <Headline title="Contact" theme={theme} />
+              <Headline title="Contact" theme={theme}/>
             </header>
-            <Contact theme={theme} />
+            <Contact theme={theme}/>
           </Article>
         )}
       </ThemeContext.Consumer>
 
-      <Seo facebook={facebook} />
+      <Seo facebook={facebook}/>
     </React.Fragment>
-  );
-};
+  )
+}
 
 ContactPage.propTypes = {
   data: PropTypes.object.isRequired
-};
+}
 
-export default ContactPage;
+export default ContactPage
 
 //eslint-disable-next-line no-undef
 export const query = graphql`
@@ -52,4 +52,4 @@ export const query = graphql`
       }
     }
   }
-`;
+`

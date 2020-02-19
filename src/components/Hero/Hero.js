@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Particles from 'react-particles-js';
-import particleConfig from './particle-option.json';
-import styled from 'styled-components';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Particles from 'react-particles-js'
+import particleConfig from './particle-option.json'
+import styled from 'styled-components'
 
 const Hero = props => {
-  const { backgrounds, theme } = props;
+  const {backgrounds, theme} = props
 
   const HeroSection = styled.section`
     align-items: center;
@@ -47,7 +47,7 @@ const Hero = props => {
         font-size: ${`calc(${theme.hero.h1.size} * 1.5)`};
       }
     }
-  `;
+  `
 
   return (
     <React.Fragment>
@@ -70,12 +70,12 @@ const Hero = props => {
         <h2>Practice anonymously with engineers who have worked at great company</h2>
       </HeroSection>
     </React.Fragment>
-  );
-};
+  )
+}
 
 Hero.propTypes = {
   backgrounds: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired
-};
+}
 
-export default Hero;
+export default Hero

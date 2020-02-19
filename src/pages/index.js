@@ -1,63 +1,63 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from 'prop-types'
+import React from 'react'
 
-import { ThemeContext } from "../layouts";
-import Hero from "../components/Hero";
-import Seo from "../components/Seo";
-import Home from "../components/Home";
-import { graphql } from 'gatsby';
+import { ThemeContext } from '../layouts'
+import Hero from '../components/Hero'
+import Seo from '../components/Seo'
+import Home from '../components/Home'
+import { graphql } from 'gatsby'
 
 class IndexPage extends React.Component {
-  render() {
+  render(){
     const {
       data: {
         bgDesktop: {
-          resize: { src: desktop }
+          resize: {src: desktop}
         },
         bgTablet: {
-          resize: { src: tablet }
+          resize: {src: tablet}
         },
         bgMobile: {
-          resize: { src: mobile }
+          resize: {src: mobile}
         },
         bgBuildingQ: {
-          resize: { src: bq }
+          resize: {src: bq}
         },
         site: {
-          siteMetadata: { facebook }
+          siteMetadata: {facebook}
         }
       }
-    } = this.props;
+    } = this.props
 
     const backgrounds = {
       desktop,
       tablet,
       mobile,
       bq
-    };
+    }
 
     return (
       <React.Fragment>
         <ThemeContext.Consumer>
           {theme => (
             <div>
-            <Hero backgrounds={backgrounds} theme={theme} />
-            <Home backgrounds={backgrounds} theme={theme}/>
+              <Hero backgrounds={backgrounds} theme={theme}/>
+              <Home backgrounds={backgrounds} theme={theme}/>
             </div>
           )}
         </ThemeContext.Consumer>
 
-        <Seo facebook={facebook} />
+        <Seo facebook={facebook}/>
       </React.Fragment>
-    );
+    )
   }
 }
 
 IndexPage.propTypes = {
   data: PropTypes.object.isRequired
-};
+}
 
-export default IndexPage;
+export default IndexPage
 
 //eslint-disable-next-line no-undef
 export const query = graphql`
@@ -90,6 +90,6 @@ export const query = graphql`
       }
     }
   }
-`;
+`
 
 //hero-background

@@ -1,24 +1,23 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from 'prop-types'
+import React from 'react'
+import Article from '../components/Article'
+import Search from '../components/Search'
+import { ThemeContext } from '../layouts'
+import Seo from '../components/Seo'
+import { graphql } from 'gatsby'
 
-require("core-js/fn/array/find");
+import { ReactComponent as AlgoliaIcon } from '../images/svg-icons/search-by-algolia.svg'
 
-import Article from "../components/Article";
-import Search from "../components/Search";
-import { ThemeContext } from "../layouts";
-import Seo from "../components/Seo";
-import { graphql } from 'gatsby';
-
-import { ReactComponent as AlgoliaIcon } from "../images/svg-icons/search-by-algolia.svg";
+require('core-js/fn/array/find')
 
 const SearchPage = props => {
   const {
     data: {
       site: {
-        siteMetadata: { algolia, facebook }
+        siteMetadata: {algolia, facebook}
       }
     }
-  } = props;
+  } = props
 
   return (
     <React.Fragment>
@@ -26,15 +25,15 @@ const SearchPage = props => {
         {theme => (
           <Article theme={theme}>
             <div className="icon">
-              <AlgoliaIcon />
+              <AlgoliaIcon/>
             </div>
 
-            <Search algolia={algolia} theme={theme} />
+            <Search algolia={algolia} theme={theme}/>
           </Article>
         )}
       </ThemeContext.Consumer>
 
-      <Seo facebook={facebook} />
+      <Seo facebook={facebook}/>
 
       {/* --- STYLES --- */}
       <style jsx>{`
@@ -48,14 +47,14 @@ const SearchPage = props => {
         }
       `}</style>
     </React.Fragment>
-  );
-};
+  )
+}
 
 SearchPage.propTypes = {
   data: PropTypes.object.isRequired
-};
+}
 
-export default SearchPage;
+export default SearchPage
 
 //eslint-disable-next-line no-undef
 export const query = graphql`
@@ -68,4 +67,4 @@ export const query = graphql`
       }
     }
   }
-`;
+`

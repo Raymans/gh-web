@@ -4,10 +4,10 @@ export default [{
   children: [{
     value: 'basic',
     label: 'Basic'
-  },{
+  }, {
     value: 'closure',
     label: 'Closure'
-  }],
+  }]
 }, {
   value: 'java',
   label: 'Java',
@@ -16,6 +16,6 @@ export default [{
     label: 'Basic'
   }, {
     value: 'OOP',
-    label: 'OOP',
-  }],
-}];
+    label: 'OOP'
+  }]
+}]

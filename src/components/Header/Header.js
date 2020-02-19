@@ -1,44 +1,44 @@
-import Link from "gatsby-link";
-import PropTypes from "prop-types";
-import React from "react";
-import VisibilitySensor from "react-visibility-sensor";
+import Link from 'gatsby-link'
+import PropTypes from 'prop-types'
+import React from 'react'
+import VisibilitySensor from 'react-visibility-sensor'
 
-import { ScreenWidthContext, FontLoadedContext } from "../../layouts";
-import config from "../../../content/meta/config";
-import Menu from "../Menu";
+import { FontLoadedContext, ScreenWidthContext } from '../../layouts'
+import config from '../../../content/meta/config'
+import Menu from '../Menu'
 
-import avatar from "../../images/png/logo.png";
+import avatar from '../../images/png/logo.png'
 
 class Header extends React.Component {
   state = {
     fixed: false
-  };
+  }
 
   visibilitySensorChange = val => {
-    if (val) {
-      this.setState({ fixed: false });
+    if(val) {
+      this.setState({fixed: false})
     } else {
-      this.setState({ fixed: true });
+      this.setState({fixed: true})
     }
-  };
+  }
 
   getHeaderSize = () => {
-    const fixed = this.state.fixed ? "fixed" : "";
-    const homepage = this.props.path === "/" ? "homepage" : "";
+    const fixed = this.state.fixed ? 'fixed' : ''
+    const homepage = this.props.path === '/' ? 'homepage' : ''
 
-    return `${fixed} ${homepage}`;
-  };
+    return `${fixed} ${homepage}`
+  }
 
-  render() {
-    const { pages, path, theme } = this.props;
-    const { fixed } = this.state;
+  render(){
+    const {pages, path, theme} = this.props
+    const {fixed} = this.state
 
     return (
       <React.Fragment>
         <header className={`header ${this.getHeaderSize()}`}>
           <Link to="/" className="logoType">
             <div className="logo">
-              <img src={avatar} alt={config.siteTitle} />
+              <img src={avatar} alt={config.siteTitle}/>
             </div>
             <div className="type">
               <h1>{config.headerTitle}</h1>
@@ -63,7 +63,7 @@ class Header extends React.Component {
           </FontLoadedContext.Consumer>
         </header>
         <VisibilitySensor onChange={this.visibilitySensorChange}>
-          <div className="sensor" />
+          <div className="sensor"/>
         </VisibilitySensor>
 
         {/* --- STYLES --- */}
@@ -137,7 +137,7 @@ class Header extends React.Component {
             left: 0;
             right: 0;
             height: 1px;
-            top: ${path === "/" ? theme.header.height.homepage : theme.header.height.default};
+            top: ${path === '/' ? theme.header.height.homepage : theme.header.height.default};
           }
 
           @from-width tablet {
@@ -243,7 +243,7 @@ class Header extends React.Component {
           }
         `}</style>
       </React.Fragment>
-    );
+    )
   }
 }
 
@@ -251,6 +251,6 @@ Header.propTypes = {
   pages: PropTypes.array.isRequired,
   path: PropTypes.string.isRequired,
   theme: PropTypes.object.isRequired
-};
+}
 
-export default Header;
+export default Header

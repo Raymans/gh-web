@@ -1,31 +1,31 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { List, Tag, Checkbox, Button } from 'antd';
-import { getInterview } from '../../utils/api';
-import Countdown from 'antd/lib/statistic/Countdown';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Button, Checkbox, List, Tag } from 'antd'
+import { getInterview } from '../../utils/api'
+import Countdown from 'antd/lib/statistic/Countdown'
 
-const deadline = Date.now() + 60 * 60 * 1000;
+const deadline = Date.now() + 60 * 60 * 1000
 
 class InterviewTest extends React.Component {
   state = {
-    data: { questions: [] }
-  };
-
-  componentDidMount() {
-    getInterview({ id: this.props.id }).then((res) => {
-      this.setState({
-        data: res
-      });
-    });
+    data: {questions: []}
   }
 
-  render() {
-    const { id } = this.props;
+  componentDidMount(){
+    getInterview({id: this.props.id}).then((res) => {
+      this.setState({
+        data: res
+      })
+    })
+  }
+
+  render(){
+    const {id} = this.props
 
     return (
       <div>
         <h1>TEST STARTING! {id}</h1>
-        <Countdown title="Remaining" value={deadline} format="HH:mm:ss" />
+        <Countdown title="Remaining" value={deadline} format="HH:mm:ss"/>
         <List
           itemLayout="vertical"
           size="large"
@@ -56,12 +56,12 @@ class InterviewTest extends React.Component {
         <style jsx>{`
       `}</style>
       </div>
-    );
+    )
   }
 }
 
 InterviewTest.propTypes = {
   id: PropTypes.object
-};
+}
 
-export default InterviewTest;
+export default InterviewTest

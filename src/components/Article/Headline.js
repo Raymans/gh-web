@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 const Headline = props => {
-  const { title, children, theme } = props;
+  const {title, children, theme} = props
   const H1 = styled.h1`
     white-space: nowrap;
     font-weight: 200;
@@ -27,20 +27,20 @@ const Headline = props => {
       letter-spacing: 0;
       margin-left: 20px;
     }
-  `;
+  `
   return (
     <React.Fragment>
-      <section style={{ padding: '0px 50px' }} className="title">
+      <section style={{padding: '0px 50px'}} className="title">
         <H1>{title ? <span>{title}</span> : children}</H1>
       </section>
     </React.Fragment>
-  );
-};
+  )
+}
 
 Headline.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node,
   theme: PropTypes.object.isRequired
-};
+}
 
-export default Headline;
+export default Headline

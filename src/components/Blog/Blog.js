@@ -1,10 +1,10 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from 'prop-types'
+import React from 'react'
 
-import Item from "./Item";
+import Item from './Item'
 
 const Blog = props => {
-  const { posts, theme } = props;
+  const {posts, theme} = props
 
   return (
     <React.Fragment>
@@ -14,10 +14,10 @@ const Blog = props => {
             const {
               node,
               node: {
-                fields: { slug }
+                fields: {slug}
               }
-            } = post;
-            return <Item key={slug} post={node} theme={theme} />;
+            } = post
+            return <Item key={slug} post={node} theme={theme}/>
           })}
         </ul>
       </main>
@@ -49,12 +49,12 @@ const Blog = props => {
         }
       `}</style>
     </React.Fragment>
-  );
-};
+  )
+}
 
 Blog.propTypes = {
   posts: PropTypes.array.isRequired,
   theme: PropTypes.object.isRequired
-};
+}
 
-export default Blog;
+export default Blog

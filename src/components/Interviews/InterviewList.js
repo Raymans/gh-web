@@ -1,109 +1,91 @@
 /* eslint no-unused-vars: 0 */
 
-import {
-  Input,
-  Card,
-  Tag,
-  Avatar,
-  Divider,
-  List,
-  Icon,
-  message,
-  Spin,
-  Cascader,
-  Radio,
-  Menu,
-  Layout,
-  Affix,
-  Collapse
-} from 'antd';
-import { getInterviews, getQuestions } from '../../utils/api';
-import options from '../Question/data';
-import { Router } from '@reach/router';
-import Interview from './Interview';
+import { Affix, Avatar, Cascader, Collapse, Divider, Icon, Input, Layout, List, Menu, Radio } from 'antd'
+import { getInterviews } from '../../utils/api'
+import options from '../Question/data'
+import React from 'react'
 
-const Search = Input.Search;
-const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
-const { Header, Footer, Sider, Content } = Layout;
+import { ThemeContext } from '../../layouts'
+import GatsbyLink from 'gatsby-link'
 
-const Panel = Collapse.Panel;
-import React from 'react';
+const Search = Input.Search
+const RadioButton = Radio.Button
+const RadioGroup = Radio.Group
+const SubMenu = Menu.SubMenu
+const MenuItemGroup = Menu.ItemGroup
+const {Header, Footer, Sider, Content} = Layout
 
-import { ThemeContext } from '../../layouts';
-import GatsbyLink from 'gatsby-link';
+const Panel = Collapse.Panel
 
 
-const listData = [];
-for (let i = 0; i < 23; i++) {
+const listData = []
+for(let i = 0; i < 23; i++) {
   listData.push({
     href: 'http://ant.design',
     title: `ant design part ${i}`,
     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
     description: 'Ant Design, a design language for background applications, is refined by Ant UED Team.',
     content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.'
-  });
+  })
 }
 
 
-const IconText = ({ type, text }) => (
+const IconText = ({type, text}) => (
   <span>
-    <Icon type={type} style={{ marginRight: 8 }}/>
+    <Icon type={type} style={{marginRight: 8}}/>
     {text}
   </span>
-);
+)
 
 class InterviewList extends React.Component {
   state = {
     data: [],
     loading: false,
     hasMore: true
-  };
+  }
 
   handleClick = (value) => {
     getInterviews().then((res) => {
       this.setState({
         data: res
-      });
-    });
-  };
+      })
+    })
+  }
 
-  componentDidMount() {
+  componentDidMount(){
     getInterviews().then((res) => {
       this.setState({
         data: res
-      });
-    });
+      })
+    })
   }
 
-  render() {
+  render(){
     const menu = (
       <Affix offsetTop={60}>
         <Menu
           onClick={this.handleClick}
           defaultSelectedKeys={['explore']}
           mode="inline"
-          style={{ height: '100%' }}
+          style={{height: '100%'}}
         >
           <Menu.Item key="explore">Explore</Menu.Item>
           <Menu.Item key="saved">Saved</Menu.Item>
           <Menu.Item key="mine">Mine</Menu.Item>
         </Menu>
       </Affix>
-    );
+    )
 
     return (
       <React.Fragment>
-        <GatsbyLink to={"/interviews/1/test"} >Test interview 1</GatsbyLink>
+        <GatsbyLink to={'/interviews/1/test'}>Test interview 1</GatsbyLink>
         <div className="form">
           <ThemeContext.Consumer>
             {theme => (
               <div>
                 <Layout>
                   <Sider theme="light">{menu}</Sider>
-                  <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
+                  <Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 280}}>
                     <Cascader
                       options={options}
                       expandTrigger="hover"
@@ -113,7 +95,7 @@ class InterviewList extends React.Component {
                     <Search
                       placeholder="search interview"
                       onSearch={value => console.log(value)}
-                      style={{ width: 200, float: 'right' }}
+                      style={{width: 200, float: 'right'}}
                     />
                     <List
                       itemLayout="vertical"
@@ -126,7 +108,7 @@ class InterviewList extends React.Component {
                             <IconText type="message" text="2"/>]}
                           //extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
                         >
-                          <h1><GatsbyLink to={`/interviews/${item.id}`} >interview 1</GatsbyLink></h1>
+                          <h1><GatsbyLink to={`/interviews/${item.id}`}>interview 1</GatsbyLink></h1>
                           <span className="content">{item.description}</span>
                           <Divider orientation="left">Author</Divider>
                           <Avatar
@@ -170,10 +152,10 @@ class InterviewList extends React.Component {
           </ThemeContext.Consumer>
         </div>
       </React.Fragment>
-    );
+    )
   }
 }
 
-InterviewList.propTypes = {};
+InterviewList.propTypes = {}
 
-export default InterviewList;
+export default InterviewList

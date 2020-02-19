@@ -1,30 +1,29 @@
 /* eslint no-unused-vars: 0 */
 
-import PropTypes from "prop-types";
-import React from "react";
+import React from 'react'
 
-import { Row, Col } from 'antd';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { faNode, faJava, faHtml5, faJs } from '@fortawesome/free-brands-svg-icons';
+import { Col, Row } from 'antd'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHtml5, faJava, faJs, faNode } from '@fortawesome/free-brands-svg-icons'
 
 
 const Home = props => {
-  const {backgrounds,  theme} = props;
+  const {backgrounds, theme} = props
   return (
     <React.Fragment>
-      <section style={{padding: "0px 50px"}} className="title">
+      <section style={{padding: '0px 50px'}} className="title">
         <h1><p>LANGUAGES</p></h1>
         <p>Try to explore any language you interest</p>
-        <Row type="flex" justify="space-around" style={{"margin": "50px 60px"}}>
+        <Row type="flex" justify="space-around" style={{'margin': '50px 60px'}}>
           <Col span={6}><FontAwesomeIcon icon={faHtml5} size="7x" color="#08c"/><p>HTML5</p></Col>
           <Col span={6}><FontAwesomeIcon icon={faJs} size="7x" color="#08c"/><p>JavaScript</p></Col>
           <Col span={6}><FontAwesomeIcon icon={faNode} size="7x" color="#08c"/><p>NodeJs</p></Col>
           <Col span={6}><FontAwesomeIcon icon={faJava} size="7x" color="#08c" spin={true}/><p>Java</p></Col>
         </Row>
       </section>
-      <section style={{padding: "0px 50px", backgroundColor: theme.color.neutral.gray.a}} className="title">
+      <section style={{padding: '0px 50px', backgroundColor: theme.color.neutral.gray.a}} className="title">
 
-        <Row type="flex" justify="space-around" style={{"margin": "50px 60px"}}>
+        <Row type="flex" justify="space-around" style={{'margin': '50px 60px'}}>
           <Col span={12}>
             <h1><p>Building questions</p></h1>
             <p>Building your own questions for later use or share it</p>
@@ -60,10 +59,9 @@ const Home = props => {
       `}
       </style>
     </React.Fragment>
-  );
-};
+  )
+}
 
-Home.propTypes = {
-};
+Home.propTypes = {}
 
-export default Home;
+export default Home

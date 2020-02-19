@@ -1,53 +1,53 @@
 /* eslint no-unused-vars: 0 */
 
-import { navigateTo } from "gatsby-link";
-import Button from "antd/lib/button";
-import Form from "antd/lib/form";
-import Input from "antd/lib/input";
-import PropTypes from "prop-types";
-import React from "react";
+import { navigateTo } from 'gatsby-link'
+import Button from 'antd/lib/button'
+import Form from 'antd/lib/form'
+import Input from 'antd/lib/input'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { ThemeContext } from '../../layouts'
 
-const FormItem = Form.Item;
-const { TextArea } = Input;
-import { ThemeContext } from "../../layouts";
+const FormItem = Form.Item
+const {TextArea} = Input
 
 const Contact = props => {
-  const { getFieldDecorator } = props.form;
+  const {getFieldDecorator} = props.form
 
-  function encode(data) {
+  function encode(data){
     return Object.keys(data)
-      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-      .join("&");
+    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+    .join('&')
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit(e){
+    e.preventDefault()
     props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log("Received values of form: ", values);
-        sendMessage(values);
+      if(!err) {
+        console.log('Received values of form: ', values)
+        sendMessage(values)
       }
-    });
-  }
-
-  function sendMessage(values) {
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({ "form-name": "contact", ...values })
     })
-      .then(() => {
-        console.log("Form submission success");
-        navigateTo("/success");
-      })
-      .catch(error => {
-        console.error("Form submission error:", error);
-        this.handleNetworkError();
-      });
   }
 
-  function handleNetworkError(e) {
-    console.log("submit Error");
+  function sendMessage(values){
+    fetch('/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: encode({'form-name': 'contact', ...values})
+    })
+    .then(() => {
+      console.log('Form submission success')
+      navigateTo('/success')
+    })
+    .catch(error => {
+      console.error('Form submission error:', error)
+      this.handleNetworkError()
+    })
+  }
+
+  function handleNetworkError(e){
+    console.log('submit Error')
   }
 
   return (
@@ -57,35 +57,35 @@ const Contact = props => {
           {theme => (
             <Form onSubmit={handleSubmit} data-netlify="true" data-netlify-honeypot="bot-field">
               <FormItem label="Name">
-                {getFieldDecorator("name", {
+                {getFieldDecorator('name', {
                   rules: [
                     {
                       whitespace: true
                     }
                   ]
-                })(<Input />)}
+                })(<Input/>)}
               </FormItem>
               <FormItem label="E-mail">
-                {getFieldDecorator("email", {
+                {getFieldDecorator('email', {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your e-mail address!",
+                      message: 'Please input your e-mail address!',
                       whitespace: true,
-                      type: "email"
+                      type: 'email'
                     }
                   ]
-                })(<Input />)}
+                })(<Input/>)}
               </FormItem>
               <FormItem label="Message">
-                {getFieldDecorator("message", {
+                {getFieldDecorator('message', {
                   rules: [
-                    { required: true, message: "Please input your message!", whitespace: true }
+                    {required: true, message: 'Please input your message!', whitespace: true}
                   ]
                 })(
                   <TextArea
                     placeholder="Autosize height with minimum and maximum number of lines"
-                    autoSize={{ minRows: 4, maxRows: 10 }}
+                    autoSize={{minRows: 4, maxRows: 10}}
                   />
                 )}
               </FormItem>
@@ -99,13 +99,13 @@ const Contact = props => {
         </ThemeContext.Consumer>
       </div>
     </React.Fragment>
-  );
-};
+  )
+}
 
 Contact.propTypes = {
   form: PropTypes.object
-};
+}
 
-const ContactForm = Form.create({})(Contact);
+const ContactForm = Form.create({})(Contact)
 
-export default ContactForm;
+export default ContactForm

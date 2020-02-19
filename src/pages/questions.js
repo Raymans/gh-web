@@ -1,22 +1,22 @@
-import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 
-import { ThemeContext } from '../layouts';
-import Article from '../components/Article';
-import Headline from '../components/Article/Headline';
-import Seo from '../components/Seo';
-import Questions from '../components/Questions';
-import { graphql } from 'gatsby';
+import { ThemeContext } from '../layouts'
+import Article from '../components/Article'
+import Headline from '../components/Article/Headline'
+import Seo from '../components/Seo'
+import Questions from '../components/Questions'
+import { graphql } from 'gatsby'
 
 const QuestionsPage = props => {
-  const theme = useContext(ThemeContext);
+  const theme = useContext(ThemeContext)
   const {
     data: {
       site: {
-        siteMetadata: { facebook }
+        siteMetadata: {facebook}
       }
     }
-  } = props;
+  } = props
 
   return (
     <React.Fragment>
@@ -31,14 +31,14 @@ const QuestionsPage = props => {
 
       <Seo facebook={facebook}/>
     </React.Fragment>
-  );
-};
+  )
+}
 
 QuestionsPage.propTypes = {
   data: PropTypes.object.isRequired
-};
+}
 
-export default QuestionsPage;
+export default QuestionsPage
 
 //eslint-disable-next-line no-undef
 export const query = graphql`
@@ -51,4 +51,4 @@ export const query = graphql`
       }
     }
   }
-`;
+`

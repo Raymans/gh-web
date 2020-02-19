@@ -1,14 +1,14 @@
-import FaAngleDown from "react-icons/fa/angle-down";
-import PropTypes from "prop-types";
-import React from "react";
+import FaAngleDown from 'react-icons/fa/angle-down'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 const Expand = props => {
-  const { onClick, theme } = props;
+  const {onClick, theme} = props
 
   return (
     <React.Fragment>
       <button className="more" to="#" onClick={onClick} aria-label="expand">
-        <FaAngleDown size={30} />
+        <FaAngleDown size={30}/>
       </button>
 
       {/* --- STYLES --- */}
@@ -109,12 +109,12 @@ const Expand = props => {
         }
       `}</style>
     </React.Fragment>
-  );
-};
+  )
+}
 
 Expand.propTypes = {
   onClick: PropTypes.func,
   theme: PropTypes.object.isRequired
-};
+}
 
-export default Expand;
+export default Expand

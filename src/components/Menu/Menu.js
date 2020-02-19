@@ -1,26 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Link from 'gatsby-link'
+import { Avatar, Icon, Menu as AntMenu } from 'antd'
+import { AuthConsumer } from 'react-check-auth'
 
-require('core-js/fn/array/from');
-
-import Link from 'gatsby-link';
-import { Menu as AntMenu, Icon, Avatar } from 'antd';
-import { AuthConsumer } from 'react-check-auth';
+require('core-js/fn/array/from')
 
 class Menu extends React.Component {
   state = {
     current: 'Home'
-  };
+  }
 
-  constructor(props) {
-    super(props);
+  constructor(props){
+    super(props)
     const pages = props.pages.map(page => ({
       to: page.node.fields.slug,
       label: page.node.frontmatter.menuTitle
         ? page.node.frontmatter.menuTitle
         : page.node.frontmatter.title,
       icon: page.node.frontmatter.icon
-    }));
+    }))
 
     this.items = [
       {to: '/', label: 'Home', icon: 'home'},
@@ -33,26 +32,26 @@ class Menu extends React.Component {
         ]
       },
       {to: '/login', label: 'Login', icon: 'user', needAuth: true}
-    ];
+    ]
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.path !== state.path) {
+  static getDerivedStateFromProps(props, state){
+    if(props.path !== state.path) {
       return {
         current: props.path
-      };
+      }
     }
-    return null;
+    return null
   }
 
   componentDidMount = () =>
-    this.setState({current: this.props.path});
+    this.setState({current: this.props.path})
 
   handleClick = (e) => {
     this.setState({
       current: e.key
-    });
-  };
+    })
+  }
 
   renderItem = item => (
     <AntMenu.Item key={item.to}>
@@ -62,7 +61,7 @@ class Menu extends React.Component {
       >
         <Icon type={item.icon}/>{item.label}
       </Link>
-    </AntMenu.Item>);
+    </AntMenu.Item>)
 
   renderSubMenu = (item, index) =>
     (
@@ -78,9 +77,9 @@ class Menu extends React.Component {
           </AntMenu.Item>
         )}
       </AntMenu.SubMenu>
-    );
+    )
 
-  render() {
+  render(){
     return (
       <AuthConsumer>
         {({userInfo}) => {
@@ -93,8 +92,8 @@ class Menu extends React.Component {
             >
               {
                 this.items.map((item, index) => {
-                  if (item.label === 'Login') {
-                    if (userInfo) {
+                  if(item.label === 'Login') {
+                    if(userInfo) {
                       return (
                         <AntMenu.SubMenu key={index} title={<span><Avatar
                           src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"/>Raymans</span>}>
@@ -102,29 +101,29 @@ class Menu extends React.Component {
                             <Icon type='logout'/>Login out
                           </AntMenu.Item>
                         </AntMenu.SubMenu>
-                      );
+                      )
                     }
-                    return this.renderItem(item);
+                    return this.renderItem(item)
                   }
-                  if (!item.needAuth || userInfo) {
-                    if (item.subMenu) {
-                      return this.renderSubMenu(item, index);
+                  if(!item.needAuth || userInfo) {
+                    if(item.subMenu) {
+                      return this.renderSubMenu(item, index)
                     }
-                    return this.renderItem(item);
+                    return this.renderItem(item)
                   }
                 })
               }
             </AntMenu>
-          </React.Fragment>;
+          </React.Fragment>
         }}
       </AuthConsumer>
-    );
+    )
   }
 }
 
 Menu.propTypes = {
   pages: PropTypes.array.isRequired,
   path: PropTypes.string
-};
+}
 
-export default Menu;
+export default Menu

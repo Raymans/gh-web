@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Link from "gatsby-link";
+import React from 'react'
+import PropTypes from 'prop-types'
+import Link from 'gatsby-link'
 
 const Hit = props => {
-  const { hit } = props;
+  const {hit} = props
 
   return (
     <React.Fragment>
@@ -28,11 +28,11 @@ const Hit = props => {
         }
       `}</style>
     </React.Fragment>
-  );
-};
+  )
+}
 
 Hit.propTypes = {
   hit: PropTypes.object.isRequired
-};
+}
 
-export default Hit;
+export default Hit
