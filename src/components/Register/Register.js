@@ -13,6 +13,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
 import { ThemeContext } from "../../layouts";
+import { createGlobalStyle } from 'styled-components';
 
 
 const Register = props => {
@@ -96,91 +97,94 @@ const Register = props => {
     <React.Fragment>
       <div className="form">
         <ThemeContext.Consumer>
-          {theme => (
-            <AuthConsumer>
-              {({ refreshAuth }) => (
-                <Form onSubmit={(e) => handleSubmit(e, refreshAuth)}>
-                  <FormItem
-                    {...formItemLayout}
-                    label="E-mail"
-                  >
-                    {getFieldDecorator("email", {
-                      rules: [{
-                        type: "email", message: "The input is not valid E-mail!"
-                      }, {
-                        required: true, message: "Please input your E-mail!"
-                      }]
-                    })(
-                      <Input/>
-                    )}
-                  </FormItem>
-                  <FormItem
-                    {...formItemLayout}
-                    label={(
-                      <span>
+          {theme => {
+            const GlobalStyle = createGlobalStyle`
+                @media (min-width: 1024px) {
+                .article {
+                  max-width: ${theme.text.maxWidth.desktopForm} !important;
+                }
+              }
+            `;
+            return (
+              <AuthConsumer>
+                {({ refreshAuth }) => (
+                  <Form onSubmit={(e) => handleSubmit(e, refreshAuth)}>
+                    <GlobalStyle />
+                    <FormItem
+                      {...formItemLayout}
+                      label="E-mail"
+                    >
+                      {getFieldDecorator("email", {
+                        rules: [{
+                          type: "email", message: "The input is not valid E-mail!"
+                        }, {
+                          required: true, message: "Please input your E-mail!"
+                        }]
+                      })(
+                        <Input/>
+                      )}
+                    </FormItem>
+                    <FormItem
+                      {...formItemLayout}
+                      label={(
+                        <span>
                       User Name&nbsp;
-                        <Tooltip title="What do you want others to see you?">
+                          <Tooltip title="What do you want others to see you?">
                         <Icon type="question-circle-o"/>
                     </Tooltip>
                     </span>
-                    )}
-                  >
-                    {getFieldDecorator("username", {
-                      rules: [{ required: true, message: "Please input your user name!", whitespace: true }]
-                    })(
-                      <Input/>
-                    )}
-                  </FormItem>
-                  <FormItem
-                    {...formItemLayout}
-                    label="Password"
-                  >
-                    {getFieldDecorator("password", {
-                      rules: [{
-                        required: true, message: "Please input your password!"
-                      }, {
-                        validator: validateToNextPassword
-                      }]
-                    })(
-                      <Input type="password"/>
-                    )}
-                  </FormItem>
-                  <FormItem
-                    {...formItemLayout}
-                    label="Confirm Password"
-                  >
-                    {getFieldDecorator("confirm", {
-                      rules: [{
-                        required: true, message: "Please confirm your password!"
-                      }, {
-                        validator: compareToFirstPassword
-                      }]
-                    })(
-                      <Input type="password" onBlur={handleConfirmBlur}/>
-                    )}
-                  </FormItem>
-                  <FormItem {...tailFormItemLayout}>
-                    {getFieldDecorator("remember", {
-                      valuePropName: "checked",
-                      initialValue: true
-                    })(
-                      <Checkbox>Remember me</Checkbox>
-                    )}
-                  </FormItem>
-                  <FormItem {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">Register</Button>
-                  </FormItem>
-                  <style jsx global>{`
-                   @from-width desktop {
-                      .article{
-                       max-width: ${theme.text.maxWidth.desktopForm} !important;
-                      }
-                    }
-                  `}</style>
-                </Form>
-              )}
-            </AuthConsumer>
-          )}
+                      )}
+                    >
+                      {getFieldDecorator("username", {
+                        rules: [{ required: true, message: "Please input your user name!", whitespace: true }]
+                      })(
+                        <Input/>
+                      )}
+                    </FormItem>
+                    <FormItem
+                      {...formItemLayout}
+                      label="Password"
+                    >
+                      {getFieldDecorator("password", {
+                        rules: [{
+                          required: true, message: "Please input your password!"
+                        }, {
+                          validator: validateToNextPassword
+                        }]
+                      })(
+                        <Input type="password"/>
+                      )}
+                    </FormItem>
+                    <FormItem
+                      {...formItemLayout}
+                      label="Confirm Password"
+                    >
+                      {getFieldDecorator("confirm", {
+                        rules: [{
+                          required: true, message: "Please confirm your password!"
+                        }, {
+                          validator: compareToFirstPassword
+                        }]
+                      })(
+                        <Input type="password" onBlur={handleConfirmBlur}/>
+                      )}
+                    </FormItem>
+                    <FormItem {...tailFormItemLayout}>
+                      {getFieldDecorator("remember", {
+                        valuePropName: "checked",
+                        initialValue: true
+                      })(
+                        <Checkbox>Remember me</Checkbox>
+                      )}
+                    </FormItem>
+                    <FormItem {...tailFormItemLayout}>
+                      <Button type="primary" htmlType="submit">Register</Button>
+                    </FormItem>
+                  </Form>
+                )}
+              </AuthConsumer>
+            )
+          }}
         </ThemeContext.Consumer>
       </div>
     </React.Fragment>
