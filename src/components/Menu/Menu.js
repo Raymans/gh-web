@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 import { Avatar, Icon, Menu as AntMenu } from 'antd'
-import { AuthConsumer } from 'react-check-auth'
-
+import { isAuthenticated, getUserInfo, logout, login } from '../../utils/auth'
 require('core-js/fn/array/from')
 
 class Menu extends React.Component {
@@ -80,43 +79,43 @@ class Menu extends React.Component {
     )
 
   render(){
+    const {picture, nickname} = getUserInfo()
     return (
-      <AuthConsumer>
-        {({userInfo}) => {
-          return <React.Fragment>
-            <AntMenu
-              selectedKeys={[this.state.current]}
-              onClick={this.handleClick}
-              mode="horizontal"
-              style={{borderBottom: 'none', background: 'transparent'}}
-            >
-              {
-                this.items.map((item, index) => {
-                  if(item.label === 'Login') {
-                    if(userInfo) {
-                      return (
-                        <AntMenu.SubMenu key={index} title={<span><Avatar
-                          src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"/>Raymans</span>}>
-                          <AntMenu.Item>
-                            <Icon type='logout'/>Login out
-                          </AntMenu.Item>
-                        </AntMenu.SubMenu>
-                      )
-                    }
-                    return this.renderItem(item)
-                  }
-                  if(!item.needAuth || userInfo) {
-                    if(item.subMenu) {
-                      return this.renderSubMenu(item, index)
-                    }
-                    return this.renderItem(item)
-                  }
-                })
+      <React.Fragment>
+        <AntMenu
+          selectedKeys={[this.state.current]}
+          onClick={this.handleClick}
+          mode="horizontal"
+          style={{borderBottom: 'none', background: 'transparent'}}
+        >
+          {
+            this.items.map((item, index) => {
+              if(item.label === 'Login') {
+                if(isAuthenticated()) {
+                  return (
+                    <AntMenu.SubMenu key={index} title={<span>
+                      <Avatar src={picture}/>{nickname}</span>}>
+                      <AntMenu.Item onClick={() => logout()}>
+                        <Icon type='logout'/>Login out
+                      </AntMenu.Item>
+                    </AntMenu.SubMenu>
+                  )
+                }
+                return (
+                  <AntMenu.Item key={item.to} onClick={() => login()}>
+                    <Icon type={item.icon}/>{item.label}
+                  </AntMenu.Item>)
               }
-            </AntMenu>
-          </React.Fragment>
-        }}
-      </AuthConsumer>
+              if(!item.needAuth) {
+                if(item.subMenu) {
+                  return this.renderSubMenu(item, index)
+                }
+                return this.renderItem(item)
+              }
+            })
+          }
+        </AntMenu>
+      </React.Fragment>
     )
   }
 }

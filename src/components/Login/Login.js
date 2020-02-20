@@ -4,7 +4,6 @@ import { navigateTo } from 'gatsby-link'
 import { Button, Checkbox, Form, Icon, Input } from 'antd'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { AuthConsumer } from 'react-check-auth'
 import { ThemeContext } from '../../layouts'
 import { login } from '../../utils/api'
 import styled, { createGlobalStyle } from 'styled-components'
@@ -64,41 +63,37 @@ const Login = props => {
               }
             `
             return (
-              <AuthConsumer>
-                {({refreshAuth}) => (
-                  <Form onSubmit={(e) => handleSubmit(e, refreshAuth)}>
-                    <GlobalStyle/>
-                    <FormItem>
-                      {getFieldDecorator('username', {
-                        rules: [{required: true, message: 'Please input your username!'}]
-                      })(
-                        <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} placeholder="Username"/>
-                      )}
-                    </FormItem>
-                    <FormItem>
-                      {getFieldDecorator('password', {
-                        rules: [{required: true, message: 'Please input your Password!'}]
-                      })(
-                        <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password"
-                               placeholder="Password"/>
-                      )}
-                    </FormItem>
-                    <FormItem>
-                      {getFieldDecorator('remember', {
-                        valuePropName: 'checked',
-                        initialValue: true
-                      })(
-                        <Checkbox>Remember me</Checkbox>
-                      )}
-                      <StyledForgetLink href="">Forgot password</StyledForgetLink>
-                      <StyledLoginButton type="primary" htmlType="submit">
-                        Log in
-                      </StyledLoginButton>
-                      Or <a href="/register/">register now!</a>
-                    </FormItem>
-                  </Form>
-                )}
-              </AuthConsumer>
+              <Form onSubmit={(e) => handleSubmit(e, refreshAuth)}>
+                <GlobalStyle/>
+                <FormItem>
+                  {getFieldDecorator('username', {
+                    rules: [{required: true, message: 'Please input your username!'}]
+                  })(
+                    <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} placeholder="Username"/>
+                  )}
+                </FormItem>
+                <FormItem>
+                  {getFieldDecorator('password', {
+                    rules: [{required: true, message: 'Please input your Password!'}]
+                  })(
+                    <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password"
+                           placeholder="Password"/>
+                  )}
+                </FormItem>
+                <FormItem>
+                  {getFieldDecorator('remember', {
+                    valuePropName: 'checked',
+                    initialValue: true
+                  })(
+                    <Checkbox>Remember me</Checkbox>
+                  )}
+                  <StyledForgetLink href="">Forgot password</StyledForgetLink>
+                  <StyledLoginButton type="primary" htmlType="submit">
+                    Log in
+                  </StyledLoginButton>
+                  Or <a href="/register/">register now!</a>
+                </FormItem>
+              </Form>
             )
           }}
 
