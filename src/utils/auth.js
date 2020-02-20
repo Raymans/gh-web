@@ -93,7 +93,7 @@ export const getAccessToken = () => {
 
 export const getUserInfo = () => {
   if (!isBrowser) {
-    return;
+    return {};
   }
   let profile = localStorage.getItem('profile');
   profile = profile === ''? {}: JSON.parse(profile);
