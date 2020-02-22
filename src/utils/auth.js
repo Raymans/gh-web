@@ -28,7 +28,7 @@ export const login = () => {
 
 export const logout = () => {
   localStorage.setItem('isLoggedIn', 'false');
-  localStorage.setItem('profile', '');
+  localStorage.removeItem('profile');
 
   const { protocol, host } = window.location;
   const returnTo = `${protocol}//${host}`;
@@ -96,6 +96,6 @@ export const getUserInfo = () => {
     return {};
   }
   let profile = localStorage.getItem('profile');
-  profile = profile === ''? {}: JSON.parse(profile);
+  profile = profile === null? {}: JSON.parse(profile);
   return profile;
 };
