@@ -3,7 +3,6 @@ module.exports = {
   shortSiteTitle: "GeekHub", // <title> ending for posts and pages
   siteDescription: "GeekHub web site.",
   siteUrl: "https://geekhub.netlify.com",
-  pathPrefix: "",
   siteImage: "preview.jpg",
   siteLanguage: "en",
   // author
