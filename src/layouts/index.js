@@ -106,9 +106,9 @@ export const Layout = (props) => {
             <FontLoadedContext.Provider value={layoutState.font400loaded}>
               <ScreenWidthContext.Provider value={layoutState.screenWidth}>
                 <React.Fragment>
-                  <Header path={props.location.pathname} pages={pages} theme={layoutState.theme}/>
+                  <Header path={props.location.pathname} pages={pages}/>
                   <main>{children}</main>
-                  <Footer html={footnoteHTML} theme={layoutState.theme}/>
+                  <Footer html={footnoteHTML}/>
                 </React.Fragment>
               </ScreenWidthContext.Provider>
             </FontLoadedContext.Provider>

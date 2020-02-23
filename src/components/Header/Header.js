@@ -115,7 +115,7 @@ class Header extends React.Component {
   }
 
   render(){
-    const {pages, path, theme} = this.props
+    const {pages, path} = this.props
     const {fixed} = this.state
     return (
       <React.Fragment>
@@ -139,7 +139,6 @@ class Header extends React.Component {
                     screenWidth={width}
                     fontLoaded={loaded}
                     pages={pages}
-                    theme={theme}
                   />
                 )}
               </ScreenWidthContext.Consumer>
@@ -156,8 +155,7 @@ class Header extends React.Component {
 
 Header.propTypes = {
   pages: PropTypes.array.isRequired,
-  path: PropTypes.string.isRequired,
-  theme: PropTypes.object.isRequired
+  path: PropTypes.string.isRequired
 }
 
 export default Header
