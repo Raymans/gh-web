@@ -4,8 +4,8 @@ import { Affix, Avatar, Cascader, Collapse, Divider, Icon, Input, Layout, List, 
 import { getQuestions } from '../../utils/api'
 import options from '../Question/data'
 import React from 'react'
-
 import { ThemeContext } from '../../layouts'
+import styled from 'styled-components'
 
 
 const Search = Input.Search
@@ -17,7 +17,26 @@ const {Header, Footer, Sider, Content} = Layout
 
 const Panel = Collapse.Panel
 
+const StyledAnswer = styled.div`
+  padding-top: 20px;
+  .ant-collapse-item > .ant-collapse-header {
+    background-color: #1187ae94;
+    color: #ffffff70;
+  }
+`
 
+const StyledList = styled(List)`
+  .ant-list-item-meta-title{
+    margin: 18px 0;
+    font-size: 24px;
+  }
+  .ant-list-item{
+    border-color: '#dadbdc';
+    padding: 22px;
+    margin: 22px 0;
+    border: 1px solid #e8e8e8;
+  }
+`
 const IconText = ({type, text}) => (
   <span>
     <Icon type={type} style={{marginRight: 8}}/>
@@ -91,7 +110,7 @@ class Questions extends React.Component {
                       onSearch={value => console.log(value)}
                       style={{width: 200, float: 'right'}}
                     />
-                    <List
+                    <StyledList
                       itemLayout="vertical"
                       size="large"
                       dataSource={this.state.data}
@@ -112,13 +131,13 @@ class Questions extends React.Component {
                             title={item.question}
                           />
                           <span className="content">{item.question}</span>
-                          <div className="answer-collapse">
+                          <StyledAnswer>
                             <Collapse>
                               <Panel header="Show Me Right Answer!" key="1">
                                 <p>{item.answer}</p>
                               </Panel>
                             </Collapse>
-                          </div>
+                          </StyledAnswer>
                           <Divider orientation="left">Author</Divider>
                           <Avatar
                             src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A">
@@ -130,49 +149,6 @@ class Questions extends React.Component {
                     />
                   </Content>
                 </Layout>
-
-                {/*<List*/}
-                {/*grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 }}*/}
-                {/*dataSource={data}*/}
-                {/*renderItem={item => (*/}
-                {/*<List.Item>*/}
-                {/*<Card title={item.title}>*/}
-                {/*<Tag color="blue">JavaScript</Tag>*/}
-                {/*<Tag color="blue">closure</Tag>*/}
-                {/*<p>Question description.............</p>*/}
-                {/*<Divider orientation="left">Author</Divider>*/}
-                {/*<Avatar src={item.src} >Raymans</Avatar>*/}
-                {/*<span>Raymans Peng@DigitalRiver</span>*/}
-                {/*</Card>*/}
-                {/*</List.Item>*/}
-                {/*)}*/}
-                {/*/>*/}
-                <style jsx>{`
-                  span.content {
-                    color: rgba(0, 0, 0, 1)
-                  }
-
-                  div.answer-collapse {
-                    padding-top: 20px;
-                    :global(.ant-collapse-item > .ant-collapse-header) {
-                      background-color: #1187ae94;
-                      color: #ffffff70;
-                    }
-                  }
-                  :global(.ant-list-vertical .ant-list-item-meta-title){
-                    margin: 18px 0;
-                    font-size: 24px;
-                  }
-                  :global(.ant-list-split .ant-list-item){
-                    border-color: '#dadbdc';
-                    padding: 22px;
-                    margin: 22px 0;
-                    border: 1px solid #e8e8e8;
-                  }
-                  :global(.ant-list-split .ant-list-item):nth-child(even){
-                    background-color: #e1e3e30f;
-                  }
-              `}</style>
               </div>
             )}
           </ThemeContext.Consumer>

@@ -7,12 +7,11 @@ icon: info-circle
 ### Features:
 
 * Easy editable content in **Markdown** files (posts, pages and parts)
-* **CSS** with `styled-jsx` and `PostCSS`
+* **CSS** with `styled-component`
 * **SEO** (sitemap generation, robot.txt, meta and OpenGraph Tags)
 * **Social** sharing (Twitter, Facebook, Google, LinkedIn)
 * **Comments**
 * **Images** lazy loading and `webp` support (gatsby-image)
-* Full text **searching** (Algolia)
 * 100% **PWA** (manifest.webmanifest, offline support, favicons)
 * Google **Analytics**
 * App **favicons** generator (node script)

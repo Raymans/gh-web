@@ -91,5 +91,3 @@ export const query = graphql`
     }
   }
 `
-
-//hero-background

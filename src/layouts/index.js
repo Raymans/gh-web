@@ -9,6 +9,7 @@ import Header from '../components/Header'
 import { getCurrentUserUrl } from '../utils/api'
 import { graphql, StaticQuery } from 'gatsby'
 import themeObjectFromYaml from '../theme/theme.yaml'
+import {ThemeProvider} from 'styled-components'
 
 export const ThemeContext = React.createContext(null)
 export const ScreenWidthContext = React.createContext(0)
@@ -100,62 +101,19 @@ export const Layout = (props) => {
       } = data
 
       return (
-        <ThemeContext.Provider value={layoutState.theme}>
-          <FontLoadedContext.Provider value={layoutState.font400loaded}>
-            <ScreenWidthContext.Provider value={layoutState.screenWidth}>
-              <React.Fragment>
-                <Header path={props.location.pathname} pages={pages} theme={layoutState.theme}/>
-                <main>{children}</main>
-                <Footer html={footnoteHTML} theme={layoutState.theme}/>
-
-                {/* --- STYLES --- */}
-                <style jsx>{`
-                main {
-                  min-height: 80vh;
-                }
-              `}</style>
-                <style jsx global>{`
-                html {
-                  box-sizing: border-box;
-                }
-                *,
-                *:after,
-                *:before {
-                  box-sizing: inherit;
-                  margin: 0;
-                  padding: 0;
-                }
-                body {
-                  font-family: ${layoutState.font400loaded
-                  ? '\'Open Sans\', sans-serif;'
-                  : 'Arial, sans-serif;'};
-                }
-                h1,
-                h2,
-                h3 {
-                  font-weight: ${layoutState.font600loaded ? 600 : 400};
-                  line-height: 1.4;
-                  letter-spacing: -0.03em;
-                  margin: 0;
-                }
-                h1 {
-                  letter-spacing: -0.04em;
-                }
-                p {
-                  margin: 0;
-                }
-                strong {
-                  font-weight: ${layoutState.font600loaded ? 600 : 400};
-                }
-                main {
-                  width: auto;
-                  display: block;
-                }
-              `}</style>
-              </React.Fragment>
-            </ScreenWidthContext.Provider>
-          </FontLoadedContext.Provider>
-        </ThemeContext.Provider>
+        <ThemeProvider theme={layoutState.theme}>
+          <ThemeContext.Provider value={layoutState.theme}>
+            <FontLoadedContext.Provider value={layoutState.font400loaded}>
+              <ScreenWidthContext.Provider value={layoutState.screenWidth}>
+                <React.Fragment>
+                  <Header path={props.location.pathname} pages={pages} theme={layoutState.theme}/>
+                  <main>{children}</main>
+                  <Footer html={footnoteHTML} theme={layoutState.theme}/>
+                </React.Fragment>
+              </ScreenWidthContext.Provider>
+            </FontLoadedContext.Provider>
+          </ThemeContext.Provider>
+        </ThemeProvider>
       )
     }}
   />)

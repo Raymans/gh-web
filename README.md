@@ -15,13 +15,12 @@ GeekHub is the platform for Software professionals to prepare for their intervie
 ## Features:
 
 * Easy editable content in **Markdown** files (posts, pages and parts)
-* **CSS** with `styled-jsx` and `PostCSS`
+* **CSS** with `styled-component`
 * **SEO** (sitemap generation, robot.txt, meta and OpenGraph Tags)
 * **Social** sharing (Twitter, Facebook, Google, LinkedIn)
 * **Comments** (Facebook)
 * **Images** lazy loading and `webp` support (gatsby-image)
 * Post **categories** (category based post list)
-* Full text **searching** (Algolia)
 * **Contact** form (Netlify form handling)
 * Form elements and validation with `ant-design`
 * **RSS** feed
@@ -75,10 +74,6 @@ Create an `.env` file like below in the root folder. Change `...` placeholders w
 
 ```text
 GOOGLE_ANALYTICS_ID=...
-ALGOLIA_APP_ID=...
-ALGOLIA_SEARCH_ONLY_API_KEY=...
-ALGOLIA_ADMIN_API_KEY=...
-ALGOLIA_INDEX_NAME=...
 FB_APP_ID=...
 ```
 

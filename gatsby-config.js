@@ -37,8 +37,6 @@ module.exports = {
     }
   },
   plugins: [
-    // `gatsby-plugin-styled-jsx`, // the plugin's code is inserted directly to gatsby-node.js and gatsby-ssr.js files
-    // 'gatsby-plugin-styled-jsx-postcss', // as above
     {
       resolve: `gatsby-plugin-layout`,
       options: {
@@ -161,12 +159,6 @@ module.exports = {
     },
     {
       resolve: 'gatsby-plugin-svgr'
-    },
-    {
-      resolve: `gatsby-plugin-styled-jsx`,
-      options: {
-        jsxPlugins: ['styled-jsx-plugin-postcss']
-      }
     },
     {
       resolve: `gatsby-plugin-create-client-paths`,

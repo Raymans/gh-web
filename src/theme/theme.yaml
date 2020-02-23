@@ -55,7 +55,7 @@ color:
     black: '#000000'
     blue: '#80bbf6'
   brand:
-    primary: &color-brand-primary '#709425'
+    primary: &color-brand-primary '#1088ae'
     primaryActive: '#709425'
     light: '#709425'
     lightActive: '#709425'

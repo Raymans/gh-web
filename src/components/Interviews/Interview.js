@@ -7,9 +7,6 @@ const Interview = props => {
 
       <div>Hi from SubPage with id: {props.id}</div>
       <Questions/>
-      {/* --- STYLES --- */}
-      <style jsx>{`
-      `}</style>
     </React.Fragment>
   )
 }

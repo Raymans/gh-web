@@ -2,12 +2,97 @@ import Link from 'gatsby-link'
 import PropTypes from 'prop-types'
 import React from 'react'
 import VisibilitySensor from 'react-visibility-sensor'
-
 import { FontLoadedContext, ScreenWidthContext } from '../../layouts'
 import config from '../../../content/meta/config'
 import Menu from '../Menu'
-
 import avatar from '../../images/png/logo.png'
+import styled from 'styled-components'
+
+const StyledHeader = styled.header`
+      align-items: center;
+      display: flex;
+      height: ${props => props.theme.header.height.default};
+      top: 0;
+      width: 100%;
+      position: absolute;
+      background-color: transparent;
+      height: ${props => props.theme.header.height.homepage};
+      justify-content: space-between;
+      transition: padding 0.5s;
+      padding: 40px;
+      &:not(.homepage) {
+        h1, h2 {
+          color: ${props => props.theme.text.color.primary};
+        }
+      }
+      &.fixed {
+        height: ${props => props.theme.header.height.fixed};
+        background-color: ${props => props.theme.color.neutral.gray.a};
+        left: 0;
+        padding: 0 ${props => props.theme.space.m};
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1;
+        h1 {
+          margin: ${props => props.theme.space.stack.xxs};
+          color: ${props => props.theme.text.color.primary};
+        }
+        h2 {
+          display: none;
+        }
+      }
+    `
+const H1 = styled.h1`
+      font-size: ${props => props.theme.font.size.m};
+      font-weight: ${props => props.theme.font.weight.standard};
+      margin: ${props => props.theme.space.stack.xs};
+      color: ${props => props.theme.color.neutral.gray.a};
+    `
+const H2 = styled.h2`
+      font-weight: ${props => props.theme.font.weight.standard};
+      font-size: ${props => props.theme.font.size.xxs};
+      letter-spacing: 0;
+      margin: 0;
+      color: ${props => props.theme.color.neutral.gray.d};
+    `
+const LogoLink = styled(Link)`
+      align-items: center;
+      display: flex;
+      color: ${props => props.theme.text.color.primary};
+      text-align: left;
+      flex-direction: row;
+      flex-shrink: 0;
+      width: auto;
+    `
+const Logo = styled.div`
+      display: inline-block;
+      margin: ${props => props.theme.space.inline.default};
+      overflow: hidden;
+      transition: all 0.5s;
+      flex-shrink: 0;
+      border: none;
+      height: 60px;
+      width: 60px;
+      img {
+        width: 100%;
+      }
+      .fixed & {
+        height: 36px;
+        width: 36px;
+      }
+    `
+
+const Sensor = styled.div`
+      display: block;
+      position: absolute;
+      bottom: 0;
+      z-index: 1;
+      left: 0;
+      right: 0;
+      height: 1px;
+      top: ${props => props.path === '/' ? props.theme.header.height.homepage : props.theme.header.height.default};
+    `
 
 class Header extends React.Component {
   state = {
@@ -32,19 +117,18 @@ class Header extends React.Component {
   render(){
     const {pages, path, theme} = this.props
     const {fixed} = this.state
-
     return (
       <React.Fragment>
-        <header className={`header ${this.getHeaderSize()}`}>
-          <Link to="/" className="logoType">
-            <div className="logo">
+        <StyledHeader className={`${this.getHeaderSize()}`}>
+          <LogoLink to="/">
+            <Logo>
               <img src={avatar} alt={config.siteTitle}/>
-            </div>
+            </Logo>
             <div className="type">
-              <h1>{config.headerTitle}</h1>
-              <h2>{config.headerSubTitle}</h2>
+              <H1>{config.headerTitle}</H1>
+              <H2>{config.headerSubTitle}</H2>
             </div>
-          </Link>
+          </LogoLink>
           <FontLoadedContext.Consumer>
             {loaded => (
               <ScreenWidthContext.Consumer>
@@ -61,187 +145,10 @@ class Header extends React.Component {
               </ScreenWidthContext.Consumer>
             )}
           </FontLoadedContext.Consumer>
-        </header>
+        </StyledHeader>
         <VisibilitySensor onChange={this.visibilitySensorChange}>
-          <div className="sensor"/>
+          <Sensor path={path}/>
         </VisibilitySensor>
-
-        {/* --- STYLES --- */}
-        <style jsx>{`
-          .header {
-            align-items: center;
-            justify-content: center;
-            background-color: ${theme.color.neutral.gray.a};
-            display: flex;
-            height: ${theme.header.height.default};
-            position: relative;
-            top: 0;
-            width: 100%;
-            align-items: center;
-
-            :global(a.logoType) {
-              align-items: center;
-              display: flex;
-              flex-direction: "column";
-              color: ${theme.text.color.primary};
-
-              .logo {
-                flex-shrink: 0;
-              }
-            }
-
-            &.homepage {
-              position: absolute;
-              background-color: transparent;
-              height: ${theme.header.height.homepage};
-            }
-          }
-
-          h1 {
-            font-size: ${theme.font.size.m};
-            font-weight: ${theme.font.weight.standard};
-            margin: ${theme.space.stack.xs};
-          }
-
-          h2 {
-            font-weight: ${theme.font.weight.standard};
-            font-size: ${theme.font.size.xxs};
-            letter-spacing: 0;
-            margin: 0;
-          }
-
-          .logo {
-            border: 1px solid #eee;
-            display: inline-block;
-            height: 44px;
-            margin: ${theme.space.inline.default};
-            overflow: hidden;
-            width: 44px;
-            transition: all 0.5s;
-
-            .homepage & {
-              height: 60px;
-              width: 60px;
-            }
-
-            img {
-              width: 100%;
-            }
-          }
-
-          .sensor {
-            display: block;
-            position: absolute;
-            bottom: 0;
-            z-index: 1;
-            left: 0;
-            right: 0;
-            height: 1px;
-            top: ${path === '/' ? theme.header.height.homepage : theme.header.height.default};
-          }
-
-          @from-width tablet {
-            .header {
-              padding: ${theme.space.inset.l};
-
-              &.homepage {
-                height: ${theme.header.height.homepage};
-              }
-            }
-          }
-
-          @below desktop {
-            .header.homepage {
-              .logo {
-                border: none;
-              }
-
-              :global(a.logoType),
-              h1 {
-                color: ${theme.color.neutral.gray.a};
-              }
-              h2 {
-                color: ${theme.color.neutral.gray.d};
-              }
-            }
-          }
-
-          @from-width desktop {
-            .header {
-              align-items: center;
-              background-color: ${theme.color.neutral.gray.a};
-              display: flex;
-              position: absolute;
-              top: 0;
-              width: 100%;
-              justify-content: space-between;
-              transition: padding 0.5s;
-
-              &.fixed {
-                height: ${theme.header.height.fixed};
-                background-color: ${theme.color.neutral.gray.a};
-                left: 0;
-                padding: 0 ${theme.space.m};
-                position: fixed;
-                top: 0;
-                width: 100%;
-                z-index: 1;
-
-                h1 {
-                  margin: ${theme.space.stack.xxs};
-                }
-
-                h2 {
-                  display: none;
-                }
-              }
-
-              &.homepage:not(.fixed) {
-                :global(a.logoType),
-                h1 {
-                  color: ${theme.color.neutral.gray.a};
-                }
-                h2 {
-                  color: ${theme.color.neutral.gray.d};
-                }
-              }
-            }
-
-            .header :global(a.logoType) {
-              text-align: left;
-              flex-direction: row;
-              flex-shrink: 0;
-              width: auto;
-            }
-
-            .logo {
-              margin: ${theme.space.inline.default};
-
-              .fixed & {
-                height: 36px;
-                width: 36px;
-              }
-
-              .header.homepage:not(.fixed) & {
-                border: none;
-              }
-            }
-
-            h2 {
-              animation-duration: ${theme.time.duration.default};
-              animation-name: h2Entry;
-            }
-
-            @keyframes h2Entry {
-              from {
-                opacity: 0;
-              }
-              to {
-                opacity: 1;
-              }
-            }
-          }
-        `}</style>
       </React.Fragment>
     )
   }

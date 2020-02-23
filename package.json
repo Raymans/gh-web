@@ -31,8 +31,6 @@
     "gatsby-plugin-sharp": "^2.4.5",
     "gatsby-plugin-sitemap": "^2.2.27",
     "gatsby-plugin-styled-components": "^3.1.19",
-    "gatsby-plugin-styled-jsx": "^3.1.19",
-    "gatsby-plugin-styled-jsx-postcss": "^2.0.2",
     "gatsby-plugin-svgr": "^2.0.2",
     "gatsby-remark-copy-linked-files": "^2.1.37",
     "gatsby-remark-external-links": "^0.0.4",
@@ -66,9 +64,6 @@
     "react-share": "^4.0.1",
     "react-visibility-sensor": "^5.1.1",
     "styled-components": "^5.0.1",
-    "styled-jsx": "^3.2.4",
-    "styled-jsx-plugin-postcss": "^2.0.1",
-    "styled-jsx-plugin-stylelint": "^0.1.0",
     "tinycolor2": "^1.4.1",
     "typeface-open-sans": "^0.0.75",
     "yaml-loader": "^0.5.0"

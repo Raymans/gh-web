@@ -52,9 +52,6 @@ class InterviewTest extends React.Component {
         <Button type="primary" htmlType="submit">
           Submit
         </Button>
-        {/* --- STYLES --- */}
-        <style jsx>{`
-      `}</style>
       </div>
     )
   }
