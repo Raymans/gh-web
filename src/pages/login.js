@@ -1,41 +1,41 @@
-import PropTypes from 'prop-types'
-import React from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 
-import Article from '../components/Article'
-import Login from '../components/Login'
-import Headline from '../components/Article/Headline'
-import Seo from '../components/Seo'
-import { graphql } from 'gatsby'
+import { graphql } from 'gatsby';
+import Article from '../components/Article';
+import Login from '../components/Login';
+import Headline from '../components/Article/Headline';
+import Seo from '../components/Seo';
 
-const LoginPage = props => {
+const LoginPage = (props) => {
   const {
     data: {
       site: {
-        siteMetadata: {facebook}
-      }
-    }
-  } = props
+        siteMetadata: { facebook },
+      },
+    },
+  } = props;
 
   return (
-    <React.Fragment>
+    <>
       <Article>
         <header>
-          <Headline title="Login"/>
+          <Headline title="Login" />
         </header>
-        <Login/>
+        <Login />
       </Article>
-      <Seo facebook={facebook}/>
-    </React.Fragment>
-  )
-}
+      <Seo facebook={facebook} />
+    </>
+  );
+};
 
 LoginPage.propTypes = {
-  data: PropTypes.object.isRequired
-}
+  data: PropTypes.object.isRequired,
+};
 
-export default LoginPage
+export default LoginPage;
 
-//eslint-disable-next-line no-undef
+// eslint-disable-next-line no-undef
 export const query = graphql`
   query LoginQuery {
     site {
@@ -46,4 +46,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;

@@ -1,8 +1,8 @@
-import { notification } from 'antd'
-import axios from 'axios'
-import qs from 'qs'
+import { notification } from 'antd';
+import axios from 'axios';
+import qs from 'qs';
 
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
 
 const codeMessage = {
   200: '服務器成功返回請求的數據。 ',
@@ -19,20 +19,20 @@ const codeMessage = {
   500: '服務器發生錯誤，請檢查服務器。 ',
   502: '網關錯誤。 ',
   503: '服務不可用，服務器暫時過載或維護。 ',
-  504: '網關超時。 '
-}
+  504: '網關超時。 ',
+};
 
-function checkStatus(error){
-  const response = error.response
-  if(response.status >= 200 && response.status < 300) {
-    return response.data.message
+function checkStatus(error) {
+  const { response } = error;
+  if (response.status >= 200 && response.status < 300) {
+    return response.data.message;
   }
 
-  const errortext = codeMessage[response.status] || response.statusText
+  const errortext = codeMessage[response.status] || response.statusText;
   notification.error({
     message: `${errortext}`,
-    description: response.data ? response.data.message : errortext
-  })
+    description: response.data ? response.data.message : errortext,
+  });
 }
 
 /**
@@ -42,42 +42,42 @@ function checkStatus(error){
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, options){
+export default function request(url, options) {
   const defaultOptions = {
-    withCredentials: true
-  }
-  const newOptions = {...defaultOptions, ...options}
-  if(
-    newOptions.method === 'POST' ||
-    newOptions.method === 'PUT' ||
-    newOptions.method === 'DELETE'
+    withCredentials: true,
+  };
+  const newOptions = { ...defaultOptions, ...options };
+  if (
+    newOptions.method === 'POST'
+    || newOptions.method === 'PUT'
+    || newOptions.method === 'DELETE'
   ) {
-    if(!(newOptions.data instanceof FormData)) {
+    if (!(newOptions.data instanceof FormData)) {
       newOptions.headers = {
         Accept: 'application/json',
         'Content-Type': 'application/json; charset=utf-8',
-        ...newOptions.headers
-      }
-      if(newOptions.headers['Content-Type'] === 'application/x-www-form-urlencoded') {
-        newOptions.data = qs.stringify(newOptions.data)
+        ...newOptions.headers,
+      };
+      if (newOptions.headers['Content-Type'] === 'application/x-www-form-urlencoded') {
+        newOptions.data = qs.stringify(newOptions.data);
       } else {
-        newOptions.data = JSON.stringify(newOptions.data)
+        newOptions.data = JSON.stringify(newOptions.data);
       }
     } else {
       // newOptions.data is FormData
       newOptions.headers = {
         Accept: 'application/json',
-        ...newOptions.headers
-      }
+        ...newOptions.headers,
+      };
     }
   }
   return axios(url, newOptions)
-  .then(response => {
-    if(newOptions.method === 'DELETE' || response.status === 204) {
-      return response
-    }
-    return response
-  })
-  .then(({data}) => data)
-  .catch(checkStatus)
+    .then((response) => {
+      if (newOptions.method === 'DELETE' || response.status === 204) {
+        return response;
+      }
+      return response;
+    })
+    .then(({ data }) => data)
+    .catch(checkStatus);
 }

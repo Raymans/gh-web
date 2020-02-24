@@ -1,29 +1,29 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Headline from '../Article/Headline'
-import Bodytext from '../Article/Bodytext'
+import Headline from '../Article/Headline';
+import Bodytext from '../Article/Bodytext';
 
-const Page = props => {
+const Page = (props) => {
   const {
     page: {
       html,
-      frontmatter: {title}
-    }
-  } = props
+      frontmatter: { title },
+    },
+  } = props;
 
   return (
-    <React.Fragment>
+    <>
       <header>
-        <Headline title={title}/>
+        <Headline title={title} />
       </header>
-      <Bodytext html={html}/>
-    </React.Fragment>
-  )
-}
+      <Bodytext html={html} />
+    </>
+  );
+};
 
 Page.propTypes = {
-  page: PropTypes.object.isRequired
-}
+  page: PropTypes.object.isRequired,
+};
 
-export default Page
+export default Page;

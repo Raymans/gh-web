@@ -1,45 +1,45 @@
-import PropTypes from 'prop-types'
-import React from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 
-import Article from '../components/Article'
-import Headline from '../components/Article/Headline'
-import Seo from '../components/Seo'
-import Question from '../components/Question'
-import { graphql } from 'gatsby'
+import { graphql } from 'gatsby';
+import { Select } from 'antd';
+import Article from '../components/Article';
+import Headline from '../components/Article/Headline';
+import Seo from '../components/Seo';
+import Question from '../components/Question';
 
-import { Select } from 'antd'
 
-const Option = Select.Option
+const { Option } = Select;
 
-const QuestionPage = props => {
+const QuestionPage = (props) => {
   const {
     data: {
       site: {
-        siteMetadata: {facebook}
-      }
-    }
-  } = props
+        siteMetadata: { facebook },
+      },
+    },
+  } = props;
 
   return (
-    <React.Fragment>
+    <>
       <Article>
         <header>
-          <Headline title="Create Question"/>
+          <Headline title="Create Question" />
         </header>
-        <Question/>
+        <Question />
       </Article>
-      <Seo facebook={facebook}/>
-    </React.Fragment>
-  )
-}
+      <Seo facebook={facebook} />
+    </>
+  );
+};
 
 QuestionPage.propTypes = {
-  data: PropTypes.object.isRequired
-}
+  data: PropTypes.object.isRequired,
+};
 
-export default QuestionPage
+export default QuestionPage;
 
-//eslint-disable-next-line no-undef
+// eslint-disable-next-line no-undef
 export const query = graphql`
   query QuestionQuery {
     site {
@@ -50,4 +50,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;
