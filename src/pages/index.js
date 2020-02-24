@@ -1,59 +1,59 @@
-import PropTypes from 'prop-types'
-import React from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 
-import Hero from '../components/Hero'
-import Seo from '../components/Seo'
-import Home from '../components/Home'
-import { graphql } from 'gatsby'
+import { graphql } from 'gatsby';
+import Hero from '../components/Hero';
+import Seo from '../components/Seo';
+import Home from '../components/Home';
 
 class IndexPage extends React.Component {
-  render(){
+  render() {
     const {
       data: {
         bgDesktop: {
-          resize: {src: desktop}
+          resize: { src: desktop },
         },
         bgTablet: {
-          resize: {src: tablet}
+          resize: { src: tablet },
         },
         bgMobile: {
-          resize: {src: mobile}
+          resize: { src: mobile },
         },
         bgBuildingQ: {
-          resize: {src: bq}
+          resize: { src: bq },
         },
         site: {
-          siteMetadata: {facebook}
-        }
-      }
-    } = this.props
+          siteMetadata: { facebook },
+        },
+      },
+    } = this.props;
 
     const backgrounds = {
       desktop,
       tablet,
       mobile,
-      bq
-    }
+      bq,
+    };
 
     return (
-      <React.Fragment>
+      <>
         <div>
-          <Hero backgrounds={backgrounds}/>
-          <Home backgrounds={backgrounds}/>
+          <Hero backgrounds={backgrounds} />
+          <Home backgrounds={backgrounds} />
         </div>
-        <Seo facebook={facebook}/>
-      </React.Fragment>
-    )
+        <Seo facebook={facebook} />
+      </>
+    );
   }
 }
 
 IndexPage.propTypes = {
-  data: PropTypes.object.isRequired
-}
+  data: PropTypes.object.isRequired,
+};
 
-export default IndexPage
+export default IndexPage;
 
-//eslint-disable-next-line no-undef
+// eslint-disable-next-line no-undef
 export const query = graphql`
   query IndexQuery {
     site {
@@ -84,4 +84,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;

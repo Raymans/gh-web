@@ -1,36 +1,36 @@
-//const webpack = require("webpack");
-const _ = require("lodash");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-const path = require("path");
-const Promise = require("bluebird");
+// const webpack = require("webpack");
+const _ = require('lodash');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const path = require('path');
+const Promise = require('bluebird');
 
-const { createFilePath } = require(`gatsby-source-filesystem`);
+const { createFilePath } = require('gatsby-source-filesystem');
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
-  if (node.internal.type === `MarkdownRemark`) {
+  if (node.internal.type === 'MarkdownRemark') {
     const slug = createFilePath({ node, getNode });
     const fileNode = getNode(node.parent);
     const source = fileNode.sourceInstanceName;
-    const separtorIndex = ~slug.indexOf("--") ? slug.indexOf("--") : 0;
+    const separtorIndex = ~slug.indexOf('--') ? slug.indexOf('--') : 0;
     const shortSlugStart = separtorIndex ? separtorIndex + 2 : 0;
 
-    if (source !== "parts") {
+    if (source !== 'parts') {
       createNodeField({
         node,
-        name: `slug`,
-        value: `${separtorIndex ? "/" : ""}${slug.substring(shortSlugStart)}`
+        name: 'slug',
+        value: `${separtorIndex ? '/' : ''}${slug.substring(shortSlugStart)}`,
       });
     }
     createNodeField({
       node,
-      name: `prefix`,
-      value: separtorIndex ? slug.substring(1, separtorIndex) : ""
+      name: 'prefix',
+      value: separtorIndex ? slug.substring(1, separtorIndex) : '',
     });
     createNodeField({
       node,
-      name: `source`,
-      value: source
+      name: 'source',
+      value: source,
     });
   }
 };
@@ -39,7 +39,7 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
 
   return new Promise((resolve, reject) => {
-    const pageTemplate = path.resolve("./src/templates/PageTemplate.js");
+    const pageTemplate = path.resolve('./src/templates/PageTemplate.js');
     resolve(
       graphql(
         `
@@ -64,8 +64,8 @@ exports.createPages = ({ graphql, actions }) => {
               }
             }
           }
-        `
-      ).then(result => {
+        `,
+      ).then((result) => {
         if (result.errors) {
           console.log(result.errors);
           reject(result.errors);
@@ -75,50 +75,50 @@ exports.createPages = ({ graphql, actions }) => {
 
 
         // Create pages.
-        const pages = items.filter(item => item.node.fields.source === "pages");
+        const pages = items.filter((item) => item.node.fields.source === 'pages');
         pages.forEach(({ node }) => {
-          const slug = node.fields.slug;
-          const source = node.fields.source;
+          const { slug } = node.fields;
+          const { source } = node.fields;
 
           createPage({
             path: slug,
             component: pageTemplate,
             context: {
               slug,
-              source
-            }
+              source,
+            },
           });
         });
-      })
+      }),
     );
   });
 };
 
 exports.onCreateWebpackConfig = ({ stage, actions }) => {
   switch (stage) {
-    case "build-javascript":
+    case 'build-javascript':
       {
         actions.setWebpackConfig({
           plugins: [
             new BundleAnalyzerPlugin({
-              analyzerMode: "static",
-              reportFilename: "./report/treemap.html",
+              analyzerMode: 'static',
+              reportFilename: './report/treemap.html',
               openAnalyzer: true,
-              logLevel: "error",
-              defaultSizes: "gzip"
-            })
-          ]
+              logLevel: 'error',
+              defaultSizes: 'gzip',
+            }),
+          ],
         });
       }
       break;
   }
 };
-exports.onCreateBabelConfig  = ({ actions: { setBabelPlugin }}) => {
+exports.onCreateBabelConfig = ({ actions: { setBabelPlugin } }) => {
   setBabelPlugin({
-    name: `babel-plugin-import`,
+    name: 'babel-plugin-import',
     options: {
-      libraryName: "antd",
-      style: true
-    }
+      libraryName: 'antd',
+      style: true,
+    },
   });
 };

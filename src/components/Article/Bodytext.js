@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 const StyledContent = styled.div`
 animation-name: bodytextEntry;
-  animation-duration: ${props => props.theme.time.duration.long};
+  animation-duration: ${(props) => props.theme.time.duration.long};
 
   h2,
   h3 {
@@ -12,18 +12,18 @@ animation-name: bodytextEntry;
   }
 
   h2 {
-    line-height: ${props => props.theme.font.lineHeight.s};
-    font-size: ${props => props.theme.font.size.l};
+    line-height: ${(props) => props.theme.font.lineHeight.s};
+    font-size: ${(props) => props.theme.font.size.l};
   }
 
   h3 {
-    font-size: ${props => props.theme.font.size.m};
-    line-height: ${props => props.theme.font.lineHeight.m};
+    font-size: ${(props) => props.theme.font.size.m};
+    line-height: ${(props) => props.theme.font.lineHeight.m};
   }
 
   p {
-    font-size: ${props => props.theme.font.size.s};
-    line-height: ${props => props.theme.font.lineHeight.xxl};
+    font-size: ${(props) => props.theme.font.size.s};
+    line-height: ${(props) => props.theme.font.lineHeight.xxl};
     margin: 0 0 1.5em;
   }
   ul {
@@ -36,37 +36,37 @@ animation-name: bodytextEntry;
     line-height: 1.5;
   }
   a {
-    font-weight: ${props => props.theme.font.weight.bold};
-    //color: ${props => props.theme.color.brand.primary};
+    font-weight: ${(props) => props.theme.font.weight.bold};
+    //color: ${(props) => props.theme.color.brand.primary};
     text-decoration: underline;
   }
   a.gatsby-resp-image-link {
     border: 0;
     display: block;
     margin: 2.5em 0;
-    border-radius: ${props => props.theme.size.radius.default};
+    border-radius: ${(props) => props.theme.size.radius.default};
     overflow: hidden;
-    border: 1px solid ${props => props.theme.line.color};
+    border: 1px solid ${(props) => props.theme.line.color};
   }
   code.language-text {
-    background: ${props => props.theme.color.neutral.gray.c};
+    background: ${(props) => props.theme.color.neutral.gray.c};
     text-shadow: none;
     color: inherit;
     padding: 0.1em 0.3em 0.2em;
     border-radius: 0.1em;
   }
-`
-const Bodytext = props => {
-  const {html} = props
+`;
+const Bodytext = (props) => {
+  const { html } = props;
   return (
-    <React.Fragment>
-      <StyledContent dangerouslySetInnerHTML={{__html: html}}/>
-    </React.Fragment>
-  )
-}
+    <>
+      <StyledContent dangerouslySetInnerHTML={{ __html: html }} />
+    </>
+  );
+};
 
 Bodytext.propTypes = {
-  html: PropTypes.string.isRequired
-}
+  html: PropTypes.string.isRequired,
+};
 
-export default Bodytext
+export default Bodytext;

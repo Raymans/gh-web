@@ -5,18 +5,18 @@ export const isBrowser = typeof window !== 'undefined';
 const tokens = {
   accessToken: false,
   idToken: false,
-  expiresAt: false
+  expiresAt: false,
 };
 
 // Only instantiate Auth0 if we’re in the browser.
 const auth0 = isBrowser
   ? new auth0js.WebAuth({
-      domain: process.env.AUTH0_DOMAIN,
-      clientID: process.env.AUTH0_CLIENTID,
-      redirectUri: process.env.AUTH0_CALLBACK,
-      responseType: 'token id_token',
-      scope: 'openid profile email'
-    })
+    domain: process.env.AUTH0_DOMAIN,
+    clientID: process.env.AUTH0_CLIENTID,
+    redirectUri: process.env.AUTH0_CALLBACK,
+    responseType: 'token id_token',
+    scope: 'openid profile email',
+  })
   : {};
 
 export const login = () => {
@@ -36,7 +36,7 @@ export const logout = () => {
   auth0.logout({ returnTo });
 };
 
-const setSession = callback => (err, authResult) => {
+const setSession = (callback) => (err, authResult) => {
   if (!isBrowser) {
     return;
   }
@@ -48,7 +48,7 @@ const setSession = callback => (err, authResult) => {
   }
 
   if (authResult && authResult.accessToken && authResult.idToken) {
-    let expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
+    const expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
     tokens.accessToken = authResult.accessToken;
     tokens.idToken = authResult.idToken;
     tokens.expiresAt = expiresAt;
@@ -58,12 +58,20 @@ const setSession = callback => (err, authResult) => {
   }
 };
 
-export const silentAuth = callback => {
+export const isAuthenticated = () => {
+  if (!isBrowser) {
+    return false;
+  }
+
+  return localStorage.getItem('isLoggedIn') === 'true';
+};
+
+export const silentAuth = (callback) => {
   if (!isBrowser) {
     return;
   }
 
-  if (!isAuthenticated()) return callback();
+  if (!isAuthenticated()) callback();
   auth0.checkSession({}, setSession(callback));
 };
 
@@ -73,14 +81,6 @@ export const handleAuthentication = (callback = () => {}) => {
   }
 
   auth0.parseHash(setSession(callback));
-};
-
-export const isAuthenticated = () => {
-  if (!isBrowser) {
-    return;
-  }
-
-  return localStorage.getItem('isLoggedIn') === 'true';
 };
 
 export const getAccessToken = () => {
@@ -96,6 +96,6 @@ export const getUserInfo = () => {
     return {};
   }
   let profile = localStorage.getItem('profile');
-  profile = profile? JSON.parse(profile): {};
+  profile = profile ? JSON.parse(profile) : {};
   return profile;
 };

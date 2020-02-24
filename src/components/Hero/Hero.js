@@ -1,28 +1,28 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Particles from 'react-particles-js'
-import particleConfig from './particle-option.json'
-import styled from 'styled-components'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Particles from 'react-particles-js';
+import styled from 'styled-components';
+import particleConfig from './particle-option.json';
 
 const HeroSection = styled.section`
   align-items: center;
-  background: ${props => props.theme.hero.background};
-  background-image: url(${props => props.backgrounds.mobile});
+  background: ${(props) => props.theme.hero.background};
+  background-image: url(${(props) => props.backgrounds.mobile});
   background-size: cover;
-  color: ${props => props.theme.text.color.primary.inverse};
+  color: ${(props) => props.theme.text.color.primary.inverse};
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   min-height: 78vh;
   height: 100px;
-  padding: ${props => props.theme.space.inset.l};
-  padding-top: ${props => props.theme.header.height.homepage};
+  padding: ${(props) => props.theme.space.inset.l};
+  padding-top: ${(props) => props.theme.header.height.homepage};
   h1 {
     text-align: center;
-    font-size: ${props => props.theme.hero.h1.size};
-    margin: ${props => props.theme.space.stack.l};
-    color: ${props => props.theme.hero.h1.color};
-    line-height: ${props => props.theme.hero.h1.lineHeight};
+    font-size: ${(props) => props.theme.hero.h1.size};
+    margin: ${(props) => props.theme.space.stack.l};
+    color: ${(props) => props.theme.hero.h1.color};
+    line-height: ${(props) => props.theme.hero.h1.lineHeight};
     text-remove-gap: both 0 "Open Sans";
     font-weight: 400;
   }
@@ -31,25 +31,25 @@ const HeroSection = styled.section`
     font-weight: 400;
   }
   @media (min-width: 768px) {
-    background-image: url(${props => props.backgrounds.tablet});
+    background-image: url(${(props) => props.backgrounds.tablet});
     h1 {
       max-width: 90%;
-      font-size: ${props => `calc(${props.theme.hero.h1.size} * 1.3)`};
+      font-size: ${(props) => `calc(${props.theme.hero.h1.size} * 1.3)`};
     }
   }
   @media (min-width: 1024px) {
-    background-image: url(${props => props.backgrounds.desktop});
+    background-image: url(${(props) => props.backgrounds.desktop});
     h1 {
       max-width: 80%;
-      font-size: ${props => `calc(${props.theme.hero.h1.size} * 1.5)`};
+      font-size: ${(props) => `calc(${props.theme.hero.h1.size} * 1.5)`};
     }
   }
-`
+`;
 
-const Hero = props => {
-  const {backgrounds} = props
+const Hero = (props) => {
+  const { backgrounds } = props;
   return (
-    <React.Fragment>
+    <>
       <div className="wrapper">
         <Particles
           params={particleConfig}
@@ -58,8 +58,9 @@ const Hero = props => {
             top: 100,
             left: 0,
             width: '100%',
-            height: '70%'
-          }}/>
+            height: '70%',
+          }}
+        />
       </div>
       <HeroSection backgrounds={backgrounds}>
         <h1>
@@ -68,12 +69,12 @@ const Hero = props => {
         <h2>Store knowledge as your second brand</h2>
         <h2>Practice anonymously with engineers who have worked at great company</h2>
       </HeroSection>
-    </React.Fragment>
-  )
-}
+    </>
+  );
+};
 
 Hero.propTypes = {
-  backgrounds: PropTypes.object.isRequired
-}
+  backgrounds: PropTypes.object.isRequired,
+};
 
-export default Hero
+export default Hero;

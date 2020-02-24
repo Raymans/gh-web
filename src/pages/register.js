@@ -1,41 +1,41 @@
-import PropTypes from 'prop-types'
-import React from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 
-import Article from '../components/Article'
-import Register from '../components/Register'
-import Headline from '../components/Article/Headline'
-import Seo from '../components/Seo'
-import { graphql } from 'gatsby'
+import { graphql } from 'gatsby';
+import Article from '../components/Article';
+import Register from '../components/Register';
+import Headline from '../components/Article/Headline';
+import Seo from '../components/Seo';
 
-const RegisterPage = props => {
+const RegisterPage = (props) => {
   const {
     data: {
       site: {
-        siteMetadata: {facebook}
-      }
-    }
-  } = props
+        siteMetadata: { facebook },
+      },
+    },
+  } = props;
 
   return (
-    <React.Fragment>
+    <>
       <Article>
         <header>
-          <Headline title="Register"/>
+          <Headline title="Register" />
         </header>
-        <Register/>
+        <Register />
       </Article>
-      <Seo facebook={facebook}/>
-    </React.Fragment>
-  )
-}
+      <Seo facebook={facebook} />
+    </>
+  );
+};
 
 RegisterPage.propTypes = {
-  data: PropTypes.object.isRequired
-}
+  data: PropTypes.object.isRequired,
+};
 
-export default RegisterPage
+export default RegisterPage;
 
-//eslint-disable-next-line no-undef
+// eslint-disable-next-line no-undef
 export const query = graphql`
   query RegisterQuery {
     site {
@@ -46,4 +46,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;

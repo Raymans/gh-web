@@ -1,98 +1,101 @@
 /* eslint no-unused-vars: 0 */
 
-import { navigateTo } from 'gatsby-link'
-import { AutoComplete, Button, Checkbox, Form, Icon, Input, Select, Tooltip } from 'antd'
+import { navigateTo } from 'gatsby-link';
+import {
+  AutoComplete, Button, Checkbox, Form, Icon, Input, Select, Tooltip,
+} from 'antd';
 
-import PropTypes from 'prop-types'
-import React from 'react'
+import PropTypes from 'prop-types';
+import React from 'react';
 
-import { signup } from '../../utils/api'
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components';
+import { signup } from '../../utils/api';
 
-const FormItem = Form.Item
-const Option = Select.Option
-const AutoCompleteOption = AutoComplete.Option
+const FormItem = Form.Item;
+const { Option } = Select;
+const AutoCompleteOption = AutoComplete.Option;
 
 
-const Register = props => {
-  const {getFieldDecorator} = props.form
+const Register = (props) => {
+  const { getFieldDecorator } = props.form;
 
   const formItemLayout = {
     labelCol: {
-      xs: {span: 24},
-      sm: {span: 8}
+      xs: { span: 24 },
+      sm: { span: 8 },
     },
     wrapperCol: {
-      xs: {span: 24},
-      sm: {span: 16}
-    }
-  }
+      xs: { span: 24 },
+      sm: { span: 16 },
+    },
+  };
   const tailFormItemLayout = {
     wrapperCol: {
       xs: {
         span: 24,
-        offset: 0
+        offset: 0,
       },
       sm: {
         span: 16,
-        offset: 8
-      }
-    }
-  }
+        offset: 8,
+      },
+    },
+  };
 
   const handleConfirmBlur = (e) => {
-    const value = e.target.value
-    //this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  }
+    const { value } = e.target;
+    // this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  };
   const compareToFirstPassword = (rule, value, callback) => {
-    const form = props.form
-    if(value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!')
+    const { form } = props;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('Two passwords that you enter is inconsistent!');
     } else {
-      callback()
+      callback();
     }
-  }
+  };
   const validateToNextPassword = (rule, value, callback) => {
-    const form = props.form
-    //if (value && this.state.confirmDirty) {
-    if(value) {
-      form.validateFields(['confirm'], {force: true})
+    const { form } = props;
+    // if (value && this.state.confirmDirty) {
+    if (value) {
+      form.validateFields(['confirm'], { force: true });
     }
-    callback()
-  }
+    callback();
+  };
 
-  function encode(data){
+  function encode(data) {
     return Object.keys(data)
-    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
-    .join('&')
+      .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+      .join('&');
   }
 
   const handleSubmit = (e, refreshAuth) => {
-    e.preventDefault()
+    e.preventDefault();
     props.form.validateFieldsAndScroll((err, values) => {
-      if(!err) {
+      if (!err) {
         sendMessage(values).then(() => {
-          refreshAuth()
-          navigateTo('/')
-        })
+          refreshAuth();
+          navigateTo('/');
+        });
       }
-    })
-  }
+    });
+  };
 
-  function sendMessage(values){
-    return signup(Object.assign({
-      'firstName': 'Joe',
-      'lastName': 'Lin'
-    }, values)).then((user) => {
-      console.log('Form submission success')
+  function sendMessage(values) {
+    return signup({
+      firstName: 'Joe',
+      lastName: 'Lin',
+      ...values,
+    }).then((user) => {
+      console.log('Form submission success');
     })
-    .catch(error => {
-      console.error('Form submission error:', error)
-    })
+      .catch((error) => {
+        console.error('Form submission error:', error);
+      });
   }
 
   return (
-    <React.Fragment>
+    <>
       <div className="form">
         <Form onSubmit={(e) => handleSubmit(e)}>
           <FormItem
@@ -101,12 +104,12 @@ const Register = props => {
           >
             {getFieldDecorator('email', {
               rules: [{
-                type: 'email', message: 'The input is not valid E-mail!'
+                type: 'email', message: 'The input is not valid E-mail!',
               }, {
-                required: true, message: 'Please input your E-mail!'
-              }]
+                required: true, message: 'Please input your E-mail!',
+              }],
             })(
-              <Input/>
+              <Input />,
             )}
           </FormItem>
           <FormItem
@@ -115,15 +118,15 @@ const Register = props => {
               <span>
                 User Name&nbsp;
                 <Tooltip title="What do you want others to see you?">
-                  <Icon type="question-circle-o"/>
-              </Tooltip>
+                  <Icon type="question-circle-o" />
+                </Tooltip>
               </span>
             )}
           >
             {getFieldDecorator('username', {
-              rules: [{required: true, message: 'Please input your user name!', whitespace: true}]
+              rules: [{ required: true, message: 'Please input your user name!', whitespace: true }],
             })(
-              <Input/>
+              <Input />,
             )}
           </FormItem>
           <FormItem
@@ -132,12 +135,12 @@ const Register = props => {
           >
             {getFieldDecorator('password', {
               rules: [{
-                required: true, message: 'Please input your password!'
+                required: true, message: 'Please input your password!',
               }, {
-                validator: validateToNextPassword
-              }]
+                validator: validateToNextPassword,
+              }],
             })(
-              <Input type="password"/>
+              <Input type="password" />,
             )}
           </FormItem>
           <FormItem
@@ -146,20 +149,20 @@ const Register = props => {
           >
             {getFieldDecorator('confirm', {
               rules: [{
-                required: true, message: 'Please confirm your password!'
+                required: true, message: 'Please confirm your password!',
               }, {
-                validator: compareToFirstPassword
-              }]
+                validator: compareToFirstPassword,
+              }],
             })(
-              <Input type="password" onBlur={handleConfirmBlur}/>
+              <Input type="password" onBlur={handleConfirmBlur} />,
             )}
           </FormItem>
           <FormItem {...tailFormItemLayout}>
             {getFieldDecorator('remember', {
               valuePropName: 'checked',
-              initialValue: true
+              initialValue: true,
             })(
-              <Checkbox>Remember me</Checkbox>
+              <Checkbox>Remember me</Checkbox>,
             )}
           </FormItem>
           <FormItem {...tailFormItemLayout}>
@@ -167,14 +170,14 @@ const Register = props => {
           </FormItem>
         </Form>
       </div>
-    </React.Fragment>
-  )
-}
+    </>
+  );
+};
 
 Register.propTypes = {
-  form: PropTypes.object
-}
+  form: PropTypes.object,
+};
 
-const RegisterForm = Form.create({})(Register)
+const RegisterForm = Form.create({})(Register);
 
-export default RegisterForm
+export default RegisterForm;

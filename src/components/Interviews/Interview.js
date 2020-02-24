@@ -1,16 +1,16 @@
-import React from 'react'
-import Questions from '../Questions'
+import React from 'react';
+import Questions from '../Questions';
 
-const Interview = props => {
-  return (
-    <React.Fragment>
+const Interview = (props) => (
+  <>
+    <div>
+Hi from SubPage with id:
+      {props.id}
+    </div>
+    <Questions />
+  </>
+);
 
-      <div>Hi from SubPage with id: {props.id}</div>
-      <Questions/>
-    </React.Fragment>
-  )
-}
+Interview.propTypes = {};
 
-Interview.propTypes = {}
-
-export default Interview
+export default Interview;

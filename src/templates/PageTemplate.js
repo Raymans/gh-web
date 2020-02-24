@@ -1,38 +1,38 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Seo from '../components/Seo'
-import Article from '../components/Article'
-import Page from '../components/Page'
-import { graphql } from 'gatsby'
+import { graphql } from 'gatsby';
+import Seo from '../components/Seo';
+import Article from '../components/Article';
+import Page from '../components/Page';
 
-const PageTemplate = props => {
+const PageTemplate = (props) => {
   const {
     data: {
       page,
       site: {
-        siteMetadata: {facebook}
-      }
-    }
-  } = props
+        siteMetadata: { facebook },
+      },
+    },
+  } = props;
 
   return (
-    <React.Fragment>
+    <>
       <Article>
-        <Page page={page}/>
+        <Page page={page} />
       </Article>
-      <Seo data={page} facebook={facebook}/>
-    </React.Fragment>
-  )
-}
+      <Seo data={page} facebook={facebook} />
+    </>
+  );
+};
 
 PageTemplate.propTypes = {
-  data: PropTypes.object.isRequired
-}
+  data: PropTypes.object.isRequired,
+};
 
-export default PageTemplate
+export default PageTemplate;
 
-//eslint-disable-next-line no-undef
+// eslint-disable-next-line no-undef
 export const pageQuery = graphql`
   query PageByPath($slug: String!) {
     page: markdownRemark(fields: { slug: { eq: $slug } }) {
@@ -50,4 +50,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;

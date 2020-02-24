@@ -1,25 +1,30 @@
-import React from 'react'
+import React from 'react';
 
-export default function asyncComponent(getComponent, loadingComponent){
+export default function asyncComponent(getComponent, loadingComponent) {
   class AsyncComponent extends React.Component {
-    state = {Component: null}
+    constructor(props) {
+      super(props);
+      this.state = { Component: null };
+    }
 
-    componentDidMount(){
-      if(!this.state.Component) {
-        getComponent().then(Component => {
-          this.setState({Component})
-        })
+    componentDidMount() {
+      const { Component } = this.state;
+      if (!Component) {
+        getComponent().then((Comp) => {
+          this.setState({ Component: Comp });
+        });
       }
     }
 
-    render(){
-      const {Component} = this.state
-      if(Component) {
-        return <Component {...this.props} />
+    render() {
+      const { Component } = this.state;
+      if (Component) {
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        return <Component {...this.props} />;
       }
-      return loadingComponent ? loadingComponent : <div>Loading...</div>
+      return loadingComponent || <div>Loading...</div>;
     }
   }
 
-  return AsyncComponent
+  return AsyncComponent;
 }

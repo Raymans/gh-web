@@ -1,12 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Link from 'gatsby-link'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Link from 'gatsby-link';
 
-const Item = props => {
-  const {theme, item: {label, to, icon: Icon} = {}, onClick} = props
+const Item = (props) => {
+  const { item: { label, to, icon: Icon } = {}, onClick } = props;
 
   return (
-    <React.Fragment>
+    <>
       <li className={'hiddenItem' in props ? 'hiddenItem' : 'item'} key={label}>
         <Link
           to={to}
@@ -14,19 +14,20 @@ const Item = props => {
           onClick={onClick}
           data-slug={to}
         >
-          {Icon && <Icon/>} {label}
+          {Icon && <Icon />}
+          {' '}
+          {label}
         </Link>
       </li>
-    </React.Fragment>
-  )
-}
+    </>
+  );
+};
 
 Item.propTypes = {
   item: PropTypes.object,
   hidden: PropTypes.bool,
   onClick: PropTypes.func,
   icon: PropTypes.func,
-  theme: PropTypes.object.isRequired
-}
+};
 
-export default Item
+export default Item;

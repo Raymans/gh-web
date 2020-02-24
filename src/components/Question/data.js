@@ -3,19 +3,19 @@ export default [{
   label: 'JavaScript',
   children: [{
     value: 'basic',
-    label: 'Basic'
+    label: 'Basic',
   }, {
     value: 'closure',
-    label: 'Closure'
-  }]
+    label: 'Closure',
+  }],
 }, {
   value: 'java',
   label: 'Java',
   children: [{
     value: 'basic',
-    label: 'Basic'
+    label: 'Basic',
   }, {
     value: 'OOP',
-    label: 'OOP'
-  }]
-}]
+    label: 'OOP',
+  }],
+}];

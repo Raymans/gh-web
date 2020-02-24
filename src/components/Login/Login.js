@@ -1,93 +1,99 @@
 /* eslint no-unused-vars: 0 */
 
-import { navigateTo } from 'gatsby-link'
-import { Button, Checkbox, Form, Icon, Input } from 'antd'
-import PropTypes from 'prop-types'
-import React from 'react'
-import { login } from '../../utils/api'
-import styled, { createGlobalStyle } from 'styled-components'
+import { navigateTo } from 'gatsby-link';
+import {
+  Button, Checkbox, Form, Icon, Input,
+} from 'antd';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled, { createGlobalStyle } from 'styled-components';
+import { login } from '../../utils/api';
 
-const FormItem = Form.Item
-const {TextArea} = Input
+const FormItem = Form.Item;
+const { TextArea } = Input;
 
 const StyledLoginButton = styled(Button)`
     width: 100%;
-  `
+  `;
 const StyledForgetLink = styled.a`
     float: right;
-  `
-const Login = props => {
-  const {getFieldDecorator} = props.form
-  function encode(data){
+  `;
+const Login = (props) => {
+  const { getFieldDecorator } = props.form;
+  function encode(data) {
     return Object.keys(data)
-    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
-    .join('&')
+      .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+      .join('&');
   }
 
   const handleSubmit = (e, refreshAuth) => {
-    e.preventDefault()
+    e.preventDefault();
     props.form.validateFieldsAndScroll((err, values) => {
-      if(!err) {
+      if (!err) {
         sendMessage(values).then(() => {
-
-          navigateTo('/')
-          refreshAuth({userName: 'raymans'})
-        })
+          navigateTo('/');
+          refreshAuth({ userName: 'raymans' });
+        });
       }
-    })
-  }
+    });
+  };
 
-  function sendMessage(values){
+  function sendMessage(values) {
     return login(values).then((user) => {
-      console.log('Form submission success', user)
+      console.log('Form submission success', user);
       //
-    }).catch(error => {
-      console.error('Form submission error:', error)
-    })
+    }).catch((error) => {
+      console.error('Form submission error:', error);
+    });
   }
 
   return (
-    <React.Fragment>
+    <>
       <div className="form">
         <Form onSubmit={(e) => handleSubmit(e, refreshAuth)}>
           <FormItem>
             {getFieldDecorator('username', {
-              rules: [{required: true, message: 'Please input your username!'}]
+              rules: [{ required: true, message: 'Please input your username!' }],
             })(
-              <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} placeholder="Username"/>
+              <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />,
             )}
           </FormItem>
           <FormItem>
             {getFieldDecorator('password', {
-              rules: [{required: true, message: 'Please input your Password!'}]
+              rules: [{ required: true, message: 'Please input your Password!' }],
             })(
-              <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password"
-                     placeholder="Password"/>
+              <Input
+                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                type="password"
+                placeholder="Password"
+              />,
             )}
           </FormItem>
           <FormItem>
             {getFieldDecorator('remember', {
               valuePropName: 'checked',
-              initialValue: true
+              initialValue: true,
             })(
-              <Checkbox>Remember me</Checkbox>
+              <Checkbox>Remember me</Checkbox>,
             )}
             <StyledForgetLink href="">Forgot password</StyledForgetLink>
             <StyledLoginButton type="primary" htmlType="submit">
               Log in
             </StyledLoginButton>
-            Or <a href="/register/">register now!</a>
+            Or
+            {' '}
+            <a href="/register/">register now!</a>
           </FormItem>
         </Form>
       </div>
-    </React.Fragment>
-  )
-}
+    </>
+  );
+};
 
 Login.propTypes = {
-  form: PropTypes.object
-}
+  form: PropTypes.object,
+};
 
-const LoginForm = Form.create({})(Login)
+const LoginForm = Form.create({})(Login);
 
-export default LoginForm
+export default LoginForm;
