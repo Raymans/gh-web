@@ -1,6 +1,7 @@
 import config from '../../content/meta/config';
 import request from './request';
 
+// eslint-disable-next-line no-underscore-dangle
 let _localStorage;
 if (typeof window !== 'undefined' && window) {
   _localStorage = localStorage;
@@ -17,7 +18,7 @@ export async function signup(params) {
 }
 
 export async function login(params) {
-  return await request(`${config.ghServiceUrl}/api/oauth/token`, {
+  return request(`${config.ghServiceUrl}/api/oauth/token`, {
     method: 'POST',
     data: { ...params, grant_type: 'password' },
     headers: {

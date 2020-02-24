@@ -1,7 +1,8 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 require('dotenv').config();
 const config = require('./content/meta/config');
 
-const query = `{
+/* const query = `{
   allMarkdownRemark(filter: {fileAbsolutePath: {regex: "/posts|pages/[0-9]+.*--/"}}) {
     edges {
       node {
@@ -18,14 +19,14 @@ const query = `{
       }
     }
   }
-}`;
+}`; */
 
-const queries = [
+/* const queries = [
   {
     query,
-    transformer: ({ data }) => data.allMarkdownRemark.edges.map(({ node }) => node)
-  }
-];
+    transformer: ({ data }) => data.allMarkdownRemark.edges.map(({ node }) => node),
+  },
+]; */
 
 module.exports = {
   siteMetadata: {
@@ -33,74 +34,74 @@ module.exports = {
     description: config.siteDescription,
     siteUrl: config.siteUrl,
     facebook: {
-      appId: process.env.FB_APP_ID ? process.env.FB_APP_ID : ''
-    }
+      appId: process.env.FB_APP_ID ? process.env.FB_APP_ID : '',
+    },
   },
   plugins: [
     {
-      resolve: `gatsby-plugin-layout`,
+      resolve: 'gatsby-plugin-layout',
       options: {
-        component: require.resolve(`./src/layouts/`)
-      }
+        component: require.resolve('./src/layouts/'),
+      },
     },
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: `images`,
-        path: `${__dirname}/src/images/`
-      }
+        name: 'images',
+        path: `${__dirname}/src/images/`,
+      },
     },
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: 'gatsby-source-filesystem',
       options: {
         path: `${__dirname}/content/pages/`,
-        name: 'pages'
-      }
+        name: 'pages',
+      },
     },
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: `parts`,
-        path: `${__dirname}/content/parts/`
-      }
+        name: 'parts',
+        path: `${__dirname}/content/parts/`,
+      },
     },
     {
-      resolve: `gatsby-transformer-remark`,
+      resolve: 'gatsby-transformer-remark',
       options: {
         plugins: [
-          `gatsby-plugin-sharp`,
+          'gatsby-plugin-sharp',
           {
-            resolve: `gatsby-remark-images`,
+            resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 800,
-              backgroundColor: 'transparent'
-            }
+              backgroundColor: 'transparent',
+            },
           },
           {
-            resolve: `gatsby-remark-responsive-iframe`,
+            resolve: 'gatsby-remark-responsive-iframe',
             options: {
-              wrapperStyle: `margin-bottom: 2em`
-            }
+              wrapperStyle: 'margin-bottom: 2em',
+            },
           },
-          `gatsby-remark-prismjs`,
-          `gatsby-remark-copy-linked-files`,
-          `gatsby-remark-smartypants`
-        ]
-      }
+          'gatsby-remark-prismjs',
+          'gatsby-remark-copy-linked-files',
+          'gatsby-remark-smartypants',
+        ],
+      },
     },
-    `gatsby-plugin-sharp`,
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-catch-links`,
+    'gatsby-plugin-sharp',
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-react-helmet',
+    'gatsby-plugin-catch-links',
     {
-      resolve: `gatsby-plugin-less`,
+      resolve: 'gatsby-plugin-less',
       options: {
         javascriptEnabled: true,
-        modifyVars: require(`./src/theme/theme.js`)
-      }
+        modifyVars: require('./src/theme/theme.js'),
+      },
     },
     {
-      resolve: `gatsby-plugin-manifest`,
+      resolve: 'gatsby-plugin-manifest',
       options: {
         name: config.manifestName,
         short_name: config.manifestShortName,
@@ -112,62 +113,62 @@ module.exports = {
           {
             src: '/icons/icon-48x48.png',
             sizes: '48x48',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: '/icons/icon-96x96.png',
             sizes: '96x96',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: '/icons/icon-144x144.png',
             sizes: '144x144',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: '/icons/icon-192x192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: '/icons/icon-256x256.png',
             sizes: '256x256',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: '/icons/icon-384x384.png',
             sizes: '384x384',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: '/icons/icon-512x512.png',
             sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      }
+            type: 'image/png',
+          },
+        ],
+      },
     },
-    `gatsby-plugin-offline`,
+    'gatsby-plugin-offline',
     {
-      resolve: `gatsby-plugin-google-analytics`,
+      resolve: 'gatsby-plugin-google-analytics',
       options: {
-        trackingId: process.env.GOOGLE_ANALYTICS_ID
-      }
+        trackingId: process.env.GOOGLE_ANALYTICS_ID,
+      },
     },
     {
-      resolve: `gatsby-plugin-sitemap`
+      resolve: 'gatsby-plugin-sitemap',
     },
     {
-      resolve: 'gatsby-plugin-svgr'
+      resolve: 'gatsby-plugin-svgr',
     },
     {
-      resolve: `gatsby-plugin-create-client-paths`,
-      options: { prefixes: [`/interviews/*`] }
+      resolve: 'gatsby-plugin-create-client-paths',
+      options: { prefixes: ['/interviews/*'] },
     },
     {
-      resolve: `gatsby-plugin-styled-components`,
+      resolve: 'gatsby-plugin-styled-components',
       options: {
       },
-    }
-  ]
+    },
+  ],
 };

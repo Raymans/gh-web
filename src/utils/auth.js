@@ -58,12 +58,20 @@ const setSession = (callback) => (err, authResult) => {
   }
 };
 
+export const isAuthenticated = () => {
+  if (!isBrowser) {
+    return false;
+  }
+
+  return localStorage.getItem('isLoggedIn') === 'true';
+};
+
 export const silentAuth = (callback) => {
   if (!isBrowser) {
     return;
   }
 
-  if (!isAuthenticated()) return callback();
+  if (!isAuthenticated()) callback();
   auth0.checkSession({}, setSession(callback));
 };
 
@@ -73,14 +81,6 @@ export const handleAuthentication = (callback = () => {}) => {
   }
 
   auth0.parseHash(setSession(callback));
-};
-
-export const isAuthenticated = () => {
-  if (!isBrowser) {
-    return;
-  }
-
-  return localStorage.getItem('isLoggedIn') === 'true';
 };
 
 export const getAccessToken = () => {
