@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import data from './data'
 import { createQuestion } from '../../utils/api'
-import { ThemeContext } from '../../layouts'
 import GatsbyLink from 'gatsby-link'
 
 const InputGroup = Input.Group
@@ -22,11 +21,17 @@ if(typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
   require('codemirror/lib/codemirror.css')
 }
 
+const GlobalStyle = createGlobalStyle`
+    @media (min-width: 1024px) {
+    .article {
+      max-width: ${props => props.theme.text.maxWidth.desktopForm} !important;
+    }
+  }
+`
 const StyledButton = styled(Button)`
   color: green;
 `
-const Question = props => {
-  const StyledIcon = styled(Icon)`
+const StyledIcon = styled(Icon)`
     cursor: pointer;
     position: relative;
     top: 4px;
@@ -37,6 +42,7 @@ const Question = props => {
       color: #777;
     }
   `
+const Question = props => {
   const {getFieldDecorator, getFieldValue} = props.form
 
   const formItemLayout = {
@@ -153,103 +159,89 @@ const Question = props => {
           )}
         </InputGroup>
       </FormItem>
-
     )
   })
 
   return (
     <React.Fragment>
       <div className="form">
-        <ThemeContext.Consumer>
-          {theme => {
-            const GlobalStyle = createGlobalStyle`
-                @media (min-width: 1024px) {
-                .article {
-                  max-width: ${theme.text.maxWidth.desktopForm} !important;
+        <Form onSubmit={handleSubmit} data-netlify="true" data-netlify-honeypot="bot-field">
+          <GlobalStyle/>
+          <FormItem label="Title">
+            {getFieldDecorator('question', {
+              rules: [
+                {
+                  required: true,
+                  whitespace: true
                 }
-              }
-            `
-            return (
-              <Form onSubmit={handleSubmit} data-netlify="true" data-netlify-honeypot="bot-field">
-                <GlobalStyle/>
-                <FormItem label="Title">
-                  {getFieldDecorator('question', {
-                    rules: [
-                      {
-                        required: true,
-                        whitespace: true
-                      }
-                    ]
-                  })(<Input placeholder="please input question's title"/>)}
-                </FormItem>
-                <FormItem label="Category">
-                  {getFieldDecorator('category', {
-                    rules: [
-                      {
-                        required: true
-                      }
-                    ]
-                  })(<Cascader
-                    options={data}
-                    onChange={onChange}
-                    placeholder="Please select one"
-                    showSearch={{filter}}
-                    expandTrigger="hover"
-                  />)}
-                </FormItem>
+              ]
+            })(<Input placeholder="please input question's title"/>)}
+          </FormItem>
+          <FormItem label="Category">
+            {getFieldDecorator('category', {
+              rules: [
+                {
+                  required: true
+                }
+              ]
+            })(<Cascader
+              options={data}
+              onChange={onChange}
+              placeholder="Please select one"
+              showSearch={{filter}}
+              expandTrigger="hover"
+            />)}
+          </FormItem>
 
 
-                <FormItem label="Description">
-                  {getFieldDecorator('description', {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'Please enter description!',
-                        whitespace: true
-                      }
-                    ]
-                  })(<TextArea placeholder="please input question's description" autoSize={{minRows: 2, maxRows: 6}}/>)}
-                </FormItem>
-                <Tabs defaultActiveKey="1">
-                  <TabPane tab={<span><Icon type="check-square"/>Multiple Question</span>} key="1">
-                    {formItems}
-                    <FormItem>
-                      <StyledButton type="dashed" onClick={add} style={{width: '60%'}}>
-                        <Icon type="plus"/> Add Answer
-                      </StyledButton>
-                    </FormItem>
-                  </TabPane>
-                  <TabPane tab={<span><Icon type="code-o"/>Coding</span>} key="2" disabled>
-                    {CodeMirror &&
-                    <FormItem label="code">
-                      {getFieldDecorator('code', {
-                        rules: [
-                          {
-                            required: true,
-                            message: 'Please enter your code!',
-                            initialValue: 'function(){}'
-                          }
-                        ],
-                        initialValue: 'function(){}'
-                      })(
-                        <CodeMirror options={{lineNumbers: true, mode: 'javascript'}}/>
-                      )}
-                    </FormItem>
+          <FormItem label="Description">
+            {getFieldDecorator('description', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please enter description!',
+                  whitespace: true
+                }
+              ]
+            })(<TextArea placeholder="please input question's description" autoSize={{minRows: 2, maxRows: 6}}/>)}
+          </FormItem>
+          <Tabs defaultActiveKey="1">
+            <TabPane tab={<span><Icon type="check-square"/>Multiple Question</span>} key="1">
+              {formItems}
+              <FormItem>
+                <StyledButton type="dashed" onClick={add} style={{width: '60%'}}>
+                  <Icon type="plus"/> Add Answer
+                </StyledButton>
+              </FormItem>
+            </TabPane>
+            <TabPane tab={<span><Icon type="code-o"/>Coding</span>} key="2" disabled>
+              {CodeMirror &&
+              <FormItem label="code">
+                {getFieldDecorator('code', {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'Please enter your code!',
+                      initialValue: 'function(){}'
                     }
-                  </TabPane>
-                </Tabs>
-                <Button type="primary" htmlType="submit">
-                  <GatsbyLink to={'/questions'} replace>Back</GatsbyLink>
-                </Button>
-                <FormItem>
-                  <Button type="primary" htmlType="submit">
-                    Submit
-                  </Button>
-                </FormItem>
-              </Form>
-            )
-          }}
-        </ThemeContext.Consumer>
+                  ],
+                  initialValue: 'function(){}'
+                })(
+                  <CodeMirror options={{lineNumbers: true, mode: 'javascript'}}/>
+                )}
+              </FormItem>
+              }
+            </TabPane>
+          </Tabs>
+          <Button type="primary" htmlType="submit">
+            <GatsbyLink to={'/questions'} replace>Back</GatsbyLink>
+          </Button>
+          <FormItem>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </FormItem>
+        </Form>
       </div>
     </React.Fragment>
   )

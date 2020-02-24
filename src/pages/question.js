@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import { ThemeContext } from '../layouts'
 import Article from '../components/Article'
 import Headline from '../components/Article/Headline'
 import Seo from '../components/Seo'
@@ -23,17 +22,12 @@ const QuestionPage = props => {
 
   return (
     <React.Fragment>
-      <ThemeContext.Consumer>
-        {theme => (
-          <Article theme={theme}>
-            <header>
-              <Headline title="Create Question" theme={theme}/>
-            </header>
-            <Question theme={theme}/>
-          </Article>
-        )}
-      </ThemeContext.Consumer>
-
+      <Article>
+        <header>
+          <Headline title="Create Question"/>
+        </header>
+        <Question/>
+      </Article>
       <Seo facebook={facebook}/>
     </React.Fragment>
   )

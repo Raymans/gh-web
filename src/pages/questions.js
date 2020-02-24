@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { useContext } from 'react'
 
-import { ThemeContext } from '../layouts'
 import Article from '../components/Article'
 import Headline from '../components/Article/Headline'
 import Seo from '../components/Seo'
@@ -9,7 +8,6 @@ import Questions from '../components/Questions'
 import { graphql } from 'gatsby'
 
 const QuestionsPage = props => {
-  const theme = useContext(ThemeContext)
   const {
     data: {
       site: {
@@ -20,13 +18,13 @@ const QuestionsPage = props => {
 
   return (
     <React.Fragment>
-      <Article theme={theme}>
+      <Article>
         <header>
-          <Headline theme={theme}>
+          <Headline>
             <span>Questions</span><a href="/question">Create</a>
           </Headline>
         </header>
-        <Questions theme={theme}/>
+        <Questions/>
       </Article>
 
       <Seo facebook={facebook}/>

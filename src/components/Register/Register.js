@@ -7,7 +7,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 import { signup } from '../../utils/api'
-import { ThemeContext } from '../../layouts'
 import { createGlobalStyle } from 'styled-components'
 
 const FormItem = Form.Item
@@ -95,92 +94,78 @@ const Register = props => {
   return (
     <React.Fragment>
       <div className="form">
-        <ThemeContext.Consumer>
-          {theme => {
-            const GlobalStyle = createGlobalStyle`
-                @media (min-width: 1024px) {
-                .article {
-                  max-width: ${theme.text.maxWidth.desktopForm} !important;
-                }
-              }
-            `
-            return (
-              <Form onSubmit={(e) => handleSubmit(e)}>
-                <GlobalStyle/>
-                <FormItem
-                  {...formItemLayout}
-                  label="E-mail"
-                >
-                  {getFieldDecorator('email', {
-                    rules: [{
-                      type: 'email', message: 'The input is not valid E-mail!'
-                    }, {
-                      required: true, message: 'Please input your E-mail!'
-                    }]
-                  })(
-                    <Input/>
-                  )}
-                </FormItem>
-                <FormItem
-                  {...formItemLayout}
-                  label={(
-                    <span>
-                      User Name&nbsp;
-                      <Tooltip title="What do you want others to see you?">
-                        <Icon type="question-circle-o"/>
-                    </Tooltip>
-                    </span>
-                  )}
-                >
-                  {getFieldDecorator('username', {
-                    rules: [{required: true, message: 'Please input your user name!', whitespace: true}]
-                  })(
-                    <Input/>
-                  )}
-                </FormItem>
-                <FormItem
-                  {...formItemLayout}
-                  label="Password"
-                >
-                  {getFieldDecorator('password', {
-                    rules: [{
-                      required: true, message: 'Please input your password!'
-                    }, {
-                      validator: validateToNextPassword
-                    }]
-                  })(
-                    <Input type="password"/>
-                  )}
-                </FormItem>
-                <FormItem
-                  {...formItemLayout}
-                  label="Confirm Password"
-                >
-                  {getFieldDecorator('confirm', {
-                    rules: [{
-                      required: true, message: 'Please confirm your password!'
-                    }, {
-                      validator: compareToFirstPassword
-                    }]
-                  })(
-                    <Input type="password" onBlur={handleConfirmBlur}/>
-                  )}
-                </FormItem>
-                <FormItem {...tailFormItemLayout}>
-                  {getFieldDecorator('remember', {
-                    valuePropName: 'checked',
-                    initialValue: true
-                  })(
-                    <Checkbox>Remember me</Checkbox>
-                  )}
-                </FormItem>
-                <FormItem {...tailFormItemLayout}>
-                  <Button type="primary" htmlType="submit">Register</Button>
-                </FormItem>
-              </Form>
-            )
-          }}
-        </ThemeContext.Consumer>
+        <Form onSubmit={(e) => handleSubmit(e)}>
+          <FormItem
+            {...formItemLayout}
+            label="E-mail"
+          >
+            {getFieldDecorator('email', {
+              rules: [{
+                type: 'email', message: 'The input is not valid E-mail!'
+              }, {
+                required: true, message: 'Please input your E-mail!'
+              }]
+            })(
+              <Input/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label={(
+              <span>
+                User Name&nbsp;
+                <Tooltip title="What do you want others to see you?">
+                  <Icon type="question-circle-o"/>
+              </Tooltip>
+              </span>
+            )}
+          >
+            {getFieldDecorator('username', {
+              rules: [{required: true, message: 'Please input your user name!', whitespace: true}]
+            })(
+              <Input/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="Password"
+          >
+            {getFieldDecorator('password', {
+              rules: [{
+                required: true, message: 'Please input your password!'
+              }, {
+                validator: validateToNextPassword
+              }]
+            })(
+              <Input type="password"/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="Confirm Password"
+          >
+            {getFieldDecorator('confirm', {
+              rules: [{
+                required: true, message: 'Please confirm your password!'
+              }, {
+                validator: compareToFirstPassword
+              }]
+            })(
+              <Input type="password" onBlur={handleConfirmBlur}/>
+            )}
+          </FormItem>
+          <FormItem {...tailFormItemLayout}>
+            {getFieldDecorator('remember', {
+              valuePropName: 'checked',
+              initialValue: true
+            })(
+              <Checkbox>Remember me</Checkbox>
+            )}
+          </FormItem>
+          <FormItem {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit">Register</Button>
+          </FormItem>
+        </Form>
       </div>
     </React.Fragment>
   )

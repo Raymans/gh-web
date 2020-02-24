@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import { ThemeContext } from '../layouts'
 import Hero from '../components/Hero'
 import Seo from '../components/Seo'
 import Home from '../components/Home'
@@ -38,15 +37,10 @@ class IndexPage extends React.Component {
 
     return (
       <React.Fragment>
-        <ThemeContext.Consumer>
-          {theme => (
-            <div>
-              <Hero backgrounds={backgrounds} theme={theme}/>
-              <Home backgrounds={backgrounds} theme={theme}/>
-            </div>
-          )}
-        </ThemeContext.Consumer>
-
+        <div>
+          <Hero backgrounds={backgrounds}/>
+          <Home backgrounds={backgrounds}/>
+        </div>
         <Seo facebook={facebook}/>
       </React.Fragment>
     )

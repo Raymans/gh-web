@@ -66,8 +66,7 @@ const Bodytext = props => {
 }
 
 Bodytext.propTypes = {
-  html: PropTypes.string.isRequired,
-  theme: PropTypes.object.isRequired
+  html: PropTypes.string.isRequired
 }
 
 export default Bodytext

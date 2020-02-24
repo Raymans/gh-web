@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import { ThemeContext } from '../layouts'
 import Article from '../components/Article'
 import Login from '../components/Login'
 import Headline from '../components/Article/Headline'
@@ -19,17 +18,12 @@ const LoginPage = props => {
 
   return (
     <React.Fragment>
-      <ThemeContext.Consumer>
-        {theme => (
-          <Article theme={theme}>
-            <header>
-              <Headline title="Login" theme={theme}/>
-            </header>
-            <Login theme={theme}/>
-          </Article>
-        )}
-      </ThemeContext.Consumer>
-
+      <Article>
+        <header>
+          <Headline title="Login"/>
+        </header>
+        <Login/>
+      </Article>
       <Seo facebook={facebook}/>
     </React.Fragment>
   )

@@ -62,7 +62,7 @@ const Home = props => {
 }
 
 Home.propTypes = {
-  backgrounds: PropTypes.string
+  backgrounds: PropTypes.object
 }
 
 export default Home

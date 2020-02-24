@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import { ThemeContext } from '../layouts'
 import Article from '../components/Article'
 import Headline from '../components/Article/Headline'
 import Seo from '../components/Seo'
@@ -19,17 +18,12 @@ const InterviewsPage = props => {
 
   return (
     <React.Fragment>
-      <ThemeContext.Consumer>
-        {theme => (
-          <Article theme={theme}>
-            <header>
-              <Headline title="Interviews" theme={theme}/>
-            </header>
-            <Interviews theme={theme}/>
-          </Article>
-        )}
-      </ThemeContext.Consumer>
-
+      <Article>
+        <header>
+          <Headline title="Interviews"/>
+        </header>
+        <Interviews/>
+      </Article>
       <Seo facebook={facebook}/>
     </React.Fragment>
   )

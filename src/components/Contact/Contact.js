@@ -6,7 +6,6 @@ import Form from 'antd/lib/form'
 import Input from 'antd/lib/input'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { ThemeContext } from '../../layouts'
 
 const FormItem = Form.Item
 const {TextArea} = Input
@@ -53,50 +52,46 @@ const Contact = props => {
   return (
     <React.Fragment>
       <div className="form">
-        <ThemeContext.Consumer>
-          {theme => (
-            <Form onSubmit={handleSubmit} data-netlify="true" data-netlify-honeypot="bot-field">
-              <FormItem label="Name">
-                {getFieldDecorator('name', {
-                  rules: [
-                    {
-                      whitespace: true
-                    }
-                  ]
-                })(<Input/>)}
-              </FormItem>
-              <FormItem label="E-mail">
-                {getFieldDecorator('email', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please input your e-mail address!',
-                      whitespace: true,
-                      type: 'email'
-                    }
-                  ]
-                })(<Input/>)}
-              </FormItem>
-              <FormItem label="Message">
-                {getFieldDecorator('message', {
-                  rules: [
-                    {required: true, message: 'Please input your message!', whitespace: true}
-                  ]
-                })(
-                  <TextArea
-                    placeholder="Autosize height with minimum and maximum number of lines"
-                    autoSize={{minRows: 4, maxRows: 10}}
-                  />
-                )}
-              </FormItem>
-              <FormItem>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </FormItem>
-            </Form>
-          )}
-        </ThemeContext.Consumer>
+        <Form onSubmit={handleSubmit} data-netlify="true" data-netlify-honeypot="bot-field">
+          <FormItem label="Name">
+            {getFieldDecorator('name', {
+              rules: [
+                {
+                  whitespace: true
+                }
+              ]
+            })(<Input/>)}
+          </FormItem>
+          <FormItem label="E-mail">
+            {getFieldDecorator('email', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please input your e-mail address!',
+                  whitespace: true,
+                  type: 'email'
+                }
+              ]
+            })(<Input/>)}
+          </FormItem>
+          <FormItem label="Message">
+            {getFieldDecorator('message', {
+              rules: [
+                {required: true, message: 'Please input your message!', whitespace: true}
+              ]
+            })(
+              <TextArea
+                placeholder="Autosize height with minimum and maximum number of lines"
+                autoSize={{minRows: 4, maxRows: 10}}
+              />
+            )}
+          </FormItem>
+          <FormItem>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </FormItem>
+        </Form>
       </div>
     </React.Fragment>
   )

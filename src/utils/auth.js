@@ -96,6 +96,6 @@ export const getUserInfo = () => {
     return {};
   }
   let profile = localStorage.getItem('profile');
-  profile = profile === null? {}: JSON.parse(profile);
+  profile = profile? JSON.parse(profile): {};
   return profile;
 };

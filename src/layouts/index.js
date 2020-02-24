@@ -11,7 +11,6 @@ import { graphql, StaticQuery } from 'gatsby'
 import themeObjectFromYaml from '../theme/theme.yaml'
 import {ThemeProvider} from 'styled-components'
 
-export const ThemeContext = React.createContext(null)
 export const ScreenWidthContext = React.createContext(0)
 export const FontLoadedContext = React.createContext(false)
 
@@ -102,17 +101,15 @@ export const Layout = (props) => {
 
       return (
         <ThemeProvider theme={layoutState.theme}>
-          <ThemeContext.Provider value={layoutState.theme}>
-            <FontLoadedContext.Provider value={layoutState.font400loaded}>
-              <ScreenWidthContext.Provider value={layoutState.screenWidth}>
-                <React.Fragment>
-                  <Header path={props.location.pathname} pages={pages}/>
-                  <main>{children}</main>
-                  <Footer html={footnoteHTML}/>
-                </React.Fragment>
-              </ScreenWidthContext.Provider>
-            </FontLoadedContext.Provider>
-          </ThemeContext.Provider>
+          <FontLoadedContext.Provider value={layoutState.font400loaded}>
+            <ScreenWidthContext.Provider value={layoutState.screenWidth}>
+              <React.Fragment>
+                <Header path={props.location.pathname} pages={pages}/>
+                <main>{children}</main>
+                <Footer html={footnoteHTML}/>
+              </React.Fragment>
+            </ScreenWidthContext.Provider>
+          </FontLoadedContext.Provider>
         </ThemeProvider>
       )
     }}
