@@ -1,10 +1,9 @@
-/* eslint no-unused-vars: 0 */
-
-import { Affix, Avatar, Cascader, Collapse, Divider, Icon, Input, Layout, List, Menu, Radio, Tag } from 'antd'
+import { Affix, Avatar, Cascader, Checkbox, Collapse, Divider, Icon, Input, Layout, List, Menu, Radio, Tag } from 'antd'
 import { getQuestions } from '../../utils/api'
 import options from '../Question/data'
 import React from 'react'
 import styled from 'styled-components'
+import QuestionGrid from './QuestionGrid'
 
 
 const Search = Input.Search
@@ -14,15 +13,8 @@ const SubMenu = Menu.SubMenu
 const MenuItemGroup = Menu.ItemGroup
 const {Header, Footer, Sider, Content} = Layout
 
-const Panel = Collapse.Panel
 
-const StyledAnswer = styled.div`
-  padding-top: 20px;
-  .ant-collapse-item > .ant-collapse-header {
-    background-color: #1187ae94;
-    color: #ffffff70;
-  }
-`
+
 
 const StyledList = styled(List)`
   .ant-list-item-meta-title{
@@ -36,12 +28,12 @@ const StyledList = styled(List)`
     border: 1px solid #e8e8e8;
   }
 `
-const IconText = ({type, text}) => (
-  <span>
-    <Icon type={type} style={{marginRight: 8}}/>
-    {text}
-  </span>
-)
+
+const StyledSider = styled(Sider)`
+  position: absolute;
+  top: 232px;
+  left: 50px;
+`
 
 class Questions extends React.Component {
   state = {
@@ -78,11 +70,23 @@ class Questions extends React.Component {
       <Affix offsetTop={60}>
         <Menu
           onClick={this.handleClick}
-          defaultSelectedKeys={['explore']}
+          defaultSelectedKeys={['1']}
+          defaultOpenKeys={['explore']}
           mode="inline"
           style={{height: '100%'}}
         >
-          <Menu.Item key="explore">Explore</Menu.Item>
+          <SubMenu
+            key="explore"
+            title={
+              <span>
+              <Icon type="mail" />
+              <span>Explore</span>
+            </span>
+            }
+          >
+              <Menu.Item key="1">All</Menu.Item>
+              <Menu.Item key="2">JavaScript</Menu.Item>
+          </SubMenu>
           <Menu.Item key="saved">Saved</Menu.Item>
           <Menu.Item key="mine">Mine</Menu.Item>
         </Menu>
@@ -94,7 +98,7 @@ class Questions extends React.Component {
         <div className="form">
           <div>
             <Layout>
-              <Sider theme="light">{menu}</Sider>
+              <StyledSider theme="light">{menu}</StyledSider>
               <Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 280}}>
                 <Cascader
                   options={options}
@@ -112,36 +116,7 @@ class Questions extends React.Component {
                   size="large"
                   dataSource={this.state.data}
                   renderItem={item => (
-                    <List.Item
-                      key={item.id}
-                      actions={[<IconText type="star-o" text="156"/>, <IconText type="like-o" text="156"/>,
-                        <IconText type="message" text="2"/>]}
-                      //extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
-                    >
-                      <List.Item.Meta
-                        description={<div>
-                          <Tag color="geekblue">{item.category}</Tag>
-                          <Tag color="blue">{item.topic}</Tag>
-                          <Tag color="green">{item.difficulty}</Tag>
-                          <Tag color="#108ee9" style={{float: 'right'}}>{item.visibilityScope}</Tag>
-                        </div>}
-                        title={item.question}
-                      />
-                      <span className="content">{item.question}</span>
-                      <StyledAnswer>
-                        <Collapse>
-                          <Panel header="Show Me Right Answer!" key="1">
-                            <p>{item.answer}</p>
-                          </Panel>
-                        </Collapse>
-                      </StyledAnswer>
-                      <Divider orientation="left">Author</Divider>
-                      <Avatar
-                        src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A">
-                        Raymans- {item.contributedBy}
-                      </Avatar>
-                      <span>Raymans@DigitalRiver</span>
-                    </List.Item>
+                    <QuestionGrid {...item} />
                   )}
                 />
               </Content>
