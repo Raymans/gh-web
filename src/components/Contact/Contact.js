@@ -102,6 +102,4 @@ Contact.propTypes = {
   form: PropTypes.shape,
 };
 
-const ContactForm = Form.create({})(Contact);
-
-export default ContactForm;
+export default Contact;

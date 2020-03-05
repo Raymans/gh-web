@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 require('dotenv').config();
 const config = require('./content/meta/config');
+const darkThemeVars = require('antd/dist/dark-theme');
 
 /* const query = `{
   allMarkdownRemark(filter: {fileAbsolutePath: {regex: "/posts|pages/[0-9]+.*--/"}}) {
@@ -98,6 +99,10 @@ module.exports = {
       options: {
         javascriptEnabled: true,
         modifyVars: require('./src/theme/theme.js'),
+        modifyVars: {
+          hack: `true;@import "${require.resolve('antd/lib/style/color/colorPalette.less')}";`,
+          ...darkThemeVars,
+        },
       },
     },
     {

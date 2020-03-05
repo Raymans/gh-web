@@ -1,7 +1,8 @@
-/* eslint no-unused-vars: 0 */
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 
 import {
-  Button, Cascader, Form, Icon, Input, Switch, Tabs, Tooltip,
+  Button, Cascader, Input, Switch, Tabs, Tooltip,
 } from 'antd';
 import styled, { createGlobalStyle } from 'styled-components';
 import PropTypes from 'prop-types';
@@ -33,7 +34,7 @@ const GlobalStyle = createGlobalStyle`
 const StyledButton = styled(Button)`
   color: green;
 `;
-const StyledIcon = styled(Icon)`
+const StyledIcon = styled(LegacyIcon)`
     cursor: pointer;
     position: relative;
     top: 4px;
@@ -144,8 +145,8 @@ const Question = (props) => {
             valuePropName: 'checked', initialValue: true,
           })(
             <Switch
-              checkedChildren={<Icon type="check" />}
-              unCheckedChildren={<Icon type="close" />}
+              checkedChildren={<LegacyIcon type="check" />}
+              unCheckedChildren={<LegacyIcon type="close" />}
               style={{ float: 'left', margin: '5px' }}
             />,
           )}
@@ -211,7 +212,7 @@ const Question = (props) => {
             <TabPane
               tab={(
                 <span>
-                  <Icon type="check-square" />
+                  <LegacyIcon type="check-square" />
 Multiple Question
                 </span>
 )}
@@ -220,7 +221,7 @@ Multiple Question
               {formItems}
               <FormItem>
                 <StyledButton type="dashed" onClick={add} style={{ width: '60%' }}>
-                  <Icon type="plus" />
+                  <LegacyIcon type="plus" />
                   {' '}
 Add Answer
                 </StyledButton>
@@ -229,7 +230,7 @@ Add Answer
             <TabPane
               tab={(
                 <span>
-                  <Icon type="code-o" />
+                  <LegacyIcon type="code-o" />
 Coding
                 </span>
 )}
@@ -237,22 +238,22 @@ Coding
               disabled
             >
               {CodeMirror
-              && (
-              <FormItem label="code">
-                {getFieldDecorator('code', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please enter your code!',
-                      initialValue: 'function(){}',
-                    },
-                  ],
-                  initialValue: 'function(){}',
-                })(
-                  <CodeMirror options={{ lineNumbers: true, mode: 'javascript' }} />,
-                )}
-              </FormItem>
+            && (
+            <FormItem label="code">
+              {getFieldDecorator('code', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please enter your code!',
+                    initialValue: 'function(){}',
+                  },
+                ],
+                initialValue: 'function(){}',
+              })(
+                <CodeMirror options={{ lineNumbers: true, mode: 'javascript' }} />,
               )}
+            </FormItem>
+            )}
             </TabPane>
           </Tabs>
           <Button type="primary" htmlType="submit">
@@ -260,7 +261,7 @@ Coding
           </Button>
           <FormItem>
             <Button type="primary" htmlType="submit">
-              Submit
+            Submit
             </Button>
           </FormItem>
         </Form>
@@ -273,6 +274,4 @@ Question.propTypes = {
   form: PropTypes.object,
 };
 
-const QuestionForm = Form.create({})(Question);
-
-export default QuestionForm;
+export default Question;

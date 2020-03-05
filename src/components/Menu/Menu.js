@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
-import { Avatar, Icon, Menu as AntMenu } from 'antd'
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Avatar, Menu as AntMenu } from 'antd';
 import { isAuthenticated, getUserInfo, logout, login } from '../../utils/auth'
 require('core-js/fn/array/from')
 
@@ -58,20 +59,20 @@ class Menu extends React.Component {
         to={item.to}
         data-slug={item.to}
       >
-        <Icon type={item.icon}/>{item.label}
+        <LegacyIcon type={item.icon}/>{item.label}
       </Link>
     </AntMenu.Item>)
 
   renderSubMenu = (item, index) =>
     (
-      <AntMenu.SubMenu key={index} title={<span><Icon type="setting"/>{item.label}</span>}>
+      <AntMenu.SubMenu key={index} title={<span><LegacyIcon type="setting"/>{item.label}</span>}>
         {item.subMenu.map(subItem =>
           <AntMenu.Item key={subItem.to}>
             <Link
               to={subItem.to}
               data-slug={subItem.to}
             >
-              <Icon type={subItem.icon}/>{subItem.label}
+              <LegacyIcon type={subItem.icon}/>{subItem.label}
             </Link>
           </AntMenu.Item>
         )}
@@ -96,15 +97,16 @@ class Menu extends React.Component {
                     <AntMenu.SubMenu key={index} title={<span>
                       <Avatar src={picture}/>{nickname}</span>}>
                       <AntMenu.Item onClick={() => logout()}>
-                        <Icon type='logout'/>Login out
+                        <LegacyIcon type='logout'/>Login out
                       </AntMenu.Item>
                     </AntMenu.SubMenu>
-                  )
+                  );
                 }
                 return (
                   <AntMenu.Item key={item.to} onClick={() => login()}>
-                    <Icon type={item.icon}/>{item.label}
-                  </AntMenu.Item>)
+                    <LegacyIcon type={item.icon}/>{item.label}
+                  </AntMenu.Item>
+                );
               }
               if(!item.needAuth) {
                 if(item.subMenu) {
@@ -116,7 +118,7 @@ class Menu extends React.Component {
           }
         </AntMenu>
       </React.Fragment>
-    )
+    );
   }
 }
 

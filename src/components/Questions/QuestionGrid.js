@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import {
-  Avatar, Checkbox, Collapse, Divider, Icon, List, Tag,
+  Avatar, Checkbox, Collapse, Divider, List, Tag,
 } from 'antd';
 import styled from 'styled-components';
 
@@ -18,7 +19,7 @@ const StyledAnswer = styled.div`
 
 const IconText = ({ type, text }) => (
   <span>
-    <Icon type={type} style={{ marginRight: 8 }} />
+    <LegacyIcon type={type} style={{ marginRight: 8 }} />
     {text}
   </span>
 );

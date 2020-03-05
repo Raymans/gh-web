@@ -1,9 +1,9 @@
 /* eslint no-unused-vars: 0 */
 
 import { navigateTo } from 'gatsby-link';
-import {
-  Button, Checkbox, Form, Icon, Input,
-} from 'antd';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Button, Checkbox, Input } from 'antd';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
@@ -55,7 +55,7 @@ const Login = (props) => {
             {getFieldDecorator('username', {
               rules: [{ required: true, message: 'Please input your username!' }],
             })(
-              <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />,
+              <Input prefix={<LegacyIcon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />,
             )}
           </FormItem>
           <FormItem>
@@ -63,7 +63,7 @@ const Login = (props) => {
               rules: [{ required: true, message: 'Please input your Password!' }],
             })(
               <Input
-                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                prefix={<LegacyIcon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                 type="password"
                 placeholder="Password"
               />,
@@ -94,6 +94,4 @@ Login.propTypes = {
   form: PropTypes.object,
 };
 
-const LoginForm = Form.create({})(Login);
-
-export default LoginForm;
+export default Login;

@@ -1,4 +1,18 @@
-import { Affix, Avatar, Cascader, Checkbox, Collapse, Divider, Icon, Input, Layout, List, Menu, Radio, Tag } from 'antd'
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import {
+  Affix,
+  Avatar,
+  Cascader,
+  Checkbox,
+  Collapse,
+  Divider,
+  Input,
+  Layout,
+  List,
+  Menu,
+  Radio,
+  Tag,
+} from 'antd';
 import { getQuestions } from '../../utils/api'
 import options from '../Question/data'
 import React from 'react'
@@ -79,7 +93,7 @@ class Questions extends React.Component {
             key="explore"
             title={
               <span>
-              <Icon type="mail" />
+              <LegacyIcon type="mail" />
               <span>Explore</span>
             </span>
             }

@@ -1,6 +1,19 @@
 /* eslint no-unused-vars: 0 */
 
-import { Affix, Avatar, Cascader, Collapse, Divider, Icon, Input, Layout, List, Menu, Radio } from 'antd'
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+
+import {
+  Affix,
+  Avatar,
+  Cascader,
+  Collapse,
+  Divider,
+  Input,
+  Layout,
+  List,
+  Menu,
+  Radio,
+} from 'antd';
 import { getInterviews } from '../../utils/api'
 import options from '../Question/data'
 import React from 'react'
@@ -31,7 +44,7 @@ for(let i = 0; i < 23; i++) {
 
 const IconText = ({type, text}) => (
   <span>
-    <Icon type={type} style={{marginRight: 8}}/>
+    <LegacyIcon type={type} style={{marginRight: 8}}/>
     {text}
   </span>
 )

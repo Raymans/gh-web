@@ -1,8 +1,10 @@
 /* eslint no-unused-vars: 0 */
 
 import { navigateTo } from 'gatsby-link';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import {
-  AutoComplete, Button, Checkbox, Form, Icon, Input, Select, Tooltip,
+  AutoComplete, Button, Checkbox, Input, Select, Tooltip,
 } from 'antd';
 
 import PropTypes from 'prop-types';
@@ -116,12 +118,12 @@ const Register = (props) => {
             {...formItemLayout}
             label={(
               <span>
-                User Name&nbsp;
+              User Name&nbsp;
                 <Tooltip title="What do you want others to see you?">
-                  <Icon type="question-circle-o" />
+                  <LegacyIcon type="question-circle-o" />
                 </Tooltip>
               </span>
-            )}
+           )}
           >
             {getFieldDecorator('username', {
               rules: [{ required: true, message: 'Please input your user name!', whitespace: true }],
@@ -178,6 +180,4 @@ Register.propTypes = {
   form: PropTypes.object,
 };
 
-const RegisterForm = Form.create({})(Register);
-
-export default RegisterForm;
+export default Register;
