@@ -116,7 +116,7 @@ class Questions extends React.Component {
                   size="large"
                   dataSource={this.state.data}
                   renderItem={item => (
-                    <QuestionGrid {...item} />
+                    <QuestionGrid key={item.id} {...item} />
                   )}
                 />
               </Content>
