@@ -19,27 +19,16 @@ import options from '../Question/data'
 import React from 'react'
 
 import GatsbyLink from 'gatsby-link'
+import Silder from '../Sider';
 
 const Search = Input.Search
 const RadioButton = Radio.Button
 const RadioGroup = Radio.Group
 const SubMenu = Menu.SubMenu
 const MenuItemGroup = Menu.ItemGroup
-const {Header, Footer, Sider, Content} = Layout
+const {Header, Footer, Content} = Layout
 
 const Panel = Collapse.Panel
-
-
-const listData = []
-for(let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'http://ant.design',
-    title: `ant design part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description: 'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.'
-  })
-}
 
 
 const IconText = ({type, text}) => (
@@ -73,28 +62,13 @@ class InterviewList extends React.Component {
   }
 
   render(){
-    const menu = (
-      <Affix offsetTop={60}>
-        <Menu
-          onClick={this.handleClick}
-          defaultSelectedKeys={['explore']}
-          mode="inline"
-          style={{height: '100%'}}
-        >
-          <Menu.Item key="explore">Explore</Menu.Item>
-          <Menu.Item key="saved">Saved</Menu.Item>
-          <Menu.Item key="mine">Mine</Menu.Item>
-        </Menu>
-      </Affix>
-    )
-
     return (
       <React.Fragment>
         <GatsbyLink to={'/interviews/1/test'}>Test interview 1</GatsbyLink>
         <div className="form">
           <div>
             <Layout>
-              <Sider theme="light">{menu}</Sider>
+              <Silder/>
               <Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 280}}>
                 <Cascader
                   options={options}

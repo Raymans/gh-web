@@ -102,3 +102,7 @@ IconText.propTypes = {
 
 
 export default QuestionGrid;
+
+QuestionGrid.defaultProps = {
+  comments: [],
+};

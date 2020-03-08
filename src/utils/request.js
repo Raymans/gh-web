@@ -24,12 +24,15 @@ const codeMessage = {
 
 function checkStatus(error) {
   const { response } = error;
+  if (!response) {
+    return codeMessage['500'];
+  }
   if (response.status >= 200 && response.status < 300) {
     return response.data.message;
   }
 
   const errortext = codeMessage[response.status] || response.statusText;
-  notification.error({
+  return notification.error({
     message: `${errortext}`,
     description: response.data ? response.data.message : errortext,
   });

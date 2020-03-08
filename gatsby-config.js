@@ -99,10 +99,10 @@ module.exports = {
       options: {
         javascriptEnabled: true,
         modifyVars: require('./src/theme/theme.js'),
-        modifyVars: {
-          hack: `true;@import "${require.resolve('antd/lib/style/color/colorPalette.less')}";`,
-          ...darkThemeVars,
-        },
+        // modifyVars: {
+        //   hack: `true;@import "${require.resolve('antd/lib/style/color/colorPalette.less')}";`,
+        //   ...darkThemeVars,
+        // },
       },
     },
     {

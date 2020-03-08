@@ -18,6 +18,7 @@ import options from '../Question/data'
 import React from 'react'
 import styled from 'styled-components'
 import QuestionGrid from './QuestionGrid'
+import Silder from '../Sider';
 
 
 const Search = Input.Search
@@ -43,11 +44,6 @@ const StyledList = styled(List)`
   }
 `
 
-const StyledSider = styled(Sider)`
-  position: absolute;
-  top: 232px;
-  left: 50px;
-`
 
 class Questions extends React.Component {
   state = {
@@ -80,39 +76,12 @@ class Questions extends React.Component {
   }
 
   render(){
-    const menu = (
-      <Affix offsetTop={60}>
-        <Menu
-          onClick={this.handleClick}
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['explore']}
-          mode="inline"
-          style={{height: '100%'}}
-        >
-          <SubMenu
-            key="explore"
-            title={
-              <span>
-              <LegacyIcon type="mail" />
-              <span>Explore</span>
-            </span>
-            }
-          >
-              <Menu.Item key="1">All</Menu.Item>
-              <Menu.Item key="2">JavaScript</Menu.Item>
-          </SubMenu>
-          <Menu.Item key="saved">Saved</Menu.Item>
-          <Menu.Item key="mine">Mine</Menu.Item>
-        </Menu>
-      </Affix>
-    )
-
     return (
       <React.Fragment>
         <div className="form">
           <div>
             <Layout>
-              <StyledSider theme="light">{menu}</StyledSider>
+              <Silder onClick={this.handleClick}/>
               <Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 280}}>
                 <Cascader
                   options={options}
