@@ -20,7 +20,10 @@ const InterviewsPage = (props) => {
     <>
       <Article>
         <header>
-          <Headline title="Interviews" />
+          <Headline>
+            <span>Interviews</span>
+            <a href="/interviews/create">Create</a>
+          </Headline>
         </header>
         <Interviews />
       </Article>

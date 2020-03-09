@@ -41,6 +41,7 @@ const StyledMinusCircleOutlined = styled(MinusCircleOutlined)`
     }
   `;
 const Question = (props) => {
+  const { id } = props;
   function encode(data) {
     return Object.keys(data)
       .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
@@ -140,7 +141,7 @@ const Question = (props) => {
   return (
     <>
       <div className="form">
-        <Form onSubmit={handleSubmit} data-netlify="true" data-netlify-honeypot="bot-field" initialValues={{ code: 'function(){}' }}>
+        <Form id={id} onSubmit={handleSubmit} data-netlify="true" data-netlify-honeypot="bot-field" initialValues={{ code: 'function(){}' }}>
           <GlobalStyle />
           <FormItem name="question" rules={[{ required: true, whitespace: true }]}>
             <Input placeholder="please input question's title" />

@@ -26,16 +26,11 @@ const IconText = ({ type, text }) => (
 
 const QuestionGrid = (props) => {
   const {
-    id, category, topic, difficulty, answer, contributedBy, question, like, star, comments,
+    id, category, topic, difficulty, answer, contributedBy, question,
   } = props;
-  const commentCount = comments.length;
   return (
     <List.Item
       key={id}
-      actions={[
-        <IconText type="star-o" text={star} key="star" />,
-        <IconText type="like-o" text={like} key="like" />,
-        <IconText type="message" text={commentCount} key="message" />]}
     >
       <List.Item.Meta
         description={(
@@ -85,13 +80,10 @@ const QuestionGrid = (props) => {
 QuestionGrid.propTypes = {
   answer: PropTypes.string,
   category: PropTypes.string,
-  comments: PropTypes.arrayOf(PropTypes.object),
   contributedBy: PropTypes.string,
   difficulty: PropTypes.string,
   id: PropTypes.string.isRequired,
-  like: PropTypes.number,
   question: PropTypes.string,
-  star: PropTypes.number,
   topic: PropTypes.string,
 };
 
@@ -102,7 +94,3 @@ IconText.propTypes = {
 
 
 export default QuestionGrid;
-
-QuestionGrid.defaultProps = {
-  comments: [],
-};
