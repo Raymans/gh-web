@@ -68,7 +68,8 @@
     "styled-components": "^5.0.1",
     "tinycolor2": "^1.4.1",
     "typeface-open-sans": "^0.0.75",
-    "yaml-loader": "^0.5.0"
+    "yaml-loader": "^0.5.0",
+    "@ant-design/icons": "latest"
   },
   "keywords": [
     "gatsby"
