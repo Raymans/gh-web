@@ -6,17 +6,10 @@ import React from 'react';
 import styled from 'styled-components';
 import SubMenu from 'antd/lib/menu/SubMenu';
 
-
-const StyledSider = styled(Layout.Sider)`
-  position: absolute;
-  top: 232px;
-  left: 50px;
-`;
-
 const Silder = (props) => {
   const { onClick } = props;
   return (
-    <StyledSider theme="light">
+    <Layout.Sider theme="light">
       <Affix offsetTop={60}>
         <Menu
           onClick={onClick}
@@ -41,7 +34,7 @@ const Silder = (props) => {
           <Menu.Item key="mine">Mine</Menu.Item>
         </Menu>
       </Affix>
-    </StyledSider>
+    </Layout.Sider>
 
   );
 };

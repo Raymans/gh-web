@@ -25,14 +25,6 @@ if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
   require('codemirror/lib/codemirror.css');
 }
 
-const GlobalStyle = createGlobalStyle`
-    @media (min-width: 1024px) {
-    .article {
-      max-width: ${(props) => props.theme.text.maxWidth.desktopForm} !important;
-    }
-  }
-`;
-
 const StyledMinusCircleOutlined = styled(MinusCircleOutlined)`
     color: #999;
     transition: all .3s;
@@ -142,7 +134,6 @@ const Question = (props) => {
     <>
       <div className="form">
         <Form id={id} onSubmit={handleSubmit} data-netlify="true" data-netlify-honeypot="bot-field" initialValues={{ code: 'function(){}' }}>
-          <GlobalStyle />
           <FormItem name="question" rules={[{ required: true, whitespace: true }]}>
             <Input placeholder="please input question's title" />
           </FormItem>
