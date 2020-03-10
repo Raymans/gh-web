@@ -23,12 +23,13 @@ const InterviewForm = () => (
         <Link href="#question3" title="Title of Question3" />
       </Anchor>
     </StyledAnchor>
-    <Question id="question1" />
-    <StyledDivider />
+    <StyledDivider orientation="left" id="question1">Question1</StyledDivider>
+    <Question />
+    <StyledDivider orientation="left" id="question2">Question2</StyledDivider>
     <Question id="question2" />
-    <StyledDivider />
+    <StyledDivider orientation="left" id="question3">Question3</StyledDivider>
     <Question id="question3" />
-    <StyledDivider />
+    <StyledDivider>Question4</StyledDivider>
     <Question id="question4" />
     <Question id="question5" />
     <Question id="question6" />
