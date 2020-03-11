@@ -12,7 +12,6 @@ const { TextArea } = Input;
 
 const Contact = (props) => {
   const { form } = props;
-  const { getFieldDecorator } = form;
 
   function encode(data) {
     return Object.keys(data)
@@ -54,38 +53,42 @@ const Contact = (props) => {
     <>
       <div className="form">
         <Form onSubmit={handleSubmit} data-netlify="true" data-netlify-honeypot="bot-field">
-          <FormItem label="Name">
-            {getFieldDecorator('name', {
-              rules: [
-                {
-                  whitespace: true,
-                },
-              ],
-            })(<Input />)}
+          <FormItem
+            label="Name"
+            name="name"
+            rules={[
+              {
+                whitespace: true,
+              },
+            ]}
+          >
+            <Input />
           </FormItem>
-          <FormItem label="E-mail">
-            {getFieldDecorator('email', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input your e-mail address!',
-                  whitespace: true,
-                  type: 'email',
-                },
-              ],
-            })(<Input />)}
+          <FormItem
+            label="E-mail"
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your e-mail address!',
+                whitespace: true,
+                type: 'email',
+              },
+            ]}
+          >
+            <Input />
           </FormItem>
-          <FormItem label="Message">
-            {getFieldDecorator('message', {
-              rules: [
-                { required: true, message: 'Please input your message!', whitespace: true },
-              ],
-            })(
-              <TextArea
-                placeholder="Autosize height with minimum and maximum number of lines"
-                autoSize={{ minRows: 4, maxRows: 10 }}
-              />,
-            )}
+          <FormItem
+            label="Message"
+            name="message"
+            rules={[
+              { required: true, message: 'Please input your message!', whitespace: true },
+            ]}
+          >
+            <TextArea
+              placeholder="Autosize height with minimum and maximum number of lines"
+              autoSize={{ minRows: 4, maxRows: 10 }}
+            />
           </FormItem>
           <FormItem>
             <Button type="primary" htmlType="submit">

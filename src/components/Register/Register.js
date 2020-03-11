@@ -19,8 +19,6 @@ const AutoCompleteOption = AutoComplete.Option;
 
 
 const Register = (props) => {
-  const { getFieldDecorator } = props.form;
-
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -101,20 +99,20 @@ const Register = (props) => {
       <div className="form">
         <Form onSubmit={(e) => handleSubmit(e)}>
           <FormItem
+            name="email"
+            rules={[{
+              type: 'email', message: 'The input is not valid E-mail!',
+            }, {
+              required: true, message: 'Please input your E-mail!',
+            }]}
             {...formItemLayout}
             label="E-mail"
           >
-            {getFieldDecorator('email', {
-              rules: [{
-                type: 'email', message: 'The input is not valid E-mail!',
-              }, {
-                required: true, message: 'Please input your E-mail!',
-              }],
-            })(
-              <Input />,
-            )}
+            <Input />
           </FormItem>
           <FormItem
+            name="username"
+            rules={[{ required: true, message: 'Please input your user name!', whitespace: true }]}
             {...formItemLayout}
             label={(
               <span>
@@ -125,47 +123,34 @@ const Register = (props) => {
               </span>
            )}
           >
-            {getFieldDecorator('username', {
-              rules: [{ required: true, message: 'Please input your user name!', whitespace: true }],
-            })(
-              <Input />,
-            )}
+            <Input />
           </FormItem>
           <FormItem
+            name="password"
+            rules={[{
+              required: true, message: 'Please input your password!',
+            }, {
+              validator: validateToNextPassword,
+            }]}
             {...formItemLayout}
             label="Password"
           >
-            {getFieldDecorator('password', {
-              rules: [{
-                required: true, message: 'Please input your password!',
-              }, {
-                validator: validateToNextPassword,
-              }],
-            })(
-              <Input type="password" />,
-            )}
+            <Input type="password" />
           </FormItem>
           <FormItem
+            name="confirm"
+            rules={[{
+              required: true, message: 'Please confirm your password!',
+            }, {
+              validator: compareToFirstPassword,
+            }]}
             {...formItemLayout}
             label="Confirm Password"
           >
-            {getFieldDecorator('confirm', {
-              rules: [{
-                required: true, message: 'Please confirm your password!',
-              }, {
-                validator: compareToFirstPassword,
-              }],
-            })(
-              <Input type="password" onBlur={handleConfirmBlur} />,
-            )}
+            <Input type="password" onBlur={handleConfirmBlur} />
           </FormItem>
-          <FormItem {...tailFormItemLayout}>
-            {getFieldDecorator('remember', {
-              valuePropName: 'checked',
-              initialValue: true,
-            })(
-              <Checkbox>Remember me</Checkbox>,
-            )}
+          <FormItem name="remeber" {...tailFormItemLayout}>
+            <Checkbox>Remember me</Checkbox>
           </FormItem>
           <FormItem {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">Register</Button>

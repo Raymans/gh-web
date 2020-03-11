@@ -19,7 +19,6 @@ const StyledForgetLink = styled.a`
     float: right;
   `;
 const Login = (props) => {
-  const { getFieldDecorator } = props.form;
   function encode(data) {
     return Object.keys(data)
       .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
@@ -50,32 +49,19 @@ const Login = (props) => {
   return (
     <>
       <div className="form">
-        <Form onSubmit={(e) => handleSubmit(e, refreshAuth)}>
-          <FormItem>
-            {getFieldDecorator('username', {
-              rules: [{ required: true, message: 'Please input your username!' }],
-            })(
-              <Input prefix={<LegacyIcon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />,
-            )}
+        <Form onSubmit={(e) => handleSubmit(e)}>
+          <FormItem name="username" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Input prefix={<LegacyIcon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
           </FormItem>
-          <FormItem>
-            {getFieldDecorator('password', {
-              rules: [{ required: true, message: 'Please input your Password!' }],
-            })(
-              <Input
-                prefix={<LegacyIcon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                type="password"
-                placeholder="Password"
-              />,
-            )}
+          <FormItem name="password" rules={[{ required: true, message: 'Please input your Password!' }]}>
+            <Input
+              prefix={<LegacyIcon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              type="password"
+              placeholder="Password"
+            />
           </FormItem>
-          <FormItem>
-            {getFieldDecorator('remember', {
-              valuePropName: 'checked',
-              initialValue: true,
-            })(
-              <Checkbox>Remember me</Checkbox>,
-            )}
+          <FormItem name="remember">
+            <Checkbox>Remember me</Checkbox>
             <StyledForgetLink href="">Forgot password</StyledForgetLink>
             <StyledLoginButton type="primary" htmlType="submit">
               Log in
