@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import { graphql } from 'gatsby';
 import Article from '../components/Article';
 import Headline from '../components/Article/Headline';
 import Seo from '../components/Seo';
-import Profile from '../components/Profile';
+import Setting from '../components/Setting';
 
-const ProfilePage = (props) => {
+const SettingPage = (props) => {
   const {
     data: {
       site: {
@@ -21,24 +20,23 @@ const ProfilePage = (props) => {
       <Article>
         <header>
           <Headline>
-            <span>Profile</span>
+            <span>Setting</span>
           </Headline>
         </header>
-        <Profile />
+        <Setting />
       </Article>
       <Seo facebook={facebook} />
     </>
   );
 };
 
-ProfilePage.propTypes = {
+SettingPage.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-export default ProfilePage;
-// eslint-disable-next-line no-undef
+export default SettingPage;
 export const query = graphql`
-  query ProfileQuery {
+  query SettingQuery {
     site {
       siteMetadata {
         facebook {

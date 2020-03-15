@@ -26,10 +26,6 @@ const HeroSection = styled.section`
     text-remove-gap: both 0 "Open Sans";
     font-weight: 400;
   }
-  h2 {
-    color: #ffffff;
-    font-weight: 400;
-  }
   @media (min-width: 768px) {
     background-image: url(${(props) => props.backgrounds.tablet});
     h1 {
@@ -46,6 +42,11 @@ const HeroSection = styled.section`
   }
 `;
 
+const SubTitle = styled.div`
+  color: #ffffff;
+  font-weight: 400;
+  font-size: x-large;
+`;
 const Hero = (props) => {
   const { backgrounds } = props;
   return (
@@ -66,8 +67,8 @@ const Hero = (props) => {
         <h1>
           Best prepare tools for interviews
         </h1>
-        <h2>Store knowledge as your second brand</h2>
-        <h2>Practice anonymously with engineers who have worked at great company</h2>
+        <SubTitle>Store knowledge as your second brand</SubTitle>
+        <SubTitle>Practice anonymously with engineers who have worked at great company</SubTitle>
       </HeroSection>
     </>
   );

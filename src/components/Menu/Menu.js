@@ -98,7 +98,11 @@ class Menu extends React.Component {
                 if(isAuthenticated()) {
                   return (
                     <AntMenu.SubMenu key={index} title={<span>
-                      <Avatar src={picture}/>{nickname}</span>}>
+                      <Avatar src={picture} style={{marginRight: '5px'}}/>{nickname}</span>}>
+                      {this.renderItem({to: "/profile", icon: "mail", label: "Profile"})}
+                      {this.renderItem({to: "/results", icon: "mail", label: "Interview Result"})}
+                      {this.renderItem({to: "/manageinterviews", icon: "mail", label: "Manage Interview"})}
+                      {this.renderItem({to: "/setting", icon: "setting", label: "Setting"})}
                       <AntMenu.Item onClick={() => logout()}>
                         <LegacyIcon type='logout'/>Login out
                       </AntMenu.Item>

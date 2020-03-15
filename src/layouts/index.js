@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
 import { graphql, StaticQuery } from 'gatsby';
-import { ThemeProvider } from 'styled-components';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { getScreenWidth, timeoutThrottlerHandler } from '../utils/helpers';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -14,6 +14,13 @@ import themeObjectFromYaml from '../theme/theme.yaml';
 export const ScreenWidthContext = React.createContext(0);
 export const FontLoadedContext = React.createContext(false);
 
+const GlobalStyle = createGlobalStyle`
+  h2 {
+    font-weight: 500;
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 10px;
+  }
+`;
 export const Layout = (props) => {
   const [layoutState, setLayoutState] = useState({
     font400loaded: false,
@@ -103,6 +110,7 @@ export const Layout = (props) => {
             <FontLoadedContext.Provider value={layoutState.font400loaded}>
               <ScreenWidthContext.Provider value={layoutState.screenWidth}>
                 <>
+                  <GlobalStyle />
                   <Header path={props.location.pathname} pages={pages} />
                   <main>{children}</main>
                   <Footer html={footnoteHTML} />
