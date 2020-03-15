@@ -1,140 +1,172 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Avatar, Menu as AntMenu, Switch } from 'antd';
-import { isAuthenticated, getUserInfo, logout, login } from '../../utils/auth'
-import {Link} from 'gatsby-plugin-intl';
-require('core-js/fn/array/from')
+import { Link } from 'gatsby-plugin-intl';
+import { ThemeContext } from 'styled-components';
+import {
+  getUserInfo, isAuthenticated, login, logout,
+} from '../../utils/auth';
 
-class Menu extends React.Component {
-  state = {
-    current: 'Home'
-  }
+require('core-js/fn/array/from');
 
-  constructor(props){
-    super(props)
-    const pages = props.pages.map(page => ({
-      to: page.node.fields.slug,
-      label: page.node.frontmatter.menuTitle
-        ? page.node.frontmatter.menuTitle
-        : page.node.frontmatter.title,
-      icon: page.node.frontmatter.icon
-    }))
+const Menu = (props) => {
+  const [current, setCurrent] = useState('Home');
+  const { switchDark } = useContext(ThemeContext);
 
-    this.items = [
-      {to: '/', label: 'Home', icon: 'home'},
-      {to: '/questions', label: 'Questions', icon: 'question-circle'},
-      {to: '/interviews', label: 'Interviews', icon: 'eye'},
-      {
-        label: 'About', subMenu: [
-          ...pages,
-          {to: '/contact', label: 'Contact', icon: 'mail'}
-        ]
-      },
-      {to: '/login', label: 'Login', icon: 'user', needAuth: true}
-    ]
-  }
+  const pages = props.pages.map((page) => ({
+    to: page.node.fields.slug,
+    label: page.node.frontmatter.menuTitle
+      ? page.node.frontmatter.menuTitle
+      : page.node.frontmatter.title,
+    icon: page.node.frontmatter.icon,
+  }));
 
-  static getDerivedStateFromProps(props, state){
-    if(props.path !== state.path) {
-      return {
-        current: props.path
-      }
-    }
-    return null
-  }
+  const items = [
+    { to: '/', label: 'Home', icon: 'home' },
+    { to: '/questions', label: 'Questions', icon: 'question-circle' },
+    { to: '/interviews', label: 'Interviews', icon: 'eye' },
+    {
+      label: 'About',
+      subMenu: [
+        ...pages,
+        { to: '/contact', label: 'Contact', icon: 'mail' },
+      ],
+    },
+    {
+      to: '/login', label: 'Login', icon: 'user', needAuth: true,
+    },
+  ];
 
-  componentDidMount = () =>
-    this.setState({current: this.props.path})
+  useEffect(() => setCurrent(props.path),
+    props.path);
 
-  handleClick = (e) => {
-    this.setState({
-      current: e.key
-    })
-  }
+  const handleClick = (e) => {
+    setCurrent(e.key);
+  };
 
-  renderItem = item => (
+  const renderItem = (item) => (
     <AntMenu.Item key={item.to}>
       <Link
         to={item.to}
         data-slug={item.to}
       >
-        <LegacyIcon type={item.icon}/>{item.label}
+        <LegacyIcon type={item.icon} />
+        {item.label}
       </Link>
-    </AntMenu.Item>)
+    </AntMenu.Item>
+  );
 
-  renderSubMenu = (item, index) =>
-    (
-      <AntMenu.SubMenu key={index} title={<span><LegacyIcon type="setting"/>{item.label}</span>}>
-        {item.subMenu.map(subItem =>
-          <AntMenu.Item key={subItem.to}>
-            <Link
-              to={subItem.to}
-              data-slug={subItem.to}
-            >
-              <LegacyIcon type={subItem.icon}/>{subItem.label}
-            </Link>
-          </AntMenu.Item>
-        )}
-      </AntMenu.SubMenu>
-    )
+  const renderSubMenu = (item, index) => (
+    <AntMenu.SubMenu
+      key={index}
+      title={(
+        <span>
+          <LegacyIcon type="setting" />
+          {item.label}
+        </span>
+      )}
+    >
+      {item.subMenu.map((subItem) => (
+        <AntMenu.Item key={subItem.to}>
+          <Link
+            to={subItem.to}
+            data-slug={subItem.to}
+          >
+            <LegacyIcon type={subItem.icon} />
+            {subItem.label}
+          </Link>
+        </AntMenu.Item>
+      ))}
+    </AntMenu.SubMenu>
+  );
 
-  changeTheme = (checked) => {
-  }
+  const extractTheme = (vars) => {
+    const theme = {};
+    Object.keys(vars).forEach((key) => {
+      theme[key] = vars[key].value;
+    });
 
-  render(){
-    const {picture, nickname} = getUserInfo()
-    return (
-      <React.Fragment>
-        <AntMenu
-          selectedKeys={[this.state.current]}
-          onClick={this.handleClick}
-          mode="horizontal"
-          style={{borderBottom: 'none', background: 'transparent'}}
-        >
-          {
-            this.items.map((item, index) => {
-              if(item.label === 'Login') {
-                if(isAuthenticated()) {
-                  return (
-                    <AntMenu.SubMenu key={index} title={<span>
-                      <Avatar src={picture} style={{marginRight: '5px'}}/>{nickname}</span>}>
-                      {this.renderItem({to: "/profile", icon: "mail", label: "Profile"})}
-                      {this.renderItem({to: "/results", icon: "mail", label: "Interview Result"})}
-                      {this.renderItem({to: "/manageinterviews", icon: "mail", label: "Manage Interview"})}
-                      {this.renderItem({to: "/setting", icon: "setting", label: "Setting"})}
-                      <AntMenu.Item onClick={() => logout()}>
-                        <LegacyIcon type='logout'/>Login out
-                      </AntMenu.Item>
-                    </AntMenu.SubMenu>
-                  );
-                }
+    return theme;
+  };
+
+  const changeTheme = (checked) => {
+    switchDark(!checked);
+
+    // const darkTheme = {};
+    // Object.keys(dark).forEach((key) => {
+    //   darkTheme[`@${key}`] = dark[key];
+    // });
+    // if (typeof window !== 'undefined' && window) {
+    //   less
+    //     .modifyVars({'@primary-color': '#ae2641'})
+    //     .then(() => {})
+    //     .catch(() => {
+    //       message.error('Failed to update theme');
+    //     });
+    // }
+  };
+
+  const { picture, nickname } = getUserInfo();
+  return (
+    <>
+      <AntMenu
+        selectedKeys={[current]}
+        onClick={handleClick}
+        mode="horizontal"
+        style={{ borderBottom: 'none', background: 'transparent' }}
+      >
+        {
+          items.map((item, index) => {
+            if (item.label === 'Login') {
+              if (isAuthenticated()) {
                 return (
-                  <AntMenu.Item key={item.to} onClick={() => login()}>
-                    <LegacyIcon type={item.icon}/>{item.label}
-                  </AntMenu.Item>
+                  <AntMenu.SubMenu
+                    key={index}
+                    title={(
+                      <span>
+                        <Avatar src={picture} style={{ marginRight: '5px' }} />
+                        {nickname}
+                      </span>
+                    )}
+                  >
+                    {renderItem({ to: '/profile', icon: 'mail', label: 'Profile' })}
+                    {renderItem({ to: '/results', icon: 'mail', label: 'Interview Result' })}
+                    {renderItem({ to: '/manageinterviews', icon: 'mail', label: 'Manage Interview' })}
+                    {renderItem({ to: '/setting', icon: 'setting', label: 'Setting' })}
+                    <AntMenu.Item onClick={() => logout()}>
+                      <LegacyIcon type="logout" />
+                      Login out
+                    </AntMenu.Item>
+                  </AntMenu.SubMenu>
                 );
               }
-              if(!item.needAuth) {
-                if(item.subMenu) {
-                  return this.renderSubMenu(item, index)
-                }
-                return this.renderItem(item)
+              return (
+                <AntMenu.Item key={item.to} onClick={() => login()}>
+                  <LegacyIcon type={item.icon} />
+                  {item.label}
+                </AntMenu.Item>
+              );
+            }
+            if (!item.needAuth) {
+              if (item.subMenu) {
+                return renderSubMenu(item, index);
               }
-            })
-          }
-          <AntMenu.Item>
-            <Switch checkedChildren="亮" unCheckedChildren="暗" defaultChecked onChange={this.changeTheme}/>
-          </AntMenu.Item>
-        </AntMenu>
-      </React.Fragment>
-    );
-  }
-}
+              return renderItem(item);
+            }
+          })
+        }
+        <AntMenu.Item>
+          <Switch checkedChildren="亮" unCheckedChildren="暗" defaultChecked="亮" onChange={changeTheme} />
+        </AntMenu.Item>
+      </AntMenu>
+    </>
+  );
+};
 
 Menu.propTypes = {
   pages: PropTypes.array.isRequired,
-  path: PropTypes.string
-}
+  path: PropTypes.string,
+};
 
-export default Menu
+export default Menu;

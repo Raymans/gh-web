@@ -8,7 +8,6 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { getScreenWidth, timeoutThrottlerHandler } from '../utils/helpers';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import { getCurrentUserUrl } from '../utils/api';
 import themeObjectFromYaml from '../theme/theme.yaml';
 
 export const ScreenWidthContext = React.createContext(0);
@@ -27,15 +26,21 @@ export const Layout = (props) => {
     font600loaded: false,
     screenWidth: 0,
     headerMinimized: false,
-    theme: themeObjectFromYaml,
+    theme: {
+      ...themeObjectFromYaml,
+      dark: false,
+      switchDark: (isDark) => {
+        setLayoutState({ ...layoutState, dark: isDark });
+      },
+    },
   });
   const timeouts = {};
-
-  const resizeThrottler = () => timeoutThrottlerHandler(timeouts, 'resize', 100, resizeHandler);
 
   const resizeHandler = () => {
     setLayoutState({ ...layoutState, screenWidth: getScreenWidth() });
   };
+
+  const resizeThrottler = () => timeoutThrottlerHandler(timeouts, 'resize', 100, resizeHandler);
 
   const loadFont = (name, family, weight) => {
     const font = new FontFaceObserver(family, {
@@ -107,6 +112,9 @@ export const Layout = (props) => {
 
         return (
           <ThemeProvider theme={layoutState.theme}>
+            {
+              layoutState.dark && <link rel="stylesheet" type="text/css" href="https://ant.design/dark.css" />
+            }
             <FontLoadedContext.Provider value={layoutState.font400loaded}>
               <ScreenWidthContext.Provider value={layoutState.screenWidth}>
                 <>
