@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@ant-design/compatible": "^1.0.1",
+    "@ant-design/icons": "latest",
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-brands-svg-icons": "^5.12.1",
     "@fortawesome/free-solid-svg-icons": "^5.12.1",
@@ -23,6 +24,7 @@
     "gatsby-plugin-catch-links": "^2.1.25",
     "gatsby-plugin-create-client-paths": "^2.1.22",
     "gatsby-plugin-google-analytics": "^2.1.35",
+    "gatsby-plugin-intl": "^0.3.3",
     "gatsby-plugin-layout": "^1.1.22",
     "gatsby-plugin-less": "^3.0.19",
     "gatsby-plugin-manifest": "^2.2.41",
@@ -68,8 +70,7 @@
     "styled-components": "^5.0.1",
     "tinycolor2": "^1.4.1",
     "typeface-open-sans": "^0.0.75",
-    "yaml-loader": "^0.5.0",
-    "@ant-design/icons": "latest"
+    "yaml-loader": "^0.5.0"
   },
   "keywords": [
     "gatsby"

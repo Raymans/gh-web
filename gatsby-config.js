@@ -175,5 +175,13 @@ module.exports = {
       options: {
       },
     },
+    {
+      resolve: 'gatsby-plugin-intl',
+      options: {
+        path: `${__dirname}/src/intl`,
+        languages: ['en', 'zh-tw'],
+        defaultLanguage: 'en',
+      },
+    },
   ],
 };

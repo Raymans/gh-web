@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Particles from 'react-particles-js';
 import styled from 'styled-components';
+import { FormattedMessage } from 'gatsby-plugin-intl';
 import particleConfig from './particle-option.json';
 
 const HeroSection = styled.section`
@@ -65,7 +66,7 @@ const Hero = (props) => {
       </div>
       <HeroSection backgrounds={backgrounds}>
         <h1>
-          Best prepare tools for interviews
+          <FormattedMessage id="mainTitle" />
         </h1>
         <SubTitle>Store knowledge as your second brand</SubTitle>
         <SubTitle>Practice anonymously with engineers who have worked at great company</SubTitle>

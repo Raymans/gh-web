@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'gatsby-link'
 import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Avatar, Menu as AntMenu, Switch } from 'antd';
 import { isAuthenticated, getUserInfo, logout, login } from '../../utils/auth'
+import {Link} from 'gatsby-plugin-intl';
 require('core-js/fn/array/from')
 
 class Menu extends React.Component {
