@@ -20,10 +20,7 @@ const Profile = () => (
           <AnchorLink href="#passinterview" title="Passed Interview" />
         </Anchor>
       </Sider>
-      <Content style={{
-        background: '#fff', padding: 24, margin: 0,
-      }}
-      >
+      <Content>
         <MyInterview />
         <br />
         <PassInterview />

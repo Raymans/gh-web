@@ -18,10 +18,7 @@ const Setting = () => (
           <AnchorLink href="#notification" title="Notification" />
         </Anchor>
       </Sider>
-      <Content style={{
-        background: '#fff', padding: 24, margin: 0,
-      }}
-      >
+      <Content>
         <Form>
           <FormItem name="email" label="Email" rules={[{ type: 'email' }]}>
             <Input />

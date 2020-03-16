@@ -6,7 +6,7 @@ import React from 'react';
 import styled from 'styled-components';
 import SubMenu from 'antd/lib/menu/SubMenu';
 
-const Silder = (props) => {
+const FilterSider = (props) => {
   const { onClick } = props;
   return (
     <Layout.Sider theme="light">
@@ -38,8 +38,8 @@ const Silder = (props) => {
 
   );
 };
-export default Silder;
+export default FilterSider;
 
-Silder.propTypes = {
+FilterSider.propTypes = {
   onClick: PropTypes.func,
 };

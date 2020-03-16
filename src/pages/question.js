@@ -7,7 +7,7 @@ import { createGlobalStyle } from 'styled-components';
 import Article from '../components/Article';
 import Headline from '../components/Article/Headline';
 import Seo from '../components/Seo';
-import Question from '../components/Question';
+import QuestionForm from '../components/Question';
 
 
 const { Option } = Select;
@@ -34,9 +34,9 @@ const QuestionPage = (props) => {
       <GlobalStyle />
       <Article>
         <header>
-          <Headline title="Create Question" />
+          <Headline title="Create QuestionForm" />
         </header>
-        <Question />
+        <QuestionForm />
       </Article>
       <Seo facebook={facebook} />
     </>

@@ -74,11 +74,8 @@ const MyInterview = () => {
           <List.Item
             actions={[<Badge dot><a key="result">5 geeks</a></Badge>, <a key="delete">delete</a>]}
           >
-            <Skeleton avatar title={false} loading={item.loading} active>
+            <Skeleton title={false} loading={item.loading} active>
               <List.Item.Meta
-                avatar={
-                  <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                  }
                 title={<a href="#">{item.name}</a>}
                 description="This is interview for Google Geeks"
               />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Table } from 'antd';
+import { Avatar, Badge, Table } from 'antd';
 
 
 const PassInterview = () => {
@@ -39,11 +39,25 @@ const PassInterview = () => {
   };
 
   const columns = [
-    { title: 'Name', dataIndex: 'name', key: 'name' },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
     { title: 'Description', dataIndex: 'description', key: 'description' },
     { title: 'Times', dataIndex: 'times', key: 'times' },
     { title: 'Avg Score', dataIndex: 'avgScore', key: 'avgScore' },
-    { title: 'Owner', dataIndex: 'owner', key: 'owner' },
+    {
+      title: 'Owner',
+      dataIndex: 'owner',
+      key: 'owner',
+      render: (v) => (
+        <div style={{ 'white-space': 'nowrap' }}>
+          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+          <span>{v}</span>
+        </div>
+      ),
+    },
     { title: 'Created on', dataIndex: 'createdOn', key: 'createdOn' },
   ];
 

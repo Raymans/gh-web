@@ -32,7 +32,7 @@ const StyledMinusCircleOutlined = styled(MinusCircleOutlined)`
       color: #777;
     }
   `;
-const Question = (props) => {
+const QuestionForm = (props) => {
   const { id } = props;
   function encode(data) {
     return Object.keys(data)
@@ -212,8 +212,8 @@ Coding
   );
 };
 
-Question.propTypes = {
+QuestionForm.propTypes = {
   form: PropTypes.object,
 };
 
-export default Question;
+export default QuestionForm;

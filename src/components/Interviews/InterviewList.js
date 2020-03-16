@@ -19,7 +19,7 @@ import options from '../Question/data'
 import React from 'react'
 
 import GatsbyLink from 'gatsby-link'
-import Silder from '../Sider';
+import FilterSider from '../Sider/FilterSider';
 
 const Search = Input.Search
 const RadioButton = Radio.Button
@@ -68,8 +68,8 @@ class InterviewList extends React.Component {
         <div className="form">
           <div>
             <Layout>
-              <Silder/>
-              <Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 280}}>
+              <FilterSider/>
+              <Content>
                 <Cascader
                   options={options}
                   expandTrigger="hover"
