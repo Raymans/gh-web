@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 require('dotenv').config();
-const config = require('./content/meta/config');
 const darkThemeVars = require('antd/dist/dark-theme');
+const config = require('./content/meta/config');
 
 /* const query = `{
   allMarkdownRemark(filter: {fileAbsolutePath: {regex: "/posts|pages/[0-9]+.*--/"}}) {
@@ -181,6 +181,13 @@ module.exports = {
         path: `${__dirname}/src/intl`,
         languages: ['en', 'zh-tw'],
         defaultLanguage: 'en',
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-nprogress',
+      options: {
+        color: '#1088ae',
+        showSpinner: true,
       },
     },
   ],
