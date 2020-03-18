@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { graphql } from 'gatsby';
+import { Link } from 'gatsby-plugin-intl';
 import Article from '../components/Article';
 import Headline from '../components/Article/Headline';
 import Seo from '../components/Seo';
@@ -22,7 +23,7 @@ const InterviewsPage = (props) => {
         <header>
           <Headline>
             <span>Interviews</span>
-            <a href="/interviews/create">Create</a>
+            <Link to="/interviews/create">Create</Link>
           </Headline>
         </header>
         <Interviews />

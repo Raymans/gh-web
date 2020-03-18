@@ -35,6 +35,31 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
   }
 };
 
+exports.onCreatePage = async ({ page, actions }) => {
+  const { createPage } = actions;
+  if (page.path.match(/^\/zh-tw\/interviews/)) {
+    // set client-only path pattern
+    page.matchPath = '/zh-tw/interviews/*';
+
+    // Update the page.
+    createPage(page);
+  }
+  if (page.path.match(/^\/en\/interviews/)) {
+    // set client-only path pattern
+    page.matchPath = '/en/interviews/*';
+
+    // Update the page.
+    createPage(page);
+  }
+  if (page.path.match(/^\/interviews/)) {
+    // set client-only path pattern
+    page.matchPath = '/interviews/*';
+
+    // Update the page.
+    createPage(page);
+  }
+};
+
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
 
@@ -96,20 +121,19 @@ exports.createPages = ({ graphql, actions }) => {
 
 exports.onCreateWebpackConfig = ({ stage, actions }) => {
   switch (stage) {
-    case 'build-javascript':
-      {
-        actions.setWebpackConfig({
-          plugins: [
-            new BundleAnalyzerPlugin({
-              analyzerMode: 'static',
-              reportFilename: './report/treemap.html',
-              openAnalyzer: true,
-              logLevel: 'error',
-              defaultSizes: 'gzip',
-            }),
-          ],
-        });
-      }
+    case 'build-javascript': {
+      actions.setWebpackConfig({
+        plugins: [
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: './report/treemap.html',
+            openAnalyzer: true,
+            logLevel: 'error',
+            defaultSizes: 'gzip',
+          }),
+        ],
+      });
+    }
       break;
   }
 };

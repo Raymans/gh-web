@@ -166,10 +166,10 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-svgr',
     },
-    {
-      resolve: 'gatsby-plugin-create-client-paths',
-      options: { prefixes: ['/interviews/*'] },
-    },
+    // {
+    //   resolve: 'gatsby-plugin-create-client-paths',
+    //   options: { prefixes: ['/interviews/*', '/en/interviews/*', '/zh-tw/interviews/*'] },
+    // },
     {
       resolve: 'gatsby-plugin-styled-components',
       options: {
