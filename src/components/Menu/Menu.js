@@ -1,14 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Icon as LegacyIcon } from '@ant-design/compatible';
-import { Avatar, Menu as AntMenu, Switch } from 'antd';
+import {
+  Avatar, Menu as AntMenu, Popover, Switch,
+} from 'antd';
 import { Link } from 'gatsby-plugin-intl';
-import { ThemeContext } from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
+import { SettingOutlined } from '@ant-design/icons';
 import {
   getUserInfo, isAuthenticated, login, logout,
 } from '../../utils/auth';
 
+
 require('core-js/fn/array/from');
+
+const StyledAlignSpan = styled.span`
+    display: flex;
+    align-items: center;
+`;
 
 const Menu = (props) => {
   const [current, setCurrent] = useState('Home');
@@ -110,56 +119,75 @@ const Menu = (props) => {
   const { picture, nickname } = getUserInfo();
   return (
     <>
-      <AntMenu
-        selectedKeys={[current]}
-        onClick={handleClick}
-        mode="horizontal"
-        style={{ borderBottom: 'none', background: 'transparent' }}
-      >
-        {
-          items.map((item, index) => {
-            if (item.label === 'Login') {
-              if (isAuthenticated()) {
+      <StyledAlignSpan>
+        <AntMenu
+          selectedKeys={[current]}
+          onClick={handleClick}
+          mode="horizontal"
+          style={{ borderBottom: 'none', background: 'transparent' }}
+        >
+          {
+            items.map((item, index) => {
+              if (item.label === 'Login') {
+                if (isAuthenticated()) {
+                  return (
+                    <AntMenu.SubMenu
+                      key={index}
+                      title={(
+                        <span>
+                          <Avatar src={picture} style={{ marginRight: '5px' }} />
+                          {nickname}
+                        </span>
+                      )}
+                    >
+                      {renderItem({ to: '/profile', icon: 'mail', label: 'Profile' })}
+                      {renderItem({ to: '/results', icon: 'mail', label: 'Interview Result' })}
+                      {renderItem({ to: '/manageinterviews', icon: 'mail', label: 'Manage Interview' })}
+                      {renderItem({ to: '/setting', icon: 'setting', label: 'Setting' })}
+                      <AntMenu.Item onClick={() => logout()}>
+                        <LegacyIcon type="logout" />
+                        Login out
+                      </AntMenu.Item>
+                    </AntMenu.SubMenu>
+                  );
+                }
                 return (
-                  <AntMenu.SubMenu
-                    key={index}
-                    title={(
-                      <span>
-                        <Avatar src={picture} style={{ marginRight: '5px' }} />
-                        {nickname}
-                      </span>
-                    )}
-                  >
-                    {renderItem({ to: '/profile', icon: 'mail', label: 'Profile' })}
-                    {renderItem({ to: '/results', icon: 'mail', label: 'Interview Result' })}
-                    {renderItem({ to: '/manageinterviews', icon: 'mail', label: 'Manage Interview' })}
-                    {renderItem({ to: '/setting', icon: 'setting', label: 'Setting' })}
-                    <AntMenu.Item onClick={() => logout()}>
-                      <LegacyIcon type="logout" />
-                      Login out
-                    </AntMenu.Item>
-                  </AntMenu.SubMenu>
+                  <AntMenu.Item key={item.to} onClick={() => login()}>
+                    <LegacyIcon type={item.icon} />
+                    {item.label}
+                  </AntMenu.Item>
                 );
               }
-              return (
-                <AntMenu.Item key={item.to} onClick={() => login()}>
-                  <LegacyIcon type={item.icon} />
-                  {item.label}
-                </AntMenu.Item>
-              );
-            }
-            if (!item.needAuth) {
-              if (item.subMenu) {
-                return renderSubMenu(item, index);
+              if (!item.needAuth) {
+                if (item.subMenu) {
+                  return renderSubMenu(item, index);
+                }
+                return renderItem(item);
               }
-              return renderItem(item);
-            }
-          })
-        }
-        <AntMenu.Item>
-          <Switch checkedChildren="亮" unCheckedChildren="暗" defaultChecked="亮" onChange={changeTheme} />
-        </AntMenu.Item>
-      </AntMenu>
+            })
+          }
+        </AntMenu>
+        <Popover
+          content={(
+            <>
+              <Switch
+                checkedChildren="light"
+                unCheckedChildren="dark"
+                defaultChecked="light"
+                onChange={changeTheme}
+                size="medium"
+              />
+              <br />
+              <Link to="/">en</Link>
+              {' / '}
+              <Link to="/zh-tw" data-slug="/zh-tw">繁中</Link>
+            </>
+          )}
+          trigger="hover"
+        >
+          <SettingOutlined style={{ cursor: 'pointer' }} />
+        </Popover>
+      </StyledAlignSpan>
     </>
   );
 };

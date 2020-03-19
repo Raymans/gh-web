@@ -1,12 +1,12 @@
-import Link from 'gatsby-link'
-import PropTypes from 'prop-types'
-import React from 'react'
-import VisibilitySensor from 'react-visibility-sensor'
-import { FontLoadedContext, ScreenWidthContext } from '../../layouts'
-import config from '../../../content/meta/config'
-import Menu from '../Menu'
-import avatar from '../../images/png/logo.png'
-import styled from 'styled-components'
+import {Link} from 'gatsby-plugin-intl';
+import PropTypes from 'prop-types';
+import React from 'react';
+import VisibilitySensor from 'react-visibility-sensor';
+import { FontLoadedContext, ScreenWidthContext } from '../../layouts';
+import config from '../../../content/meta/config';
+import Menu from '../Menu';
+import avatar from '../../images/png/logo.png';
+import styled from 'styled-components';
 
 const StyledHeader = styled.header`
       align-items: center;
@@ -42,20 +42,20 @@ const StyledHeader = styled.header`
           display: none;
         }
       }
-    `
+    `;
 const H1 = styled.h1`
       font-size: ${props => props.theme.font.size.m};
       font-weight: ${props => props.theme.font.weight.standard};
       margin: ${props => props.theme.space.stack.xs};
       color: ${props => props.theme.color.neutral.gray.a};
-    `
+    `;
 const H2 = styled.h2`
       font-weight: ${props => props.theme.font.weight.standard};
       font-size: ${props => props.theme.font.size.xxs};
       letter-spacing: 0;
       margin: 0;
       color: ${props => props.theme.color.neutral.gray.d};
-    `
+    `;
 const LogoLink = styled(Link)`
       align-items: center;
       display: flex;
@@ -64,7 +64,7 @@ const LogoLink = styled(Link)`
       flex-direction: row;
       flex-shrink: 0;
       width: auto;
-    `
+    `;
 const Logo = styled.div`
       display: inline-block;
       margin: ${props => props.theme.space.inline.default};
@@ -81,7 +81,7 @@ const Logo = styled.div`
         height: 36px;
         width: 36px;
       }
-    `
+    `;
 
 const Sensor = styled.div`
       display: block;
@@ -92,31 +92,31 @@ const Sensor = styled.div`
       right: 0;
       height: 1px;
       top: ${props => props.path === '/' ? props.theme.header.height.homepage : props.theme.header.height.default};
-    `
+    `;
 
 class Header extends React.Component {
   state = {
     fixed: false
-  }
+  };
 
   visibilitySensorChange = val => {
     if(val) {
-      this.setState({fixed: false})
+      this.setState({ fixed: false });
     } else {
-      this.setState({fixed: true})
+      this.setState({ fixed: true });
     }
-  }
+  };
 
   getHeaderSize = () => {
-    const fixed = this.state.fixed ? 'fixed' : ''
-    const homepage = this.props.path === '/' ? 'homepage' : ''
+    const fixed = this.state.fixed ? 'fixed' : '';
+    const homepage = this.props.path === '/' ? 'homepage' : '';
 
-    return `${fixed} ${homepage}`
-  }
+    return `${fixed} ${homepage}`;
+  };
 
   render(){
-    const {pages, path} = this.props
-    const {fixed} = this.state
+    const { pages, path } = this.props;
+    const { fixed } = this.state;
     return (
       <React.Fragment>
         <StyledHeader className={`${this.getHeaderSize()}`}>
@@ -124,10 +124,6 @@ class Header extends React.Component {
             <Logo>
               <img src={avatar} alt={config.siteTitle}/>
             </Logo>
-            <div className="type">
-              <H1>{config.headerTitle}</H1>
-              <H2>{config.headerSubTitle}</H2>
-            </div>
           </LogoLink>
           <FontLoadedContext.Consumer>
             {loaded => (
@@ -149,13 +145,13 @@ class Header extends React.Component {
           <Sensor path={path}/>
         </VisibilitySensor>
       </React.Fragment>
-    )
+    );
   }
 }
 
 Header.propTypes = {
   pages: PropTypes.array.isRequired,
   path: PropTypes.string.isRequired
-}
+};
 
-export default Header
+export default Header;

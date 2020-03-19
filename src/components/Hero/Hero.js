@@ -15,7 +15,7 @@ const HeroSection = styled.section`
   flex-flow: column nowrap;
   justify-content: center;
   min-height: 78vh;
-  height: 100px;
+  height: 10px;
   padding: ${(props) => props.theme.space.inset.l};
   padding-top: ${(props) => props.theme.header.height.homepage};
   h1 {
@@ -48,11 +48,21 @@ const SubTitle = styled.div`
   font-weight: 400;
   font-size: x-large;
 `;
+
+const ParticlesWrapper = styled.div`
+  position: absolute;
+  top: 100px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-top: 100px;
+`;
 const Hero = (props) => {
   const { backgrounds } = props;
   return (
     <>
-      <div className="wrapper">
+      <ParticlesWrapper>
+        <ParticlesWrapper>
         <Particles
           params={particleConfig}
           style={{
@@ -60,10 +70,11 @@ const Hero = (props) => {
             top: 100,
             left: 0,
             width: '100%',
-            height: '70%',
+            offsetHeight: '70%',
           }}
         />
-      </div>
+        </ParticlesWrapper>
+      </ParticlesWrapper>
       <HeroSection backgrounds={backgrounds}>
         <h1>
           <FormattedMessage id="mainTitle" />

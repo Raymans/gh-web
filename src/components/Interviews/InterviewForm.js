@@ -1,61 +1,150 @@
 import {
-  Anchor, Form, Input, Layout,
+  Anchor, AutoComplete, Button, Form, Input, Layout, Select
 } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Divider from 'antd/lib/divider';
 import FormItem from 'antd/lib/form/FormItem';
 import TextArea from 'antd/lib/input/TextArea';
 import QuestionForm from '../Question';
 import AnchorSilder from '../Sider/AnchorSider';
+import {Link} from 'gatsby-plugin-intl'
 
 const {
   Sider, Content,
 } = Layout;
 
-const { Link } = Anchor;
+const inputLayout = {
+  labelCol: { span: 4 },
+  wrapperCol: { span: 20 },
+};
+
+const StyledAutoComplete = styled(AutoComplete)`
+  width: 100% !important;
+`;
 
 const StyledDivider = styled(Divider)`
   background: #a8d0e7;
 `;
 
-const InterviewForm = () => (
-  <>
-    <Layout>
-      <AnchorSilder />
-      <Content>
-        <Form>
-          <FormItem name="interviewName" rules={[{ required: true, whitespace: true }]}>
-            <Input placeholder="Interview name" />
-          </FormItem>
-          <FormItem name="position">
-            <Input placeholder="Position" />
-          </FormItem>
-          <FormItem
-            name="interviewDes"
-            rules={[{
-              required: true,
-              message: 'Interview description',
-              whitespace: true,
-            }]}
-          >
-            <TextArea placeholder="Interview description" autoSize={{ minRows: 2, maxRows: 6 }} />
-          </FormItem>
-          <StyledDivider orientation="left" id="question1">Question1</StyledDivider>
-          <QuestionForm />
-          <StyledDivider orientation="left" id="question2">Question2</StyledDivider>
-          <QuestionForm id="question2" />
-          <StyledDivider orientation="left" id="question3">Question3</StyledDivider>
-          <QuestionForm id="question3" />
-          <StyledDivider>Question4</StyledDivider>
-          <QuestionForm id="question4" />
-          <QuestionForm id="question5" />
-          <QuestionForm id="question6" />
-          <QuestionForm id="question7" />
-        </Form>
-      </Content>
-    </Layout>
-  </>
-);
+const mockVal = (str, repeat = 1) => ({
+  value: str.repeat(repeat),
+});
+
+const InterviewForm = () => {
+  const [value, setValue] = useState('');
+  const [options, setOptions] = useState([]);
+
+  function onSpecialityChange(val) {
+    console.log(`selected ${val}`);
+  }
+
+  function onBlur() {
+    console.log('blur');
+  }
+
+  function onFocus() {
+    console.log('focus');
+  }
+
+  function onSpecialitySearch(val) {
+    console.log('search:', val);
+  }
+
+  const onSearch = (searchText) => {
+    setOptions(
+      !searchText ? [] : [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)],
+    );
+  };
+
+  const onSelect = (data) => {
+    console.log('onSelect', data);
+  };
+
+  const onChange = (data) => {
+    setValue(data);
+  };
+
+
+  return (
+    <>
+      <Layout>
+        <AnchorSilder />
+        <Content>
+          <Form {...inputLayout}>
+            <FormItem label="Name" name="interviewName" rules={[{ required: true, whitespace: true }]}>
+              <Input />
+            </FormItem>
+            <FormItem
+              label="Speciality"
+              name="speciality"
+              rules={[{ required: true, message: 'Please choose a Speciality' }]}
+            >
+              <Select
+                showSearch
+                style={{ width: 200 }}
+                placeholder="Select a speciality"
+                optionFilterProp="children"
+                onChange={onSpecialityChange}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                onSearch={onSpecialitySearch}
+                filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              >
+                <Select.Option value="UX">UX Designer</Select.Option>
+                <Select.Option value="UI">UI Engineer</Select.Option>
+                <Select.Option value="FE">Frontend Engineer</Select.Option>
+                <Select.Option value="BE">Backend Engineer</Select.Option>
+                <Select.Option value="FSE">Full Stack Engineer</Select.Option>
+              </Select>
+            </FormItem>
+            <FormItem label="Job Title" name="jobTitle" rules={[{ required: true, message: 'Please enter Job Title' }]}>
+              <StyledAutoComplete
+                value={value}
+                options={options}
+                style={{
+                  width: 200,
+                }}
+                onSelect={onSelect}
+                onSearch={onSearch}
+                onChange={onChange}
+              />
+            </FormItem>
+            <FormItem
+              label="Description"
+              name="interviewDes"
+              rules={[{
+                required: true,
+                message: 'Interview description',
+                whitespace: true,
+              }]}
+            >
+              <TextArea placeholder="Interview description" autoSize={{ minRows: 2, maxRows: 6 }} />
+            </FormItem>
+            <h2 id="question1">Q.1</h2>
+            <QuestionForm showCreateButton={false} />
+            <h2 id="question2">Q.2</h2>
+            <QuestionForm showCreateButton={false} />
+            <h2 id="question3">Q.3</h2>
+            <QuestionForm showCreateButton={false} />
+            <h2 id="question4">Q.4</h2>
+            <QuestionForm showCreateButton={false} />
+            <QuestionForm showCreateButton={false} />
+            <QuestionForm showCreateButton={false} />
+            <QuestionForm showCreateButton={false} />
+            <FormItem>
+              <Button type="primary" htmlType="submit">
+                Create
+              </Button>
+              <Button type="link">
+                <Link to="/interviews" replace>Back</Link>
+              </Button>
+            </FormItem>
+          </Form>
+        </Content>
+      </Layout>
+    </>
+  );
+};
 
 export default InterviewForm;

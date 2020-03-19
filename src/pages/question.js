@@ -31,10 +31,11 @@ const QuestionPage = (props) => {
 
   return (
     <>
+
       <GlobalStyle />
       <Article>
         <header>
-          <Headline title="Create QuestionForm" />
+          <Headline title="Create Question" />
         </header>
         <QuestionForm />
       </Article>
