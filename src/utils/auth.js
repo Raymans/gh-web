@@ -14,6 +14,7 @@ const auth0 = isBrowser
     domain: process.env.AUTH0_DOMAIN,
     clientID: process.env.AUTH0_CLIENTID,
     redirectUri: process.env.AUTH0_CALLBACK,
+    audience: process.env.AUTH0_AUDIENCE,
     responseType: 'token id_token',
     scope: 'openid profile email',
   })
@@ -29,6 +30,7 @@ export const login = () => {
 export const logout = () => {
   localStorage.setItem('isLoggedIn', 'false');
   localStorage.removeItem('profile');
+  localStorage.removeItem('accessToken');
 
   const { protocol, host } = window.location;
   const returnTo = `${protocol}//${host}`;
@@ -54,6 +56,7 @@ const setSession = (callback) => (err, authResult) => {
     tokens.expiresAt = expiresAt;
     localStorage.setItem('isLoggedIn', true);
     localStorage.setItem('profile', JSON.stringify(authResult.idTokenPayload));
+    localStorage.setItem('accessToken', authResult.accessToken);
     callback();
   }
 };
@@ -88,7 +91,7 @@ export const getAccessToken = () => {
     return '';
   }
 
-  return tokens.accessToken;
+  return localStorage.getItem('accessToken');
 };
 
 export const getUserInfo = () => {

@@ -1,17 +1,17 @@
 import {
-  Anchor, AutoComplete, Button, Form, Input, Layout, Select
+  AutoComplete, Button, Form, Input, Layout, Select,
 } from 'antd';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Divider from 'antd/lib/divider';
 import FormItem from 'antd/lib/form/FormItem';
 import TextArea from 'antd/lib/input/TextArea';
+import { Link } from 'gatsby-plugin-intl';
 import QuestionForm from '../Question';
 import AnchorSilder from '../Sider/AnchorSider';
-import {Link} from 'gatsby-plugin-intl'
 
 const {
-  Sider, Content,
+  Content,
 } = Layout;
 
 const inputLayout = {
@@ -23,15 +23,12 @@ const StyledAutoComplete = styled(AutoComplete)`
   width: 100% !important;
 `;
 
-const StyledDivider = styled(Divider)`
-  background: #a8d0e7;
-`;
-
 const mockVal = (str, repeat = 1) => ({
   value: str.repeat(repeat),
 });
 
 const InterviewForm = () => {
+  const [form] = Form.useForm();
   const [value, setValue] = useState('');
   const [options, setOptions] = useState([]);
 
@@ -65,13 +62,15 @@ const InterviewForm = () => {
     setValue(data);
   };
 
-
+  const onFinish = (values) => {
+    console.log(values);
+  };
   return (
     <>
       <Layout>
         <AnchorSilder />
         <Content>
-          <Form {...inputLayout}>
+          <Form {...inputLayout} onFinish={onFinish} form={form}>
             <FormItem label="Name" name="interviewName" rules={[{ required: true, whitespace: true }]}>
               <Input />
             </FormItem>
@@ -122,16 +121,16 @@ const InterviewForm = () => {
               <TextArea placeholder="Interview description" autoSize={{ minRows: 2, maxRows: 6 }} />
             </FormItem>
             <h2 id="question1">Q.1</h2>
-            <QuestionForm showCreateButton={false} />
+            <QuestionForm form={form} showCreateButton={false} />
             <h2 id="question2">Q.2</h2>
-            <QuestionForm showCreateButton={false} />
+            <QuestionForm form={form} showCreateButton={false} />
             <h2 id="question3">Q.3</h2>
-            <QuestionForm showCreateButton={false} />
+            <QuestionForm form={form} showCreateButton={false} />
             <h2 id="question4">Q.4</h2>
-            <QuestionForm showCreateButton={false} />
-            <QuestionForm showCreateButton={false} />
-            <QuestionForm showCreateButton={false} />
-            <QuestionForm showCreateButton={false} />
+            <QuestionForm form={form} showCreateButton={false} />
+            <QuestionForm form={form} showCreateButton={false} />
+            <QuestionForm form={form} showCreateButton={false} />
+            <QuestionForm form={form} showCreateButton={false} />
             <FormItem>
               <Button type="primary" htmlType="submit">
                 Create

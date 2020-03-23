@@ -54,7 +54,7 @@ export async function createQuestion(params) {
     method: 'POST',
     data: params,
     headers: {
-      Authorization: `Bearer ${_localStorage.getItem('access_token')}`,
+      Authorization: `Bearer ${_localStorage.getItem('accessToken')}`,
     },
   });
 }

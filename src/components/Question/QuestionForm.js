@@ -43,7 +43,9 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 const QuestionForm = (props) => {
   const [saving, setSaving] = useState(false);
 
-  const { id, showCreateButton } = props;
+  const {
+    id, showCreateButton, form,
+  } = props;
 
   function encode(data) {
     return Object.keys(data)
@@ -54,33 +56,99 @@ const QuestionForm = (props) => {
   function sendMessage(values) {
     createQuestion({
       ...values,
-      category: 'General',
-      topic: 'dummy',
-      difficulty: 'EASY',
-      contributedBy: null,
     }).then(() => {
-      setSaving(true);
+      setSaving(false);
       alert('success');
     });
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(values) {
     setSaving(true);
-    e.preventDefault();
-    props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-        values.corrects = values.corrects.filter((value) => value != null);
-        values.answers = values.answers.filter((value) => value != null);
-        sendMessage(values);
-      }
+    if (!values.possibleAnswers) {
+      return;
+    }
+    values.possibleAnswers = values.possibleAnswers.map((answer) => {
+      const correct = !!answer.correctAnswer;
+      return { ...answer, correctAnswer: correct };
     });
+    sendMessage(values);
   }
 
-  return (
+  const formContent = (
     <>
+      <FormItem
+        label="Description"
+        name="question"
+        rules={[{
+          required: true,
+          message: 'Please enter description.',
+          whitespace: true,
+        }]}
+      >
+        <TextArea autoSize={{ minRows: 2, maxRows: 6 }} />
+      </FormItem>
+      <Tabs defaultActiveKey="1">
+        <TabPane
+          tab={(
+            <span>
+              <LegacyIcon type="check-square" />
+              {' '}
+              Multiple Question
+            </span>
+          )}
+          key="1"
+        >
+          <Form.List name="possibleAnswers">
+            {(fields, { add, remove }) => (
+              <QuestionFormItem fields={fields} add={add} remove={remove} />
+            )}
+          </Form.List>
+        </TabPane>
+        <TabPane
+          tab={(
+            <span>
+              <LegacyIcon type="code-o" />
+              {' '}
+              Coding
+            </span>
+          )}
+          key="2"
+        >
+          {CodeMirror
+          && (
+            <FormItem
+              label="code"
+              name="code"
+              rules={[{
+                required: true,
+                message: 'Please enter your code!',
+              }]}
+            >
+              <CodeMirror options={{ lineNumbers: true, mode: 'javascript' }} />
+            </FormItem>
+          )}
+        </TabPane>
+      </Tabs>
+      {showCreateButton
+      && (
+        <FormItem>
+          <Button type="primary" htmlType="submit">
+            Create
+          </Button>
+          {' '}
+          <Button type="primary" htmlType="submit">
+            Create and Next
+          </Button>
+          <Button type="link">
+            <Link to="/questions" replace>Back</Link>
+          </Button>
+        </FormItem>
+      )}
+    </>
+  );
+  if (!form) {
+    return (
       <Spin spinning={saving} indicator={antIcon}>
-
         <div className="form">
           <Form
             {...inputLayout}
@@ -90,85 +158,13 @@ const QuestionForm = (props) => {
             data-netlify-honeypot="bot-field"
             initialValues={{ code: 'function(){}' }}
           >
-            {/* <FormItem label="Question" name="question" rules={[{ required: true, whitespace: true, message: 'Please enter question title' }]}> */}
-            {/*  <Input /> */}
-            {/* </FormItem> */}
-
-
-            <FormItem
-              label="Description"
-              name="description"
-              rules={[{
-                required: true,
-                message: 'Please enter description.',
-                whitespace: true,
-              }]}
-            >
-              <TextArea autoSize={{ minRows: 2, maxRows: 6 }} />
-            </FormItem>
-            <Tabs defaultActiveKey="1">
-              <TabPane
-                tab={(
-                  <span>
-                    <LegacyIcon type="check-square" />
-                    {' '}
-                    Multiple Question
-                  </span>
-                )}
-                key="1"
-              >
-                <Form.List name="names">
-                  {(fields, { add, remove }) => (
-                    <QuestionFormItem fields={fields} add={add} remove={remove} />
-                  )}
-                </Form.List>
-              </TabPane>
-              <TabPane
-                tab={(
-                  <span>
-                    <LegacyIcon type="code-o" />
-                    {' '}
-                    Coding
-                  </span>
-                )}
-                key="2"
-              >
-                {CodeMirror
-                && (
-                  <FormItem
-                    label="code"
-                    name="code"
-                    rules={[{
-                      required: true,
-                      message: 'Please enter your code!',
-                    }]}
-                  >
-                    <CodeMirror options={{ lineNumbers: true, mode: 'javascript' }} />
-                  </FormItem>
-                )}
-              </TabPane>
-            </Tabs>
-            {showCreateButton
-            && (
-              <FormItem>
-                <Button type="primary" htmlType="submit">
-                  Create
-                </Button>
-                {' '}
-                <Button type="primary" htmlType="submit">
-                  Create and Next
-                </Button>
-                <Button type="link">
-                  <Link to="/questions" replace>Back</Link>
-                </Button>
-              </FormItem>
-            )}
-
+            {formContent}
           </Form>
         </div>
       </Spin>
-    </>
-  );
+    );
+  }
+  return formContent;
 };
 
 const QuestionFormItem = (props) => {
@@ -180,16 +176,15 @@ const QuestionFormItem = (props) => {
           required={false}
           key={field.key}
         >
-          <Tooltip placement="topLeft" title={<span>Check for Right answer</span>}>
+          <FormItem name={[index, 'correctAnswer']} noStyle>
             <Switch
               checkedChildren={<LegacyIcon type="check" />}
               unCheckedChildren={<LegacyIcon type="close" />}
               style={{ float: 'left', margin: '5px' }}
-              name={`corrects[${field.key}]`}
             />
-          </Tooltip>
+          </FormItem>
           <Form.Item
-            {...field}
+            name={[index, 'answer']}
             validateTrigger={['onChange', 'onBlur']}
             rules={[
               {

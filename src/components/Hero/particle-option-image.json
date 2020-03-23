@@ -1,0 +1,75 @@
+{
+  "particles": {
+    "number": {
+      "value": 10
+    },
+    "line_linked": {
+      "shadow": {
+        "enable": false,
+        "color": "#3CA9D1",
+        "blur": 5
+      }
+    },
+    "shape": {
+      "type": [
+        "images"
+      ],
+      "images": [
+        {
+          "src": "/static/logo-f21a0620a6d50f5bbc7364eb86b9180e.png",
+          "height": 20,
+          "width": 23
+        }
+      ]
+    },
+    "size": {
+      "value": 30,
+      "random": false,
+      "anim": {
+        "enable": true,
+        "speed": 4,
+        "size_min": 10,
+        "sync": false
+      }
+    }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": {
+      "onhover": {
+        "enable": true,
+        "mode": "grab"
+      },
+      "onclick": {
+        "enable": true,
+        "mode": "push"
+      },
+      "resize": true
+    },
+    "modes": {
+      "grab": {
+        "distance": 140,
+        "line_linked": {
+          "opacity": 1
+        }
+      },
+      "bubble": {
+        "distance": 400,
+        "size": 40,
+        "duration": 2,
+        "opacity": 8,
+        "speed": 3
+      },
+      "repulse": {
+        "distance": 200,
+        "duration": 0.4
+      },
+      "push": {
+        "particles_nb": 1
+      },
+      "remove": {
+        "particles_nb": 2
+      }
+    }
+  }
+}

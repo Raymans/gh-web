@@ -54,26 +54,18 @@ const ParticlesWrapper = styled.div`
   top: 100px;
   left: 0;
   width: 100%;
-  height: 100%;
-  padding-top: 100px;
+  height: 70%;
 `;
 const Hero = (props) => {
   const { backgrounds } = props;
   return (
     <>
       <ParticlesWrapper>
-        <ParticlesWrapper>
-        <Particles
-          params={particleConfig}
-          style={{
-            position: 'fixed',
-            top: 100,
-            left: 0,
-            width: '100%',
-            offsetHeight: '70%',
-          }}
-        />
-        </ParticlesWrapper>
+          <Particles
+            params={particleConfig}
+            width="100%"
+            height="480px"
+          />
       </ParticlesWrapper>
       <HeroSection backgrounds={backgrounds}>
         <h1>
