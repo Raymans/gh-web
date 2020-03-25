@@ -5,14 +5,8 @@ import styled from 'styled-components';
 const StyledArticle = styled.article`
     padding: ${(props) => props.theme.space.inset.default};
     margin: 0 auto;
-    @media (min-width: 768px) {
-      padding: ${(props) => `calc(${props.theme.space.default}) calc(${props.theme.space.default} * 2)`};
-      max-width: ${(props) => props.theme.text.maxWidth.tablet};
-    }
-    @media (min-width: 1024px) {
-      padding: ${(props) => `calc(${props.theme.space.default} * 2 + 30px) 0 calc(${props.theme.space.default} * 2)`};
-      max-width: ${(props) => props.theme.text.maxWidth.desktop};
-    }
+    padding: ${(props) => `calc(${props.theme.space.default} * 2 + 30px) 0 calc(${props.theme.space.default} * 2)`};
+    max-width: ${(props) => props.theme.text.maxWidth.desktop};
   `;
 
 const Article = (props) => {

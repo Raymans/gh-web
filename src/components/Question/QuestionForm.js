@@ -8,7 +8,7 @@ import { LoadingOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { Link } from 'gatsby-plugin-intl';
+import { Link, navigate } from 'gatsby-plugin-intl';
 import { createQuestion } from '../../utils/api';
 
 const InputGroup = Input.Group;
@@ -58,7 +58,7 @@ const QuestionForm = (props) => {
       ...values,
     }).then(() => {
       setSaving(false);
-      alert('success');
+      navigate('/questions');
     });
   }
 
@@ -67,11 +67,11 @@ const QuestionForm = (props) => {
     if (!values.possibleAnswers) {
       return;
     }
-    values.possibleAnswers = values.possibleAnswers.map((answer) => {
-      const correct = !!answer.correctAnswer;
-      return { ...answer, correctAnswer: correct };
+    const possibleAnswers = values.possibleAnswers.map((possibleAnswer) => {
+      const correct = !!possibleAnswer.correctAnswer;
+      return { ...possibleAnswer, correctAnswer: correct };
     });
-    sendMessage(values);
+    sendMessage({ ...values, possibleAnswers });
   }
 
   const formContent = (

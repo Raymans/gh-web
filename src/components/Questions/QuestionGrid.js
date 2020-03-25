@@ -26,41 +26,40 @@ const IconText = ({ type, text }) => (
 
 const QuestionGrid = (props) => {
   const {
-    id, category, topic, difficulty, answer, contributedBy, question,
+    questionId, specialization, possibleAnswers, clientAccount: { clientName }, question,
   } = props;
   return (
     <List.Item
-      key={id}
+      key={questionId}
     >
       <List.Item.Meta
         description={(
           <div>
-            <Tag color="geekblue">{category}</Tag>
-            <Tag color="blue">{topic}</Tag>
+            {/* <Tag color="blue">{specialization}</Tag> */}
           </div>
-)}
+        )}
         title={(
           <>
             {question}
-            {'   '}
-            <Tag color="green">{difficulty}</Tag>
           </>
-)}
+        )}
       />
       {question}
       <br />
       <br />
-      <Checkbox>1</Checkbox>
-      <br />
-      <Checkbox>2</Checkbox>
-      <br />
-      <Checkbox>3</Checkbox>
-      <br />
-      <Checkbox>4</Checkbox>
+      {possibleAnswers.map((possibleAnswer) => (
+        <>
+          <Checkbox>{possibleAnswer.answer}</Checkbox>
+          <br />
+        </>
+      ))}
       <StyledAnswer>
         <Collapse>
-          <Panel header="Show Me the Right Answer!" key="answer">
-            <p>{answer}</p>
+          <Panel header="Show Me the Right Answer!" key="possibleAnswers">
+            {possibleAnswers.map((possibleAnswer) => (
+              possibleAnswer.correctAnswer
+                ? <p>{possibleAnswer.answer}</p> : <></>
+            ))}
           </Panel>
         </Collapse>
       </StyledAnswer>
@@ -68,23 +67,19 @@ const QuestionGrid = (props) => {
       <Avatar
         src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"
       >
-      Raymans-
-        {' '}
-        {contributedBy}
+        {clientName}
       </Avatar>
-      <span>Raymans@DigitalRiver</span>
+      <span>{clientName}</span>
     </List.Item>
   );
 };
 
 QuestionGrid.propTypes = {
-  answer: PropTypes.string,
-  category: PropTypes.string,
-  contributedBy: PropTypes.string,
-  difficulty: PropTypes.string,
-  id: PropTypes.string.isRequired,
+  clientName: PropTypes.string,
+  possibleAnswers: PropTypes.string,
   question: PropTypes.string,
-  topic: PropTypes.string,
+  questionId: PropTypes.string.isRequired,
+  specialization: PropTypes.string,
 };
 
 IconText.propTypes = {

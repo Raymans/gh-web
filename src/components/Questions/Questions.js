@@ -23,7 +23,7 @@ class Questions extends React.Component {
   handleClick = (value) => {
     this.getData((res) => {
       this.setState({
-        data: res,
+        data: res.results,
         loading: false,
         hasMore: true
       });
@@ -38,7 +38,7 @@ class Questions extends React.Component {
   componentDidMount(){
     this.getData((res) => {
       this.setState({
-        data: res
+        data: res.results
       });
     });
   }

@@ -10,6 +10,10 @@ if (typeof window !== 'undefined' && window) {
   _localStorage = localStorageMemory;
 }
 
+const authHeader = {
+  Authorization: `Bearer ${_localStorage.getItem('accessToken')}`,
+};
+
 export async function signup(params) {
   return request(`${config.ghServiceUrl}/api/users`, {
     method: 'POST',
@@ -46,6 +50,9 @@ export async function getQuestions(params) {
   return request(`${config.ghServiceUrl}/api/questions`, {
     method: 'GET',
     params,
+    headers: {
+      ...authHeader,
+    },
   });
 }
 
@@ -54,7 +61,7 @@ export async function createQuestion(params) {
     method: 'POST',
     data: params,
     headers: {
-      Authorization: `Bearer ${_localStorage.getItem('accessToken')}`,
+      ...authHeader,
     },
   });
 }

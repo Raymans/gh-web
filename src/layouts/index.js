@@ -1,11 +1,10 @@
 import 'typeface-open-sans';
-import FontFaceObserver from 'fontfaceobserver';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { graphql, StaticQuery } from 'gatsby';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import { getScreenWidth, timeoutThrottlerHandler } from '../utils/helpers';
+import useLayout from '../hooks/useLayout';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import themeObjectFromYaml from '../theme/theme.yaml';
@@ -21,58 +20,15 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 export const Layout = (props) => {
-  const [layoutState, setLayoutState] = useState({
-    font400loaded: false,
-    font600loaded: false,
-    screenWidth: 0,
-    headerMinimized: false,
-    theme: {
-      ...themeObjectFromYaml,
-      dark: false,
-      switchDark: (isDark) => {
-        setLayoutState({ ...layoutState, dark: isDark });
-      },
+  const [theme, setTheme] = useState({
+    ...themeObjectFromYaml,
+    dark: false,
+    switchDark: (isDark) => {
+      setTheme({ ...theme, dark: isDark });
     },
   });
-  const timeouts = {};
 
-  const resizeHandler = () => {
-    setLayoutState({ ...layoutState, screenWidth: getScreenWidth() });
-  };
-
-  const resizeThrottler = () => timeoutThrottlerHandler(timeouts, 'resize', 100, resizeHandler);
-
-  const loadFont = (name, family, weight) => {
-    const font = new FontFaceObserver(family, {
-      weight,
-    });
-
-    font.load(null, 10000).then(
-      () => {
-        setLayoutState({ ...layoutState, [`${name}loaded`]: true });
-      },
-      () => {
-        console.log(`${name} is not available`);
-      },
-    );
-  };
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      loadFont('font400', 'Open Sans', 400);
-      loadFont('font600', 'Open Sans', 600);
-    }
-  }, []);
-
-  useEffect(() => {
-    setLayoutState({
-      ...layoutState,
-      screenWidth: getScreenWidth(),
-    });
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', resizeThrottler, false);
-    }
-  }, []);
+  const [layoutState] = useLayout();
 
 
   return (
@@ -104,22 +60,22 @@ export const Layout = (props) => {
       }
     `}
       render={(data) => {
-        const { children } = props;
+        const { children, location } = props;
         const {
           footnote: { html: footnoteHTML },
           pages: { edges: pages },
         } = data;
 
         return (
-          <ThemeProvider theme={layoutState.theme}>
+          <ThemeProvider theme={theme}>
             {
-              layoutState.dark && <link rel="stylesheet" type="text/css" href="https://ant.design/dark.css" />
+              theme.dark && <link rel="stylesheet" type="text/css" href="https://ant.design/dark.css" />
             }
             <FontLoadedContext.Provider value={layoutState.font400loaded}>
               <ScreenWidthContext.Provider value={layoutState.screenWidth}>
                 <>
                   <GlobalStyle />
-                  <Header path={props.location.pathname} pages={pages} />
+                  <Header path={location.pathname} pages={pages} />
                   <main>{children}</main>
                   <Footer html={footnoteHTML} />
                 </>
@@ -134,7 +90,6 @@ export const Layout = (props) => {
 
 Layout.propTypes = {
   children: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
 };
 
