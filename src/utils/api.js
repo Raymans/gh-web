@@ -66,10 +66,23 @@ export async function createQuestion(params) {
   });
 }
 
+export async function createInterview(params) {
+  return request(`${config.ghServiceUrl}/api/interviews`, {
+    method: 'POST',
+    data: params,
+    headers: {
+      ...authHeader,
+    },
+  });
+}
+
 export async function getInterviews(params) {
   return request(`${config.ghServiceUrl}/api/interviews`, {
     method: 'GET',
     params,
+    headers: {
+      ...authHeader,
+    },
   });
 }
 

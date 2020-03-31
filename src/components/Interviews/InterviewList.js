@@ -1,35 +1,17 @@
-/* eslint no-unused-vars: 0 */
+import { Icon as LegacyIcon } from '@ant-design/compatible'
 
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-
-import {
-  Affix,
-  Avatar,
-  Cascader,
-  Collapse,
-  Divider,
-  Input,
-  Layout,
-  List,
-  Menu,
-  Radio,
-} from 'antd';
+import { Avatar, Cascader, Collapse, Divider, Input, Layout, List, Menu, Radio } from 'antd'
 import { getInterviews } from '../../utils/api'
 import options from '../Question/data'
 import React from 'react'
 
 import GatsbyLink from 'gatsby-link'
-import FilterSider from '../Sider/FilterSider';
+import FilterSider from '../Sider/FilterSider'
+import { Link } from 'gatsby-plugin-intl'
+import Headline from '../Article/Headline'
 
 const Search = Input.Search
-const RadioButton = Radio.Button
-const RadioGroup = Radio.Group
-const SubMenu = Menu.SubMenu
-const MenuItemGroup = Menu.ItemGroup
-const {Header, Footer, Content} = Layout
-
-const Panel = Collapse.Panel
-
+const {Content} = Layout
 
 const IconText = ({type, text}) => (
   <span>
@@ -48,7 +30,7 @@ class InterviewList extends React.Component {
   handleClick = (value) => {
     getInterviews().then((res) => {
       this.setState({
-        data: res
+        data: res.result
       })
     })
   }
@@ -56,7 +38,7 @@ class InterviewList extends React.Component {
   componentDidMount(){
     getInterviews().then((res) => {
       this.setState({
-        data: res
+        data: res.result
       })
     })
   }
@@ -64,6 +46,7 @@ class InterviewList extends React.Component {
   render(){
     return (
       <React.Fragment>
+        <Headline title="Interviews"><Link to="/interviews/create">Create</Link></Headline>
         <GatsbyLink to={'/interviews/1/test'}>Test interview 1</GatsbyLink>
         <div className="form">
           <div>

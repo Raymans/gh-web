@@ -1,5 +1,5 @@
 import {
-  AutoComplete, Button, Form, Input, Layout, Select,
+  AutoComplete, Button, Form, Input, Layout, Select, Tooltip,
 } from 'antd';
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -7,8 +7,12 @@ import Divider from 'antd/lib/divider';
 import FormItem from 'antd/lib/form/FormItem';
 import TextArea from 'antd/lib/input/TextArea';
 import { Link } from 'gatsby-plugin-intl';
+import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import QuestionForm from '../Question';
 import AnchorSilder from '../Sider/AnchorSider';
+import transformSwitchValue from '../../utils/questionHelpers';
+import { createInterview } from '../../utils/api';
+import Headline from '../Article/Headline';
 
 const {
   Content,
@@ -19,8 +23,22 @@ const inputLayout = {
   wrapperCol: { span: 20 },
 };
 
+const StyledQuestionCircleOutlined = styled(QuestionCircleOutlined)`
+  margin: 10px;
+  font-size: 0.7em;
+`;
+
 const StyledAutoComplete = styled(AutoComplete)`
   width: 100% !important;
+`;
+
+const StyledSection = styled.div`
+  border: 1px;
+  border-style: double;
+  border-radius: 11px;
+  padding: 10px;
+  border-color: lightgray;
+  margin-bottom: 24px;
 `;
 
 const mockVal = (str, repeat = 1) => ({
@@ -31,6 +49,7 @@ const InterviewForm = () => {
   const [form] = Form.useForm();
   const [value, setValue] = useState('');
   const [options, setOptions] = useState([]);
+  const [sections, setSections] = useState([]);
 
   function onSpecialityChange(val) {
     console.log(`selected ${val}`);
@@ -63,12 +82,25 @@ const InterviewForm = () => {
   };
 
   const onFinish = (values) => {
-    console.log(values);
+    values.sections.map((section) => (
+      section.questions.map((question) => (
+        question.possibleAnswers = transformSwitchValue(question.possibleAnswers)
+      ))
+    ));
+    createInterview(values).then(console.log('success'));
+  };
+  const addSection = (id, name) => (
+    setSections([...sections, { href: `#${id}`, title: name }])
+  );
+  const onSectionTitleChange = (index, e) => {
+    sections[index].title = e.target.value;
+    setSections([...sections]);
   };
   return (
     <>
+      <Headline title="Create Interview" />
       <Layout>
-        <AnchorSilder />
+        <AnchorSilder anchors={sections} />
         <Content>
           <Form {...inputLayout} onFinish={onFinish} form={form}>
             <FormItem label="Name" name="interviewName" rules={[{ required: true, whitespace: true }]}>
@@ -97,7 +129,12 @@ const InterviewForm = () => {
                 <Select.Option value="FSE">Full Stack Engineer</Select.Option>
               </Select>
             </FormItem>
-            <FormItem label="Job Title" name="jobTitle" rules={[{ required: true, message: 'Please enter Job Title' }]}>
+            <FormItem
+              label="Job Title"
+              name="jobTitle"
+              rules={[{ required: true, message: 'Please enter Job Title' }]}
+              size="small"
+            >
               <StyledAutoComplete
                 value={value}
                 options={options}
@@ -120,25 +157,84 @@ const InterviewForm = () => {
             >
               <TextArea placeholder="Interview description" autoSize={{ minRows: 2, maxRows: 6 }} />
             </FormItem>
-            <h2 id="question1">Q.1</h2>
-            <QuestionForm form={form} showCreateButton={false} />
-            <h2 id="question2">Q.2</h2>
-            <QuestionForm form={form} showCreateButton={false} />
-            <h2 id="question3">Q.3</h2>
-            <QuestionForm form={form} showCreateButton={false} />
-            <h2 id="question4">Q.4</h2>
-            <QuestionForm form={form} showCreateButton={false} />
-            <QuestionForm form={form} showCreateButton={false} />
-            <QuestionForm form={form} showCreateButton={false} />
-            <QuestionForm form={form} showCreateButton={false} />
-            <FormItem>
-              <Button type="primary" htmlType="submit">
-                Create
-              </Button>
-              <Button type="link">
-                <Link to="/interviews" replace>Back</Link>
-              </Button>
-            </FormItem>
+            <Form.List name="sections">
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map((field, index) => (
+                    <>
+                      <h2 id={`section_${index}`}>
+                        Section
+                        {' '}
+                        <FormItem name={[index, 'title']} noStyle>
+                          <Input
+                            style={{ width: 160 }}
+                            defaultValue="default"
+                            onChange={onSectionTitleChange.bind(this, index)}
+                          />
+                        </FormItem>
+                        <Tooltip title="Organize your questions via Sections like Basic Concept or Design Pattern">
+                          <StyledQuestionCircleOutlined />
+                        </Tooltip>
+
+                      </h2>
+
+                      <Form.List name={[index, 'questions']}>
+                        {(fields, { add, remove }) => (
+                          <>
+                            {fields.map((field, index) => (
+                              <StyledSection key={field}>
+                                <QuestionForm id={field.name} form={form} showCreateButton={false} />
+                              </StyledSection>
+                            ))}
+                            <StyledSection key={field} style={{ textAlign: 'center' }}>
+                              <Button
+                                onClick={() => {
+                                  add();
+                                }}
+                              >
+                                <PlusOutlined />
+                                {' '}
+                                Add Question
+                              </Button>
+                            </StyledSection>
+                          </>
+                        )}
+                      </Form.List>
+
+                    </>
+                  ))}
+                  <Divider />
+                  <Button
+                    onClick={() => {
+                      add();
+                      addSection(`section_${fields.length}`, 'default');
+                    }}
+                    style={{ width: '100%', margin: '10px 0' }}
+                  >
+                    <PlusOutlined />
+                    {' '}
+                    Add Section
+                  </Button>
+                </>
+              )}
+            </Form.List>
+            {/* <h2 id="question1">Q.1</h2> */}
+            {/* <QuestionForm form={form} showCreateButton={false} /> */}
+            {/* <h2 id="question2">Q.2</h2> */}
+            {/* <QuestionForm form={form} showCreateButton={false} /> */}
+            {/* <h2 id="question3">Q.3</h2> */}
+            {/* <QuestionForm form={form} showCreateButton={false} /> */}
+            {/* <h2 id="question4">Q.4</h2> */}
+            {/* <QuestionForm form={form} showCreateButton={false} /> */}
+            {/* <QuestionForm form={form} showCreateButton={false} /> */}
+            {/* <QuestionForm form={form} showCreateButton={false} /> */}
+            {/* <QuestionForm form={form} showCreateButton={false} /> */}
+            <Button type="primary" htmlType="submit">
+              Create Interview
+            </Button>
+            <Button type="link">
+              <Link to="/interviews" replace>Back</Link>
+            </Button>
           </Form>
         </Content>
       </Layout>

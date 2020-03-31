@@ -6,10 +6,14 @@ import React from 'react';
 import styled from 'styled-components';
 import SubMenu from 'antd/lib/menu/SubMenu';
 
+const StyledLayoutSider = styled(Layout.Sider)`
+  position: absolute;
+  left: 70px;
+`
 const FilterSider = (props) => {
   const { onClick } = props;
   return (
-    <Layout.Sider theme="light">
+    <StyledLayoutSider theme="light">
       <Affix offsetTop={60}>
         <Menu
           onClick={onClick}
@@ -34,7 +38,7 @@ const FilterSider = (props) => {
           <Menu.Item key="mine">Mine</Menu.Item>
         </Menu>
       </Affix>
-    </Layout.Sider>
+    </StyledLayoutSider>
 
   );
 };

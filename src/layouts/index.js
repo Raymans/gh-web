@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 import { graphql, StaticQuery } from 'gatsby';
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 import useLayout from '../hooks/useLayout';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -11,6 +11,10 @@ import themeObjectFromYaml from '../theme/theme.yaml';
 
 export const ScreenWidthContext = React.createContext(0);
 export const FontLoadedContext = React.createContext(false);
+
+const Main = styled.main`
+  min-height: 89vh;
+`;
 
 const GlobalStyle = createGlobalStyle`
   h2 {
@@ -76,7 +80,7 @@ export const Layout = (props) => {
                 <>
                   <GlobalStyle />
                   <Header path={location.pathname} pages={pages} />
-                  <main>{children}</main>
+                  <Main>{children}</Main>
                   <Footer html={footnoteHTML} />
                 </>
               </ScreenWidthContext.Provider>

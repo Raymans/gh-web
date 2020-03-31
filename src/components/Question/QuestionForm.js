@@ -78,7 +78,7 @@ const QuestionForm = (props) => {
     <>
       <FormItem
         label="Description"
-        name="question"
+        name={form ? [id, 'question'] : 'question'}
         rules={[{
           required: true,
           message: 'Please enter description.',
@@ -98,9 +98,9 @@ const QuestionForm = (props) => {
           )}
           key="1"
         >
-          <Form.List name="possibleAnswers">
+          <Form.List name={form ? [id, 'possibleAnswers'] : 'possibleAnswers'}>
             {(fields, { add, remove }) => (
-              <QuestionFormItem fields={fields} add={add} remove={remove} />
+              <QuestionFormItem form={form} id={id} fields={fields} add={add} remove={remove} />
             )}
           </Form.List>
         </TabPane>
@@ -168,7 +168,10 @@ const QuestionForm = (props) => {
 };
 
 const QuestionFormItem = (props) => {
-  const { fields, add, remove } = props;
+  const {
+    form, id, fields, add, remove,
+  } = props;
+  console.log(id);
   return (
     <div>
       {fields.map((field, index) => (
@@ -176,7 +179,7 @@ const QuestionFormItem = (props) => {
           required={false}
           key={field.key}
         >
-          <FormItem name={[index, 'correctAnswer']} noStyle>
+          <FormItem name={form ? [index, 'correctAnswer'] : [index, 'correctAnswer']} noStyle>
             <Switch
               checkedChildren={<LegacyIcon type="check" />}
               unCheckedChildren={<LegacyIcon type="close" />}
@@ -184,7 +187,7 @@ const QuestionFormItem = (props) => {
             />
           </FormItem>
           <Form.Item
-            name={[index, 'answer']}
+            name={form ? [index, 'answer'] : [index, 'answer']}
             validateTrigger={['onChange', 'onBlur']}
             rules={[
               {
@@ -207,19 +210,16 @@ const QuestionFormItem = (props) => {
           ) : null}
         </Form.Item>
       ))}
-      <Form.Item>
-        <Button
-          type="dashed"
-          onClick={() => {
-            add();
-          }}
-          style={{ width: '90%' }}
-        >
-          <PlusOutlined />
-          {' '}
-          Add Answer
-        </Button>
-      </Form.Item>
+      <Button
+        size="small"
+        onClick={() => {
+          add();
+        }}
+      >
+        <PlusOutlined />
+        {' '}
+        Add Answer
+      </Button>
     </div>
   );
 };
