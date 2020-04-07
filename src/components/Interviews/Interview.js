@@ -15,7 +15,7 @@ const Interview = () => {
           <Descriptions title="User Info">
             <Descriptions.Item label="Description">Description test</Descriptions.Item>
 
-            <Descriptions.Item label="Speciality">Sr UI Engineer</Descriptions.Item>
+            <Descriptions.Item label="Specialization">Sr UI Engineer</Descriptions.Item>
             <Descriptions.Item label="Job Title">UI Engineer</Descriptions.Item>
             <Descriptions.Item label="Status"><Badge status="processing" text="Published" /></Descriptions.Item>
           </Descriptions>

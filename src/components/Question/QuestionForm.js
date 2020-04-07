@@ -171,7 +171,6 @@ const QuestionFormItem = (props) => {
   const {
     form, id, fields, add, remove,
   } = props;
-  console.log(id);
   return (
     <div>
       {fields.map((field, index) => (
@@ -179,7 +178,7 @@ const QuestionFormItem = (props) => {
           required={false}
           key={field.key}
         >
-          <FormItem name={form ? [index, 'correctAnswer'] : [index, 'correctAnswer']} noStyle>
+          <FormItem name={form ? [index, 'correctAnswer'] : [index, 'correctAnswer']} valuePropName="checked" noStyle>
             <Switch
               checkedChildren={<LegacyIcon type="check" />}
               unCheckedChildren={<LegacyIcon type="close" />}

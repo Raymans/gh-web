@@ -44,9 +44,6 @@ const QuestionGrid = (props) => {
           </>
         )}
       />
-      {question}
-      <br />
-      <br />
       {possibleAnswers.map((possibleAnswer) => (
         <>
           {

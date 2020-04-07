@@ -86,9 +86,22 @@ export async function getInterviews(params) {
   });
 }
 
-export async function getInterview({ id }) {
+export async function getInterview(id) {
   return request(`${config.ghServiceUrl}/api/interviews/${id}`, {
     method: 'GET',
+    headers: {
+      ...authHeader,
+    },
+  });
+}
+
+export async function getSpecializations(params) {
+  return request(`${config.ghServiceUrl}/api/specializations`, {
+    method: 'GET',
+    params,
+    headers: {
+      ...authHeader,
+    },
   });
 }
 
