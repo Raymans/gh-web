@@ -1,78 +1,87 @@
-import { Cascader, Input, Layout, Menu, Radio } from 'antd';
+import { Input, Layout, Menu, Radio, Spin } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { LoadingOutlined } from '@ant-design/icons';
 import { getQuestions } from '../../utils/api';
-import options from '../Question/data';
-import React from 'react';
 import FilterSider from '../Sider/FilterSider';
 import QuestionList from './QuestionList';
+import styled from 'styled-components';
 
-const Search = Input.Search;
+const {Search} = Input;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
-const SubMenu = Menu.SubMenu;
+const {SubMenu} = Menu;
 const MenuItemGroup = Menu.ItemGroup;
-const { Header, Footer, Sider, Content } = Layout;
+const {Header, Footer, Sider, Content} = Layout;
 
+const StyledSearchFilter = styled.div`
+    text-align: end;
+    flex: auto;
+`;
+let filters = {keyword: '', tab: 'explore'};
 
-class Questions extends React.Component {
-  state = {
-    data: [],
-    loading: false,
-    hasMore: true
-  };
+const Questions = () => {
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
-  handleClick = (value) => {
-    this.getData((res) => {
-      this.setState({
-        data: res.results,
-        loading: false,
-        hasMore: true
-      });
-    }, value.key);
-  };
-
-  getData = (callback, queryData = '') => {
+  const searchQuestions = () => {
     // getQuestions({text: '', category: 'General', topic: 'dummy', belong: queryData}).then(callback)
-    getQuestions({}).then(callback);
+    setLoading(true);
+    getQuestions(filters).then(res => {
+      setLoading(false);
+      setQuestions(res.results);
+      if(!res.next) {
+        setHasMore(false);
+      }
+    });
+
   };
 
-  componentDidMount(){
-    this.getData((res) => {
-      this.setState({
-        data: res.results
-      });
-    });
-  }
+  useEffect(() => {
+    searchQuestions();
+  }, []);
 
-  render(){
-    return (
-      <React.Fragment>
-        <div className="form">
-          <div>
-            <Layout>
-              <FilterSider onClick={this.handleClick}/>
-              <Content>
-                <Cascader
-                  options={options}
-                  expandTrigger="hover"
-                  displayRender={this.displayRender}
-                  onChange={this.onChange}
-                />
+  const handleChange = ({target}) => {
+    if (target.value === 'mine') {
+      filters = { ...filters, owner: true };
+    } else {
+      filters = { ...filters, owner: false };
+    }
+    searchQuestions();
+  };
+
+  const onSearch = keyword => {
+    filters = {...filters, keyword};
+    searchQuestions();
+  };
+  return (
+    <>
+      <div className="form">
+        <div>
+          <Layout>
+            <FilterSider onChange={handleChange}/>
+            <Content>
+              <StyledSearchFilter>
                 <Search
                   placeholder="search question"
-                  onSearch={value => console.log(value)}
-                  style={{ width: 200, float: 'right' }}
+                  onSearch={onSearch}
+                  style={{width: 200}}
                 />
-
-                <QuestionList dataSource={this.state.data}/>
-              </Content>
-            </Layout>
-          </div>
+              </StyledSearchFilter>
+              <Spin
+                spinning={loading}
+                style={{width: '100%'}}
+                indicator={<LoadingOutlined spin/>}
+              >
+                <QuestionList dataSource={questions}/>
+              </Spin>
+            </Content>
+          </Layout>
         </div>
-
-      </React.Fragment>
-    );
-  }
-}
+      </div>
+    </>
+  );
+};
 
 Questions.propTypes = {};
 

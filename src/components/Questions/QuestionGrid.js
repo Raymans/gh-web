@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Icon as LegacyIcon } from '@ant-design/compatible';
 import {
-  Avatar, Checkbox, Collapse, Divider, List,
+  Avatar, Button, Checkbox, Collapse, Divider, List,
 } from 'antd';
 import styled from 'styled-components';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 const { Panel } = Collapse;
 
@@ -31,13 +32,10 @@ const QuestionGrid = (props) => {
   return (
     <List.Item
       key={questionId}
+      // actions={[<Button type="primary" shape="circle" icon={<EditOutlined />} />,
+      //   <Button type="primary" shape="circle" icon={<DeleteOutlined />} />]}
     >
       <List.Item.Meta
-        description={(
-          <div>
-            {/* <Tag color="blue">{specialization}</Tag> */}
-          </div>
-        )}
         title={(
           <>
             {question}

@@ -1,5 +1,5 @@
 import {
-  AutoComplete, Button, Form, Input, Layout, Modal, Select, Spin, Tooltip,
+  AutoComplete, Button, Form, Input, Layout, message, Modal, Select, Spin, Tooltip,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -12,7 +12,7 @@ import QuestionForm from '../Question';
 import AnchorSilder from '../Sider/AnchorSider';
 import transformSwitchValue from '../../utils/questionHelpers';
 import {
-  createInterview, getInterview, getQuestions, getSpecializations,
+  createInterview, getInterview, getQuestions, getSpecializations, updateInterview,
 } from '../../utils/api';
 import Headline from '../Article/Headline';
 import QuestionList from '../Questions/QuestionList';
@@ -50,7 +50,9 @@ const mockVal = (str, repeat = 1) => ({
 
 let sectionIndexOfAddingQuestion = 0;
 let numberOfSection = 0;
-const InterviewForm = (props) => {
+const interviewMessageKey = 'interviewMessage';
+const InterviewForm = ({ id }) => {
+  const isEditForm = !!id;
   const [form] = Form.useForm();
   const [saving, setSaving] = useState(false);
   const [jobTitle, setJobTitle] = useState('');
@@ -66,8 +68,8 @@ const InterviewForm = (props) => {
     getSpecializations().then(((data = []) => {
       setSpecializations(data);
     }));
-    if (props.id) {
-      getInterview(props.id).then((data = {}) => {
+    if (isEditForm) {
+      getInterview(id).then((data = {}) => {
         form.setFieldsValue({ ...data, specializationId: data.specialization.id });
       });
     }
@@ -83,17 +85,33 @@ const InterviewForm = (props) => {
     setJobTitle(data);
   };
 
+  const beforeSaving = () => {
+    setSaving(true);
+    message.loading({ content: 'Saving', key: interviewMessageKey });
+  };
+
+  const afterSaving = (content) => {
+    message.success({ content, key: interviewMessageKey, duration: 3 });
+    setSaving(false);
+  };
+
   const onFinish = (values) => {
     values.sections && values.sections.map((section) => (
       section.questions && section.questions.map((question) => (
         question.possibleAnswers = transformSwitchValue(question.possibleAnswers)
       ))
     ));
-    setSaving(true);
-    createInterview(values).then((data) => {
-      navigate(`/interviews/${data.id}/edit`);
-      setSaving(false);
-    });
+    beforeSaving();
+    if (isEditForm) {
+      updateInterview({ params: values, id }).then((data) => {
+        afterSaving('Interview Saved.');
+      });
+    } else {
+      createInterview(values).then((data) => {
+        afterSaving('Interview Created.');
+        navigate(`/interviews/${data.id}/edit`);
+      });
+    }
   };
   const pushSection = (id, name) => (
     setAnchorSections([...anchorSections, { href: `#${id}`, title: name }])
@@ -146,12 +164,11 @@ const InterviewForm = (props) => {
       >
         <QuestionList dataSource={questionList} />
       </Modal>
-      <Headline title="Create Interview" />
+      <Headline title={isEditForm ? 'Interview - Edit' : 'Interview - Create'} />
       <Layout>
         <AnchorSilder anchors={anchorSections} />
         <Content>
-          <Spin spinning={saving} indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}>
-
+          <Spin spinning={saving} indicator={<LoadingOutlined spin />}>
             <Form {...inputLayout} onFinish={onFinish} form={form}>
               <FormItem label="Title" name="title" rules={[{ required: true, whitespace: true }]}>
                 <Input />
@@ -272,7 +289,7 @@ const InterviewForm = (props) => {
                 )}
               </Form.List>
               <Button type="primary" htmlType="submit">
-                Create Interview
+                {isEditForm ? 'Update' : 'Create'}
               </Button>
               <Button type="link">
                 <Link to="/interviews" replace>Back</Link>

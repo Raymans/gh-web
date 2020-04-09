@@ -6,7 +6,7 @@ export default function () {
   const [layoutState, setLayoutState] = useState({
     font400loaded: false,
     font600loaded: false,
-    screenWidth: 0,
+    screenWidth: getScreenWidth(),
     headerMinimized: false,
   });
   const timeouts = {};

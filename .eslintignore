@@ -1,3 +1,6 @@
 public/*
 static/*
 .cache/*
+node_modules
+dist
+coverage

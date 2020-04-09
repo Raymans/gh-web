@@ -1,8 +1,13 @@
 {
+  "plugins": [
+    //"@typescript-eslint"
+  ],
   "extends": [
     "airbnb",
-    "eslint:recommended",
-    "plugin:react/recommended"
+    "eslint:recommended"
+//    "plugin:@typescript-eslint/eslint-recommended",
+//    "plugin:@typescript-eslint/recommended"
+    //"airbnb-typescript"
   ],
   "env": {
     "browser": true,
@@ -10,7 +15,20 @@
     "jasmine": true
   },
   "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/require-default-props": [0]
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
+    "react/require-default-props": [
+      0
+    ]
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json"
   }
 }
