@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 500;
     border-bottom: 1px solid #e8e8e8;
     padding-bottom: 10px;
+    margin: 0 0 20px;
   }
 `;
 export const Layout = (props) => {

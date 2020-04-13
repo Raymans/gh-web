@@ -1,13 +1,23 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { Icon as LegacyIcon } from '@ant-design/compatible';
 import {
-  Avatar, Button, Checkbox, Collapse, Divider, List,
+  Avatar, Button, Checkbox, Collapse, Divider, List, message, Modal, Space, Spin,
 } from 'antd';
 import styled from 'styled-components';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
+import { deleteQuestion as deletedQuestionApi } from '../../utils/api';
+import { getUserInfo } from '../../utils/auth';
 
 const { Panel } = Collapse;
+
+const StyledListItem = styled(List.Item)`
+  .ant-list-item-extra{
+    position: absolute;
+    float: left;
+    right: 25px;
+  }
+`;
 
 const StyledAnswer = styled.div`
   padding-top: 20px;
@@ -27,73 +37,115 @@ const IconText = ({ type, text }) => (
 
 const QuestionGrid = (props) => {
   const {
-    questionId, specialization, possibleAnswers, clientAccount: { clientName }, question, answerDisplayMode, showAuthor,
+    id: questionId, specialization, possibleAnswers, email, question, answerDisplayMode, showAuthor,
   } = props;
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [deleted, setDeleted] = useState(false);
+  const deleteQuestion = () => {
+    setSaving(true);
+    deletedQuestionApi(questionId).then(() => {
+      setDeleted(true);
+      message.success(`Question has been deleted: ${question}`);
+    });
+  };
+  let updateActions = [];
+  if (email === getUserInfo().email) {
+    updateActions = [
+      [
+        <Space>
+          <Button size="small" shape="circle" icon={<EditOutlined />} />
+          <Button
+            size="small"
+            danger
+            shape="circle"
+            icon={<DeleteOutlined />}
+            onClick={() => setIsDeleteModalVisible(true)}
+          />
+        </Space>]];
+  }
   return (
-    <List.Item
-      key={questionId}
-      // actions={[<Button type="primary" shape="circle" icon={<EditOutlined />} />,
-      //   <Button type="primary" shape="circle" icon={<DeleteOutlined />} />]}
-    >
-      <List.Item.Meta
-        title={(
-          <>
-            {question}
-          </>
-        )}
-      />
-      {possibleAnswers.map((possibleAnswer) => (
-        <>
-          {
-            (answerDisplayMode === 'inline'
-              && <Checkbox checked={possibleAnswer.correctAnswer}>{possibleAnswer.answer}</Checkbox>)
-          }
-          {
-            (answerDisplayMode === 'block' && <Checkbox>{possibleAnswer.answer}</Checkbox>)
-          }
-          <br />
-        </>
-      ))}
+    <>
       {
-        answerDisplayMode === 'block'
-        && (
-          <StyledAnswer>
-            <Collapse>
-              <Panel header="Show Me the Right Answer!" key="possibleAnswers">
-                {possibleAnswers.map((possibleAnswer) => (
-                  possibleAnswer.correctAnswer
-                    ? <p>{possibleAnswer.answer}</p> : <></>
-                ))}
-              </Panel>
-            </Collapse>
-          </StyledAnswer>
-        )
-      }
-      {
-        showAuthor
+        !deleted
         && (
           <>
-            <Divider orientation="left">Author</Divider>
-            <Avatar
-              src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"
+            <Modal
+              title="Delete Question"
+              visible={isDeleteModalVisible}
+              onOk={deleteQuestion}
+              onCancel={() => setIsDeleteModalVisible(false)}
             >
-              {clientName}
-            </Avatar>
-            <span>{clientName}</span>
+              <p>{`Are you sure to delete the question: ${question}?`}</p>
+            </Modal>
+            <Spin spinning={saving} indicator={<LoadingOutlined spin />}>
+              <StyledListItem
+                key={questionId}
+                extra={updateActions}
+              >
+                <List.Item.Meta
+                  title={(
+                    <>
+                      {question}
+                    </>
+                  )}
+                />
+                {possibleAnswers.map((possibleAnswer) => (
+                  <>
+                    {
+                      (answerDisplayMode === 'inline'
+                        && <Checkbox checked={possibleAnswer.correctAnswer}>{possibleAnswer.answer}</Checkbox>)
+                    }
+                    {
+                      (answerDisplayMode === 'block' && <Checkbox>{possibleAnswer.answer}</Checkbox>)
+                    }
+                    <br />
+                  </>
+                ))}
+                {
+                  answerDisplayMode === 'block'
+                  && (
+                    <StyledAnswer>
+                      <Collapse>
+                        <Panel header="Show Me the Right Answer!" key="possibleAnswers">
+                          {possibleAnswers.map((possibleAnswer) => (
+                            possibleAnswer.correctAnswer
+                              ? <p>{possibleAnswer.answer}</p> : <></>
+                          ))}
+                        </Panel>
+                      </Collapse>
+                    </StyledAnswer>
+                  )
+                }
+                {
+                  showAuthor
+                  && (
+                    <>
+                      <Divider orientation="left">Author</Divider>
+                      <Avatar
+                        src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"
+                      >
+                        {email}
+                      </Avatar>
+                      <span>{email}</span>
+                    </>
+                  )
+                }
+              </StyledListItem>
+            </Spin>
           </>
         )
       }
-
-    </List.Item>
+    </>
   );
 };
 
 QuestionGrid.propTypes = {
   answerDisplayMode: PropTypes.string,
-  clientName: PropTypes.string,
+  email: PropTypes.string,
   possibleAnswers: PropTypes.string,
   question: PropTypes.string,
-  questionId: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   showAuthor: PropTypes.bool,
   specialization: PropTypes.string,
 };
@@ -106,7 +158,7 @@ IconText.propTypes = {
 QuestionGrid.defaultProps = {
   answerDisplayMode: 'block',
   showAuthor: true,
-  clientAccount: { clientName: '' },
+  email: '',
 };
 
 export default QuestionGrid;

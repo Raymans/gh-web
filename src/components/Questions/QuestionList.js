@@ -12,13 +12,14 @@ const StyledList = styled(List)`
   .ant-list-item{
     padding: 22px;
     margin: 22px 0;
-    border: 1px solid #e8e8e8;
+    border: 1px solid #e8e8e8 !important;
     border-radius: 9px;
   }
   .ant-list-item:hover {
     //background-color: aliceblue;
-    border-width: 3px;
-    transition: border-width 0.3s;
+    border-width: 3px !important;
+    transition: margin 0.3s, border-width 0.3s;
+    margin: 20px -2px;
   }
 `;
 
@@ -30,7 +31,7 @@ const QuestionList = (props) => {
       size="large"
       dataSource={dataSource}
       renderItem={(item) => (
-        <QuestionGrid key={item.id} {...item} />
+        <QuestionGrid key={item.id} email={item.clientAccount.email} {...item} />
       )}
     />
   );

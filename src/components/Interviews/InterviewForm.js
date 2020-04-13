@@ -54,7 +54,7 @@ const interviewMessageKey = 'interviewMessage';
 const InterviewForm = ({ id }) => {
   const isEditForm = !!id;
   const [form] = Form.useForm();
-  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [jobTitle, setJobTitle] = useState('');
   const [jobOptions, setJobTitleOptions] = useState([]);
   const [anchorSections, setAnchorSections] = useState([]);
@@ -69,8 +69,10 @@ const InterviewForm = ({ id }) => {
       setSpecializations(data);
     }));
     if (isEditForm) {
+      setLoading(true);
       getInterview(id).then((data = {}) => {
         form.setFieldsValue({ ...data, specializationId: data.specialization.id });
+        setLoading(false);
       });
     }
   }, []);
@@ -86,13 +88,13 @@ const InterviewForm = ({ id }) => {
   };
 
   const beforeSaving = () => {
-    setSaving(true);
+    setLoading(true);
     message.loading({ content: 'Saving', key: interviewMessageKey });
   };
 
   const afterSaving = (content) => {
     message.success({ content, key: interviewMessageKey, duration: 3 });
-    setSaving(false);
+    setLoading(false);
   };
 
   const onFinish = (values) => {
@@ -168,7 +170,7 @@ const InterviewForm = ({ id }) => {
       <Layout>
         <AnchorSilder anchors={anchorSections} />
         <Content>
-          <Spin spinning={saving} indicator={<LoadingOutlined spin />}>
+          <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
             <Form {...inputLayout} onFinish={onFinish} form={form}>
               <FormItem label="Title" name="title" rules={[{ required: true, whitespace: true }]}>
                 <Input />

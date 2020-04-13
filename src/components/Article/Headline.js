@@ -5,8 +5,6 @@ import styled from 'styled-components';
 const H1 = styled.h1`
   white-space: nowrap;
   font-weight: 200;
-  text-align: center;
-  max-width: 400px;
   margin: 30px auto 40px;
   border-bottom: 1px solid #e8e8e8;
   padding-bottom: 10px;
@@ -31,7 +29,7 @@ const Headline = (props) => {
   const { title, children } = props;
   return (
     <header>
-      <section style={{ padding: '0px 50px' }}>
+      <section>
         <H1>
           {title && <span>{title}</span>}
           {children}

@@ -1,19 +1,28 @@
+import PropTypes from 'prop-types';
 import {
-  Avatar, Divider, Input, Layout, List, Spin,
+  Avatar, Button, Divider, Input, Layout, List, message, Modal, Space, Spin,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
-import GatsbyLink from 'gatsby-link';
-import { Link } from 'gatsby-plugin-intl';
+import { Link, navigate } from 'gatsby-plugin-intl';
 import styled from 'styled-components';
-import { LoadingOutlined } from '@ant-design/icons';
-import { getInterviews } from '../../utils/api';
+import { DeleteOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
+import { deleteInterview, getInterviews } from '../../utils/api';
 
 import FilterSider from '../Sider/FilterSider';
 import Headline from '../Article/Headline';
 import Specialization from '../Specialization';
+import { getUserInfo } from '../../utils/auth';
 
 const { Search } = Input;
 const { Content } = Layout;
+
+const StyledListItem = styled(List.Item)`
+  .ant-list-item-extra{
+    position: absolute;
+    float: left;
+    right: 25px;
+  }
+`;
 
 const StyledAvatar = styled(Avatar)`
   margin: 0 5px;
@@ -27,32 +36,105 @@ const StyledList = styled(List)`
   .ant-list-item{
     padding: 22px;
     margin: 22px 0;
-    border: 1px solid #e8e8e8;
+    border: 1px solid #e8e8e8 !important;
     border-radius: 9px;
   }
   .ant-list-item:hover {
-    //background-color: aliceblue;
-    border-width: 3px;
-    transition: border-width 0.3s;
+    border-width: 3px !important;
+    transition: margin 0.3s, border-width 0.3s;
+    margin: 20px -2px;
   }
 `;
 
 let filters = { keyword: '', tab: 'explore' };
 
+const InterviewGrid = (props) => {
+  const {
+    id, title, description, email,
+  } = props;
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [deleted, setDeleted] = useState(false);
+  const handleDeleteInterview = () => {
+    setSaving(true);
+    deleteInterview(id).then(() => {
+      setDeleted(true);
+      message.success(`Interview has been deleted: ${title}`);
+    });
+  };
+  let updateActions = [];
+  if (email === getUserInfo().email) {
+    updateActions = [
+      <Space>
+        <Button
+          size="small"
+          shape="circle"
+          icon={<EditOutlined />}
+          onClick={() => {
+            navigate(`/interviews/${id}/edit`);
+          }}
+        />
+        <Button
+          size="small"
+          danger
+          shape="circle"
+          icon={<DeleteOutlined />}
+          onClick={() => setIsDeleteModalVisible(true)}
+        />
+      </Space>];
+  }
+  return (
+    <>
+      {
+        !deleted
+        && (
+          <>
+            <Modal
+              title="Delete Interview"
+              visible={isDeleteModalVisible}
+              onOk={handleDeleteInterview}
+              onCancel={() => setIsDeleteModalVisible(false)}
+            >
+              <p>{`Are you sure to delete the interview: ${title}?`}</p>
+            </Modal>
+            <Spin spinning={saving} indicator={<LoadingOutlined spin />}>
+              <StyledListItem
+                key={id}
+                extra={updateActions}
+              >
+                <h1><Link to={`/interviews/${id}`}>{title}</Link></h1>
+                <span className="content">{description}</span>
+                <Divider orientation="left">Author</Divider>
+                <StyledAvatar
+                  src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"
+                >
+                  {email.split('@')[0]}
+                </StyledAvatar>
+                <span>{email}</span>
+              </StyledListItem>
+            </Spin>
+          </>
+        )
+      }
+    </>
+  );
+};
 const InterviewList = () => {
   const [interviews, setInterviews] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const searchInterviews = () => {
+  const [next, setNext] = useState();
+  const searchInterviews = ({ isAppend = false, url } = {}) => {
     setLoading(true);
-    getInterviews(filters).then((res) => {
-      setInterviews(res.results);
+    getInterviews({ url, ...filters }).then((res) => {
+      setInterviews(isAppend ? interviews.concat(res.results) : res.results);
       setLoading(false);
+      setNext(res.next);
     });
   };
 
   useEffect(() => {
     searchInterviews();
+    filters.pageSize = null;
   }, []);
 
   const handleSpecSelect = (specialization) => {
@@ -73,6 +155,22 @@ const InterviewList = () => {
     }
     searchInterviews();
   };
+
+  const handleLoadMore = () => {
+    searchInterviews({ isAppend: true, url: next });
+  };
+  const loadMore = next && !loading ? (
+    <div
+      style={{
+        textAlign: 'center',
+        marginTop: 12,
+        height: 32,
+        lineHeight: '32px',
+      }}
+    >
+      <Button onClick={handleLoadMore}>loading more</Button>
+    </div>
+  ) : null;
 
   return (
     <>
@@ -96,20 +194,14 @@ const InterviewList = () => {
                   itemLayout="vertical"
                   size="large"
                   dataSource={interviews}
+                  loadMore={loadMore}
                   renderItem={(item) => (
-                    <List.Item
-                      key={item.id}
-                    >
-                      <h1><GatsbyLink to={`/interviews/${item.id}`}>{item.title}</GatsbyLink></h1>
-                      <span className="content">{item.description}</span>
-                      <Divider orientation="left">Author</Divider>
-                      <StyledAvatar
-                        src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"
-                      >
-                        {item.clientAccount.email.split('@')[0]}
-                      </StyledAvatar>
-                      <span>{item.clientAccount.email}</span>
-                    </List.Item>
+                    <InterviewGrid
+                      id={item.id}
+                      title={item.title}
+                      description={item.description}
+                      email={item.clientAccount.email}
+                    />
                   )}
                 />
               </Spin>
@@ -124,3 +216,10 @@ const InterviewList = () => {
 InterviewList.propTypes = {};
 
 export default InterviewList;
+
+InterviewGrid.propTypes = {
+  description: PropTypes.string.isRequired,
+  email: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+};
