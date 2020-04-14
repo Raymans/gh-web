@@ -46,14 +46,14 @@ export async function getUser(params) {
   });
 }
 
-export async function getQuestions(params) {
-  return request(`${config.ghServiceUrl}/api/questions`, {
+export async function getQuestions({ url = '/api/questions', ...params }) {
+  return request(`${config.ghServiceUrl}${url}`, {
     method: 'GET',
     params,
     headers: {
       ...authHeader,
     },
-  });
+  }).then((res) => (!res ? {} : res));
 }
 
 export async function getQuestion({ id }) {

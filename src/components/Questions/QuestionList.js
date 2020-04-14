@@ -1,34 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {
-  Input, Layout, List, Spin,
-} from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Input, Layout } from 'antd';
 import { Link } from 'gatsby-plugin-intl';
 import QuestionGrid from './QuestionGrid';
 import FilterSider from '../Sider/FilterSider';
 import { getQuestions } from '../../utils/api';
 import Headline from '../Article/Headline';
-
-const StyledList = styled(List)`
-  .ant-list-item-meta-title{
-    margin: 18px 0;
-    font-size: 24px;
-  }
-  .ant-list-item{
-    padding: 22px;
-    margin: 22px 0;
-    border: 1px solid #e8e8e8 !important;
-    border-radius: 9px;
-  }
-  .ant-list-item:hover {
-    //background-color: aliceblue;
-    border-width: 3px !important;
-    transition: margin 0.3s, border-width 0.3s;
-    margin: 20px -2px;
-  }
-`;
+import CardList from '../CardList';
 
 const StyledSearchFilter = styled.div`
     text-align: end;
@@ -37,23 +16,21 @@ const StyledSearchFilter = styled.div`
 let filters = {
   keyword: '',
   tab: 'explore',
+  pageSize: 10,
 };
 
-const QuestionList = (props) => {
+const QuestionList = () => {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const [next, setNext] = useState();
 
-  const searchQuestions = () => {
-    // getQuestions({text: '', category: 'General', topic: 'dummy', belong: queryData}).then(callback)
-    setLoading(true);
-    getQuestions(filters)
+  const searchQuestions = ({ isAppend = false, showLoading = true, url } = {}) => {
+    setLoading(showLoading);
+    return getQuestions({ url, ...filters })
       .then((res) => {
+        setQuestions(isAppend ? questions.concat(res.results) : res.results);
+        setNext(res.next);
         setLoading(false);
-        setQuestions(res.results);
-        if (!res.next) {
-          setHasMore(false);
-        }
       });
   };
 
@@ -62,17 +39,10 @@ const QuestionList = (props) => {
   }, []);
 
   const handleChange = ({ target }) => {
-    if (target.value === 'mine') {
-      filters = {
-        ...filters,
-        owner: true,
-      };
-    } else {
-      filters = {
-        ...filters,
-        owner: false,
-      };
-    }
+    filters = {
+      ...filters,
+      owner: target.value === 'mine',
+    };
     searchQuestions();
   };
 
@@ -83,6 +53,12 @@ const QuestionList = (props) => {
     };
     searchQuestions();
   };
+
+  const handleLoadMore = () => searchQuestions({
+    isAppend: true,
+    showLoading: false,
+    url: next,
+  });
   return (
     <div className="form">
       <Headline>
@@ -99,20 +75,15 @@ const QuestionList = (props) => {
               style={{ width: 200 }}
             />
           </StyledSearchFilter>
-          <Spin
-            spinning={loading}
-            style={{ width: '100%' }}
-            indicator={<LoadingOutlined spin />}
-          >
-            <StyledList
-              itemLayout="vertical"
-              size="large"
-              dataSource={questions}
-              renderItem={(item) => (
-                <QuestionGrid key={item.id} email={item.clientAccount.email} {...item} />
-              )}
-            />
-          </Spin>
+          <CardList
+            loading={loading}
+            hasMore={next}
+            dataSource={questions}
+            onLoadMore={handleLoadMore}
+            renderItem={(item) => (
+              <QuestionGrid key={item.id} email={item.clientAccount.email} {...item} />
+            )}
+          />
         </Layout.Content>
       </Layout>
     </div>
