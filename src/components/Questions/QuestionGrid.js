@@ -6,6 +6,7 @@ import {
 } from 'antd';
 import styled from 'styled-components';
 import { DeleteOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
+import { navigate } from 'gatsby-plugin-intl';
 import { deleteQuestion as deletedQuestionApi } from '../../utils/api';
 import { getUserInfo } from '../../utils/auth';
 
@@ -37,7 +38,7 @@ const IconText = ({ type, text }) => (
 
 const QuestionGrid = (props) => {
   const {
-    id: questionId, specialization, possibleAnswers, email, question, answerDisplayMode, showAuthor,
+    id: questionId, possibleAnswers, email, question, answerDisplayMode, showAuthor,
   } = props;
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -54,7 +55,7 @@ const QuestionGrid = (props) => {
     updateActions = [
       [
         <Space>
-          <Button size="small" shape="circle" icon={<EditOutlined />} />
+          <Button size="small" shape="circle" icon={<EditOutlined />} onClick={() => { navigate(`questions/${questionId}/edit`); }} />
           <Button
             size="small"
             danger
@@ -147,7 +148,6 @@ QuestionGrid.propTypes = {
   question: PropTypes.string,
   id: PropTypes.string.isRequired,
   showAuthor: PropTypes.bool,
-  specialization: PropTypes.string,
 };
 
 IconText.propTypes = {

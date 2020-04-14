@@ -58,6 +58,28 @@ exports.onCreatePage = async ({ page, actions }) => {
     // Update the page.
     createPage(page);
   }
+
+  if (page.path.match(/^\/zh-tw\/questions/)) {
+    // set client-only path pattern
+    page.matchPath = '/zh-tw/questions/*';
+
+    // Update the page.
+    createPage(page);
+  }
+  if (page.path.match(/^\/en\/questions/)) {
+    // set client-only path pattern
+    page.matchPath = '/en/questions/*';
+
+    // Update the page.
+    createPage(page);
+  }
+  if (page.path.match(/^\/questions/)) {
+    // set client-only path pattern
+    page.matchPath = '/questions/*';
+
+    // Update the page.
+    createPage(page);
+  }
 };
 
 exports.createPages = ({ graphql, actions }) => {

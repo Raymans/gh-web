@@ -8,7 +8,6 @@ import FormItem from 'antd/lib/form/FormItem';
 import TextArea from 'antd/lib/input/TextArea';
 import { Link, navigate } from 'gatsby-plugin-intl';
 import { LoadingOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-import QuestionForm from '../Question';
 import AnchorSilder from '../Sider/AnchorSider';
 import transformSwitchValue from '../../utils/questionHelpers';
 import {
@@ -16,6 +15,7 @@ import {
 } from '../../utils/api';
 import Headline from '../Article/Headline';
 import QuestionList from '../Questions/QuestionList';
+import QuestionForm from '../Questions/QuestionForm';
 
 const {
   Content,
@@ -243,7 +243,7 @@ const InterviewForm = ({ id }) => {
                             <>
                               {questions.map((question, quesionIndex) => (
                                 <StyledQuestionSection key={question}>
-                                  <QuestionForm id={question.name} form={form} showCreateButton={false} />
+                                  <QuestionForm id={question.name} form={form} />
                                 </StyledQuestionSection>
                               ))}
                               <StyledQuestionSection key={section} style={{ textAlign: 'center' }}>

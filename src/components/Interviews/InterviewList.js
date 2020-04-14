@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import {
-  Avatar, Button, Divider, Input, Layout, List, message, Modal, Space, Spin,
+  Avatar, Button, Descriptions, Divider, Input, Layout, List, message, Modal, Space, Spin,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link, navigate } from 'gatsby-plugin-intl';
@@ -50,7 +50,7 @@ let filters = { keyword: '', tab: 'explore' };
 
 const InterviewGrid = (props) => {
   const {
-    id, title, description, email,
+    id, title, description, specialization: { name: specializationName }, jobTitle, email,
   } = props;
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -103,7 +103,12 @@ const InterviewGrid = (props) => {
                 extra={updateActions}
               >
                 <h1><Link to={`/interviews/${id}`}>{title}</Link></h1>
-                <span className="content">{description}</span>
+                <Descriptions column={2}>
+                  <Descriptions.Item label="Specialization">{specializationName}</Descriptions.Item>
+                  <Descriptions.Item label="Job Title">{jobTitle}</Descriptions.Item>
+                  <Descriptions.Item span={2}>{description}</Descriptions.Item>
+                </Descriptions>
+                <span>{description}</span>
                 <Divider orientation="left">Author</Divider>
                 <StyledAvatar
                   src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"
@@ -201,6 +206,8 @@ const InterviewList = () => {
                       title={item.title}
                       description={item.description}
                       email={item.clientAccount.email}
+                      jobTitle={item.jobTitle}
+                      specialization={item.specialization}
                     />
                   )}
                 />

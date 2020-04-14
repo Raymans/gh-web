@@ -20,12 +20,6 @@ const QuestionsPage = (props) => {
   return (
     <>
       <Article>
-        <header>
-          <Headline>
-            <span>Questions</span>
-            <Link to="/question">Create</Link>
-          </Headline>
-        </header>
         <Questions />
       </Article>
 
