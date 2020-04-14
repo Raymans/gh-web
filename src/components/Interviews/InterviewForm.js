@@ -1,5 +1,14 @@
 import {
-  AutoComplete, Button, Form, Input, Layout, message, Modal, Select, Spin, Tooltip,
+  AutoComplete,
+  Button,
+  Form,
+  Input,
+  Layout,
+  message,
+  Modal,
+  Select,
+  Spin,
+  Tooltip,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -11,7 +20,11 @@ import { LoadingOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-desi
 import AnchorSilder from '../Sider/AnchorSider';
 import transformSwitchValue from '../../utils/questionHelpers';
 import {
-  createInterview, getInterview, getQuestions, getSpecializations, updateInterview,
+  createInterview,
+  getInterview,
+  getQuestions,
+  getSpecializations,
+  updateInterview,
 } from '../../utils/api';
 import Headline from '../Article/Headline';
 import QuestionList from '../Questions/QuestionList';
@@ -57,7 +70,10 @@ const InterviewForm = ({ id }) => {
   const [loading, setLoading] = useState(false);
   const [jobTitle, setJobTitle] = useState('');
   const [jobOptions, setJobTitleOptions] = useState([]);
-  const [anchorSections, setAnchorSections] = useState([]);
+  const [anchorSections, setAnchorSections] = useState([{
+    href: '',
+    title: '',
+  }]);
   const [specializations, setSpecializations] = useState([]);
   const [isSelectedQuestionVisible, setIsSelectedQuestionVisible] = useState(false);
   const [questionList, setQuestionList] = useState([]);
@@ -65,15 +81,24 @@ const InterviewForm = ({ id }) => {
   useEffect(() => {
     numberOfSection = 0;
 
-    getSpecializations().then(((data = []) => {
-      setSpecializations(data);
-    }));
+    getSpecializations()
+      .then(((data = []) => {
+        setSpecializations(data);
+      }));
     if (isEditForm) {
       setLoading(true);
-      getInterview(id).then((data = {}) => {
-        form.setFieldsValue({ ...data, specializationId: data.specialization.id });
-        setLoading(false);
-      });
+      getInterview(id)
+        .then((data = { sections: [] }) => {
+          form.setFieldsValue({
+            ...data,
+            specializationId: data.specialization.id,
+          });
+          setAnchorSections(data.sections.map((section, index) => ({
+            href: `#section_${index}`,
+            title: section.title,
+          })));
+          setLoading(false);
+        });
     }
   }, []);
 
@@ -89,11 +114,18 @@ const InterviewForm = ({ id }) => {
 
   const beforeSaving = () => {
     setLoading(true);
-    message.loading({ content: 'Saving', key: interviewMessageKey });
+    message.loading({
+      content: 'Saving',
+      key: interviewMessageKey,
+    });
   };
 
   const afterSaving = (content) => {
-    message.success({ content, key: interviewMessageKey, duration: 3 });
+    message.success({
+      content,
+      key: interviewMessageKey,
+      duration: 3,
+    });
     setLoading(false);
   };
 
@@ -105,18 +137,26 @@ const InterviewForm = ({ id }) => {
     ));
     beforeSaving();
     if (isEditForm) {
-      updateInterview({ params: values, id }).then((data) => {
-        afterSaving('Interview Saved.');
-      });
+      updateInterview({
+        params: values,
+        id,
+      })
+        .then((data) => {
+          afterSaving('Interview Saved.');
+        });
     } else {
-      createInterview(values).then((data) => {
-        afterSaving('Interview Created.');
-        navigate(`/interviews/${data.id}/edit`);
-      });
+      createInterview(values)
+        .then((data) => {
+          afterSaving('Interview Created.');
+          navigate(`/interviews/${data.id}/edit`);
+        });
     }
   };
   const pushSection = (id, name) => (
-    setAnchorSections([...anchorSections, { href: `#${id}`, title: name }])
+    setAnchorSections([...anchorSections, {
+      href: `#${id}`,
+      title: name,
+    }])
   );
   const onSectionTitleChange = (index, e) => {
     anchorSections[index].title = e.target.value;
@@ -125,10 +165,11 @@ const InterviewForm = ({ id }) => {
 
   const onOpenSelectQuestionModal = (sectionIndex) => {
     sectionIndexOfAddingQuestion = sectionIndex;
-    getQuestions({}).then((data) => {
-      setQuestionList(data.results);
-      setIsSelectedQuestionVisible(true);
-    });
+    getQuestions({})
+      .then((data) => {
+        setQuestionList(data.results);
+        setIsSelectedQuestionVisible(true);
+      });
   };
 
   const onSelectQuestions = () => {
@@ -136,7 +177,10 @@ const InterviewForm = ({ id }) => {
     const formdata = form.getFieldValue();
     formdata.sections[sectionIndexOfAddingQuestion].questions = [...formdata.sections[sectionIndexOfAddingQuestion].questions, {
       question: 'raytetst',
-      possibleAnswers: [{ answer: '123', correctAnswer: true }],
+      possibleAnswers: [{
+        answer: '123',
+        correctAnswer: true,
+      }],
     }];
     form.setFieldsValue(formdata);
   };
@@ -172,20 +216,31 @@ const InterviewForm = ({ id }) => {
         <Content>
           <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
             <Form {...inputLayout} onFinish={onFinish} form={form}>
-              <FormItem label="Title" name="title" rules={[{ required: true, whitespace: true }]}>
+              <FormItem
+                label="Title"
+                name="title"
+                rules={[{
+                  required: true,
+                  whitespace: true,
+                }]}
+              >
                 <Input />
               </FormItem>
               <FormItem
                 label="Specialization"
                 name="specializationId"
-                rules={[{ required: true, message: 'Please choose a Specialization' }]}
+                rules={[{
+                  required: true,
+                  message: 'Please choose a Specialization',
+                }]}
               >
                 <Select
                   showSearch
                   style={{ width: 200 }}
                   placeholder="Select a Specialization"
                   optionFilterProp="children"
-                  filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                  filterOption={(input, option) => option.children.toLowerCase()
+                    .indexOf(input.toLowerCase()) >= 0}
                 >
                   {specializations.map((spec) => (
                     <Select.Option key={spec.id} value={spec.id}>{spec.name}</Select.Option>
@@ -195,7 +250,10 @@ const InterviewForm = ({ id }) => {
               <FormItem
                 label="Job Title"
                 name="jobTitle"
-                rules={[{ required: true, message: 'Please enter Job Title' }]}
+                rules={[{
+                  required: true,
+                  message: 'Please enter Job Title',
+                }]}
                 size="small"
               >
                 <StyledAutoComplete
@@ -217,7 +275,13 @@ const InterviewForm = ({ id }) => {
                   whitespace: true,
                 }]}
               >
-                <TextArea placeholder="Interview description" autoSize={{ minRows: 2, maxRows: 6 }} />
+                <TextArea
+                  placeholder="Interview description"
+                  autoSize={{
+                    minRows: 2,
+                    maxRows: 6,
+                  }}
+                />
               </FormItem>
               <Form.List name="sections">
                 {(sections, { add: addSection, remove: removeSection }) => (
@@ -233,7 +297,9 @@ const InterviewForm = ({ id }) => {
                               onChange={onSectionTitleChange.bind(this, sectionIndex)}
                             />
                           </FormItem>
-                          <Tooltip title="Organize your questions via Sections like Basic Concept or Design Pattern">
+                          <Tooltip
+                            title="Organize your questions via Sections like Basic Concept or Design Pattern"
+                          >
                             <StyledQuestionCircleOutlined />
                           </Tooltip>
                         </h2>
@@ -281,7 +347,10 @@ const InterviewForm = ({ id }) => {
                         pushSection(`section_${sections.length}`, 'default');
                         numberOfSection++;
                       }}
-                      style={{ width: '100%', margin: '10px 0' }}
+                      style={{
+                        width: '100%',
+                        margin: '10px 0',
+                      }}
                     >
                       <PlusOutlined />
                       {' '}

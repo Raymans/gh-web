@@ -108,7 +108,6 @@ const InterviewGrid = (props) => {
                   <Descriptions.Item label="Job Title">{jobTitle}</Descriptions.Item>
                   <Descriptions.Item span={2}>{description}</Descriptions.Item>
                 </Descriptions>
-                <span>{description}</span>
                 <Divider orientation="left">Author</Divider>
                 <StyledAvatar
                   src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"
