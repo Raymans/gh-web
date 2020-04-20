@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Input, Layout } from 'antd';
+import { Input, Layout, List } from 'antd';
 import { Link } from 'gatsby-plugin-intl';
 import QuestionGrid from './QuestionGrid';
 import FilterSider from '../Sider/FilterSider';
@@ -13,13 +13,25 @@ const StyledSearchFilter = styled.div`
     text-align: end;
     flex: auto;
 `;
+
+const StyledSelected = styled.div`
+  &.selected .ant-list-item {
+    border-width: 3px !important;
+    transition: margin 0.3s, border-width 0.3s;
+    margin: 20px -2px;
+    border-color: ${(props) => `${props.theme.color.brand.primary} !important`};
+  }
+`;
+
+
 let filters = {
   keyword: '',
   tab: 'explore',
   pageSize: 10,
 };
 
-const QuestionList = () => {
+const QuestionList = (props) => {
+  const { isModal, onSelectQuestion, selectedQuestions = [] } = props;
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState();
@@ -61,10 +73,15 @@ const QuestionList = () => {
   });
   return (
     <div className="form">
-      <Headline>
-        <span>Questions</span>
-        <Link to="/questions/create">Create</Link>
-      </Headline>
+      {
+        !isModal
+        && (
+        <Headline>
+          <span>Questions</span>
+          <Link to="/questions/create">Create</Link>
+        </Headline>
+        )
+      }
       <Layout>
         <FilterSider onChange={handleChange} />
         <Layout.Content>
@@ -80,9 +97,17 @@ const QuestionList = () => {
             hasMore={next}
             dataSource={questions}
             onLoadMore={handleLoadMore}
-            renderItem={(item) => (
-              <QuestionGrid key={item.id} email={item.clientAccount.email} {...item} />
-            )}
+            renderItem={(item) => {
+              const selectedClass = selectedQuestions.includes(item.id) ? 'selected' : '';
+              return (
+                <StyledSelected
+                  onClick={() => { onSelectQuestion(item); }}
+                  className={selectedClass}
+                >
+                  <QuestionGrid key={item.id} email={item.clientAccount.email} {...item} showActionButtons={!isModal} />
+                </StyledSelected>
+              );
+            }}
           />
         </Layout.Content>
       </Layout>
@@ -92,6 +117,14 @@ const QuestionList = () => {
 
 QuestionList.propTypes = {
   dataSource: PropTypes.arrayOf(PropTypes.object),
+  isModal: PropTypes.bool,
+  onSelectQuestion: PropTypes.func,
+  selectedQuestions: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default QuestionList;
+
+QuestionList.defaultProps = {
+  isModal: false,
+  onSelectQuestion: () => {}
+};

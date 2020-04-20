@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import {
-  Avatar, Button, Descriptions, Divider, Input, Layout, List, message, Modal, Space, Spin,
+  Avatar, Button, Descriptions, Divider, Input, Layout, List, message, Modal, Space, Spin, Tag,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link, navigate } from 'gatsby-plugin-intl';
@@ -25,6 +25,11 @@ const StyledListItem = styled(List.Item)`
   }
 `;
 
+const StyledVisibilityTag = styled(Tag)`
+  position: absolute;
+  top: -9px;
+`;
+
 const StyledAvatar = styled(Avatar)`
   margin: 0 5px;
 `;
@@ -33,7 +38,7 @@ let filters = { keyword: '', pageSize: 10 };
 
 const InterviewGrid = (props) => {
   const {
-    id, title, description, specialization: { name: specializationName }, jobTitle, email,
+    id, title, description, specialization: { name: specializationName }, jobTitle, email, visibility,
   } = props;
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -85,6 +90,9 @@ const InterviewGrid = (props) => {
                 key={id}
                 extra={updateActions}
               >
+                {
+                  visibility === 'PRIVATE' && <StyledVisibilityTag color="default">private</StyledVisibilityTag>
+                }
                 <h1><Link to={`/interviews/${id}`}>{title}</Link></h1>
                 <Descriptions column={2}>
                   <Descriptions.Item label="Specialization">{specializationName}</Descriptions.Item>
@@ -166,6 +174,7 @@ const InterviewList = () => {
                 renderItem={(item) => (
                   <InterviewGrid
                     id={item.id}
+                    visibility={item.visibility}
                     title={item.title}
                     description={item.description}
                     email={item.clientAccount.email}

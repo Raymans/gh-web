@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Icon as LegacyIcon } from '@ant-design/compatible';
 import {
-  Avatar, Button, Checkbox, Collapse, Divider, List, message, Modal, Space, Spin,
+  Avatar, Button, Checkbox, Collapse, Divider, List, message, Modal, Space, Spin, Tag
 } from 'antd';
 import styled from 'styled-components';
 import { DeleteOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
-import { navigate } from 'gatsby-plugin-intl';
+import { Link, navigate } from 'gatsby-plugin-intl';
 import { deleteQuestion as deletedQuestionApi } from '../../utils/api';
 import { getUserInfo } from '../../utils/auth';
 
@@ -20,15 +20,6 @@ const StyledListItem = styled(List.Item)`
   }
 `;
 
-const StyledAnswer = styled.div`
-  padding-top: 20px;
-  .ant-collapse-item > .ant-collapse-header {
-    background-color: #1187ae94;
-    color: #ffffff70;
-    padding: 4px 40px;
-  }
-`;
-
 const IconText = ({ type, text }) => (
   <span>
     <LegacyIcon type={type} style={{ marginRight: 8 }} />
@@ -36,9 +27,14 @@ const IconText = ({ type, text }) => (
   </span>
 );
 
+const StyledVisibilityTag = styled(Tag)`
+  position: absolute;
+  top: -9px;
+`;
+
 const QuestionGrid = (props) => {
   const {
-    id: questionId, possibleAnswers, email, question, answerDisplayMode, showAuthor,
+    id: questionId, possibleAnswers, email, question, showAuthor, visibility, showActionButtons
   } = props;
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -51,7 +47,7 @@ const QuestionGrid = (props) => {
     });
   };
   let updateActions = [];
-  if (email === getUserInfo().email) {
+  if (showActionButtons && email === getUserInfo().email) {
     updateActions = [
       [
         <Space>
@@ -84,40 +80,15 @@ const QuestionGrid = (props) => {
                 key={questionId}
                 extra={updateActions}
               >
-                <List.Item.Meta
-                  title={(
-                    <>
-                      {question}
-                    </>
-                  )}
-                />
-                {possibleAnswers.map((possibleAnswer) => (
-                  <>
-                    {
-                      (answerDisplayMode === 'inline'
-                        && <Checkbox checked={possibleAnswer.correctAnswer}>{possibleAnswer.answer}</Checkbox>)
-                    }
-                    {
-                      (answerDisplayMode === 'block' && <Checkbox>{possibleAnswer.answer}</Checkbox>)
-                    }
-                    <br />
-                  </>
-                ))}
                 {
-                  answerDisplayMode === 'block'
-                  && (
-                    <StyledAnswer>
-                      <Collapse>
-                        <Panel header="Show Me the Right Answer!" key="possibleAnswers">
-                          {possibleAnswers.map((possibleAnswer) => (
-                            possibleAnswer.correctAnswer
-                              ? <p>{possibleAnswer.answer}</p> : <></>
-                          ))}
-                        </Panel>
-                      </Collapse>
-                    </StyledAnswer>
-                  )
+                  visibility === 'PRIVATE' && <StyledVisibilityTag color="default">private</StyledVisibilityTag>
                 }
+                <h1>{question}</h1>
+                {possibleAnswers.map((possibleAnswer) => (
+                  <div>
+                    <Checkbox>{possibleAnswer.answer}</Checkbox>
+                  </div>
+                ))}
                 {
                   showAuthor
                   && (
@@ -148,6 +119,8 @@ QuestionGrid.propTypes = {
   question: PropTypes.string,
   id: PropTypes.string.isRequired,
   showAuthor: PropTypes.bool,
+  visibility: PropTypes.string,
+  showActionButtons: PropTypes.bool,
 };
 
 IconText.propTypes = {

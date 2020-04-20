@@ -8,6 +8,7 @@ import {
   Modal,
   Select,
   Spin,
+  Switch,
   Tooltip,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -57,6 +58,11 @@ const StyledQuestionSection = styled.div`
   margin-bottom: 24px;
 `;
 
+const StyledVisibilityDiv = styled.div`
+  text-align: end;
+  margin-bottom: 24px;
+`;
+
 const mockVal = (str, repeat = 1) => ({
   value: str.repeat(repeat),
 });
@@ -64,19 +70,19 @@ const mockVal = (str, repeat = 1) => ({
 let sectionIndexOfAddingQuestion = 0;
 let numberOfSection = 0;
 const interviewMessageKey = 'interviewMessage';
+let selectedQuestions = [];
+
 const InterviewForm = ({ id }) => {
   const isEditForm = !!id;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [jobTitle, setJobTitle] = useState('');
   const [jobOptions, setJobTitleOptions] = useState([]);
-  const [anchorSections, setAnchorSections] = useState([{
-    href: '',
-    title: '',
-  }]);
+  const [anchorSections, setAnchorSections] = useState([]);
   const [specializations, setSpecializations] = useState([]);
   const [isSelectedQuestionVisible, setIsSelectedQuestionVisible] = useState(false);
   const [questionList, setQuestionList] = useState([]);
+  const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
 
   useEffect(() => {
     numberOfSection = 0;
@@ -89,6 +95,7 @@ const InterviewForm = ({ id }) => {
       setLoading(true);
       getInterview(id)
         .then((data = { sections: [] }) => {
+          data.visibility = data.visibility === 'PUBLIC';
           form.setFieldsValue({
             ...data,
             specializationId: data.specialization.id,
@@ -97,6 +104,7 @@ const InterviewForm = ({ id }) => {
             href: `#section_${index}`,
             title: section.title,
           })));
+          numberOfSection = data.sections.length;
           setLoading(false);
         });
     }
@@ -130,12 +138,13 @@ const InterviewForm = ({ id }) => {
   };
 
   const onFinish = (values) => {
+    beforeSaving();
     values.sections && values.sections.map((section) => (
       section.questions && section.questions.map((question) => (
         question.possibleAnswers = transformSwitchValue(question.possibleAnswers)
       ))
     ));
-    beforeSaving();
+    values.visibility = !values.visibility || values.visibility === 'PRIVATE' ? 'PRIVATE' : 'PUBLIC';
     if (isEditForm) {
       updateInterview({
         params: values,
@@ -175,27 +184,46 @@ const InterviewForm = ({ id }) => {
   const onSelectQuestions = () => {
     setIsSelectedQuestionVisible(false);
     const formdata = form.getFieldValue();
-    formdata.sections[sectionIndexOfAddingQuestion].questions = [...formdata.sections[sectionIndexOfAddingQuestion].questions, {
-      question: 'raytetst',
-      possibleAnswers: [{
-        answer: '123',
-        correctAnswer: true,
-      }],
-    }];
+    if (!formdata.sections[sectionIndexOfAddingQuestion].questions) {
+      formdata.sections[sectionIndexOfAddingQuestion].questions = [];
+    }
+    formdata.sections[sectionIndexOfAddingQuestion].questions = [...formdata.sections[sectionIndexOfAddingQuestion].questions, ...selectedQuestions];
     form.setFieldsValue(formdata);
+    setSelectedQuestionIds([]);
+    selectedQuestions = [];
   };
 
+  const handleSelectQuestions = (question) => {
+    if (!selectedQuestionIds.includes(question.id)) {
+      selectedQuestions = [...selectedQuestions, question];
+      setSelectedQuestionIds(
+        [...selectedQuestionIds, question.id],
+      );
+    } else {
+      setSelectedQuestionIds(selectedQuestionIds.filter((selectedQuestionId) => (
+        selectedQuestionId !== question.id
+      )));
+      selectedQuestions = selectedQuestions.filter((selectedQuestion) => (
+        selectedQuestion.id !== question.id
+      ));
+    }
+  };
+
+  const handleCloseSelectQuestionsModal = () => {
+    setSelectedQuestionIds([]);
+    selectedQuestions = [];
+    setIsSelectedQuestionVisible(false);
+  };
   return (
     <>
       <Modal
         visible={isSelectedQuestionVisible}
         title="Select Questions"
+        onCancel={handleCloseSelectQuestionsModal}
         footer={[
           <Button
             key="back"
-            onClick={() => {
-              setIsSelectedQuestionVisible(false);
-            }}
+            onClick={handleCloseSelectQuestionsModal}
           >
             Close
           </Button>,
@@ -208,7 +236,12 @@ const InterviewForm = ({ id }) => {
           </Button>,
         ]}
       >
-        <QuestionList dataSource={questionList} />
+        <QuestionList
+          dataSource={questionList}
+          isModal
+          onSelectQuestion={handleSelectQuestions}
+          selectedQuestions={selectedQuestionIds}
+        />
       </Modal>
       <Headline title={isEditForm ? 'Interview - Edit' : 'Interview - Create'} />
       <Layout>
@@ -216,6 +249,11 @@ const InterviewForm = ({ id }) => {
         <Content>
           <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
             <Form {...inputLayout} onFinish={onFinish} form={form}>
+              <StyledVisibilityDiv>
+                <FormItem label="Visibility" name="visibility" valuePropName="checked" noStyle>
+                  <Switch checkedChildren="public" unCheckedChildren="private" />
+                </FormItem>
+              </StyledVisibilityDiv>
               <FormItem
                 label="Title"
                 name="title"
