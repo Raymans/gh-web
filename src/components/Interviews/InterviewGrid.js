@@ -6,6 +6,7 @@ import {
   Button,
   Descriptions,
   Divider,
+  Form,
   List,
   message,
   Modal,
@@ -13,10 +14,18 @@ import {
   Spin,
   Tag,
 } from 'antd';
-import { DeleteOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined, EditOutlined, LoadingOutlined, ShareAltOutlined,
+} from '@ant-design/icons';
 import { Link, navigate } from 'gatsby-plugin-intl';
+import Search from 'antd/es/input/Search';
+import { CopyToClipboard } from 'react-copy-to-clipboard/lib/Component';
 import { getUserInfo } from '../../utils/auth';
-import { deleteInterview } from '../../utils/api';
+import {
+  createInterviewSession,
+  deleteInterview,
+  sendInterviewSessionToCandidate,
+} from '../../utils/api';
 
 
 const StyledListItem = styled(List.Item)`
@@ -40,43 +49,115 @@ const InterviewGrid = (props) => {
   const {
     id, title, description, specialization: { name: specializationName }, jobTitle, email, visibility,
   } = props;
+  const shareLink = `https://geekhub.tw/interviews/${id}`;
+  const [sending, setSending] = useState(false);
+  const [sharedEmails, setSharedEmails] = useState([]);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [isShareModalVisible, setIsShareModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deleted, setDeleted] = useState(false);
   const handleDeleteInterview = () => {
     setSaving(true);
-    deleteInterview(id).then(() => {
-      setDeleted(true);
-      message.success(`Interview has been deleted: ${title}`);
-    });
+    deleteInterview(id)
+      .then(() => {
+        setDeleted(true);
+        message.success(`Interview has been deleted: ${title}`);
+      });
   };
   let updateActions = [];
-  if (email === getUserInfo().email) {
-    updateActions = [
-      <Space>
-        <Button
-          size="small"
-          shape="circle"
-          icon={<EditOutlined />}
-          onClick={() => {
-            navigate(`/interviews/${id}/edit`);
-          }}
-        />
-        <Button
-          size="small"
-          danger
-          shape="circle"
-          icon={<DeleteOutlined />}
-          onClick={() => setIsDeleteModalVisible(true)}
-        />
-      </Space>];
-  }
+  updateActions = [
+    <Space>
+      <Button
+        icon={<ShareAltOutlined />}
+        onClick={() => {
+          setIsShareModalVisible(true);
+        }}
+      />
+      {
+        email === getUserInfo().email
+        && (
+          <>
+            <Button
+              size="small"
+              shape="circle"
+              icon={<EditOutlined />}
+              onClick={() => {
+                navigate(`/interviews/${id}/edit`);
+              }}
+            />
+            <Button
+              size="small"
+              danger
+              shape="circle"
+              icon={<DeleteOutlined />}
+              onClick={() => setIsDeleteModalVisible(true)}
+            />
+          </>
+        )
+      }
+
+    </Space>];
+
+  const handleShareEmail = (value) => {
+    setSending(true);
+    createInterviewSession({
+      id,
+      email: value,
+      name: value.split('@')[0],
+    })
+      .then(({ id: interviewSessionId }) => {
+        sendInterviewSessionToCandidate(interviewSessionId).then(() => {
+          if (!sharedEmails.includes(value)) {
+            setSharedEmails([...sharedEmails, value]);
+          }
+          setSending(false);
+          message.success(`Sent Interview to ${value}`);
+        });
+      });
+  };
   return (
     <>
       {
         !deleted
         && (
           <>
+            <Modal
+              title="Share Interview"
+              visible={isShareModalVisible}
+              onCancel={() => setIsShareModalVisible(false)}
+              footer={[
+                <Button key="back" onClick={() => setIsShareModalVisible(false)}>
+                  Close
+                </Button>,
+              ]}
+            >
+              <CopyToClipboard
+                text={shareLink}
+                onCopy={() => message.info('Copied.')}
+              >
+                <Search value={shareLink} enterButton="Copy Link" />
+              </CopyToClipboard>
+              <Divider orientation="left">Or</Divider>
+              <Form>
+                <Form.Item rule={[{ type: 'email' }]}>
+                  <Search
+                    placeholder="Email"
+                    enterButton="Send"
+                    loading={sending}
+                    onSearch={handleShareEmail}
+                    value="raymans86@gmail.com"
+                  />
+                </Form.Item>
+              </Form>
+
+              {sharedEmails.map((sharedEmail) => (
+                <div>
+                  <span>{sharedEmail}</span>
+                  <Button onClick={handleShareEmail.bind(this, sharedEmail)}>ReSend</Button>
+                </div>
+              ))}
+            </Modal>
+
             <Modal
               title="Delete Interview"
               visible={isDeleteModalVisible}
@@ -91,7 +172,8 @@ const InterviewGrid = (props) => {
                 extra={updateActions}
               >
                 {
-                  visibility === 'PRIVATE' && <StyledVisibilityTag color="default">private</StyledVisibilityTag>
+                  visibility === 'PRIVATE'
+                  && <StyledVisibilityTag color="default">private</StyledVisibilityTag>
                 }
                 <h1><Link to={`/interviews/${id}`}>{title}</Link></h1>
                 <Descriptions column={2}>

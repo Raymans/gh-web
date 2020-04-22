@@ -3,6 +3,7 @@ import {
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
+import Countdown from 'antd/lib/statistic/Countdown';
 import AnchorSilder from '../Sider/AnchorSider';
 import Headline from '../Article/Headline';
 import {
@@ -11,16 +12,32 @@ import {
 import { getUserInfo } from '../../utils/auth';
 import InterviewSession from './InterviewSession';
 
+const { email } = getUserInfo();
 const Interview = ({ id, sessionId = '' }) => {
+  const [isTesting, setIsTesting] = useState(false);
+  const [deadline, setDeadline] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isTestModalVisible, setIsTestModalVisible] = useState(false);
-  const [interview, setInterview] = useState({ specialization: { name: '' } });
+  const [interview, setInterview] = useState({ specialization: { name: '' }, clientAccount: { email: '' } });
   const [interviewSession, setInterviewSession] = useState(null);
+
+  const startInterviewS = (interviewS) => {
+    setIsTesting(true);
+    setDeadline(Date.now() + interviewS.duration * 60 * 1000);
+    setLoading(false);
+    setInterviewSession(interviewS);
+  };
+
   useEffect(() => {
     if (sessionId) {
-      getInterviewSession(sessionId).then(({ interview }) => {
+      getInterviewSession(sessionId).then((interviewS) => {
+        if (interviewS.interviewStartDate) {
+          setInterview(interviewS.interview);
+          startInterviewS(interviewS);
+          return;
+        }
         setLoading(false);
-        setInterview(interview);
+        setInterview(interviewS.interview);
       });
       return;
     }
@@ -32,19 +49,24 @@ const Interview = ({ id, sessionId = '' }) => {
 
   const startTest = () => {
     setIsTestModalVisible(false);
-    const { email } = getUserInfo();
     if (sessionId) {
       startInterviewSession(sessionId).then((interviewS) => {
-        setInterviewSession(interviewS);
+        startInterviewS(interviewS);
       });
       return;
     }
-    createInterviewSession({ id, email }).then(({ id: sessionId }) => {
-      startInterviewSession(sessionId).then((interviewS) => {
-        setInterviewSession(interviewS);
+    createInterviewSession({ id, email, name: email.split('@')[0] }).then(({ id: createdSessionId }) => {
+      startInterviewSession(createdSessionId).then((interviewS) => {
+        startInterviewS(interviewS);
       });
     });
   };
+
+  const handleEndInterviewSession = () => {
+    setIsTesting(false);
+  };
+
+  const isOwner = email === interview.clientAccount.email;
   return (
     <>
       <Headline title={interview.title} />
@@ -52,16 +74,24 @@ const Interview = ({ id, sessionId = '' }) => {
         <AnchorSilder />
         <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
           <Layout.Content>
+            {
+              isTesting && interviewSession && interviewSession.duration !== -1
+              && <Countdown title="Remaining" value={deadline} format="HH:mm:ss" />
+            }
             <Descriptions column={2}>
               <Descriptions.Item label="Specialization">{interview.specialization.name}</Descriptions.Item>
               <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
               <Descriptions.Item span={2}>{interview.description}</Descriptions.Item>
             </Descriptions>
             {
-              interviewSession && <InterviewSession interviewSession={interviewSession} />
+              isOwner
+              && <InterviewSession interviewSession={{ interview }} preview />
             }
             {
-              !interviewSession
+              interviewSession && <InterviewSession interviewSession={interviewSession} onEndInterviewSession={handleEndInterviewSession} />
+            }
+            {
+              !interviewSession && !isOwner
               && (
                 <>
                   <Button type="primary" onClick={() => setIsTestModalVisible(true)}>
@@ -74,7 +104,11 @@ const Interview = ({ id, sessionId = '' }) => {
                     onCancel={() => setIsTestModalVisible(false)}
                   >
                     <p>Start testing the Interview!!</p>
-                    <p>You will have 60 minutes complete the interview.</p>
+                    {
+                      interviewSession && interviewSession.duration !== -1
+                      && <p>{`You will have ${interviewSession.duration} minutes complete the interview.`}</p>
+                    }
+
                   </Modal>
                 </>
               )

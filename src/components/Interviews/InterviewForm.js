@@ -26,6 +26,7 @@ import {
   getQuestions,
   getSpecializations,
   updateInterview,
+  publishInterview,
 } from '../../utils/api';
 import Headline from '../Article/Headline';
 import QuestionList from '../Questions/QuestionList';
@@ -71,6 +72,7 @@ let sectionIndexOfAddingQuestion = 0;
 let numberOfSection = 0;
 const interviewMessageKey = 'interviewMessage';
 let selectedQuestions = [];
+let isPublishAction = false;
 
 const InterviewForm = ({ id }) => {
   const isEditForm = !!id;
@@ -137,6 +139,12 @@ const InterviewForm = ({ id }) => {
     setLoading(false);
   };
 
+  const publish = (data) => {
+    if (isPublishAction) {
+      return publishInterview({ id: data.id }).then(() => data);
+    }
+    return data;
+  }
   const onFinish = (values) => {
     beforeSaving();
     values.sections && values.sections.map((section) => (
@@ -149,14 +157,15 @@ const InterviewForm = ({ id }) => {
       updateInterview({
         params: values,
         id,
-      })
-        .then((data) => {
-          afterSaving('Interview Saved.');
+      }).then(publish)
+        .then(() => {
+          afterSaving(isPublishAction ? 'Interview Published.' : 'Interview Saved.');
         });
     } else {
       createInterview(values)
+        .then(publish)
         .then((data) => {
-          afterSaving('Interview Created.');
+          afterSaving(isPublishAction ? 'Interview Published.' : 'Interview Created.');
           navigate(`/interviews/${data.id}/edit`);
         });
     }
@@ -214,6 +223,15 @@ const InterviewForm = ({ id }) => {
     selectedQuestions = [];
     setIsSelectedQuestionVisible(false);
   };
+
+  const handleSave = () => {
+    isPublishAction = false;
+    form.submit();
+  };
+  const handlePublish = () => {
+    isPublishAction = true;
+    form.submit();
+  };
   return (
     <>
       <Modal
@@ -248,7 +266,7 @@ const InterviewForm = ({ id }) => {
         <AnchorSilder anchors={anchorSections} />
         <Content>
           <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
-            <Form {...inputLayout} onFinish={onFinish} form={form}>
+            <Form {...inputLayout} onFinish={onFinish} form={form} scrollToFirstError>
               <StyledVisibilityDiv>
                 <FormItem label="Visibility" name="visibility" valuePropName="checked" noStyle>
                   <Switch checkedChildren="public" unCheckedChildren="private" />
@@ -397,8 +415,11 @@ const InterviewForm = ({ id }) => {
                   </>
                 )}
               </Form.List>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" onClick={handleSave}>
                 {isEditForm ? 'Update' : 'Create'}
+              </Button>
+              <Button type="primary" onClick={handlePublish}>
+                Publish
               </Button>
               <Button type="link">
                 <Link to="/interviews" replace>Back</Link>

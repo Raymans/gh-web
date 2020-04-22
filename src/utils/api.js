@@ -114,6 +114,15 @@ export async function updateInterview({ params, id }) {
   });
 }
 
+export async function publishInterview({ id }) {
+  return request(`${config.ghServiceUrl}/api/interviews/${id}/publish`, {
+    method: 'POST',
+    headers: {
+      ...authHeader,
+    },
+  });
+}
+
 export async function getInterviews({ url = '/api/interviews', ...params }) {
   return request(`${config.ghServiceUrl}${url}`, {
     method: 'GET',
@@ -142,10 +151,14 @@ export async function deleteInterview(id) {
   });
 }
 
-export async function createInterviewSession({ id: interviewId, email: userEmail }) {
+export async function createInterviewSession({
+  id: interviewId, email: userEmail, name, interviewMode = 'REAL', duration = -1,
+}) {
   return request(`${config.ghServiceUrl}/api/interviewSessions`, {
     method: 'POST',
-    data: { interviewId, userEmail },
+    data: {
+      interviewId, userEmail, name, interviewMode, duration,
+    },
     headers: {
       ...authHeader,
     },
@@ -160,6 +173,37 @@ export async function startInterviewSession(id) {
     },
   });
 }
+
+export async function submitInterviewSession(id) {
+  return request(`${config.ghServiceUrl}/api/interviewSessions/${id}/submit`, {
+    method: 'POST',
+    headers: {
+      ...authHeader,
+    },
+  });
+}
+
+export async function sendInterviewSessionToCandidate(id) {
+  return request(`${config.ghServiceUrl}/api/interviewSessions/${id}/send`, {
+    method: 'POST',
+    headers: {
+      ...authHeader,
+    },
+  });
+}
+
+export async function addAnswerToInterviewSession({
+  id, sectionId, questionId, answerId = [],
+}) {
+  return request(`${config.ghServiceUrl}/api/interviewSessions/${id}/answers`, {
+    method: 'POST',
+    data: { sectionId, questionSnapshotId: questionId, answerId },
+    headers: {
+      ...authHeader,
+    },
+  });
+}
+
 export async function getInterviewSession(id) {
   return request(`${config.ghServiceUrl}/api/interviewSessions/${id}`, {
     method: 'GET',
