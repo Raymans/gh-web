@@ -1,3 +1,4 @@
+import qs from 'qs';
 import config from '../../content/meta/config';
 import request from './request';
 
@@ -46,8 +47,8 @@ export async function getUser(params) {
   });
 }
 
-export async function getQuestions({ url = '/api/questions', ...params }) {
-  return request(`${config.ghServiceUrl}${url}`, {
+export async function getQuestions({ url = `${config.ghServiceUrl}/api/questions`, ...params }) {
+  return request(`${url}`, {
     method: 'GET',
     params,
     headers: {
@@ -123,8 +124,8 @@ export async function publishInterview({ id }) {
   });
 }
 
-export async function getInterviews({ url = '/api/interviews', ...params }) {
-  return request(`${config.ghServiceUrl}${url}`, {
+export async function getInterviews({ url = `${config.ghServiceUrl}/api/interviews`, ...params }) {
+  return request(url, {
     method: 'GET',
     params,
     headers: {
@@ -204,9 +205,28 @@ export async function addAnswerToInterviewSession({
   });
 }
 
+export async function getCurrentInterviewSession({ id }) {
+  return request(`${config.ghServiceUrl}/api/interviews/${id}/interviewSession`, {
+    method: 'GET',
+    headers: {
+      ...authHeader,
+    },
+  });
+}
+
 export async function getInterviewSession(id) {
   return request(`${config.ghServiceUrl}/api/interviewSessions/${id}`, {
     method: 'GET',
+    headers: {
+      ...authHeader,
+    },
+  });
+}
+
+export async function getInterviewSessions({ interviewId, owner = true }) {
+  return request(`${config.ghServiceUrl}/api/interviewSessions?${qs.stringify({ interviewId, owner })}`, {
+    method: 'GET',
+    data: { interviewId, owner },
     headers: {
       ...authHeader,
     },

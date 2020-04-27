@@ -7,6 +7,7 @@ import {
   Descriptions,
   Divider,
   Form,
+  Input,
   List,
   message,
   Modal,
@@ -24,10 +25,19 @@ import { getUserInfo } from '../../utils/auth';
 import {
   createInterviewSession,
   deleteInterview,
+  getInterviewSessions,
   sendInterviewSessionToCandidate,
 } from '../../utils/api';
 
-
+const StyleReSendRow = styled.div`
+  display: flex;
+  align-items: center;
+  border-bottom: #e0e5e6 1px solid;
+  margin-bottom: 11px;
+  button {
+    margin-left: auto;
+  }
+`;
 const StyledListItem = styled(List.Item)`
   .ant-list-item-extra{
     position: absolute;
@@ -50,7 +60,7 @@ const InterviewGrid = (props) => {
     id, title, description, specialization: { name: specializationName }, jobTitle, email, visibility,
   } = props;
   const shareLink = `https://geekhub.tw/interviews/${id}`;
-  const [sending, setSending] = useState(false);
+  const [sendings, setSendings] = useState({ sending: false });
   const [sharedEmails, setSharedEmails] = useState([]);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [isShareModalVisible, setIsShareModalVisible] = useState(false);
@@ -70,7 +80,10 @@ const InterviewGrid = (props) => {
       <Button
         icon={<ShareAltOutlined />}
         onClick={() => {
-          setIsShareModalVisible(true);
+          getInterviewSessions({ interviewId: id }).then(({ results = [] }) => {
+            setSharedEmails(results.map((interviewSession) => interviewSession.userEmail));
+            setIsShareModalVisible(true);
+          });
         }}
       />
       {
@@ -98,8 +111,21 @@ const InterviewGrid = (props) => {
 
     </Space>];
 
+  const handleResendEmail = (value) => {
+    sendings[value] = true;
+    setSendings({ ...sendings });
+    sendInterviewSessionToCandidate(id).then(() => {
+      if (!sharedEmails.includes(value)) {
+        setSharedEmails([...sharedEmails, value]);
+      }
+      sendings[value] = false;
+      setSendings({ ...sendings });
+      message.success(`Sent Interview to ${value}`);
+    });
+  };
+
   const handleShareEmail = (value) => {
-    setSending(true);
+    setSendings({ ...sendings, sending: true });
     createInterviewSession({
       id,
       email: value,
@@ -110,7 +136,7 @@ const InterviewGrid = (props) => {
           if (!sharedEmails.includes(value)) {
             setSharedEmails([...sharedEmails, value]);
           }
-          setSending(false);
+          setSendings({ ...sendings, sending: false });
           message.success(`Sent Interview to ${value}`);
         });
       });
@@ -131,19 +157,22 @@ const InterviewGrid = (props) => {
                 </Button>,
               ]}
             >
-              <CopyToClipboard
-                text={shareLink}
-                onCopy={() => message.info('Copied.')}
-              >
-                <Search value={shareLink} enterButton="Copy Link" />
-              </CopyToClipboard>
+              <div style={{ display: 'flex' }}>
+                <Input placeholder="Email" value={shareLink} />
+                <CopyToClipboard
+                  text={shareLink}
+                  onCopy={() => message.info('Copied.')}
+                >
+                  <Button>Copy</Button>
+                </CopyToClipboard>
+              </div>
               <Divider orientation="left">Or</Divider>
               <Form>
                 <Form.Item rule={[{ type: 'email' }]}>
                   <Search
                     placeholder="Email"
                     enterButton="Send"
-                    loading={sending}
+                    loading={sendings.sending}
                     onSearch={handleShareEmail}
                     value="raymans86@gmail.com"
                   />
@@ -151,10 +180,10 @@ const InterviewGrid = (props) => {
               </Form>
 
               {sharedEmails.map((sharedEmail) => (
-                <div>
+                <StyleReSendRow>
                   <span>{sharedEmail}</span>
-                  <Button onClick={handleShareEmail.bind(this, sharedEmail)}>ReSend</Button>
-                </div>
+                  <Button onClick={handleResendEmail.bind(this, sharedEmail)} loading={sendings[sharedEmail]}>ReSend</Button>
+                </StyleReSendRow>
               ))}
             </Modal>
 

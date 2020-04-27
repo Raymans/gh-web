@@ -7,7 +7,10 @@ import Countdown from 'antd/lib/statistic/Countdown';
 import AnchorSilder from '../Sider/AnchorSider';
 import Headline from '../Article/Headline';
 import {
-  createInterviewSession, getInterview, getInterviewSession, startInterviewSession,
+  createInterviewSession,
+  getCurrentInterviewSession,
+  getInterviewSession,
+  startInterviewSession,
 } from '../../utils/api';
 import { getUserInfo } from '../../utils/auth';
 import InterviewSession from './InterviewSession';
@@ -18,7 +21,10 @@ const Interview = ({ id, sessionId = '' }) => {
   const [deadline, setDeadline] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isTestModalVisible, setIsTestModalVisible] = useState(false);
-  const [interview, setInterview] = useState({ specialization: { name: '' }, clientAccount: { email: '' } });
+  const [interview, setInterview] = useState({
+    specialization: { name: '' },
+    clientAccount: { email: '' },
+  });
   const [interviewSession, setInterviewSession] = useState(null);
 
   const startInterviewS = (interviewS) => {
@@ -30,36 +36,51 @@ const Interview = ({ id, sessionId = '' }) => {
 
   useEffect(() => {
     if (sessionId) {
-      getInterviewSession(sessionId).then((interviewS) => {
-        if (interviewS.interviewStartDate) {
+      getInterviewSession(sessionId)
+        .then((interviewS) => {
+          if (interviewS.interviewStartDate) {
+            setInterview(interviewS.interview);
+            startInterviewS(interviewS);
+            return;
+          }
+          setLoading(false);
           setInterview(interviewS.interview);
-          startInterviewS(interviewS);
-          return;
-        }
-        setLoading(false);
-        setInterview(interviewS.interview);
-      });
+        });
       return;
     }
-    getInterview(id).then((data = {}) => {
-      setLoading(false);
-      setInterview(data);
-    });
+    getCurrentInterviewSession({ id })
+      .then((is) => {
+        setLoading(false);
+        setInterview(is.publishedInterview.referencedInterview);
+        startInterviewS(is);
+      }).catch(() => {
+        // getInterview(id).then((i) => {
+        //   setLoading(false);
+        //   setInterview(i);
+        // });
+      });
   }, []);
 
   const startTest = () => {
     setIsTestModalVisible(false);
     if (sessionId) {
-      startInterviewSession(sessionId).then((interviewS) => {
-        startInterviewS(interviewS);
-      });
+      startInterviewSession(sessionId)
+        .then((interviewS) => {
+          startInterviewS(interviewS);
+        });
       return;
     }
-    createInterviewSession({ id, email, name: email.split('@')[0] }).then(({ id: createdSessionId }) => {
-      startInterviewSession(createdSessionId).then((interviewS) => {
-        startInterviewS(interviewS);
+    createInterviewSession({
+      id,
+      email,
+      name: email.split('@')[0],
+    })
+      .then(({ id: createdSessionId }) => {
+        startInterviewSession(createdSessionId)
+          .then((interviewS) => {
+            startInterviewS(interviewS);
+          });
       });
-    });
   };
 
   const handleEndInterviewSession = () => {
@@ -79,7 +100,11 @@ const Interview = ({ id, sessionId = '' }) => {
               && <Countdown title="Remaining" value={deadline} format="HH:mm:ss" />
             }
             <Descriptions column={2}>
-              <Descriptions.Item label="Specialization">{interview.specialization.name}</Descriptions.Item>
+              <Descriptions.Item
+                label="Specialization"
+              >
+                {interview.specialization.name}
+              </Descriptions.Item>
               <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
               <Descriptions.Item span={2}>{interview.description}</Descriptions.Item>
             </Descriptions>
@@ -88,7 +113,12 @@ const Interview = ({ id, sessionId = '' }) => {
               && <InterviewSession interviewSession={{ interview }} preview />
             }
             {
-              interviewSession && <InterviewSession interviewSession={interviewSession} onEndInterviewSession={handleEndInterviewSession} />
+              interviewSession && (
+              <InterviewSession
+                interviewSession={interviewSession}
+                onEndInterviewSession={handleEndInterviewSession}
+              />
+              )
             }
             {
               !interviewSession && !isOwner

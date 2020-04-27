@@ -32,7 +32,7 @@ function checkStatus(error) {
   }
 
   const errortext = codeMessage[response.status] || response.statusText;
-  return notification.error({
+  return console.error({
     message: `${errortext}`,
     description: response.data ? response.data.message : errortext,
   });

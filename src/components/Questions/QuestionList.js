@@ -38,7 +38,7 @@ const QuestionList = (props) => {
 
   const searchQuestions = ({ isAppend = false, showLoading = true, url } = {}) => {
     setLoading(showLoading);
-    return getQuestions({ url, ...filters })
+    return getQuestions(isAppend ? { url } : { url, ...filters })
       .then((res) => {
         setQuestions(isAppend ? questions.concat(res.results) : res.results);
         setNext(res.next);
@@ -126,5 +126,5 @@ export default QuestionList;
 
 QuestionList.defaultProps = {
   isModal: false,
-  onSelectQuestion: () => {}
+  onSelectQuestion: () => {},
 };

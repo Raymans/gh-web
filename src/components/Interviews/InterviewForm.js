@@ -85,6 +85,7 @@ const InterviewForm = ({ id }) => {
   const [isSelectedQuestionVisible, setIsSelectedQuestionVisible] = useState(false);
   const [questionList, setQuestionList] = useState([]);
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
+  const [latestPublishedInterviewId, setLatestPublishedInterviewId] = useState(null);
 
   useEffect(() => {
     numberOfSection = 0;
@@ -107,6 +108,7 @@ const InterviewForm = ({ id }) => {
             title: section.title,
           })));
           numberOfSection = data.sections.length;
+          setLatestPublishedInterviewId(data.latestPublishedInterviewId);
           setLoading(false);
         });
     }
@@ -144,7 +146,7 @@ const InterviewForm = ({ id }) => {
       return publishInterview({ id: data.id }).then(() => data);
     }
     return data;
-  }
+  };
   const onFinish = (values) => {
     beforeSaving();
     values.sections && values.sections.map((section) => (
@@ -261,7 +263,12 @@ const InterviewForm = ({ id }) => {
           selectedQuestions={selectedQuestionIds}
         />
       </Modal>
-      <Headline title={isEditForm ? 'Interview - Edit' : 'Interview - Create'} />
+      <Headline title={isEditForm ? 'Interview - edit' : 'Interview - create'}>
+        {
+          latestPublishedInterviewId
+          && <Link to={`/interviews/${id}`} target="_blank">Published</Link>
+        }
+      </Headline>
       <Layout>
         <AnchorSilder anchors={anchorSections} />
         <Content>
