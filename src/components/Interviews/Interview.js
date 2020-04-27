@@ -1,8 +1,8 @@
 import {
-  Button, Descriptions, Layout, Modal, Spin,
+  Badge, Button, Col, Descriptions, Layout, Modal, Row, Spin, Statistic, Tag,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, SyncOutlined, UserOutlined } from '@ant-design/icons';
 import Countdown from 'antd/lib/statistic/Countdown';
 import AnchorSilder from '../Sider/AnchorSider';
 import Headline from '../Article/Headline';
@@ -90,7 +90,11 @@ const Interview = ({ id, sessionId = '' }) => {
   const isOwner = email === interview.clientAccount.email;
   return (
     <>
-      <Headline title={interview.title} />
+      <Headline title={interview.title}>
+        <Tag icon={<SyncOutlined spin />} color="processing">
+        Hiring
+        </Tag>
+      </Headline>
       <Layout>
         <AnchorSilder />
         <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
@@ -127,6 +131,21 @@ const Interview = ({ id, sessionId = '' }) => {
                   <Button type="primary" onClick={() => setIsTestModalVisible(true)}>
                     Start Testing Interview
                   </Button>
+                  {
+                    !isTesting
+                    && (
+                    <>
+                      <Row gutter={16}>
+                        <Col span={12}>
+                          <Statistic title={<Badge status="processing" text="In Testing" />} value={11} prefix={<UserOutlined />} suffix=" geeks" />
+                        </Col>
+                        <Col span={12}>
+                          <Statistic title={<Badge status="success" text="Completed" />} value={93} prefix={<UserOutlined />} suffix=" geeks" />
+                        </Col>
+                      </Row>
+                    </>
+                    )
+                  }
                   <Modal
                     title="Start Testing Interview"
                     visible={isTestModalVisible}

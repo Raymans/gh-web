@@ -25,13 +25,17 @@ const H1 = styled.h1`
   }
 `;
 
+const StyledHeaderSpan = styled.span`
+  margin: 0 10px;
+`
+
 const Headline = (props) => {
   const { title, children } = props;
   return (
     <header>
       <section>
         <H1>
-          {title && <span>{title}</span>}
+          {title && <StyledHeaderSpan>{title}</StyledHeaderSpan>}
           {children}
         </H1>
       </section>

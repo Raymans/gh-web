@@ -35,9 +35,9 @@ export default PageTemplate;
 // eslint-disable-next-line no-undef
 export const pageQuery = graphql`
   query PageByPath($slug: String!) {
-    page: markdownRemark(fields: { slug: { eq: $slug } }) {
+    page: mdx(fields: { slug: { eq: $slug } }) {
       id
-      html
+      body
       frontmatter {
         title
       }

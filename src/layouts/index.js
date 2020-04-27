@@ -40,7 +40,7 @@ export const Layout = (props) => {
     <StaticQuery
       query={graphql`
       query LayoutQuery {
-        pages: allMarkdownRemark(
+        pages: allMdx(
           filter: { fileAbsolutePath: { regex: "//pages//" }, fields: { prefix: { regex: "/^\\d+$/" } } }
           sort: { fields: [fields___prefix], order: ASC }
         ) {
@@ -58,7 +58,7 @@ export const Layout = (props) => {
             }
           }
         }
-        footnote: markdownRemark(fileAbsolutePath: { regex: "/footnote/" }) {
+        footnote: mdx(fileAbsolutePath: { regex: "/footnote/" }) {
           id
           html
         }

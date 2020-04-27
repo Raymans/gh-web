@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { MDXRenderer } from 'gatsby-plugin-mdx';
 
 const StyledContent = styled.div`
 animation-name: bodytextEntry;
@@ -57,16 +58,18 @@ animation-name: bodytextEntry;
   }
 `;
 const Bodytext = (props) => {
-  const { html } = props;
+  const { body } = props;
   return (
     <>
-      <StyledContent dangerouslySetInnerHTML={{ __html: html }} />
+      <StyledContent>
+        <MDXRenderer>{body}</MDXRenderer>
+      </StyledContent>
     </>
   );
 };
 
 Bodytext.propTypes = {
-  html: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
 };
 
 export default Bodytext;

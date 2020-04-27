@@ -1,12 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import {
   Avatar, Menu as AntMenu, Popover, Switch,
 } from 'antd';
 import { Link } from 'gatsby-plugin-intl';
 import styled, { ThemeContext } from 'styled-components';
-import { SettingOutlined } from '@ant-design/icons';
+import Icon, {
+  EyeOutlined,
+  HomeOutlined,
+  LogoutOutlined,
+  MailOutlined,
+  QuestionCircleOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import {
   getUserInfo, isAuthenticated, login, logout,
 } from '../../utils/auth';
@@ -28,22 +35,22 @@ const Menu = (props) => {
     label: page.node.frontmatter.menuTitle
       ? page.node.frontmatter.menuTitle
       : page.node.frontmatter.title,
-    icon: page.node.frontmatter.icon,
+    // icon: page.node.frontmatter.icon,
   }));
 
   const items = [
-    { to: '/', label: 'Home', icon: 'home' },
-    { to: '/questions', label: 'Questions', icon: 'question-circle' },
-    { to: '/interviews', label: 'Interviews', icon: 'eye' },
+    { to: '/', label: 'Home', icon: <HomeOutlined /> },
+    { to: '/questions', label: 'Questions', icon: <QuestionCircleOutlined /> },
+    { to: '/interviews', label: 'Interviews', icon: <EyeOutlined /> },
     {
       label: 'About',
       subMenu: [
         ...pages,
-        { to: '/contact', label: 'Contact', icon: 'mail' },
+        { to: '/contact', label: 'Contact', icon: <MailOutlined /> },
       ],
     },
     {
-      to: '/login', label: 'Login', icon: 'user', needAuth: true,
+      to: '/login', label: 'Login', icon: <UserOutlined />, needAuth: true,
     },
   ];
 
@@ -60,7 +67,7 @@ const Menu = (props) => {
         to={item.to}
         data-slug={item.to}
       >
-        <LegacyIcon type={item.icon} />
+        {item.icon}
         {item.label}
       </Link>
     </AntMenu.Item>
@@ -71,7 +78,7 @@ const Menu = (props) => {
       key={index}
       title={(
         <span>
-          <LegacyIcon type="setting" />
+          <SettingOutlined />
           {item.label}
         </span>
       )}
@@ -82,7 +89,8 @@ const Menu = (props) => {
             to={subItem.to}
             data-slug={subItem.to}
           >
-            <LegacyIcon type={subItem.icon} />
+            <Icon type="user" style={{ fontSize: '16px', color: '#08c' }} theme="outlined" />
+            {subItem.icon}
             {subItem.label}
           </Link>
         </AntMenu.Item>
@@ -140,12 +148,12 @@ const Menu = (props) => {
                         </span>
                       )}
                     >
-                      {renderItem({ to: '/profile', icon: 'mail', label: 'Profile' })}
-                      {renderItem({ to: '/results', icon: 'mail', label: 'Interview Result' })}
-                      {renderItem({ to: '/manageinterviews', icon: 'mail', label: 'Manage Interview' })}
-                      {renderItem({ to: '/setting', icon: 'setting', label: 'Setting' })}
+                      {renderItem({ to: '/profile', icon: <SettingOutlined />, label: 'Profile' })}
+                      {renderItem({ to: '/results', icon: <SettingOutlined />, label: 'Interview Result' })}
+                      {renderItem({ to: '/manageinterviews', icon: <SettingOutlined />, label: 'Manage Interview' })}
+                      {renderItem({ to: '/setting', icon: <SettingOutlined />, label: 'Setting' })}
                       <AntMenu.Item onClick={() => logout()}>
-                        <LegacyIcon type="logout" />
+                        <LogoutOutlined />
                         Login out
                       </AntMenu.Item>
                     </AntMenu.SubMenu>
@@ -153,7 +161,7 @@ const Menu = (props) => {
                 }
                 return (
                   <AntMenu.Item key={item.to} onClick={() => login()}>
-                    <LegacyIcon type={item.icon} />
+                    {item.icon}
                     {item.label}
                   </AntMenu.Item>
                 );

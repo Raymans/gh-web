@@ -7,7 +7,7 @@ import Bodytext from '../Article/Bodytext';
 const Page = (props) => {
   const {
     page: {
-      html,
+      body,
       frontmatter: { title },
     },
   } = props;
@@ -17,7 +17,7 @@ const Page = (props) => {
       <header>
         <Headline title={title} />
       </header>
-      <Bodytext html={html} />
+      <Bodytext body={body} />
     </>
   );
 };

@@ -4,7 +4,7 @@ const darkThemeVars = require('antd/dist/dark-theme');
 const config = require('./content/meta/config');
 
 /* const query = `{
-  allMarkdownRemark(filter: {fileAbsolutePath: {regex: "/posts|pages/[0-9]+.*--/"}}) {
+  allMdx(filter: {fileAbsolutePath: {regex: "/posts|pages/[0-9]+.*--/"}}) {
     edges {
       node {
         objectID: fileAbsolutePath
@@ -25,7 +25,7 @@ const config = require('./content/meta/config');
 /* const queries = [
   {
     query,
-    transformer: ({ data }) => data.allMarkdownRemark.edges.map(({ node }) => node),
+    transformer: ({ data }) => data.allMdx.edges.map(({ node }) => node),
   },
 ]; */
 
@@ -67,9 +67,10 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-transformer-remark',
+      resolve: 'gatsby-plugin-mdx',
       options: {
-        plugins: [
+        extensions: ['.mdx', '.md'],
+        gatsbyRemarkPlugins: [
           'gatsby-plugin-sharp',
           {
             resolve: 'gatsby-remark-images',
