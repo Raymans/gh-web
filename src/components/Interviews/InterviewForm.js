@@ -85,7 +85,7 @@ const InterviewForm = ({ id }) => {
   const [isSelectedQuestionVisible, setIsSelectedQuestionVisible] = useState(false);
   const [questionList, setQuestionList] = useState([]);
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
-  const [latestPublishedInterviewId, setLatestPublishedInterviewId] = useState(null);
+  const [publishedInterviewId, setPublishedInterviewId] = useState(null);
 
   useEffect(() => {
     numberOfSection = 0;
@@ -108,7 +108,7 @@ const InterviewForm = ({ id }) => {
             title: section.title,
           })));
           numberOfSection = data.sections.length;
-          setLatestPublishedInterviewId(data.latestPublishedInterviewId);
+          setPublishedInterviewId(data.publishedInterviewId);
           setLoading(false);
         });
     }
@@ -143,7 +143,9 @@ const InterviewForm = ({ id }) => {
 
   const publish = (data) => {
     if (isPublishAction) {
-      return publishInterview({ id: data.id }).then(() => data);
+      return publishInterview({ id: data.id }).then(() => {
+        setPublishedInterviewId(data.publishedInterviewId);
+      });
     }
     return data;
   };
@@ -162,6 +164,13 @@ const InterviewForm = ({ id }) => {
       }).then(publish)
         .then(() => {
           afterSaving(isPublishAction ? 'Interview Published.' : 'Interview Saved.');
+        }).catch((error) => {
+          message.error({
+            content: error.response.data.message,
+            key: interviewMessageKey,
+            duration: 5,
+          });
+          setLoading(false);
         });
     } else {
       createInterview(values)
@@ -265,8 +274,8 @@ const InterviewForm = ({ id }) => {
       </Modal>
       <Headline title={isEditForm ? 'Interview - edit' : 'Interview - create'}>
         {
-          latestPublishedInterviewId
-          && <Link to={`/interviews/${id}`} target="_blank">Published</Link>
+          publishedInterviewId
+          && <Link to={`/interviews/${publishedInterviewId}/published`} target="_blank">Published</Link>
         }
       </Headline>
       <Layout>

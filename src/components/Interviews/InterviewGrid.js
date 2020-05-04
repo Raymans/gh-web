@@ -57,7 +57,7 @@ const StyledAvatar = styled(Avatar)`
 
 const InterviewGrid = (props) => {
   const {
-    id, title, description, specialization: { name: specializationName }, jobTitle, email, visibility,
+    id, title, description, specialization: { name: specializationName }, jobTitle, clientAccount = {}, visibility,
   } = props;
   const shareLink = `https://geekhub.tw/interviews/${id}`;
   const [sendings, setSendings] = useState({ sending: false });
@@ -87,7 +87,7 @@ const InterviewGrid = (props) => {
         }}
       />
       {
-        email === getUserInfo().email
+        clientAccount.id === getUserInfo().sub
         && (
           <>
             <Button
@@ -214,9 +214,9 @@ const InterviewGrid = (props) => {
                 <StyledAvatar
                   src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"
                 >
-                  {email.split('@')[0]}
+                  {clientAccount.name}
                 </StyledAvatar>
-                <span>{email}</span>
+                <span>{clientAccount.name}</span>
               </StyledListItem>
             </Spin>
           </>
@@ -228,7 +228,6 @@ const InterviewGrid = (props) => {
 
 InterviewGrid.propTypes = {
   description: PropTypes.string.isRequired,
-  email: PropTypes.string,
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };

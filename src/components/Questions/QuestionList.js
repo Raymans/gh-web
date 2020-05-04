@@ -104,7 +104,7 @@ const QuestionList = (props) => {
                   onClick={() => { onSelectQuestion(item); }}
                   className={selectedClass}
                 >
-                  <QuestionGrid key={item.id} email={item.clientAccount.email} {...item} showActionButtons={!isModal} />
+                  <QuestionGrid key={item.id} clientAccount={item.clientAccount} {...item} showActionButtons={!isModal} />
                 </StyledSelected>
               );
             }}

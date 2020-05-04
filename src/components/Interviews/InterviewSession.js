@@ -25,7 +25,9 @@ const StyledQuestionBlock = styled.div`
   margin: 24px;
 `;
 const InterviewSession = ({
-  interviewSession: { id, interviewEndDate, interview } = defaultInterviewSession, preview = false, onEndInterviewSession = () => {
+  interviewSession: {
+    id, interviewEndDate, interview, answerAttemptSections = null,
+  } = defaultInterviewSession, preview = false, onEndInterviewSession = () => {
   },
 }) => {
   const [isSubmitted, setIsSubmitted] = useState(!!interviewEndDate);
@@ -101,7 +103,7 @@ const InterviewSession = ({
                                   value: possibleAnswer.answerId,
                                 }
                               ))}
-                              // defaultValue={[]}
+                              defaultValue={!answerAttemptSections || !answerAttemptSections[sectionId] || !answerAttemptSections[sectionId].answerAttempts[questionId] ? [] : answerAttemptSections[sectionId].answerAttempts[questionId].answerIds}
                               onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId)}
                             />
                           </StyledQuestionBlock>

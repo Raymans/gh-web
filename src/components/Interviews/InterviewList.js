@@ -78,7 +78,7 @@ const InterviewList = () => {
                     visibility={item.visibility}
                     title={item.title}
                     description={item.description}
-                    email={item.clientAccount.email}
+                    clientAccount={item.clientAccount}
                     jobTitle={item.jobTitle}
                     specialization={item.specialization}
                   />

@@ -150,7 +150,7 @@ const Menu = (props) => {
                     >
                       {renderItem({ to: '/profile', icon: <SettingOutlined />, label: 'Profile' })}
                       {renderItem({ to: '/results', icon: <SettingOutlined />, label: 'Interview Result' })}
-                      {renderItem({ to: '/manageinterviews', icon: <SettingOutlined />, label: 'Manage Interview' })}
+                      {renderItem({ to: '/manageInterviews', icon: <SettingOutlined />, label: 'Manage Interview' })}
                       {renderItem({ to: '/setting', icon: <SettingOutlined />, label: 'Setting' })}
                       <AntMenu.Item onClick={() => logout()}>
                         <LogoutOutlined />

@@ -60,14 +60,14 @@ export const Layout = (props) => {
         }
         footnote: mdx(fileAbsolutePath: { regex: "/footnote/" }) {
           id
-          html
+          body
         }
       }
     `}
       render={(data) => {
         const { children, location } = props;
         const {
-          footnote: { html: footnoteHTML },
+          footnote: { body: footnoteHTML },
           pages: { edges: pages },
         } = data;
 
@@ -82,7 +82,7 @@ export const Layout = (props) => {
                   <GlobalStyle />
                   <Header path={location.pathname} pages={pages} />
                   <Main>{children}</Main>
-                  <Footer html={footnoteHTML} />
+                  <Footer body={footnoteHTML} />
                 </>
               </ScreenWidthContext.Provider>
             </FontLoadedContext.Provider>

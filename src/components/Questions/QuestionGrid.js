@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Icon as LegacyIcon } from '@ant-design/compatible';
 import {
-  Avatar, Button, Checkbox, Collapse, Divider, List, message, Modal, Space, Spin, Tag
+  Avatar, Button, Checkbox, Collapse, Divider, List, message, Modal, Space, Spin, Tag,
 } from 'antd';
 import styled from 'styled-components';
 import { DeleteOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -34,7 +34,7 @@ const StyledVisibilityTag = styled(Tag)`
 
 const QuestionGrid = (props) => {
   const {
-    id: questionId, possibleAnswers, email, question, showAuthor, visibility, showActionButtons
+    id: questionId, possibleAnswers, clientAccount, question, showAuthor, visibility, showActionButtons,
   } = props;
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -47,7 +47,7 @@ const QuestionGrid = (props) => {
     });
   };
   let updateActions = [];
-  if (showActionButtons && email === getUserInfo().email) {
+  if (showActionButtons && clientAccount.id === getUserInfo().sub) {
     updateActions = [
       [
         <Space>
@@ -97,9 +97,9 @@ const QuestionGrid = (props) => {
                       <Avatar
                         src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"
                       >
-                        {email}
+                        {clientAccount.name}
                       </Avatar>
-                      <span>{email}</span>
+                      <span>{clientAccount.name}</span>
                     </>
                   )
                 }
@@ -114,7 +114,6 @@ const QuestionGrid = (props) => {
 
 QuestionGrid.propTypes = {
   answerDisplayMode: PropTypes.string,
-  email: PropTypes.string,
   possibleAnswers: PropTypes.string,
   question: PropTypes.string,
   id: PropTypes.string.isRequired,
@@ -131,7 +130,6 @@ IconText.propTypes = {
 QuestionGrid.defaultProps = {
   answerDisplayMode: 'block',
   showAuthor: true,
-  email: '',
 };
 
 export default QuestionGrid;

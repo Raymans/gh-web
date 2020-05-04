@@ -4,19 +4,27 @@ import {
 import React, { useEffect, useState } from 'react';
 import { LoadingOutlined, SyncOutlined, UserOutlined } from '@ant-design/icons';
 import Countdown from 'antd/lib/statistic/Countdown';
+import styled from 'styled-components';
 import AnchorSilder from '../Sider/AnchorSider';
 import Headline from '../Article/Headline';
 import {
   createInterviewSession,
   getCurrentInterviewSession,
+  getInterview,
   getInterviewSession,
+  getPublishedInterview,
   startInterviewSession,
 } from '../../utils/api';
 import { getUserInfo } from '../../utils/auth';
 import InterviewSession from './InterviewSession';
 
 const { email } = getUserInfo();
-const Interview = ({ id, sessionId = '' }) => {
+
+const StyledInterviewGeekStatus = styled.div`
+  margin: 30px 0 20px;
+`;
+
+const Interview = ({ id, sessionId = '', publishedId = '' }) => {
   const [isTesting, setIsTesting] = useState(false);
   const [deadline, setDeadline] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -26,6 +34,7 @@ const Interview = ({ id, sessionId = '' }) => {
     clientAccount: { email: '' },
   });
   const [interviewSession, setInterviewSession] = useState(null);
+  const isOwner = email === interview.clientAccount.email;
 
   const startInterviewS = (interviewS) => {
     setIsTesting(true);
@@ -35,6 +44,13 @@ const Interview = ({ id, sessionId = '' }) => {
   };
 
   useEffect(() => {
+    if (publishedId) {
+      getPublishedInterview(publishedId).then((pi) => {
+        setInterview(pi.interview);
+        setLoading(false);
+      });
+      return;
+    }
     if (sessionId) {
       getInterviewSession(sessionId)
         .then((interviewS) => {
@@ -51,13 +67,13 @@ const Interview = ({ id, sessionId = '' }) => {
     getCurrentInterviewSession({ id })
       .then((is) => {
         setLoading(false);
-        setInterview(is.publishedInterview.referencedInterview);
+        setInterview(is.interview);
         startInterviewS(is);
       }).catch(() => {
-        // getInterview(id).then((i) => {
-        //   setLoading(false);
-        //   setInterview(i);
-        // });
+        getInterview(id).then((i) => {
+          setLoading(false);
+          setInterview(i);
+        });
       });
   }, []);
 
@@ -87,7 +103,6 @@ const Interview = ({ id, sessionId = '' }) => {
     setIsTesting(false);
   };
 
-  const isOwner = email === interview.clientAccount.email;
   return (
     <>
       <Headline title={interview.title}>
@@ -113,39 +128,12 @@ const Interview = ({ id, sessionId = '' }) => {
               <Descriptions.Item span={2}>{interview.description}</Descriptions.Item>
             </Descriptions>
             {
-              isOwner
-              && <InterviewSession interviewSession={{ interview }} preview />
-            }
-            {
-              interviewSession && (
-              <InterviewSession
-                interviewSession={interviewSession}
-                onEndInterviewSession={handleEndInterviewSession}
-              />
-              )
-            }
-            {
               !interviewSession && !isOwner
               && (
                 <>
                   <Button type="primary" onClick={() => setIsTestModalVisible(true)}>
                     Start Testing Interview
                   </Button>
-                  {
-                    !isTesting
-                    && (
-                    <>
-                      <Row gutter={16}>
-                        <Col span={12}>
-                          <Statistic title={<Badge status="processing" text="In Testing" />} value={11} prefix={<UserOutlined />} suffix=" geeks" />
-                        </Col>
-                        <Col span={12}>
-                          <Statistic title={<Badge status="success" text="Completed" />} value={93} prefix={<UserOutlined />} suffix=" geeks" />
-                        </Col>
-                      </Row>
-                    </>
-                    )
-                  }
                   <Modal
                     title="Start Testing Interview"
                     visible={isTestModalVisible}
@@ -162,13 +150,33 @@ const Interview = ({ id, sessionId = '' }) => {
                 </>
               )
             }
-
-            {/* <h2 id="sections1">Q.1</h2> */}
-            {/* <QuestionGrid questionId={1} showAuthor={false} answerDisplayMode="inline" /> */}
-            {/* <QuestionGrid questionId={2} /> */}
-            {/* <QuestionGrid questionId={3} /> */}
-            {/* <h2 id="sections2">Q.2</h2> */}
-            {/* <QuestionGrid questionId={4} /> */}
+            {
+              !isTesting
+              && (
+                <StyledInterviewGeekStatus>
+                  <Row gutter={16}>
+                    <Col span={12}>
+                      <Statistic title={<Badge status="processing" text="In Testing" />} value={11} prefix={<UserOutlined />} suffix=" geeks" />
+                    </Col>
+                    <Col span={12}>
+                      <Statistic title={<Badge status="success" text="Completed" />} value={93} prefix={<UserOutlined />} suffix=" geeks" />
+                    </Col>
+                  </Row>
+                </StyledInterviewGeekStatus>
+              )
+            }
+            {
+              isOwner
+              && <InterviewSession interviewSession={{ interview }} preview />
+            }
+            {
+              interviewSession && (
+                <InterviewSession
+                  interviewSession={interviewSession}
+                  onEndInterviewSession={handleEndInterviewSession}
+                />
+              )
+            }
           </Layout.Content>
         </Spin>
       </Layout>

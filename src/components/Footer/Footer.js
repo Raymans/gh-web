@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { MDXRenderer } from 'gatsby-plugin-mdx';
 
 const StyledFooter = styled.footer`
   background: ${(props) => props.theme.color.neutral.black};
@@ -34,15 +35,17 @@ const StyledFooter = styled.footer`
 `;
 
 const Footer = (props) => {
-  const { html } = props;
+  const { body } = props;
   return (
     <>
-      <StyledFooter dangerouslySetInnerHTML={{ __html: html }} />
+      <StyledFooter>
+        <MDXRenderer>{body}</MDXRenderer>
+      </StyledFooter>
     </>
   );
 };
 
 Footer.propTypes = {
-  html: PropTypes.string,
+  body: PropTypes.string,
 };
 export default Footer;

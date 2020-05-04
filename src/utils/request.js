@@ -1,8 +1,17 @@
-import { notification } from 'antd';
 import axios from 'axios';
 import qs from 'qs';
+import { isAuthenticated } from './auth';
 
 axios.defaults.withCredentials = true;
+
+// eslint-disable-next-line no-underscore-dangle
+let _localStorage;
+if (typeof window !== 'undefined' && window) {
+  _localStorage = localStorage;
+} else {
+  const localStorageMemory = require('localstorage-memory');
+  _localStorage = localStorageMemory;
+}
 
 const codeMessage = {
   200: '服務器成功返回請求的數據。 ',
@@ -31,11 +40,8 @@ function checkStatus(error) {
     return response.data.message;
   }
 
-  const errortext = codeMessage[response.status] || response.statusText;
-  return console.error({
-    message: `${errortext}`,
-    description: response.data ? response.data.message : errortext,
-  });
+  // message.error({ content: response.data.message, duration: 5, top: 50 });
+  return Promise.reject(error);
 }
 
 /**
@@ -49,6 +55,15 @@ export default function request(url, options) {
   const defaultOptions = {
     withCredentials: true,
   };
+
+  if (isAuthenticated()) {
+    options = {
+      ...options,
+      headers: {
+        Authorization: `Bearer ${_localStorage.getItem('accessToken')}`,
+      },
+    };
+  }
   const newOptions = { ...defaultOptions, ...options };
   if (
     newOptions.method === 'POST'
