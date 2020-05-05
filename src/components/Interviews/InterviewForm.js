@@ -143,8 +143,8 @@ const InterviewForm = ({ id }) => {
 
   const publish = (data) => {
     if (isPublishAction) {
-      return publishInterview({ id: data.id }).then(() => {
-        setPublishedInterviewId(data.publishedInterviewId);
+      return publishInterview({ id: data.id }).then((pi) => {
+        setPublishedInterviewId(pi.interview.publishedInterviewId);
       });
     }
     return data;
@@ -359,8 +359,8 @@ const InterviewForm = ({ id }) => {
                 {(sections, { add: addSection, remove: removeSection }) => (
                   <>
                     {sections.map((section, sectionIndex) => (
-                      <>
-                        <h2 id={`section_${sectionIndex}`}>
+                      <div key={`section_${section.name}`}>
+                        <h2 id={`section_${section.name}`}>
                           Section
                           {' '}
                           <FormItem name={[sectionIndex, 'title']} noStyle>
@@ -380,8 +380,8 @@ const InterviewForm = ({ id }) => {
                           {(questions, { add: addQuestion, remove: removeQuestion }) => (
                             <>
                               {questions.map((question, quesionIndex) => (
-                                <StyledQuestionSection key={question}>
-                                  <QuestionForm id={question.name} form={form} />
+                                <StyledQuestionSection key={question.name}>
+                                  <QuestionForm id={`${question.name}`} form={form} />
                                 </StyledQuestionSection>
                               ))}
                               <StyledQuestionSection key={section} style={{ textAlign: 'center' }}>
@@ -406,7 +406,7 @@ const InterviewForm = ({ id }) => {
                           )}
                         </Form.List>
 
-                      </>
+                      </div>
                     ))}
                     <Divider />
                     <Button

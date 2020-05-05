@@ -69,7 +69,7 @@ const InterviewList = () => {
               />
               <CardList
                 loading={loading}
-                hasMore={next}
+                hasMore={!!next}
                 dataSource={interviews}
                 onLoadMore={handleLoadMore}
                 renderItem={(item) => (

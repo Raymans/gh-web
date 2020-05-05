@@ -84,17 +84,17 @@ const InterviewSession = ({
                     <Steps progressDot>
                       {
                         questions.map((question, questionIndex) => (
-                          <Steps.Step status="finish" title={`Q${questionIndex + 1}`} />
+                          <Steps.Step key={question.id} status="finish" title={`Q${questionIndex + 1}`} />
                         ))
                       }
 
                     </Steps>
                     {
                       questions.map(({ id: questionId, possibleAnswers = [], ...question }, questionIndex) => (
-                        <>
+                        <div key={questionId}>
                           <h2>{`Q${questionIndex + 1}`}</h2>
                           <StyledQuestionBlock>
-                            <h3 key={question.id}>{question.question}</h3>
+                            <h3>{question.question}</h3>
                             <Checkbox.Group
                               name={questionId}
                               options={possibleAnswers.map((possibleAnswer) => (
@@ -107,7 +107,7 @@ const InterviewSession = ({
                               onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId)}
                             />
                           </StyledQuestionBlock>
-                        </>
+                        </div>
                       ))
                     }
                   </Tabs.TabPane>

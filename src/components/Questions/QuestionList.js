@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Input, Layout, List } from 'antd';
+import { Input, Layout } from 'antd';
 import { Link } from 'gatsby-plugin-intl';
 import QuestionGrid from './QuestionGrid';
 import FilterSider from '../Sider/FilterSider';
@@ -94,7 +94,7 @@ const QuestionList = (props) => {
           </StyledSearchFilter>
           <CardList
             loading={loading}
-            hasMore={next}
+            hasMore={!!next}
             dataSource={questions}
             onLoadMore={handleLoadMore}
             renderItem={(item) => {
@@ -119,7 +119,7 @@ QuestionList.propTypes = {
   dataSource: PropTypes.arrayOf(PropTypes.object),
   isModal: PropTypes.bool,
   onSelectQuestion: PropTypes.func,
-  selectedQuestions: PropTypes.arrayOf(PropTypes.object),
+  selectedQuestions: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default QuestionList;

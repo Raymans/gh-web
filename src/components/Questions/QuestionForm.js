@@ -1,10 +1,17 @@
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
 
 import {
-  Button, Form, Input, message, Spin, Switch, Tabs,
+  Button, Form, Input, Spin, Switch, Tabs,
 } from 'antd';
-import { LoadingOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  CheckOutlined,
+  CheckSquareOutlined,
+  CloseOutlined,
+  CodeOutlined,
+  LoadingOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -69,7 +76,7 @@ const QuestionForm = (props) => {
         <TabPane
           tab={(
             <span>
-              <LegacyIcon type="check-square" />
+              <CheckSquareOutlined />
               {' '}
               Multiple Question
             </span>
@@ -85,7 +92,7 @@ const QuestionForm = (props) => {
         <TabPane
           tab={(
             <span>
-              <LegacyIcon type="code-o" />
+              <CodeOutlined />
               {' '}
               Coding
             </span>
@@ -211,8 +218,8 @@ const QuestionFormItem = (props) => {
             noStyle
           >
             <Switch
-              checkedChildren={<LegacyIcon type="check" />}
-              unCheckedChildren={<LegacyIcon type="close" />}
+              checkedChildren={<CheckOutlined />}
+              unCheckedChildren={<CloseOutlined />}
               style={{
                 float: 'left',
                 margin: '5px',

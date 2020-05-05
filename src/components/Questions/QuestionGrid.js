@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import {
   Avatar, Button, Checkbox, Collapse, Divider, List, message, Modal, Space, Spin, Tag,
 } from 'antd';
@@ -19,13 +18,6 @@ const StyledListItem = styled(List.Item)`
     right: 25px;
   }
 `;
-
-const IconText = ({ type, text }) => (
-  <span>
-    <LegacyIcon type={type} style={{ marginRight: 8 }} />
-    {text}
-  </span>
-);
 
 const StyledVisibilityTag = styled(Tag)`
   position: absolute;
@@ -85,7 +77,7 @@ const QuestionGrid = (props) => {
                 }
                 <h1>{question}</h1>
                 {possibleAnswers.map((possibleAnswer) => (
-                  <div>
+                  <div key={possibleAnswer.answerId}>
                     <Checkbox>{possibleAnswer.answer}</Checkbox>
                   </div>
                 ))}
@@ -113,8 +105,7 @@ const QuestionGrid = (props) => {
 };
 
 QuestionGrid.propTypes = {
-  answerDisplayMode: PropTypes.string,
-  possibleAnswers: PropTypes.string,
+  possibleAnswers: PropTypes.array,
   question: PropTypes.string,
   id: PropTypes.string.isRequired,
   showAuthor: PropTypes.bool,
@@ -122,13 +113,7 @@ QuestionGrid.propTypes = {
   showActionButtons: PropTypes.bool,
 };
 
-IconText.propTypes = {
-  text: PropTypes.string,
-  type: PropTypes.string,
-};
-
 QuestionGrid.defaultProps = {
-  answerDisplayMode: 'block',
   showAuthor: true,
 };
 

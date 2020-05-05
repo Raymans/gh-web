@@ -57,7 +57,7 @@ const StyledAvatar = styled(Avatar)`
 
 const InterviewGrid = (props) => {
   const {
-    id, title, description, specialization: { name: specializationName }, jobTitle, clientAccount = {}, visibility,
+    id, title, description = "", specialization: { name: specializationName }, jobTitle, clientAccount = {}, visibility,
   } = props;
   const shareLink = `https://geekhub.tw/interviews/${id}`;
   const [sendings, setSendings] = useState({ sending: false });
@@ -76,7 +76,7 @@ const InterviewGrid = (props) => {
   };
   let updateActions = [];
   updateActions = [
-    <Space>
+    <Space key="actionBlockId">
       <Button
         icon={<ShareAltOutlined />}
         onClick={() => {
