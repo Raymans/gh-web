@@ -18,7 +18,7 @@ import {
 import { getUserInfo } from '../../utils/auth';
 import InterviewSession from './InterviewSession';
 
-const { email } = getUserInfo();
+const { sub, email } = getUserInfo();
 
 const StyledInterviewGeekStatus = styled.div`
   margin: 30px 0 20px;
@@ -34,7 +34,7 @@ const Interview = ({ id, sessionId = '', publishedId = '' }) => {
     clientAccount: { email: '' },
   });
   const [interviewSession, setInterviewSession] = useState(null);
-  const isOwner = email === interview.clientAccount.email;
+  const isOwner = sub === interview.clientAccount.id;
 
   const startInterviewS = (interviewS) => {
     setIsTesting(true);
@@ -126,6 +126,7 @@ const Interview = ({ id, sessionId = '', publishedId = '' }) => {
               </Descriptions.Item>
               <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
               <Descriptions.Item span={2}>{interview.description}</Descriptions.Item>
+              <Descriptions.Item label="Author" span={2}>{interview.clientAccount.email}</Descriptions.Item>
             </Descriptions>
             {
               !interviewSession && !isOwner

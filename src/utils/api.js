@@ -110,6 +110,12 @@ export async function submitInterviewSession(id) {
   });
 }
 
+export async function calculateInterviewSession(id) {
+  return request(`${config.ghServiceUrl}/api/interviewSessions/${id}/calculateScore`, {
+    method: 'POST',
+  });
+}
+
 export async function sendInterviewSessionToCandidate(id) {
   return request(`${config.ghServiceUrl}/api/interviewSessions/${id}/send`, {
     method: 'POST',
@@ -137,7 +143,7 @@ export async function getInterviewSession(id) {
   });
 }
 
-export async function getInterviewSessions({ interviewId, owner = true }) {
+export async function getInterviewSessions({ interviewId = '', owner = true } = {}) {
   return request(`${config.ghServiceUrl}/api/interviewSessions?${qs.stringify({ interviewId, owner })}`, {
     method: 'GET',
     data: { interviewId, owner },

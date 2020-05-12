@@ -61,7 +61,7 @@ const InterviewSession = ({
   return (
     <>
       {
-        isSubmitted
+        !preview && isSubmitted
         && (
           <Result
             status="success"
@@ -74,7 +74,7 @@ const InterviewSession = ({
       }
 
       {
-        !isSubmitted
+        (preview || !isSubmitted)
         && (
           <>
             <Tabs>
@@ -90,25 +90,28 @@ const InterviewSession = ({
 
                     </Steps>
                     {
-                      questions.map(({ id: questionId, possibleAnswers = [], ...question }, questionIndex) => (
-                        <div key={questionId}>
-                          <h2>{`Q${questionIndex + 1}`}</h2>
-                          <StyledQuestionBlock>
-                            <h3>{question.question}</h3>
-                            <Checkbox.Group
-                              name={questionId}
-                              options={possibleAnswers.map((possibleAnswer) => (
-                                {
-                                  label: possibleAnswer.answer,
-                                  value: possibleAnswer.answerId,
-                                }
-                              ))}
-                              defaultValue={!answerAttemptSections || !answerAttemptSections[sectionId] || !answerAttemptSections[sectionId].answerAttempts[questionId] ? [] : answerAttemptSections[sectionId].answerAttempts[questionId].answerIds}
-                              onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId)}
-                            />
-                          </StyledQuestionBlock>
-                        </div>
-                      ))
+                      questions.map(({ id: questionId, possibleAnswers = [], ...question }, questionIndex) => {
+                        const correctAnswers = possibleAnswers.filter((possibleAnswer) => possibleAnswer.correctAnswer).map((possibleAnswer) => possibleAnswer.answerId);
+                        const valueProps = correctAnswers.length > 0 ? { value: correctAnswers } : {};
+                        return (
+                          <div key={questionId}>
+                            <h2>{`Q${questionIndex + 1}`}</h2>
+                            <StyledQuestionBlock>
+                              <h3>{question.question}</h3>
+                              <Checkbox.Group
+                                name={questionId}
+                                {...valueProps}
+                                defaultValue={!answerAttemptSections || !answerAttemptSections[sectionId] || !answerAttemptSections[sectionId].answerAttempts[questionId] ? [] : answerAttemptSections[sectionId].answerAttempts[questionId].answerIds}
+                                onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId)}
+                              >
+                                {possibleAnswers.map((possibleAnswer) => (
+                                  <Checkbox value={possibleAnswer.answerId}>{possibleAnswer.answer}</Checkbox>
+                                ))}
+                              </Checkbox.Group>
+                            </StyledQuestionBlock>
+                          </div>
+                        );
+                      })
                     }
                   </Tabs.TabPane>
                 ))

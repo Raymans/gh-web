@@ -80,6 +80,50 @@ exports.onCreatePage = async ({ page, actions }) => {
     // Update the page.
     createPage(page);
   }
+
+  if (page.path.match(/^\/zh-tw\/manageInterviews/)) {
+    // set client-only path pattern
+    page.matchPath = '/zh-tw/manageInterviews/*';
+
+    // Update the page.
+    createPage(page);
+  }
+  if (page.path.match(/^\/en\/manageInterviews/)) {
+    // set client-only path pattern
+    page.matchPath = '/en/manageInterviews/*';
+
+    // Update the page.
+    createPage(page);
+  }
+  if (page.path.match(/^\/manageInterviews/)) {
+    // set client-only path pattern
+    page.matchPath = '/manageInterviews/*';
+
+    // Update the page.
+    createPage(page);
+  }
+
+  if (page.path.match(/^\/zh-tw\/testedInterviews/)) {
+    // set client-only path pattern
+    page.matchPath = '/zh-tw/testedInterviews/*';
+
+    // Update the page.
+    createPage(page);
+  }
+  if (page.path.match(/^\/en\/testedInterviews/)) {
+    // set client-only path pattern
+    page.matchPath = '/en/testedInterviews/*';
+
+    // Update the page.
+    createPage(page);
+  }
+  if (page.path.match(/^\/testedInterviews/)) {
+    // set client-only path pattern
+    page.matchPath = '/testedInterviews/*';
+
+    // Update the page.
+    createPage(page);
+  }
 };
 
 exports.createPages = ({ graphql, actions }) => {
