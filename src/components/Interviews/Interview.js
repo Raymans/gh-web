@@ -60,7 +60,7 @@ const Interview = ({
   const startInterviewS = (interviewS) => {
     let timeOfEnd = -1;
     setIsTesting(!interviewS.interviewEndDate);
-    if (!interviewS.interviewEndDate && interviewS.duration) {
+    if (!interviewS.interviewEndDate && interviewS.duration !== -1) {
       timeOfEnd = moment(new Date(interviewS.interviewStartDate)).add(interviewS.duration, 'm');
       if (moment(Date.now()).isAfter(timeOfEnd)) {
         handleTimesUp();
