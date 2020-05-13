@@ -56,15 +56,16 @@ const InterviewsSummary = () => {
           dataSource={myInterviews}
           renderItem={(interview) => (
             <List.Item
-              actions={[<Badge dot>
-                <Link
-                  to={`/manageInterviews/${interview.id}`}
-                  state={{ interviewName: interview.title }}
-                >
-5
-                geeks
-                </Link>
-                        </Badge>, <a key="result">2 pending</a>]}
+              actions={[
+                <Badge dot>
+                  <Link
+                    to={`/manageInterviews/${interview.id}`}
+                    state={{ interviewName: interview.title }}
+                  >
+                    {'5 geeks'}
+                  </Link>
+                  {'(2 pending)'}
+                </Badge>]}
             >
               <List.Item.Meta
                 title={<h1><Link to={`/interviews/${interview.id}`}>{interview.title}</Link></h1>}

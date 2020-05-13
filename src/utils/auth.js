@@ -20,11 +20,11 @@ const auth0 = isBrowser
   })
   : {};
 
-export const login = () => {
+export const login = (redirectUrl = '/') => {
   if (!isBrowser) {
     return;
   }
-  auth0.authorize();
+  auth0.authorize({ state: redirectUrl });
 };
 
 export const logout = () => {
@@ -57,7 +57,7 @@ const setSession = (callback) => (err, authResult) => {
     localStorage.setItem('isLoggedIn', true);
     localStorage.setItem('profile', JSON.stringify(authResult.idTokenPayload));
     localStorage.setItem('accessToken', authResult.accessToken);
-    callback();
+    callback(authResult.state);
   }
 };
 

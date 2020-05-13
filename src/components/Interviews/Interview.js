@@ -2,9 +2,15 @@ import {
   Badge, Button, Col, Descriptions, Layout, Modal, Row, Spin, Statistic, Tag,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { LoadingOutlined, SyncOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  ExclamationCircleOutlined,
+  LoadingOutlined,
+  SyncOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import Countdown from 'antd/lib/statistic/Countdown';
 import styled from 'styled-components';
+import moment from 'moment';
 import AnchorSilder from '../Sider/AnchorSider';
 import Headline from '../Article/Headline';
 import {
@@ -15,7 +21,7 @@ import {
   getPublishedInterview,
   startInterviewSession,
 } from '../../utils/api';
-import { getUserInfo } from '../../utils/auth';
+import { getUserInfo, isAuthenticated, login } from '../../utils/auth';
 import InterviewSession from './InterviewSession';
 
 const { sub, email } = getUserInfo();
@@ -24,11 +30,15 @@ const StyledInterviewGeekStatus = styled.div`
   margin: 30px 0 20px;
 `;
 
-const Interview = ({ id, sessionId = '', publishedId = '' }) => {
+const Interview = ({
+  id, sessionId = '', publishedId = '', location,
+}) => {
   const [isTesting, setIsTesting] = useState(false);
   const [deadline, setDeadline] = useState(0);
+  const [isTimeUp, setIsTimeUp] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isTestModalVisible, setIsTestModalVisible] = useState(false);
+  const [isLoginPrompt, setIsLoginPrompt] = useState(false);
   const [interview, setInterview] = useState({
     specialization: { name: '' },
     clientAccount: { email: '' },
@@ -36,19 +46,40 @@ const Interview = ({ id, sessionId = '', publishedId = '' }) => {
   const [interviewSession, setInterviewSession] = useState(null);
   const isOwner = sub === interview.clientAccount.id;
 
+  const handleTimesUp = () => {
+    Modal.warning({
+      title: 'Times Up',
+      icon: <ExclamationCircleOutlined />,
+      content: 'This interview Result is submitted automatically since you already passed interview time.',
+      onOk() {
+        setIsTimeUp(true);
+      },
+    });
+  };
+
   const startInterviewS = (interviewS) => {
-    setIsTesting(true);
-    setDeadline(Date.now() + interviewS.duration * 60 * 1000);
+    let timeOfEnd = -1;
+    setIsTesting(!interviewS.interviewEndDate);
+    if (!interviewS.interviewEndDate && interviewS.duration) {
+      timeOfEnd = moment(new Date(interviewS.interviewStartDate)).add(interviewS.duration, 'm');
+      if (moment(Date.now()).isAfter(timeOfEnd)) {
+        handleTimesUp();
+        setIsTesting(false);
+      } else {
+        setDeadline(timeOfEnd);
+      }
+    }
     setLoading(false);
     setInterviewSession(interviewS);
   };
 
   useEffect(() => {
     if (publishedId) {
-      getPublishedInterview(publishedId).then((pi) => {
-        setInterview(pi.interview);
-        setLoading(false);
-      });
+      getPublishedInterview(publishedId)
+        .then((pi) => {
+          setInterview(pi.interview);
+          setLoading(false);
+        });
       return;
     }
     if (sessionId) {
@@ -69,11 +100,13 @@ const Interview = ({ id, sessionId = '', publishedId = '' }) => {
         setLoading(false);
         setInterview(is.interview);
         startInterviewS(is);
-      }).catch(() => {
-        getInterview(id).then((i) => {
-          setLoading(false);
-          setInterview(i);
-        });
+      })
+      .catch(() => {
+        getInterview(id)
+          .then((i) => {
+            setLoading(false);
+            setInterview(i);
+          });
       });
   }, []);
 
@@ -103,11 +136,15 @@ const Interview = ({ id, sessionId = '', publishedId = '' }) => {
     setIsTesting(false);
   };
 
+  const handleOpenTestPrompt = () => {
+    isAuthenticated() ? setIsTestModalVisible(true) : setIsLoginPrompt(true);
+  };
+
   return (
     <>
       <Headline title={interview.title}>
         <Tag icon={<SyncOutlined spin />} color="processing">
-        Hiring
+          Hiring
         </Tag>
       </Headline>
       <Layout>
@@ -116,7 +153,7 @@ const Interview = ({ id, sessionId = '', publishedId = '' }) => {
           <Layout.Content>
             {
               isTesting && interviewSession && interviewSession.duration !== -1
-              && <Countdown title="Remaining" value={deadline} format="HH:mm:ss" />
+              && <Countdown title="Remaining" value={deadline} format="HH:mm:ss" onFinish={handleTimesUp} />
             }
             <Descriptions column={2}>
               <Descriptions.Item
@@ -126,15 +163,32 @@ const Interview = ({ id, sessionId = '', publishedId = '' }) => {
               </Descriptions.Item>
               <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
               <Descriptions.Item span={2}>{interview.description}</Descriptions.Item>
-              <Descriptions.Item label="Author" span={2}>{interview.clientAccount.email}</Descriptions.Item>
+              <Descriptions.Item
+                label="Author"
+                span={2}
+              >
+                {interview.clientAccount.email}
+              </Descriptions.Item>
             </Descriptions>
             {
               !interviewSession && !isOwner
               && (
                 <>
-                  <Button type="primary" onClick={() => setIsTestModalVisible(true)}>
+                  <Button type="primary" onClick={() => handleOpenTestPrompt()}>
                     Start Testing Interview
                   </Button>
+                  <Modal
+                    title="Login to Test Interview"
+                    visible={isLoginPrompt}
+                    onCancel={() => setIsLoginPrompt(false)}
+                    footer={[
+                      <Button key="submit" type="primary" onClick={() => login(location.pathname)}>
+                        Login
+                      </Button>,
+                    ]}
+                  >
+                    <p>You have to Login to continue testing this Interview!</p>
+                  </Modal>
                   <Modal
                     title="Start Testing Interview"
                     visible={isTestModalVisible}
@@ -157,10 +211,20 @@ const Interview = ({ id, sessionId = '', publishedId = '' }) => {
                 <StyledInterviewGeekStatus>
                   <Row gutter={16}>
                     <Col span={12}>
-                      <Statistic title={<Badge status="processing" text="In Testing" />} value={11} prefix={<UserOutlined />} suffix=" geeks" />
+                      <Statistic
+                        title={<Badge status="processing" text="In Testing" />}
+                        value={11}
+                        prefix={<UserOutlined />}
+                        suffix=" geeks"
+                      />
                     </Col>
                     <Col span={12}>
-                      <Statistic title={<Badge status="success" text="Completed" />} value={93} prefix={<UserOutlined />} suffix=" geeks" />
+                      <Statistic
+                        title={<Badge status="success" text="Completed" />}
+                        value={93}
+                        prefix={<UserOutlined />}
+                        suffix=" geeks"
+                      />
                     </Col>
                   </Row>
                 </StyledInterviewGeekStatus>
@@ -175,6 +239,7 @@ const Interview = ({ id, sessionId = '', publishedId = '' }) => {
                 <InterviewSession
                   interviewSession={interviewSession}
                   onEndInterviewSession={handleEndInterviewSession}
+                  endSession={isTimeUp}
                 />
               )
             }

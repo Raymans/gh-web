@@ -4,7 +4,7 @@ import { handleAuthentication } from '../utils/auth';
 
 
 export default () => {
-  handleAuthentication(() => navigate('/'));
+  handleAuthentication((state) => navigate(state));
 
   return (
     <div>

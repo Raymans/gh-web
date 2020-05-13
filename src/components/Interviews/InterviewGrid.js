@@ -174,7 +174,6 @@ const InterviewGrid = (props) => {
                     enterButton="Send"
                     loading={sendings.sending}
                     onSearch={handleShareEmail}
-                    value="raymans86@gmail.com"
                   />
                 </Form.Item>
               </Form>
