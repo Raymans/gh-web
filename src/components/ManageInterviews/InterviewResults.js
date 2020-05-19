@@ -10,7 +10,7 @@ const columns = [
   {
     title: 'Candidate',
     dataIndex: 'candidateAccount',
-    render: ({ name }) => name,
+    render: (candidateAccount) => candidateAccount?.name,
   },
   {
     title: 'Score',

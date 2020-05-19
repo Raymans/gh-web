@@ -2,6 +2,7 @@
   "plugins": [
     //"@typescript-eslint"
   ],
+  "parser": "babel-eslint",
   "extends": [
     "airbnb",
     "eslint:recommended"
@@ -27,8 +28,8 @@
     "react/require-default-props": [
       0
     ]
-  },
-  "parserOptions": {
-    "project": "./tsconfig.json"
   }
+//  "parserOptions": {
+//    "project": "./tsconfig.json"
+//  }
 }
