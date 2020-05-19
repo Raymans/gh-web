@@ -25,6 +25,7 @@ import { getUserInfo } from '../../utils/auth';
 import InterviewSession from './InterviewSession';
 import LoginPrompt from '../Login/LoginPrompt';
 import AuthorBy from '../AuthorBy';
+import CustomBreadcrumb from '../CustomBreadcrumb';
 
 const { sub, email } = getUserInfo();
 
@@ -142,6 +143,7 @@ const Interview = ({
 
   return (
     <>
+      <CustomBreadcrumb label={interview.title} location={location} />
       <Headline title={interview.title}>
         <Tag icon={<SyncOutlined spin />} color="processing">
           Hiring

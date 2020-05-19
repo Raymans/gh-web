@@ -9,13 +9,14 @@ import Specialization from '../Specialization';
 import CardList from '../CardList';
 import InterviewGrid from './InterviewGrid';
 import { isAuthenticated } from '../../utils/auth';
+import CustomBreadcrumb from '../CustomBreadcrumb';
 
 const { Search } = Input;
 const { Content } = Layout;
 
 let filters = { keyword: '', pageSize: 10 };
 
-const InterviewList = () => {
+const InterviewList = ({ location }) => {
   const [interviews, setInterviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState();
@@ -52,9 +53,11 @@ const InterviewList = () => {
 
   return (
     <>
+      <CustomBreadcrumb label="List Interviews" location={location} />
       <Headline title="Interviews">
         { isAuthenticated() && <Link to="/interviews/create">Create</Link>}
       </Headline>
+      <Headline title="Interviews"><Link to="/interviews/create">Create</Link></Headline>
       {/* <GatsbyLink to={'/interviews/1/test'}>Test interview 1</GatsbyLink> */}
       <div className="form">
         <div>

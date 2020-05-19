@@ -5,6 +5,7 @@ import { graphql } from 'gatsby';
 import Hero from '../components/Hero';
 import Seo from '../components/Seo';
 import Home from '../components/Home';
+import CustomBreadcrumb from '../components/CustomBreadcrumb';
 
 class IndexPage extends React.Component {
   render() {
@@ -38,6 +39,7 @@ class IndexPage extends React.Component {
     return (
       <>
         <div>
+          <CustomBreadcrumb location={this.props.location} label='Home' />
           <Hero backgrounds={backgrounds} />
           <Home backgrounds={backgrounds} />
         </div>

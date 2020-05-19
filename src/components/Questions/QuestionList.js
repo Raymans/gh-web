@@ -9,6 +9,7 @@ import { getQuestions } from '../../utils/api';
 import Headline from '../Article/Headline';
 import CardList from '../CardList';
 import { isAuthenticated } from '../../utils/auth';
+import CustomBreadcrumb from '../CustomBreadcrumb';
 
 const StyledSearchFilter = styled.div`
     text-align: end;
@@ -32,7 +33,7 @@ let filters = {
 };
 
 const QuestionList = (props) => {
-  const { isModal, onSelectQuestion, selectedQuestions = [] } = props;
+  const { isModal, onSelectQuestion, selectedQuestions = [], location } = props;
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState();
@@ -77,10 +78,13 @@ const QuestionList = (props) => {
       {
         !isModal
         && (
-        <Headline>
-          <span>Questions</span>
-          { isAuthenticated() && <Link to="/questions/create">Create</Link>}
-        </Headline>
+          <>
+            <CustomBreadcrumb label="List Questions" location={location} />
+            <Headline>
+              <span>Questions</span>
+              { isAuthenticated() && <Link to="/questions/create">Create</Link>}
+            </Headline>
+          </>
         )
       }
       <Layout>

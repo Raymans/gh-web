@@ -23,6 +23,7 @@
     "gatsby-codemods": "^1.1.22",
     "gatsby-image": "^2.2.40",
     "gatsby-link": "^2.2.29",
+    "gatsby-plugin-breadcrumb": "^9.0.3",
     "gatsby-plugin-catch-links": "^2.1.25",
     "gatsby-plugin-google-analytics": "^2.1.35",
     "gatsby-plugin-intl": "^0.3.3",
