@@ -1,15 +1,28 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import {
-  Avatar, Button, Checkbox, Collapse, Divider, List, message, Modal, Space, Spin, Tag,
+  Avatar,
+  Button,
+  Checkbox,
+  Collapse,
+  Divider,
+  List,
+  message,
+  Modal,
+  Space,
+  Spin,
+  Tag,
 } from 'antd';
 import styled from 'styled-components';
 import { DeleteOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
-import { Link, navigate } from 'gatsby-plugin-intl';
-import { deleteQuestion as deletedQuestionApi } from '../../utils/api';
+import { navigate } from 'gatsby-plugin-intl';
+import {
+  deleteQuestion as deletedQuestionApi,
+  likeQuestion,
+  unlikeQuestion,
+} from '../../utils/api';
 import { getUserInfo } from '../../utils/auth';
-
-const { Panel } = Collapse;
+import Like from '../Like';
 
 const StyledListItem = styled(List.Item)`
   .ant-list-item-extra{
@@ -26,11 +39,13 @@ const StyledVisibilityTag = styled(Tag)`
 
 const QuestionGrid = (props) => {
   const {
-    id: questionId, possibleAnswers, clientAccount, question, showAuthor, visibility, showActionButtons,
+    id: questionId, possibleAnswers, clientAccount, question, showAuthor, visibility, showActionButtons, likeCount: likeCountProp, liked: likeProp,
   } = props;
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deleted, setDeleted] = useState(false);
+  const [liked, setLiked] = useState(likeProp);
+  const [likeCount, setLikeCount] = useState(likeCountProp);
   const deleteQuestion = () => {
     setSaving(true);
     deletedQuestionApi(questionId).then(() => {
@@ -53,6 +68,14 @@ const QuestionGrid = (props) => {
           />
         </Space>]];
   }
+
+  const handleLikeQuestion = () => {
+    const likeInteractiveFn = liked ? unlikeQuestion : likeQuestion;
+    likeInteractiveFn({ id: questionId }).then((q) => {
+      setLiked(!liked);
+      setLikeCount(q.likeCount);
+    });
+  };
   return (
     <>
       {
@@ -92,6 +115,7 @@ const QuestionGrid = (props) => {
                         {clientAccount.name}
                       </Avatar>
                       <span>{clientAccount.name}</span>
+                      <Like active={liked} count={likeCount} onClick={handleLikeQuestion} />
                     </>
                   )
                 }

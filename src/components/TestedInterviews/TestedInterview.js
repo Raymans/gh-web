@@ -36,10 +36,10 @@ const TestedInterview = ({ sessionId }) => {
       });
   }, []);
 
-  const handleCalcuateScore = () => {
+  const handleCalculateScore = () => {
     calculateInterviewSession(sessionId)
-      .then((data) => {
-        console.table(data);
+      .then((is) => {
+        setInterviewSession(is);
       });
   };
 
@@ -86,7 +86,7 @@ const TestedInterview = ({ sessionId }) => {
                       let sectionScore = 0;
                       if (interviewSession.answerAttemptSections[section.id]) {
                         const { answerStats } = interviewSession.answerAttemptSections[section.id];
-                        sectionScore = answerStats.MULTI_CHOICE.correct / answerStats.MULTI_CHOICE.questionTotal;
+                        sectionScore = answerStats.MULTI_CHOICE.correct / answerStats.MULTI_CHOICE.questionTotal * 100;
                       }
                       return (
                         <Col justify="center" style={{ 'text-align': 'center' }}>
@@ -105,7 +105,7 @@ const TestedInterview = ({ sessionId }) => {
                   <StyleTotalScoreCol>
                     <Progress
                       type="circle"
-                      percent={interviewSession.score}
+                      percent={interviewSession.score * 100}
                       format={(score) => score}
                       status={interviewSession.score < 60 ? 'exception' : ''}
                     />
@@ -120,7 +120,7 @@ const TestedInterview = ({ sessionId }) => {
           </Layout.Content>
           {
             isOwner && interviewSession.status === 'ENDED'
-            && <Button type="primary" onClick={handleCalcuateScore}>Calculate Score</Button>
+            && <Button type="primary" onClick={handleCalculateScore}>Calculate Score</Button>
           }
         </Spin>
       </Layout>

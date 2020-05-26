@@ -26,8 +26,11 @@ import {
   createInterviewSession,
   deleteInterview,
   getInterviewSessions,
+  likeInterview,
   sendInterviewSessionToCandidate,
+  unlikeInterview,
 } from '../../utils/api';
+import Like from '../Like';
 
 const StyleReSendRow = styled.div`
   display: flex;
@@ -57,7 +60,7 @@ const StyledAvatar = styled(Avatar)`
 
 const InterviewGrid = (props) => {
   const {
-    id, title, description = "", specialization: { name: specializationName }, jobTitle, clientAccount = {}, visibility,
+    id, title, description = '', specialization: { name: specializationName }, jobTitle, clientAccount = {}, visibility, likeCount: likeCountProp, liked: likeProp,
   } = props;
   const shareLink = `https://geekhub.tw/interviews/${id}`;
   const [sendings, setSendings] = useState({ sending: false });
@@ -66,6 +69,8 @@ const InterviewGrid = (props) => {
   const [isShareModalVisible, setIsShareModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deleted, setDeleted] = useState(false);
+  const [liked, setLiked] = useState(likeProp);
+  const [likeCount, setLikeCount] = useState(likeCountProp);
   const handleDeleteInterview = () => {
     setSaving(true);
     deleteInterview(id)
@@ -141,6 +146,13 @@ const InterviewGrid = (props) => {
         });
       });
   };
+  const handleLikeInterview = () => {
+    const likeInteractiveFn = liked ? unlikeInterview : likeInterview;
+    likeInteractiveFn({ id }).then((interview) => {
+      setLiked(!liked);
+      setLikeCount(interview.likeCount);
+    });
+  };
   return (
     <>
       {
@@ -209,13 +221,15 @@ const InterviewGrid = (props) => {
                   <Descriptions.Item label="Job Title">{jobTitle}</Descriptions.Item>
                   <Descriptions.Item span={2}>{description}</Descriptions.Item>
                 </Descriptions>
-                <Divider orientation="left">Author</Divider>
+                by
+                {' '}
                 <StyledAvatar
                   src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"
                 >
                   {clientAccount.name}
                 </StyledAvatar>
                 <span>{clientAccount.name}</span>
+                <Like active={liked} count={likeCount} onClick={handleLikeInterview} />
               </StyledListItem>
             </Spin>
           </>

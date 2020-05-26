@@ -81,6 +81,8 @@ const InterviewList = () => {
                     clientAccount={item.clientAccount}
                     jobTitle={item.jobTitle}
                     specialization={item.specialization}
+                    likeCount={item.likeCount}
+                    liked={item.liked}
                   />
                 )}
               />

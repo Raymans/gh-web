@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Button, Checkbox, Modal, Result, Steps, Tabs,
+  Button, Checkbox, Modal, Result, Tabs,
 } from 'antd';
 import styled from 'styled-components';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import {
+  CheckCircleTwoTone,
+  CloseCircleTwoTone,
+  ExclamationCircleOutlined,
+} from '@ant-design/icons';
 import { Link } from 'gatsby-plugin-intl';
 import { addAnswerToInterviewSession, submitInterviewSession } from '../../utils/api';
+import { getUserInfo } from '../../utils/auth';
+
+const { sub } = getUserInfo();
 
 
 const defaultInterviewSession = {
@@ -27,12 +34,23 @@ const defaultInterviewSession = {
 const StyledQuestionBlock = styled.div`
   margin: 24px;
 `;
+
+const StyledCheckbox = styled(Checkbox)`
+  &.wrong{
+    color: red;
+    .ant-checkbox-checked .ant-checkbox-inner{
+      background-color: red;
+      border-color: red;
+    }
+  }
+`;
 const InterviewSession = ({
   interviewSession: {
     id, interviewEndDate, interview, answerAttemptSections = null,
-  } = defaultInterviewSession, preview = false, endSession = false, onEndInterviewSession = () => {
+  } = defaultInterviewSession, preview = false, viewResult = true, endSession = false, onEndInterviewSession = () => {
   },
 }) => {
+  const isOwner = sub === interview.clientAccount.id;
   const [isSubmitted, setIsSubmitted] = useState(!!interviewEndDate);
   const handleSubmitQuestionAttempt = (sectionId, questionId, values) => {
     if (preview) {
@@ -98,41 +116,41 @@ const InterviewSession = ({
                   {
                     interview.sections.map(({ id: sectionId, title, questions = [] }) => (
                       <Tabs.TabPane tab={title} key={sectionId}>
-                        <Steps progressDot>
-                          {
-                            questions.map((question, questionIndex) => (
-                              <Steps.Step
-                                key={question.id}
-                                status="finish"
-                                title={`Q${questionIndex + 1}`}
-                              />
-                            ))
-                          }
-
-                        </Steps>
                         {
                           questions.map(({ id: questionId, possibleAnswers = [], ...question }, questionIndex) => {
                             const correctAnswers = possibleAnswers.filter((possibleAnswer) => possibleAnswer.correctAnswer)
                               .map((possibleAnswer) => possibleAnswer.answerId);
                             const valueProps = correctAnswers.length > 0 ? { value: correctAnswers } : {};
+                            const answerAttemptQuestionIds = !answerAttemptSections || !answerAttemptSections[sectionId] || !answerAttemptSections[sectionId].answerAttempts[questionId] ? [] : answerAttemptSections[sectionId].answerAttempts[questionId].answerIds;
+                            const correct = isOwner ? answerAttemptQuestionIds.length > 0 && answerAttemptQuestionIds.every((v) => correctAnswers.includes(v)) : answerAttemptSections[sectionId]?.answerAttempts[questionId]?.correct;
                             return (
                               <div key={questionId}>
-                                <h2>{`Q${questionIndex + 1}`}</h2>
+                                <h2>
+                                  {`Q${questionIndex + 1}`}
+                                  {
+                                    preview && viewResult && (isOwner ? correctAnswers?.length > 0 : true) && (correct ? <CheckCircleTwoTone /> : <CloseCircleTwoTone twoToneColor="red" />)
+                                  }
+                                </h2>
                                 <StyledQuestionBlock>
                                   <h3>{question.question}</h3>
                                   <Checkbox.Group
                                     name={questionId}
                                     {...valueProps}
-                                    defaultValue={!answerAttemptSections || !answerAttemptSections[sectionId] || !answerAttemptSections[sectionId].answerAttempts[questionId] ? [] : answerAttemptSections[sectionId].answerAttempts[questionId].answerIds}
+                                    defaultValue={answerAttemptQuestionIds}
                                     onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId)}
                                   >
-                                    {possibleAnswers.map((possibleAnswer) => (
-                                      <Checkbox
-                                        value={possibleAnswer.answerId}
-                                      >
-                                        {possibleAnswer.answer}
-                                      </Checkbox>
-                                    ))}
+                                    {possibleAnswers.map((possibleAnswer) => {
+                                      const correctOption = correctAnswers.includes(possibleAnswer.answerId);
+                                      const answered = answerAttemptQuestionIds.includes(possibleAnswer.answerId);
+                                      return (
+                                        <StyledCheckbox
+                                          value={possibleAnswer.answerId}
+                                          className={preview && viewResult && isOwner && ((correctOption && answered) || (!correctOption && !answered) ? 'correct' : 'wrong')}
+                                        >
+                                          {possibleAnswer.answer}
+                                        </StyledCheckbox>
+                                      );
+                                    })}
                                   </Checkbox.Group>
                                 </StyledQuestionBlock>
                               </div>

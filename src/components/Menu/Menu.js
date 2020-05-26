@@ -54,8 +54,7 @@ const Menu = (props) => {
     },
   ];
 
-  useEffect(() => setCurrent(props.path),
-    props.path);
+  useEffect(() => setCurrent(props.path), []);
 
   const handleClick = (e) => {
     setCurrent(e.key);

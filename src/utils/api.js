@@ -42,6 +42,18 @@ export async function deleteQuestion(id) {
   });
 }
 
+export async function likeQuestion({ id }) {
+  return request(`${config.ghServiceUrl}/api/questions/${id}/like`, {
+    method: 'POST',
+  });
+}
+
+export async function unlikeQuestion({ id }) {
+  return request(`${config.ghServiceUrl}/api/questions/${id}/unlike`, {
+    method: 'POST',
+  });
+}
+
 export async function createInterview(params) {
   return request(`${config.ghServiceUrl}/api/interviews`, {
     method: 'POST',
@@ -84,6 +96,18 @@ export async function getPublishedInterview(id) {
 export async function deleteInterview(id) {
   return request(`${config.ghServiceUrl}/api/interviews/${id}`, {
     method: 'DELETE',
+  });
+}
+
+export async function likeInterview({ id }) {
+  return request(`${config.ghServiceUrl}/api/interviews/${id}/like`, {
+    method: 'POST',
+  });
+}
+
+export async function unlikeInterview({ id }) {
+  return request(`${config.ghServiceUrl}/api/interviews/${id}/unlike`, {
+    method: 'POST',
   });
 }
 

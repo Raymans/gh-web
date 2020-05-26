@@ -232,7 +232,7 @@ const Interview = ({
             }
             {
               isOwner
-              && <InterviewSession interviewSession={{ interview }} preview />
+              && <InterviewSession interviewSession={{ interview }} preview viewResult={false} />
             }
             {
               interviewSession && (

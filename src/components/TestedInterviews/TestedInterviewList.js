@@ -10,7 +10,6 @@ const columns = [
   {
     title: 'Interview',
     dataIndex: 'interview',
-    width: 300,
     render: (interview) => <Link to={`/interviews/${interview.id}`}>{interview.title}</Link>,
   },
   {
@@ -44,7 +43,7 @@ const columns = [
     title: 'Complete Date',
     dataIndex: 'interviewEndDate',
     render: (endDate) => (
-      <Moment date={endDate} />
+      <Moment date={endDate} format="lll" />
     ),
   },
   {

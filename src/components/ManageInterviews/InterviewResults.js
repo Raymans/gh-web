@@ -47,7 +47,7 @@ const columns = [
         return '';
       }
       return (
-        <Moment date={endDate} />
+        <Moment date={endDate} format="lll" />
       );
     },
   },
