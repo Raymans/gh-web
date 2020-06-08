@@ -197,8 +197,8 @@ const Interview = ({
                   >
                     <p>Start testing the Interview!!</p>
                     {
-                      interviewSession && interviewSession.duration !== -1
-                      && <p>{`You will have ${interviewSession.duration} minutes complete the interview.`}</p>
+                      (interviewSession?.duration !== -1 || interview.defaultDuration !== -1)
+                      && <p>{`You will have ${interviewSession?.duration || interview.defaultDuration} minutes complete the interview.`}</p>
                     }
 
                   </Modal>

@@ -88,7 +88,7 @@ export async function getInterview(id) {
 }
 
 export async function getPublishedInterview(id) {
-  return request(`${config.ghServiceUrl}/api/publishedInterview/${id}`, {
+  return request(`${config.ghServiceUrl}/api/publishedInterviews/${id}`, {
     method: 'GET',
   });
 }

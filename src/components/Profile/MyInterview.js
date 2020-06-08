@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-  List, Avatar, Button, Skeleton, Badge,
-} from 'antd';
+import { Button } from 'antd';
+import InterviewsSummary from '../ManageInterviews/InterviewsSummary';
 
 const count = 3;
 
@@ -65,25 +64,7 @@ const MyInterview = () => {
   return (
     <>
       <h2 id="myinterview">My Interview</h2>
-      <List
-        loading={initLoading}
-        itemLayout="horizontal"
-        loadMore={loadMore}
-        dataSource={list}
-        renderItem={(item) => (
-          <List.Item
-            actions={[<Badge dot><a key="result">5 geeks</a></Badge>, <a key="delete">delete</a>]}
-          >
-            <Skeleton title={false} loading={item.loading} active>
-              <List.Item.Meta
-                title={<a href="#">{item.name}</a>}
-                description="This is interview for Google Geeks"
-              />
-            </Skeleton>
-
-          </List.Item>
-        )}
-      />
+      <InterviewsSummary />
     </>
   );
 };

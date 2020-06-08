@@ -102,6 +102,7 @@ const InterviewForm = ({ id }) => {
           form.setFieldsValue({
             ...data,
             specializationId: data.specialization.id,
+            defaultDuration: data.defaultDuration === -1 ? '' : data.defaultDuration,
           });
           setAnchorSections(data.sections.map((section, index) => ({
             href: `#section_${index}`,
@@ -354,6 +355,12 @@ const InterviewForm = ({ id }) => {
                     maxRows: 6,
                   }}
                 />
+              </FormItem>
+              <FormItem
+                label="Duration"
+                name="defaultDuration"
+              >
+                <Input placeholder="Minutes" />
               </FormItem>
               <Form.List name="sections">
                 {(sections, { add: addSection, remove: removeSection }) => (

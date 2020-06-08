@@ -65,7 +65,7 @@ const columns = [
   },
 ];
 
-const TestedInterviewList = (props) => {
+const TestedInterviewList = ({ headline = null }) => {
   const [myInterviewsSessions, setMyInterviewsSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -77,7 +77,7 @@ const TestedInterviewList = (props) => {
   }, []);
   return (
     <>
-      <Headline title="Tested Interviews" />
+      {headline}
       <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
         <Table
           rowKey={(interviewSession) => interviewSession.id}

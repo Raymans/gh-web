@@ -1,34 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Anchor, Form, Input, Layout,
+  Avatar, Button, Checkbox, Form, Input,
 } from 'antd';
-import AnchorLink from 'antd/lib/anchor/AnchorLink';
 import FormItem from 'antd/lib/form/FormItem';
 
-const {
-  Sider, Content,
-} = Layout;
+const Setting = () => {
+  const [saving, setSaving] = useState(false);
+  const handleUpdateSetting = () => {
+    setSaving(true);
+  };
 
-const Setting = () => (
-  <>
-    <Layout>
-      <Sider theme="light">
-        <Anchor offsetTop={60}>
-          <AnchorLink href="#account" title="Account" />
-          <AnchorLink href="#notification" title="Notification" />
-        </Anchor>
-      </Sider>
-      <Content>
-        <Form>
-          <FormItem name="email" label="Email" rules={[{ type: 'email' }]}>
-            <Input />
-          </FormItem>
-        </Form>
-      </Content>
-    </Layout>
-  </>
-);
-Setting.propTypes = {
+  const onFinish = (values) => {
+    console.log(values);
+  };
+  return (
+    <>
+      <Form layout="vertical" onFinish={onFinish} scrollToFirstError>
+        <h2>Profile</h2>
+        <FormItem name="avatar" label="Avatar" required>
+          <Avatar
+            size={150}
+            src="https://avatars0.githubusercontent.com/u/5819635?s=400&u=28fed09b4c20e36c8dfa58063d3dedfa93bee04c&v=4"
+          />
+        </FormItem>
+        <FormItem name="email" label="Email" rules={[{ type: 'email' }]} required>
+          <Input defaultValue="raymanspeng@geekhub.tw" />
+        </FormItem>
+        <FormItem name="github" label="GitHub username">
+          <Input defaultValue="raymans" />
+        </FormItem>
+        <FormItem name="company" label="Company">
+          <Input defaultValue="GeekHub.TW" />
+        </FormItem>
+        <h2>Notification</h2>
+        <Checkbox>
+Receive email Notification when a new candidate start testing your
+          interviews
+        </Checkbox>
+
+        <br />
+        <Form.Item>
+          <Button type="primary" onClick={handleUpdateSetting} loading={saving} htmlType="submit">
+            Update Profile
+          </Button>
+        </Form.Item>
+        <br />
+      </Form>
+
+    </>
+  );
 };
+Setting.propTypes = {};
 
 export default Setting;

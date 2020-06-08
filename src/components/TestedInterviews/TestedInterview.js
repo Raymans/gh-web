@@ -1,8 +1,8 @@
 import {
-  Button, Col, Descriptions, Layout, Progress, Row, Spin,
+  Button, Col, Descriptions, Layout, Progress, Row, Spin, Statistic,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { LoadingOutlined } from '@ant-design/icons';
+import { ArrowUpOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Link } from 'gatsby-plugin-intl';
 import styled from 'styled-components';
 import AnchorSilder from '../Sider/AnchorSider';
@@ -14,6 +14,7 @@ import InterviewSession from '../Interviews/InterviewSession';
 const { sub } = getUserInfo();
 
 const StyleTotalScoreCol = styled(Col)`
+  text-align: center;
   margin-left: auto;
   margin-right: 35px;
 `;
@@ -25,6 +26,7 @@ const TestedInterview = ({ sessionId }) => {
     clientAccount: { email: '' },
   });
   const [interviewSession, setInterviewSession] = useState({ candidateAccount: {} });
+  const [calculating, setCalculating] = useState(false);
   const isOwner = sub === interview.clientAccount.id;
 
   useEffect(() => {
@@ -37,9 +39,11 @@ const TestedInterview = ({ sessionId }) => {
   }, []);
 
   const handleCalculateScore = () => {
+    setCalculating(true);
     calculateInterviewSession(sessionId)
       .then((is) => {
         setInterviewSession(is);
+        setCalculating(false);
       });
   };
 
@@ -86,10 +90,15 @@ const TestedInterview = ({ sessionId }) => {
                       let sectionScore = 0;
                       if (interviewSession.answerAttemptSections[section.id]) {
                         const { answerStats } = interviewSession.answerAttemptSections[section.id];
-                        sectionScore = answerStats.MULTI_CHOICE.correct / answerStats.MULTI_CHOICE.questionTotal * 100;
+                        sectionScore = Math.round(answerStats.MULTI_CHOICE.correct / answerStats.MULTI_CHOICE.questionTotal * 100);
                       }
                       return (
                         <Col justify="center" style={{ 'text-align': 'center' }}>
+                          <Statistic
+                            value={11}
+                            valueStyle={{ color: '#3f8600' }}
+                            prefix={<ArrowUpOutlined />}
+                          />
                           <Progress
                             type="circle"
                             percent={sectionScore}
@@ -102,7 +111,12 @@ const TestedInterview = ({ sessionId }) => {
                       );
                     })
                   }
-                  <StyleTotalScoreCol>
+                  <StyleTotalScoreCol justify="center">
+                    <Statistic
+                      value={30}
+                      valueStyle={{ color: '#3f8600' }}
+                      prefix={<ArrowUpOutlined />}
+                    />
                     <Progress
                       type="circle"
                       percent={interviewSession.score * 100}
@@ -120,7 +134,7 @@ const TestedInterview = ({ sessionId }) => {
           </Layout.Content>
           {
             isOwner && interviewSession.status === 'ENDED'
-            && <Button type="primary" onClick={handleCalculateScore}>Calculate Score</Button>
+            && <Button type="primary" onClick={handleCalculateScore} loading={calculating}>Calculate Score</Button>
           }
         </Spin>
       </Layout>

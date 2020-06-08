@@ -26,11 +26,9 @@ import {
   createInterviewSession,
   deleteInterview,
   getInterviewSessions,
-  likeInterview,
   sendInterviewSessionToCandidate,
-  unlikeInterview,
 } from '../../utils/api';
-import Like from '../Like';
+import InterviewLike from '../Like/InterviewLike';
 
 const StyleReSendRow = styled.div`
   display: flex;
@@ -60,7 +58,7 @@ const StyledAvatar = styled(Avatar)`
 
 const InterviewGrid = (props) => {
   const {
-    id, title, description = '', specialization: { name: specializationName }, jobTitle, clientAccount = {}, visibility, likeCount: likeCountProp, liked: likeProp,
+    id, title, description = '', specialization: { name: specializationName }, jobTitle, clientAccount = {}, visibility, likeCount, liked,
   } = props;
   const shareLink = `https://geekhub.tw/interviews/${id}`;
   const [sendings, setSendings] = useState({ sending: false });
@@ -69,8 +67,6 @@ const InterviewGrid = (props) => {
   const [isShareModalVisible, setIsShareModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deleted, setDeleted] = useState(false);
-  const [liked, setLiked] = useState(likeProp);
-  const [likeCount, setLikeCount] = useState(likeCountProp);
   const handleDeleteInterview = () => {
     setSaving(true);
     deleteInterview(id)
@@ -146,13 +142,7 @@ const InterviewGrid = (props) => {
         });
       });
   };
-  const handleLikeInterview = () => {
-    const likeInteractiveFn = liked ? unlikeInterview : likeInterview;
-    likeInteractiveFn({ id }).then((interview) => {
-      setLiked(!liked);
-      setLikeCount(interview.likeCount);
-    });
-  };
+
   return (
     <>
       {
@@ -229,7 +219,7 @@ const InterviewGrid = (props) => {
                   {clientAccount.name}
                 </StyledAvatar>
                 <span>{clientAccount.name}</span>
-                <Like active={liked} count={likeCount} onClick={handleLikeInterview} />
+                <InterviewLike id={id} liked={liked} likeCount={likeCount} />
               </StyledListItem>
             </Spin>
           </>

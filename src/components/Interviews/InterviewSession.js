@@ -36,12 +36,29 @@ const StyledQuestionBlock = styled.div`
 `;
 
 const StyledCheckbox = styled(Checkbox)`
+  display: block;
+  margin-left: 0 !important;
+  padding: 4px;
   &.wrong{
     color: red;
     .ant-checkbox-checked .ant-checkbox-inner{
       background-color: red;
       border-color: red;
     }
+  }
+  &.correct{
+    color: green;
+    .ant-checkbox-checked .ant-checkbox-inner{
+      background-color: green;
+      border-color: green;
+    }
+  }
+
+  &.answer {
+      margin: 0 8px;
+  }
+  &.answer > span:nth-child(2) {
+    border-bottom: ${(props) => `2px solid ${props.theme.color.brand.primary}`};
   }
 `;
 const InterviewSession = ({
@@ -120,15 +137,17 @@ const InterviewSession = ({
                           questions.map(({ id: questionId, possibleAnswers = [], ...question }, questionIndex) => {
                             const correctAnswers = possibleAnswers.filter((possibleAnswer) => possibleAnswer.correctAnswer)
                               .map((possibleAnswer) => possibleAnswer.answerId);
-                            const valueProps = correctAnswers.length > 0 ? { value: correctAnswers } : {};
                             const answerAttemptQuestionIds = !answerAttemptSections || !answerAttemptSections[sectionId] || !answerAttemptSections[sectionId].answerAttempts[questionId] ? [] : answerAttemptSections[sectionId].answerAttempts[questionId].answerIds;
+                            const valueProps = answerAttemptQuestionIds.length > 0 ? { value: answerAttemptQuestionIds } : {};
                             const correct = isOwner ? answerAttemptQuestionIds.length > 0 && answerAttemptQuestionIds.every((v) => correctAnswers.includes(v)) : answerAttemptSections[sectionId]?.answerAttempts[questionId]?.correct;
                             return (
                               <div key={questionId}>
                                 <h2>
                                   {`Q${questionIndex + 1}`}
                                   {
-                                    preview && viewResult && (isOwner ? correctAnswers?.length > 0 : true) && (correct ? <CheckCircleTwoTone /> : <CloseCircleTwoTone twoToneColor="red" />)
+                                    preview && viewResult && (isOwner ? correctAnswers?.length > 0 : true) && (correct
+                                      ? <CheckCircleTwoTone />
+                                      : <CloseCircleTwoTone twoToneColor="red" />)
                                   }
                                 </h2>
                                 <StyledQuestionBlock>
@@ -145,7 +164,7 @@ const InterviewSession = ({
                                       return (
                                         <StyledCheckbox
                                           value={possibleAnswer.answerId}
-                                          className={preview && viewResult && isOwner && ((correctOption && answered) || (!correctOption && !answered) ? 'correct' : 'wrong')}
+                                          className={preview && viewResult && isOwner && (correctOption ? ' answer ' : '') + ((correctOption && answered) ? 'correct' : (!correctOption && !answered) || 'wrong')}
                                         >
                                           {possibleAnswer.answer}
                                         </StyledCheckbox>

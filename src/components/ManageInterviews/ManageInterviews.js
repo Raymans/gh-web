@@ -3,6 +3,7 @@ import { Router, useMatch } from '@reach/router';
 import InterviewsSummary from './InterviewsSummary';
 import InterviewResults from './InterviewResults';
 import InterviewResult from './InterviewResult';
+import Headline from '../Article/Headline';
 
 const ManageInterviews = (props) => {
   const matchDefault = useMatch('/manageInterviews/*') ? '/manageInterviews' : '/:locale/manageInterviews';
@@ -10,7 +11,7 @@ const ManageInterviews = (props) => {
     <Router
       basepath={matchDefault}
     >
-      <InterviewsSummary path="/" />
+      <InterviewsSummary path="/" headline={<Headline title="Manage Interviews" />} />
       <InterviewResults path="/:id/" />
       <InterviewResult path="/:id/:interviewSession" />
     </Router>

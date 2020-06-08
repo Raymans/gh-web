@@ -1,28 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import {
-  Avatar,
-  Button,
-  Checkbox,
-  Collapse,
-  Divider,
-  List,
-  message,
-  Modal,
-  Space,
-  Spin,
-  Tag,
+  Avatar, Button, Checkbox, Divider, List, message, Modal, Space, Spin, Tag,
 } from 'antd';
 import styled from 'styled-components';
 import { DeleteOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
 import { navigate } from 'gatsby-plugin-intl';
-import {
-  deleteQuestion as deletedQuestionApi,
-  likeQuestion,
-  unlikeQuestion,
-} from '../../utils/api';
+import { deleteQuestion as deletedQuestionApi } from '../../utils/api';
 import { getUserInfo } from '../../utils/auth';
-import Like from '../Like';
+import QuestionLike from '../Like/QuestionLike';
 
 const StyledListItem = styled(List.Item)`
   .ant-list-item-extra{
@@ -69,13 +55,6 @@ const QuestionGrid = (props) => {
         </Space>]];
   }
 
-  const handleLikeQuestion = () => {
-    const likeInteractiveFn = liked ? unlikeQuestion : likeQuestion;
-    likeInteractiveFn({ id: questionId }).then((q) => {
-      setLiked(!liked);
-      setLikeCount(q.likeCount);
-    });
-  };
   return (
     <>
       {
@@ -115,7 +94,7 @@ const QuestionGrid = (props) => {
                         {clientAccount.name}
                       </Avatar>
                       <span>{clientAccount.name}</span>
-                      <Like active={liked} count={likeCount} onClick={handleLikeQuestion} />
+                      <QuestionLike id={questionId} liked={liked} likeCount={likeCount} />
                     </>
                   )
                 }

@@ -30,7 +30,7 @@ const columns = [
   },
 ];
 
-const InterviewsSummary = () => {
+const InterviewsSummary = ({ headline = null }) => {
   const [myInterviews, setMyInterviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [myInterviewsSessions, setMyInterviewsSessions] = useState({});
@@ -49,43 +49,50 @@ const InterviewsSummary = () => {
   }, []);
   return (
     <>
-      <Headline title="Manage Interviews" />
+      {headline}
       <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
         <List
           itemLayout="horizontal"
           dataSource={myInterviews}
-          renderItem={(interview) => (
-            <List.Item
-              actions={[
-                <Badge dot>
-                  <Link
-                    to={`/manageInterviews/${interview.id}`}
-                    state={{ interviewName: interview.title }}
-                  >
-                    {'5 geeks'}
-                  </Link>
-                  {'(2 pending)'}
-                </Badge>]}
-            >
-              <List.Item.Meta
-                title={<h1><Link to={`/interviews/${interview.id}`}>{interview.title}</Link></h1>}
-                description={(
-                  <>
-                    <Descriptions column={2}>
-                      <Descriptions.Item
-                        label="Specialization"
-                      >
-                        {interview.specialization.name}
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
-                      <Descriptions.Item span={2}>{interview.description}</Descriptions.Item>
-                    </Descriptions>
-                  </>
-                )}
-              />
+          renderItem={(interview) => {
+            let totalGeeks = 0;
+            for (const key in interview.interviewSessions) {
+              totalGeeks += interview.interviewSessions[key]?.length;
+            }
 
-            </List.Item>
-          )}
+            return (
+              <List.Item
+                actions={[
+                  <>
+                    <Link
+                      to={`/manageInterviews/${interview.id}`}
+                      state={{ interviewName: interview.title }}
+                    >
+                      {`${totalGeeks} geeks`}
+                    </Link>
+                    {interview.interviewSessions.STARTED > 0 && `${interview.interviewSessions.STARTED} pending)`}
+                  </>]}
+              >
+                <List.Item.Meta
+                  title={<h1><Link to={`/interviews/${interview.id}`}>{interview.title}</Link></h1>}
+                  description={(
+                    <>
+                      <Descriptions column={2}>
+                        <Descriptions.Item
+                          label="Specialization"
+                        >
+                          {interview.specialization.name}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
+                        <Descriptions.Item span={2}>{interview.description}</Descriptions.Item>
+                      </Descriptions>
+                    </>
+                )}
+                />
+
+              </List.Item>
+            );
+          }}
         />
       </Spin>
     </>
