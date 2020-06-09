@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import {
-  Avatar, Button, Checkbox, Divider, List, message, Modal, Space, Spin, Tag,
+  Avatar, Button, Checkbox, Descriptions, Divider, List, message, Modal, Space, Spin, Tag,
 } from 'antd';
 import styled from 'styled-components';
 import { DeleteOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -9,6 +9,8 @@ import { navigate } from 'gatsby-plugin-intl';
 import { deleteQuestion as deletedQuestionApi } from '../../utils/api';
 import { getUserInfo } from '../../utils/auth';
 import QuestionLike from '../Like/QuestionLike';
+import InterviewLike from '../Like/InterviewLike';
+import AuthorBy from '../AuthorBy';
 
 const StyledListItem = styled(List.Item)`
   .ant-list-item-extra{
@@ -78,26 +80,29 @@ const QuestionGrid = (props) => {
                   visibility === 'PRIVATE' && <StyledVisibilityTag color="default">private</StyledVisibilityTag>
                 }
                 <h1>{question}</h1>
-                {possibleAnswers.map((possibleAnswer) => (
-                  <div key={possibleAnswer.answerId}>
-                    <Checkbox>{possibleAnswer.answer}</Checkbox>
-                  </div>
-                ))}
-                {
-                  showAuthor
+                <Descriptions column={1}>
+                  {possibleAnswers.length > 0
                   && (
-                    <>
-                      <Divider orientation="left">Author</Divider>
-                      <Avatar
-                        src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"
-                      >
-                        {clientAccount.name}
-                      </Avatar>
-                      <span>{clientAccount.name}</span>
-                      <QuestionLike id={questionId} liked={liked} likeCount={likeCount} />
-                    </>
-                  )
-                }
+                  <Descriptions.Item>
+                    {possibleAnswers.map((possibleAnswer) => (
+                      <div key={possibleAnswer.answerId}>
+                        <Checkbox>{possibleAnswer.answer}</Checkbox>
+                      </div>
+                    ))}
+                  </Descriptions.Item>
+                  )}
+                  <Descriptions.Item>
+                    {
+                      showAuthor
+                      && (
+                        <AuthorBy author={clientAccount.name} avatarSrc="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A" />
+                      )
+                    }
+                  </Descriptions.Item>
+                  <Descriptions.Item>
+                    <QuestionLike id={questionId} liked={liked} likeCount={likeCount} />
+                  </Descriptions.Item>
+                </Descriptions>
               </StyledListItem>
             </Spin>
           </>

@@ -21,8 +21,10 @@ import {
   getPublishedInterview,
   startInterviewSession,
 } from '../../utils/api';
-import { getUserInfo, isAuthenticated, login } from '../../utils/auth';
+import { getUserInfo } from '../../utils/auth';
 import InterviewSession from './InterviewSession';
+import LoginPrompt from '../Login/LoginPrompt';
+import AuthorBy from '../AuthorBy';
 
 const { sub, email } = getUserInfo();
 
@@ -31,21 +33,19 @@ const StyledInterviewGeekStatus = styled.div`
 `;
 
 const Interview = ({
-  id, sessionId = '', publishedId = '', location,
+  id, sessionId = '', publishedId = '',
 }) => {
   const [isTesting, setIsTesting] = useState(false);
   const [deadline, setDeadline] = useState(0);
   const [isTimeUp, setIsTimeUp] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isTestModalVisible, setIsTestModalVisible] = useState(false);
-  const [isLoginPrompt, setIsLoginPrompt] = useState(false);
   const [interview, setInterview] = useState({
     specialization: { name: '' },
     clientAccount: { email: '' },
   });
   const [interviewSession, setInterviewSession] = useState(null);
   const isOwner = sub === interview.clientAccount.id;
-
   const handleTimesUp = () => {
     Modal.warning({
       title: 'Times Up',
@@ -137,7 +137,7 @@ const Interview = ({
   };
 
   const handleOpenTestPrompt = () => {
-    isAuthenticated() ? setIsTestModalVisible(true) : setIsLoginPrompt(true);
+    setIsTestModalVisible(true);
   };
 
   return (
@@ -164,31 +164,22 @@ const Interview = ({
               <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
               <Descriptions.Item span={2}>{interview.description}</Descriptions.Item>
               <Descriptions.Item
-                label="Author"
                 span={2}
               >
-                {interview.clientAccount.email}
+                <AuthorBy author={interview.clientAccount.email} />
               </Descriptions.Item>
             </Descriptions>
             {
               !interviewSession && !isOwner
               && (
                 <>
-                  <Button type="primary" onClick={() => handleOpenTestPrompt()}>
-                    Start Testing Interview
-                  </Button>
-                  <Modal
-                    title="Login to Test Interview"
-                    visible={isLoginPrompt}
-                    onCancel={() => setIsLoginPrompt(false)}
-                    footer={[
-                      <Button key="submit" type="primary" onClick={() => login(location.pathname)}>
-                        Login
-                      </Button>,
-                    ]}
-                  >
-                    <p>You have to Login to continue testing this Interview!</p>
-                  </Modal>
+                  <LoginPrompt>
+                    {(isAuth) => (
+                      <Button type="primary" onClick={isAuth && handleOpenTestPrompt}>
+                        Start Testing Interview
+                      </Button>
+                    )}
+                  </LoginPrompt>
                   <Modal
                     title="Start Testing Interview"
                     visible={isTestModalVisible}

@@ -29,6 +29,7 @@ import {
   sendInterviewSessionToCandidate,
 } from '../../utils/api';
 import InterviewLike from '../Like/InterviewLike';
+import AuthorBy from '../AuthorBy';
 
 const StyleReSendRow = styled.div`
   display: flex;
@@ -50,10 +51,6 @@ const StyledListItem = styled(List.Item)`
 const StyledVisibilityTag = styled(Tag)`
   position: absolute;
   top: -9px;
-`;
-
-const StyledAvatar = styled(Avatar)`
-  margin: 0 5px;
 `;
 
 const InterviewGrid = (props) => {
@@ -210,16 +207,11 @@ const InterviewGrid = (props) => {
                   <Descriptions.Item label="Specialization">{specializationName}</Descriptions.Item>
                   <Descriptions.Item label="Job Title">{jobTitle}</Descriptions.Item>
                   <Descriptions.Item span={2}>{description}</Descriptions.Item>
+                  <Descriptions.Item span={2}>
+                    <AuthorBy author={clientAccount.name} avatarSrc="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A" />
+                  </Descriptions.Item>
+                  <Descriptions.Item span={2}><InterviewLike id={id} liked={liked} likeCount={likeCount} /></Descriptions.Item>
                 </Descriptions>
-                by
-                {' '}
-                <StyledAvatar
-                  src="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A"
-                >
-                  {clientAccount.name}
-                </StyledAvatar>
-                <span>{clientAccount.name}</span>
-                <InterviewLike id={id} liked={liked} likeCount={likeCount} />
               </StyledListItem>
             </Spin>
           </>

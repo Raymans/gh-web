@@ -1,9 +1,10 @@
 import React from 'react';
 import { LikeOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+import LoginPrompt from '../Login/LoginPrompt';
 
 
-const StyledLike = styled.div`
+const StyledLike = styled.span`
   width: 70px;
   padding: 10px 0;
   &.active {
@@ -19,10 +20,14 @@ const StyledLike = styled.div`
 `;
 
 const Like = ({ active, count, onClick = () => {} }) => (
-  <StyledLike className={active && 'active'} onClick={onClick}>
-    <LikeOutlined />
-    {` ${count}`}
-  </StyledLike>
+  <LoginPrompt>
+    {(isAuth) => (
+      <StyledLike className={active && 'active'} onClick={isAuth && onClick}>
+        <LikeOutlined />
+        {` ${count}`}
+      </StyledLike>
+    )}
+  </LoginPrompt>
 );
 Like.propTypes = {
 };
