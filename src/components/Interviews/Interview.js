@@ -188,7 +188,7 @@ const Interview = ({
                   >
                     <p>Start testing the Interview!!</p>
                     {
-                      (interviewSession?.duration !== -1 || interview.defaultDuration !== -1)
+                      (interviewSession?.duration > 0 || interview.defaultDuration > 0)
                       && <p>{`You will have ${interviewSession?.duration || interview.defaultDuration} minutes complete the interview.`}</p>
                     }
 

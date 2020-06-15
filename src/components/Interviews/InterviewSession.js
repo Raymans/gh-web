@@ -115,9 +115,7 @@ const InterviewSession = ({
           <Result
             status="success"
             title="Summit your interview result Successfully!"
-            extra={[
-              <Link to="/interviews">Let's go to Explore more Interview!</Link>,
-            ]}
+            extra={<Link to="/interviews">Let's go to Explore more Interview!</Link>}
           />
         )
       }
@@ -163,6 +161,7 @@ const InterviewSession = ({
                                       const answered = answerAttemptQuestionIds.includes(possibleAnswer.answerId);
                                       return (
                                         <StyledCheckbox
+                                          key={possibleAnswer.answerId}
                                           value={possibleAnswer.answerId}
                                           className={preview && viewResult && isOwner && (correctOption ? ' answer ' : '') + ((correctOption && answered) ? 'correct' : (!correctOption && !answered) || 'wrong')}
                                         >

@@ -10,6 +10,7 @@ import Headline from '../Article/Headline';
 import { calculateInterviewSession, getInterviewSession } from '../../utils/api';
 import { getUserInfo } from '../../utils/auth';
 import InterviewSession from '../Interviews/InterviewSession';
+import AuthorBy from '../AuthorBy';
 
 const { sub } = getUserInfo();
 
@@ -74,10 +75,9 @@ const TestedInterview = ({ sessionId }) => {
               <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
               <Descriptions.Item span={2}>{interview.description}</Descriptions.Item>
               <Descriptions.Item
-                label="Author"
                 span={2}
               >
-                {interview.clientUser.email}
+                <AuthorBy author={interview.clientUser.email} avatarSrc={interview.clientUser.avatar} />
               </Descriptions.Item>
             </Descriptions>
             {
@@ -93,7 +93,7 @@ const TestedInterview = ({ sessionId }) => {
                         sectionScore = Math.round(answerStats.MULTI_CHOICE.correct / answerStats.MULTI_CHOICE.questionTotal * 100);
                       }
                       return (
-                        <Col justify="center" style={{ 'text-align': 'center' }}>
+                        <Col key={section.id} justify="center" style={{ textAlign: 'center' }}>
                           <Statistic
                             value={11}
                             valueStyle={{ color: '#3f8600' }}

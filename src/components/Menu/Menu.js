@@ -147,9 +147,9 @@ const Menu = (props) => {
                         </span>
                       )}
                     >
+                      {renderItem({ to: '/testedInterviews', icon: <SettingOutlined />, label: 'Pass Interviews' })}
+                      {renderItem({ to: '/manageInterviews', icon: <SettingOutlined />, label: 'My Interviews' })}
                       {renderItem({ to: '/profile', icon: <SettingOutlined />, label: 'Profile' })}
-                      {renderItem({ to: '/testedInterviews', icon: <SettingOutlined />, label: 'Tested Interviews' })}
-                      {renderItem({ to: '/manageInterviews', icon: <SettingOutlined />, label: 'Manage Interview' })}
                       {renderItem({ to: '/setting', icon: <SettingOutlined />, label: 'Setting' })}
                       <AntMenu.Item onClick={() => logout()}>
                         <LogoutOutlined />
