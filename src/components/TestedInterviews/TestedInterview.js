@@ -23,11 +23,11 @@ const TestedInterview = ({ sessionId }) => {
   const [loading, setLoading] = useState(true);
   const [interview, setInterview] = useState({
     specialization: { name: '' },
-    clientAccount: { email: '' },
+    clientUser: { email: '' },
   });
   const [interviewSession, setInterviewSession] = useState({ candidateAccount: {} });
   const [calculating, setCalculating] = useState(false);
-  const isOwner = sub === interview.clientAccount.id;
+  const isOwner = sub === interview.clientUser.id;
 
   useEffect(() => {
     getInterviewSession(sessionId)
@@ -77,7 +77,7 @@ const TestedInterview = ({ sessionId }) => {
                 label="Author"
                 span={2}
               >
-                {interview.clientAccount.email}
+                {interview.clientUser.email}
               </Descriptions.Item>
             </Descriptions>
             {

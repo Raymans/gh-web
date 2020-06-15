@@ -22,7 +22,7 @@ const StyledLike = styled.span`
 const Like = ({ active, count, onClick = () => {} }) => (
   <LoginPrompt>
     {(isAuth) => (
-      <StyledLike className={active && 'active'} onClick={isAuth && onClick}>
+      <StyledLike className={active && 'active'} onClick={isAuth ? onClick : () => {}}>
         <LikeOutlined />
         {` ${count}`}
       </StyledLike>

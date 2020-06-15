@@ -8,6 +8,7 @@ import FilterSider from '../Sider/FilterSider';
 import { getQuestions } from '../../utils/api';
 import Headline from '../Article/Headline';
 import CardList from '../CardList';
+import { isAuthenticated } from '../../utils/auth';
 
 const StyledSearchFilter = styled.div`
     text-align: end;
@@ -78,12 +79,12 @@ const QuestionList = (props) => {
         && (
         <Headline>
           <span>Questions</span>
-          <Link to="/questions/create">Create</Link>
+          { isAuthenticated() && <Link to="/questions/create">Create</Link>}
         </Headline>
         )
       }
       <Layout>
-        <FilterSider onChange={handleChange} />
+        { isAuthenticated() && <FilterSider onChange={handleChange} />}
         <Layout.Content>
           <StyledSearchFilter>
             <Input.Search
@@ -101,12 +102,12 @@ const QuestionList = (props) => {
               const selectedClass = selectedQuestions.includes(item.id) ? 'selected' : '';
               return (
                 <StyledSelected
+                  key={item.id}
                   onClick={() => { onSelectQuestion(item); }}
                   className={selectedClass}
                 >
                   <QuestionGrid
-                    key={item.id}
-                    clientAccount={item.clientAccount}
+                    clientUser={item.clientUser}
                     {...item}
                     showActionButtons={!isModal}
                   />

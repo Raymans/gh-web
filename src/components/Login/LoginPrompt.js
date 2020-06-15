@@ -4,7 +4,7 @@ import { useLocation } from '@reach/router';
 import { isAuthenticated, login } from '../../utils/auth';
 
 
-const LoginPrompt = ({ children }) => {
+const LoginPrompt = ({ children, title }) => {
   const location = useLocation();
   const [isLoginPrompt, setIsLoginPrompt] = useState(false);
   const handleLoginPrompt = () => {
@@ -15,7 +15,7 @@ const LoginPrompt = ({ children }) => {
   return (
     <>
       <Modal
-        title="Login to Test Interview"
+        title={title || 'Login to continue'}
         visible={isLoginPrompt}
         onCancel={() => setIsLoginPrompt(false)}
         footer={[

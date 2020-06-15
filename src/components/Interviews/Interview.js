@@ -42,10 +42,10 @@ const Interview = ({
   const [isTestModalVisible, setIsTestModalVisible] = useState(false);
   const [interview, setInterview] = useState({
     specialization: { name: '' },
-    clientAccount: { email: '' },
+    clientUser: { email: '' },
   });
   const [interviewSession, setInterviewSession] = useState(null);
-  const isOwner = sub === interview.clientAccount.id;
+  const isOwner = sub === interview.clientUser.id;
   const handleTimesUp = () => {
     Modal.warning({
       title: 'Times Up',
@@ -166,16 +166,16 @@ const Interview = ({
               <Descriptions.Item
                 span={2}
               >
-                <AuthorBy author={interview.clientAccount.email} />
+                <AuthorBy author={interview.clientUser.nickname} avatarSrc={interview.clientUser.avatar} />
               </Descriptions.Item>
             </Descriptions>
             {
               !interviewSession && !isOwner
               && (
                 <>
-                  <LoginPrompt>
+                  <LoginPrompt title="Login to Test Interview">
                     {(isAuth) => (
-                      <Button type="primary" onClick={isAuth && handleOpenTestPrompt}>
+                      <Button type="primary" onClick={isAuth ? handleOpenTestPrompt : () => {}}>
                         Start Testing Interview
                       </Button>
                     )}

@@ -67,7 +67,7 @@ const InterviewSession = ({
   } = defaultInterviewSession, preview = false, viewResult = true, endSession = false, onEndInterviewSession = () => {
   },
 }) => {
-  const isOwner = sub === interview.clientAccount.id;
+  const isOwner = sub === interview.clientUser.id;
   const [isSubmitted, setIsSubmitted] = useState(!!interviewEndDate);
   const handleSubmitQuestionAttempt = (sectionId, questionId, values) => {
     if (preview) {

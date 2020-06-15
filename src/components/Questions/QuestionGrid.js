@@ -27,7 +27,7 @@ const StyledVisibilityTag = styled(Tag)`
 
 const QuestionGrid = (props) => {
   const {
-    id: questionId, possibleAnswers, clientAccount, question, showAuthor, visibility, showActionButtons, likeCount: likeCountProp, liked: likeProp,
+    id: questionId, possibleAnswers, clientUser, question, showAuthor, visibility, showActionButtons, likeCount: likeCountProp, liked: likeProp,
   } = props;
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -42,7 +42,7 @@ const QuestionGrid = (props) => {
     });
   };
   let updateActions = [];
-  if (showActionButtons && clientAccount.id === getUserInfo().sub) {
+  if (showActionButtons && clientUser.id === getUserInfo().sub) {
     updateActions = [
       [
         <Space>
@@ -95,7 +95,7 @@ const QuestionGrid = (props) => {
                     {
                       showAuthor
                       && (
-                        <AuthorBy author={clientAccount.name} avatarSrc="https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-1/p32x32/28782617_10155159912751319_8014460284062164976_n.jpg?_nc_cat=0&oh=f9ef27fcf0cdc8cd3d215c141afa75b2&oe=5BB64F0A" />
+                        <AuthorBy author={clientUser.nickname} avatarSrc={clientUser.avatar} />
                       )
                     }
                   </Descriptions.Item>

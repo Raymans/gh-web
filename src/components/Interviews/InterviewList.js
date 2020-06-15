@@ -1,7 +1,6 @@
-import { Avatar, Input, Layout, List, Tag } from 'antd';
+import { Input, Layout } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'gatsby-plugin-intl';
-import styled from 'styled-components';
 import { getInterviews } from '../../utils/api';
 
 import FilterSider from '../Sider/FilterSider';
@@ -9,6 +8,7 @@ import Headline from '../Article/Headline';
 import Specialization from '../Specialization';
 import CardList from '../CardList';
 import InterviewGrid from './InterviewGrid';
+import { isAuthenticated } from '../../utils/auth';
 
 const { Search } = Input;
 const { Content } = Layout;
@@ -52,13 +52,14 @@ const InterviewList = () => {
 
   return (
     <>
-      <Headline title="Interviews"><Link to="/interviews/create">Create</Link></Headline>
+      <Headline title="Interviews">
+        { isAuthenticated() && <Link to="/interviews/create">Create</Link>}
+      </Headline>
       {/* <GatsbyLink to={'/interviews/1/test'}>Test interview 1</GatsbyLink> */}
       <div className="form">
         <div>
           <Layout>
-            <FilterSider onChange={handleTabChange} />
-
+            { isAuthenticated() && <FilterSider onChange={handleTabChange} />}
             <Content>
               <Specialization onSelect={handleSpecSelect} />
 
@@ -78,7 +79,7 @@ const InterviewList = () => {
                     visibility={item.visibility}
                     title={item.title}
                     description={item.description}
-                    clientAccount={item.clientAccount}
+                    clientUser={item.clientUser}
                     jobTitle={item.jobTitle}
                     specialization={item.specialization}
                     likeCount={item.likeCount}
@@ -97,4 +98,3 @@ const InterviewList = () => {
 InterviewList.propTypes = {};
 
 export default InterviewList;
-
