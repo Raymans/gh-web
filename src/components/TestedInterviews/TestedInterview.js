@@ -55,9 +55,9 @@ const TestedInterview = ({ sessionId }) => {
           isOwner
           && (
             <Link
-              to={`/profiles/${interviewSession.candidateAccount.id}`}
+              to={`/profiles/${interviewSession.candidateUser.id}`}
             >
-              {interviewSession.candidateAccount.name}
+              {interviewSession.candidateUser.name}
             </Link>
           )
         }

@@ -280,7 +280,7 @@ const InterviewForm = ({ id }) => {
         }
       </Headline>
       <Layout>
-        <AnchorSilder anchors={anchorSections} />
+        {/* <AnchorSilder anchors={anchorSections} /> */}
         <Content>
           <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
             <Form {...inputLayout} onFinish={onFinish} form={form} scrollToFirstError>
@@ -368,6 +368,7 @@ const InterviewForm = ({ id }) => {
                     {sections.map((section, sectionIndex) => (
                       <div key={`section_${section.name}`}>
                         <h2 id={`section_${section.name}`}>
+                          <Button onClick={() => { removeSection(section.name); numberOfSection--; }}>Remove</Button>
                           Section
                           {' '}
                           <FormItem name={[sectionIndex, 'title']} noStyle>
@@ -382,12 +383,12 @@ const InterviewForm = ({ id }) => {
                             <StyledQuestionCircleOutlined />
                           </Tooltip>
                         </h2>
-
                         <Form.List name={[sectionIndex, 'questions']}>
                           {(questions, { add: addQuestion, remove: removeQuestion }) => (
                             <>
                               {questions.map((question, quesionIndex) => (
                                 <StyledQuestionSection key={question.name}>
+                                  <Button onClick={() => { removeQuestion(question.name); }}>Remove</Button>
                                   <QuestionForm id={`${question.name}`} form={form} />
                                 </StyledQuestionSection>
                               ))}
