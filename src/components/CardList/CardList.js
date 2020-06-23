@@ -10,15 +10,11 @@ const StyledList = styled(List)`
     font-size: 24px;
   }
   .ant-list-item{
-    padding: 22px;
+    padding: 22px 0 0 22px;
     margin: 22px 0;
     border: 1px solid #e8e8e8 !important;
+    border-top: 2px solid #1088ae !important;
     border-radius: 9px;
-  }
-  .ant-list-item:hover {
-    border-width: 3px !important;
-    transition: margin 0.3s, border-width 0.3s;
-    margin: 20px -2px;
   }
 `;
 

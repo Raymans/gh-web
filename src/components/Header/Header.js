@@ -20,6 +20,7 @@ const StyledHeader = styled.header`
       justify-content: space-between;
       transition: padding 0.5s;
       padding: 40px;
+      z-index: 100;
       &:not(.homepage) {
         h1, h2 {
           color: ${props => props.theme.text.color.primary};

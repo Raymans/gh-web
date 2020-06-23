@@ -60,6 +60,7 @@ const InterviewGrid = (props) => {
   const shareLink = `https://geekhub.tw/interviews/${id}`;
   const [sendings, setSendings] = useState({ sending: false });
   const [sharedEmails, setSharedEmails] = useState([]);
+  const [loadingSharedEmails, setLoadingSharedEmails] = useState(true);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [isShareModalVisible, setIsShareModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -78,9 +79,10 @@ const InterviewGrid = (props) => {
       <Button
         icon={<ShareAltOutlined />}
         onClick={() => {
+          setIsShareModalVisible(true);
           getInterviewSessions({ interviewId: id }).then(({ results = [] }) => {
             setSharedEmails(results.map((interviewSession) => interviewSession.userEmail));
-            setIsShareModalVisible(true);
+            setLoadingSharedEmails(false);
           });
         }}
       />
@@ -177,7 +179,7 @@ const InterviewGrid = (props) => {
                 </Form.Item>
               </Form>
 
-              {sharedEmails.map((sharedEmail) => (
+              {!loadingSharedEmails && sharedEmails.map((sharedEmail) => (
                 <StyleReSendRow key={sharedEmail}>
                   <span>{sharedEmail}</span>
                   <Button onClick={handleResendEmail.bind(this, sharedEmail)} loading={sendings[sharedEmail]}>ReSend</Button>

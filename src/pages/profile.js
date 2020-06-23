@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { graphql } from 'gatsby';
+import { Router } from '@reach/router';
 import Article from '../components/Article';
 import Headline from '../components/Article/Headline';
 import Seo from '../components/Seo';
@@ -24,7 +25,10 @@ const ProfilePage = (props) => {
             <span>Profile</span>
           </Headline>
         </header>
-        <Profile />
+        <Router basepath="/profile">
+          <Profile path="/:profileId" />
+        </Router>
+
       </Article>
       <Seo facebook={facebook} />
     </>

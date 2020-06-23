@@ -12,7 +12,7 @@ import LikedInterviews from '../Interviews/LikedInterviews';
 const StyledBasicProfileRow = styled(Row)`
 padding-bottom: 50px;
 `;
-const Profile = () => (
+const Profile = ({profileId}) => (
   <>
     {/* <AnchorSider anchors={[ */}
     {/*  { href: '#myinterview', title: 'My Interview' }, */}
@@ -30,7 +30,7 @@ const Profile = () => (
           <Descriptions.Item
             label={<MailOutlined />}
           >
-                raymanspeng@geekhub.tw
+            raymanspeng@geekhub.tw
           </Descriptions.Item>
           <Descriptions.Item label={<GithubOutlined />}><a href="https://github.com/Raymans?tab=stars" target="_blank">https://github.com/Raymans?tab=stars</a></Descriptions.Item>
           <Descriptions.Item label="Company">GeekHub.TW</Descriptions.Item>

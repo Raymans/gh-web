@@ -40,9 +40,9 @@ module.exports = {
   },
   plugins: [
     {
-      resolve: 'gatsby-plugin-layout',
+      resolve: 'gatsby-plugin-transition-link',
       options: {
-        component: require.resolve('./src/layouts/'),
+        layout: require.resolve('./src/layouts/'),
       },
     },
     {
@@ -169,7 +169,7 @@ module.exports = {
       resolve: 'gatsby-plugin-svgr',
     },
     // {
-    //   resolve: 'gatsby-plugin-create-client-paths',
+    //   resolve: 'gatsby-plugin-create-client-paths'
     //   options: { prefixes: ['/interviews/*', '/en/interviews/*', '/zh-tw/interviews/*'] },
     // },
     {

@@ -124,6 +124,13 @@ exports.onCreatePage = async ({ page, actions }) => {
     // Update the page.
     createPage(page);
   }
+  if (page.path.match(/^\/profile/)) {
+    // set client-only path pattern
+    page.matchPath = '/profile/*';
+
+    // Update the page.
+    createPage(page);
+  }
 };
 
 exports.createPages = ({ graphql, actions }) => {

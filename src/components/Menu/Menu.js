@@ -24,6 +24,7 @@ require('core-js/fn/array/from');
 const StyledAlignSpan = styled.span`
     display: flex;
     align-items: center;
+    font-weight: bold;
 `;
 
 const Menu = (props) => {
