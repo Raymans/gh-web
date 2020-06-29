@@ -26,7 +26,7 @@ const ProfilePage = (props) => {
           </Headline>
         </header>
         <Router basepath="/profile">
-          <Profile path="/:profileId" />
+          <Profile path="/:userId" />
         </Router>
 
       </Article>

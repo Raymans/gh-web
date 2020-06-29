@@ -136,7 +136,7 @@ const InterviewSession = ({
                             const correctAnswers = possibleAnswers.filter((possibleAnswer) => possibleAnswer.correctAnswer)
                               .map((possibleAnswer) => possibleAnswer.answerId);
                             const answerAttemptQuestionIds = !answerAttemptSections || !answerAttemptSections[sectionId] || !answerAttemptSections[sectionId].answerAttempts[questionId] ? [] : answerAttemptSections[sectionId].answerAttempts[questionId].answerIds;
-                            const valueProps = isSubmitted && (answerAttemptQuestionIds.length > 0 ? { value: answerAttemptQuestionIds } : { value: [] });
+                            const valueProps = !viewResult && isOwner ? { value: correctAnswers } : isSubmitted && (answerAttemptQuestionIds.length > 0 ? { value: answerAttemptQuestionIds } : { value: [] });
                             const correct = isOwner ? answerAttemptQuestionIds.length > 0 && answerAttemptQuestionIds.every((v) => correctAnswers.includes(v)) : answerAttemptSections[sectionId]?.answerAttempts[questionId]?.correct;
                             return (
                               <div key={questionId}>

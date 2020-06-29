@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Avatar, Button, Checkbox, Form, Input, message, Upload,
+  Avatar, Button, Checkbox, Form, Input, message, Spin, Upload,
 } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import {
   LoadingOutlined, PlusOutlined, UploadOutlined, UserOutlined,
 } from '@ant-design/icons';
 import styled from 'styled-components';
+import { getUserProfile, updateUserProfile } from '../../utils/api';
+import { getUserInfo } from '../../utils/auth';
 
 const FlexAvatarDiv = styled.div`
   display: flex;
@@ -38,11 +40,24 @@ function beforeUpload(file) {
 }
 
 const Setting = () => {
+  const [profile, setProfile] = useState({});
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [form] = Form.useForm();
   const [uploadImage, setUploadingImage] = useState({
     loading: false,
     imageUrl: 'https://avatars0.githubusercontent.com/u/5819635?s=400&u=28fed09b4c20e36c8dfa58063d3dedfa93bee04c&v=4',
   });
+
+  useEffect(() => {
+    getUserProfile(getUserInfo().sub).then((res) => {
+      form.setFieldsValue({
+        ...res,
+      });
+      // setProfile(res);
+      setLoading(false);
+    });
+  }, []);
 
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -51,8 +66,9 @@ const Setting = () => {
     return e && e.fileList;
   };
   const onFinish = (values) => {
-    setSaving(true);
     console.log(values);
+    // setSaving(true);
+    updateUserProfile(values);
   };
 
   const handleChange = (info) => {
@@ -79,87 +95,94 @@ const Setting = () => {
   );
   return (
     <>
-      <Form layout="vertical" onFinish={onFinish} scrollToFirstError>
-        <h2>Profile</h2>
-        <Form.Item
-          name="avatar"
-          label="Avatar"
-          valuePropName="fileList"
-          getValueFromEvent={normFile}
-        >
-          <Upload
+      <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
+        <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
+          <h2>Profile</h2>
+          <Form.Item
             name="avatar"
-            showUploadList={false}
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            beforeUpload={beforeUpload}
-            onChange={handleChange}
+            label="Avatar"
+            valuePropName="fileList"
+            getValueFromEvent={normFile}
           >
-            <FlexAvatarDiv>
-              {uploadImage.imageUrl
-                ? (
-                  <StyledAvatar
-                    size={150}
-                    src={uploadImage.imageUrl ? uploadImage.imageUrl : uploadButton}
-                  />
-                ) : <StyledAvatar size={150} icon={<UserOutlined />} />}
-              <Button>
-                <UploadOutlined />
-                {' Edit '}
-              </Button>
-            </FlexAvatarDiv>
-          </Upload>
-        </Form.Item>
-        <FormItem name="email" label="Email" rules={[{ type: 'email' }]} required>
-          <Input defaultValue="raymanspeng@geekhub.tw" />
-        </FormItem>
-        <FormItem name="github" label="GitHub username">
-          <Input defaultValue="raymans" />
-        </FormItem>
-        <FormItem name="company" label="Company">
-          <Input defaultValue="GeekHub.TW" />
-        </FormItem>
-        <br />
-        <Form.Item>
-          <Button type="primary" loading={saving} htmlType="submit">
+            <Upload
+              name="avatar"
+              showUploadList={false}
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              beforeUpload={beforeUpload}
+              onChange={handleChange}
+            >
+              <FlexAvatarDiv>
+                {uploadImage.imageUrl
+                  ? (
+                    <StyledAvatar
+                      size={150}
+                      src={uploadImage.imageUrl ? uploadImage.imageUrl : uploadButton}
+                    />
+                  ) : <StyledAvatar size={150} icon={<UserOutlined />} />}
+                <Button>
+                  <UploadOutlined />
+                  {' Edit '}
+                </Button>
+              </FlexAvatarDiv>
+            </Upload>
+          </Form.Item>
+          <FormItem name="email" label="Email" rules={[{ type: 'email' }]} required>
+            <Input />
+          </FormItem>
+          <FormItem name="github" label="GitHub username">
+            <Input />
+          </FormItem>
+          <FormItem name="linkedIn" label="LinkedIn">
+            <Input />
+          </FormItem>
+          <FormItem name="company" label="Company">
+            <Input />
+          </FormItem>
+          <FormItem name="note" label="Note">
+            <Input />
+          </FormItem>
+          <br />
+          <Form.Item>
+            <Button type="primary" loading={saving} htmlType="submit">
             Update Profile
-          </Button>
-        </Form.Item>
-        <br />
-      </Form>
-      <Form layout="vertical" onFinish={onFinish} scrollToFirstError>
-        <h2>Password</h2>
-        <FormItem name="oldPassword" label="Old password" rules={[{ required: true }]}>
-          <Input defaultValue="" />
-        </FormItem>
-        <FormItem name="newPassword" label="New password" required>
-          <Input defaultValue="" />
-        </FormItem>
-        <FormItem name="confirmPassword" label="Confirm new password" required>
-          <Input defaultValue="" />
-        </FormItem>
-        <br />
-        <Form.Item>
-          <Button type="primary" loading={saving} htmlType="submit">
+            </Button>
+          </Form.Item>
+          <br />
+        </Form>
+        <Form layout="vertical" onFinish={onFinish} scrollToFirstError>
+          <h2>Password</h2>
+          <FormItem name="oldPassword" label="Old password" rules={[{ required: true }]}>
+            <Input defaultValue="" />
+          </FormItem>
+          <FormItem name="newPassword" label="New password" required>
+            <Input defaultValue="" />
+          </FormItem>
+          <FormItem name="confirmPassword" label="Confirm new password" required>
+            <Input defaultValue="" />
+          </FormItem>
+          <br />
+          <Form.Item>
+            <Button type="primary" loading={saving} htmlType="submit">
             Update Password
-          </Button>
-        </Form.Item>
-        <br />
-      </Form>
-      <Form layout="vertical" onFinish={onFinish} scrollToFirstError>
-        <h2>Notification</h2>
-        <Checkbox>
-          {'Receives email Notification when a new candidate start testing your interviews'}
-        </Checkbox>
+            </Button>
+          </Form.Item>
+          <br />
+        </Form>
+        <Form layout="vertical" onFinish={onFinish} scrollToFirstError>
+          <h2>Notification</h2>
+          <Checkbox>
+            {'Receives email Notification when a new candidate start testing your interviews'}
+          </Checkbox>
 
-        <br />
-        <Form.Item>
-          <Button type="primary" loading={saving} htmlType="submit">
+          <br />
+          <Form.Item>
+            <Button type="primary" loading={saving} htmlType="submit">
             Update Notification
-          </Button>
-        </Form.Item>
-        <br />
-      </Form>
-
+            </Button>
+          </Form.Item>
+          <br />
+        </Form>
+      </Spin>
     </>
   );
 };

@@ -26,7 +26,7 @@ const TestedInterview = ({ sessionId }) => {
     specialization: { name: '' },
     clientUser: { email: '' },
   });
-  const [interviewSession, setInterviewSession] = useState({ candidateAccount: {} });
+  const [interviewSession, setInterviewSession] = useState({ candidateUser: {} });
   const [calculating, setCalculating] = useState(false);
   const isOwner = sub === interview.clientUser.id;
 

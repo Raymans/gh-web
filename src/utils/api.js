@@ -180,3 +180,20 @@ export async function getSpecializations(params) {
     params,
   });
 }
+
+export async function getUserProfile(userId = '') {
+  return request(`${config.ghServiceUrl}/api/users/${decodeURIComponent(userId)}`, {
+    method: 'GET',
+  });
+}
+
+export async function updateUserProfile({
+  email, name, nickname, companyName, linkedIn, github, note,
+}) {
+  return request(`${config.ghServiceUrl}/api/users/me`, {
+    method: 'POST',
+    data: {
+      email, name, nickname, companyName, linkedIn, github, note,
+    },
+  });
+}

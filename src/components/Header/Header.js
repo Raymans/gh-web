@@ -112,7 +112,8 @@ class Header extends React.Component {
     const fixed = this.state.fixed ? 'fixed' : '';
     const homepage = this.props.path === '/' ? 'homepage' : '';
 
-    return `${fixed} ${homepage}`;
+    //return `${fixed} ${homepage}`;
+    return `${homepage}`;
   };
 
   render(){

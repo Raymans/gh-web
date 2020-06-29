@@ -124,7 +124,7 @@ const Menu = (props) => {
     // }
   };
 
-  const { picture, nickname } = getUserInfo();
+  const { sub, picture, nickname } = getUserInfo();
   return (
     <>
       <StyledAlignSpan>
@@ -150,7 +150,7 @@ const Menu = (props) => {
                     >
                       {renderItem({ to: '/testedInterviews', icon: <SettingOutlined />, label: 'Pass Interviews' })}
                       {renderItem({ to: '/manageInterviews', icon: <SettingOutlined />, label: 'My Interviews' })}
-                      {renderItem({ to: '/profile', icon: <SettingOutlined />, label: 'Profile' })}
+                      {renderItem({ to: `/profile/${sub}`, icon: <SettingOutlined />, label: 'Profile' })}
                       {renderItem({ to: '/setting', icon: <SettingOutlined />, label: 'Setting' })}
                       <AntMenu.Item onClick={() => logout()}>
                         <LogoutOutlined />

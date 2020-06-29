@@ -9,8 +9,8 @@ import { getInterviewSessions } from '../../utils/api';
 const columns = [
   {
     title: 'Candidate',
-    dataIndex: 'candidateAccount',
-    render: (candidateAccount) => candidateAccount?.name,
+    dataIndex: 'candidateUser',
+    render: (candidateUser) => candidateUser?.name,
   },
   {
     title: 'Score',
