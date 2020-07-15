@@ -60,7 +60,7 @@ const Interview = ({
   const startInterviewS = (interviewS) => {
     let timeOfEnd = -1;
     setIsTesting(!interviewS.interviewEndDate);
-    if (!interviewS.interviewEndDate && interviewS.duration !== -1) {
+    if (!interviewS.interviewEndDate && interviewS.duration > 0) {
       timeOfEnd = moment(new Date(interviewS.interviewStartDate)).add(interviewS.duration, 'm');
       if (moment(Date.now()).isAfter(timeOfEnd)) {
         handleTimesUp();
@@ -152,7 +152,7 @@ const Interview = ({
         <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
           <Layout.Content>
             {
-              isTesting && interviewSession && interviewSession.duration !== -1
+              isTesting && interviewSession && interviewSession.duration > 0
               && <Countdown title="Remaining" value={deadline} format="HH:mm:ss" onFinish={handleTimesUp} />
             }
             <Descriptions column={2}>

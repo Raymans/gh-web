@@ -2,12 +2,12 @@ import {
   Button, Col, Descriptions, Layout, Progress, Row, Spin, Statistic,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { ArrowUpOutlined, LoadingOutlined } from '@ant-design/icons';
+import { ArrowDownOutlined, ArrowUpOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Link } from 'gatsby-plugin-intl';
 import styled from 'styled-components';
 import AnchorSilder from '../Sider/AnchorSider';
 import Headline from '../Article/Headline';
-import { calculateInterviewSession, getInterviewSession } from '../../utils/api';
+import { calculateInterviewSession, getAverageScore, getInterviewSession } from '../../utils/api';
 import { getUserInfo } from '../../utils/auth';
 import InterviewSession from '../Interviews/InterviewSession';
 import AuthorBy from '../AuthorBy';
@@ -20,6 +20,12 @@ const StyleTotalScoreCol = styled(Col)`
   margin-right: 35px;
 `;
 
+const StyledScoresRow = styled(Row)`
+  .ant-statistic-content-prefix{
+    font-size: 14px;
+  }
+`;
+
 const TestedInterview = ({ sessionId }) => {
   const [loading, setLoading] = useState(true);
   const [interview, setInterview] = useState({
@@ -27,6 +33,7 @@ const TestedInterview = ({ sessionId }) => {
     clientUser: { email: '' },
   });
   const [interviewSession, setInterviewSession] = useState({ candidateUser: {} });
+  const [averageScore, setAverageScore] = useState({ sectionsAverageScore: [{averageSectionScore: 0}] });
   const [calculating, setCalculating] = useState(false);
   const isOwner = sub === interview.clientUser.id;
 
@@ -36,6 +43,9 @@ const TestedInterview = ({ sessionId }) => {
         setInterviewSession(interviewS);
         setInterview(interviewS.interview);
         setLoading(false);
+        getAverageScore(sessionId).then((res) => {
+          setAverageScore({ scoreDiff: (interviewS.score - res.averageScore.averageScore) * 100, ...res });
+        });
       });
   }, []);
 
@@ -84,20 +94,22 @@ const TestedInterview = ({ sessionId }) => {
 
               !loading && interviewSession.status === 'ENDED' && interviewSession.answerAttemptSections
               && (
-                <Row gutter={[16, 32]}>
+                <StyledScoresRow gutter={[16, 32]}>
                   {
-                    interview.sections.map((section) => {
+                    interview.sections.map((section, index) => {
                       let sectionScore = 0;
+                      let sectionScoreDiff = 0;
                       if (interviewSession.answerAttemptSections[section.id]) {
                         const { answerStats } = interviewSession.answerAttemptSections[section.id];
                         sectionScore = Math.round(answerStats.MULTI_CHOICE.correct / answerStats.MULTI_CHOICE.questionTotal * 100);
                       }
+                      sectionScoreDiff = sectionScore - averageScore.sectionsAverageScore[index]?.averageSectionScore * 100;
                       return (
                         <Col key={section.id} justify="center" style={{ textAlign: 'center' }}>
                           <Statistic
-                            value={11}
-                            valueStyle={{ color: '#3f8600' }}
-                            prefix={<ArrowUpOutlined />}
+                            value={sectionScoreDiff}
+                            valueStyle={{ color: sectionScoreDiff === 0 ? '#2f9eba' : (sectionScoreDiff > 0 ? '#3f8600' : 'red') }}
+                            prefix={sectionScoreDiff === 0 ? '-' : (sectionScoreDiff > 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />)}
                           />
                           <Progress
                             type="circle"
@@ -113,9 +125,9 @@ const TestedInterview = ({ sessionId }) => {
                   }
                   <StyleTotalScoreCol justify="center">
                     <Statistic
-                      value={30}
-                      valueStyle={{ color: '#3f8600' }}
-                      prefix={<ArrowUpOutlined />}
+                      value={averageScore.scoreDiff}
+                      valueStyle={{ color: averageScore.scoreDiff === 0 ? '#2f9eba' : (averageScore.scoreDiff > 0 ? '#3f8600' : 'red') }}
+                      prefix={averageScore.scoreDiff === 0 ? '-' : (averageScore.scoreDiff > 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />)}
                     />
                     <Progress
                       type="circle"
@@ -124,7 +136,7 @@ const TestedInterview = ({ sessionId }) => {
                       status={interviewSession.score < 60 ? 'exception' : ''}
                     />
                   </StyleTotalScoreCol>
-                </Row>
+                </StyledScoresRow>
               )
             }
             {

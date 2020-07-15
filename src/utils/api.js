@@ -140,6 +140,12 @@ export async function calculateInterviewSession(id) {
   });
 }
 
+export async function getAverageScore(interviewSessionId) {
+  return request(`${config.ghServiceUrl}/api/interviewSessions/${interviewSessionId}/averageScore`, {
+    method: 'GET',
+  });
+}
+
 export async function sendInterviewSessionToCandidate(id) {
   return request(`${config.ghServiceUrl}/api/interviewSessions/${id}/send`, {
     method: 'POST',

@@ -61,6 +61,13 @@ const StyledCheckbox = styled(Checkbox)`
     border-bottom: ${(props) => `2px solid ${props.theme.color.brand.primary}`};
   }
 `;
+
+const StyledQuestionH2 = styled.h2`
+  display: flex;
+  span {
+    margin-left: auto;
+  }
+`;
 const InterviewSession = ({
   interviewSession: {
     id, interviewEndDate, interview, answerAttemptSections = null,
@@ -140,14 +147,14 @@ const InterviewSession = ({
                             const correct = isOwner ? answerAttemptQuestionIds.length > 0 && answerAttemptQuestionIds.every((v) => correctAnswers.includes(v)) : answerAttemptSections[sectionId]?.answerAttempts[questionId]?.correct;
                             return (
                               <div key={questionId}>
-                                <h2>
+                                <StyledQuestionH2>
                                   {`Q${questionIndex + 1}`}
                                   {
                                     preview && viewResult && (isOwner ? correctAnswers?.length > 0 : true) && (correct
                                       ? <CheckCircleTwoTone />
                                       : <CloseCircleTwoTone twoToneColor="red" />)
                                   }
-                                </h2>
+                                </StyledQuestionH2>
                                 <StyledQuestionBlock>
                                   <h3>{question.question}</h3>
                                   <Checkbox.Group
