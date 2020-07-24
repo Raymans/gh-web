@@ -143,7 +143,7 @@ const Interview = ({
 
   return (
     <>
-      <CustomBreadcrumb label={interview.title} location={location} />
+      <CustomBreadcrumb crumbs={[{ label: 'List Interviews', path: '/interviews' }, { label: interview.title, path: location.pathname }]} />
       <Headline title={interview.title}>
         <Tag icon={<SyncOutlined spin />} color="processing">
           Hiring

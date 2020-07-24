@@ -20,11 +20,6 @@ const ProfilePage = (props) => {
   return (
     <>
       <Article>
-        <header>
-          <Headline>
-            <span>Profile</span>
-          </Headline>
-        </header>
         <Router basepath="/profile">
           <Profile path="/:userId" />
         </Router>

@@ -18,6 +18,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, navigate } from 'gatsby-plugin-intl';
 import { createQuestion, getQuestion, updateQuestion } from '../../utils/api';
 import Headline from '../Article/Headline';
+import CustomBreadcrumb from '../CustomBreadcrumb';
 
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
@@ -170,6 +171,7 @@ const QuestionForm = (props) => {
 
     return (
       <>
+        <CustomBreadcrumb crumbs={[{ label: 'List Questions', path: '/questions' },  { label: isEditForm ? 'Question - edit' : 'Question - create', path: location.pathname }]} />
         <Headline title={isEditForm ? 'Question - Edit' : 'Question - Create'} />
         <Spin spinning={saving} indicator={antIcon}>
           <div className="form">

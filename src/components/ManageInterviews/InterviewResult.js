@@ -4,6 +4,7 @@ import {
 } from 'antd';
 import Headline from '../Article/Headline';
 import { getInterviews, getInterviewSessions } from '../../utils/api';
+import CustomBreadcrumb from '../CustomBreadcrumb';
 
 const columns = [
   {
@@ -52,6 +53,7 @@ const InterviewResult = () => {
   };
   return (
     <>
+      <CustomBreadcrumb crumbs={[{ label: 'Manage Interviews', path: '/manageInterviews' }]} />
       <Headline title="Manage Interviews" />
       <Collapse onChange={handleOpenMyInterviews}>
         {

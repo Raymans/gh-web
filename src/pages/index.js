@@ -39,7 +39,6 @@ class IndexPage extends React.Component {
     return (
       <>
         <div>
-          <CustomBreadcrumb location={this.props.location} label='Home' />
           <Hero backgrounds={backgrounds} />
           <Home backgrounds={backgrounds} />
         </div>

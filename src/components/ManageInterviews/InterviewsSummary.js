@@ -30,7 +30,7 @@ const columns = [
   },
 ];
 
-const InterviewsSummary = ({ headline = null }) => {
+const InterviewsSummary = ({ headline = null, breadcrumbs = null }) => {
   const [myInterviews, setMyInterviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [myInterviewsSessions, setMyInterviewsSessions] = useState({});
@@ -49,6 +49,7 @@ const InterviewsSummary = ({ headline = null }) => {
   }, []);
   return (
     <>
+      {breadcrumbs}
       {headline}
       <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
         <List

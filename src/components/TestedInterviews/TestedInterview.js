@@ -11,6 +11,7 @@ import { calculateInterviewSession, getAverageScore, getInterviewSession } from 
 import { getUserInfo } from '../../utils/auth';
 import InterviewSession from '../Interviews/InterviewSession';
 import AuthorBy from '../AuthorBy';
+import CustomBreadcrumb from '../CustomBreadcrumb';
 
 const { sub } = getUserInfo();
 
@@ -60,6 +61,7 @@ const TestedInterview = ({ sessionId }) => {
 
   return (
     <>
+      <CustomBreadcrumb crumbs={[{ label: 'Tested Interviews', path: '/testedInterviews' }, {label: interview.title, path: location.pathname}]} />
       <Headline title={interview.title}>
         {
           isOwner

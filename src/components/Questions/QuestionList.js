@@ -79,7 +79,7 @@ const QuestionList = (props) => {
         !isModal
         && (
           <>
-            <CustomBreadcrumb label="List Questions" location={location} />
+            <CustomBreadcrumb crumbs={[{ label: 'List Questions', path: '/questions' }]} />
             <Headline>
               <span>Questions</span>
               { isAuthenticated() && <Link to="/questions/create">Create</Link>}

@@ -5,6 +5,7 @@ import Moment from 'react-moment';
 import { LoadingOutlined } from '@ant-design/icons';
 import Headline from '../Article/Headline';
 import { getInterviewSessions } from '../../utils/api';
+import CustomBreadcrumb from '../CustomBreadcrumb';
 
 const columns = [
   {
@@ -78,6 +79,7 @@ const InterviewResults = ({ id, location }) => {
   }, []);
   return (
     <>
+      <CustomBreadcrumb crumbs={[{ label: 'Manage Interviews', path: '/manageInterviews' }, {label: location.state.interviewName, path: location.pathname}]} />
       <Headline title="Manage Interviews">
         <Link to={`/interviews/${id}`}>{location.state.interviewName}</Link>
       </Headline>

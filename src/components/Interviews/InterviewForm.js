@@ -31,6 +31,7 @@ import {
 import Headline from '../Article/Headline';
 import QuestionList from '../Questions/QuestionList';
 import QuestionForm from '../Questions/QuestionForm';
+import CustomBreadcrumb from '../CustomBreadcrumb';
 
 const {
   Content,
@@ -273,6 +274,7 @@ const InterviewForm = ({ id }) => {
           selectedQuestions={selectedQuestionIds}
         />
       </Modal>
+      <CustomBreadcrumb crumbs={[{ label: 'List Interviews', path: '/interviews' }, { label: isEditForm ? 'Interview - edit' : 'Interview - create', path: location.pathname }]} />
       <Headline title={isEditForm ? 'Interview - edit' : 'Interview - create'}>
         {
           publishedInterviewId

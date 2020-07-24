@@ -4,6 +4,7 @@ import InterviewsSummary from './InterviewsSummary';
 import InterviewResults from './InterviewResults';
 import InterviewResult from './InterviewResult';
 import Headline from '../Article/Headline';
+import CustomBreadcrumb from '../CustomBreadcrumb';
 
 const ManageInterviews = (props) => {
   const matchDefault = useMatch('/manageInterviews/*') ? '/manageInterviews' : '/:locale/manageInterviews';
@@ -11,7 +12,11 @@ const ManageInterviews = (props) => {
     <Router
       basepath={matchDefault}
     >
-      <InterviewsSummary path="/" headline={<Headline title="Manage Interviews" />} />
+      <InterviewsSummary
+        path="/"
+        breadcrumbs={<CustomBreadcrumb crumbs={[{ label: 'Manage Interviews', path: '/manageInterviews' }]} />}
+        headline={<Headline title="Manage Interviews" />}
+      />
       <InterviewResults path="/:id/" />
       <InterviewResult path="/:id/:interviewSession" />
     </Router>

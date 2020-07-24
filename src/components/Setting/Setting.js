@@ -9,6 +9,8 @@ import {
 import styled from 'styled-components';
 import { getUserProfile, updateUserProfile } from '../../utils/api';
 import { getUserInfo } from '../../utils/auth';
+import Headline from '../Article/Headline';
+import CustomBreadcrumb from '../CustomBreadcrumb';
 
 const FlexAvatarDiv = styled.div`
   display: flex;
@@ -95,6 +97,8 @@ const Setting = () => {
   );
   return (
     <>
+      <CustomBreadcrumb crumbs={[{ label: 'Setting', path: '/setting' }]} />
+      <Headline title="Setting" />
       <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
         <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
           <h2>Profile</h2>

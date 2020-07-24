@@ -10,13 +10,15 @@ import MyInterview from './MyInterview';
 import PassInterview from './PassInterview';
 import LikedInterviews from '../Interviews/LikedInterviews';
 import { getUserProfile } from '../../utils/api';
+import Headline from '../Article/Headline';
+import CustomBreadcrumb from '../CustomBreadcrumb';
 
 
 const StyledBasicProfileRow = styled(Row)`
 padding-bottom: 50px;
 `;
 const Profile = ({ userId }) => {
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState({ nickname: '' });
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     getUserProfile(userId).then((res) => {
@@ -26,6 +28,8 @@ const Profile = ({ userId }) => {
   }, []);
   return (
     <>
+      <CustomBreadcrumb crumbs={[{ label: `${profile.nickname}`, path: location.pathname }]} />
+      <Headline title={`Profile - ${profile.nickname}`} />
       <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
         <StyledBasicProfileRow align="middle">
           <Col span={8}>

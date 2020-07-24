@@ -53,11 +53,10 @@ const InterviewList = ({ location }) => {
 
   return (
     <>
-      <CustomBreadcrumb label="List Interviews" location={location} />
+      <CustomBreadcrumb crumbs={[{ label: 'List Interviews', path: '/interviews' }]} />
       <Headline title="Interviews">
         { isAuthenticated() && <Link to="/interviews/create">Create</Link>}
       </Headline>
-      <Headline title="Interviews"><Link to="/interviews/create">Create</Link></Headline>
       {/* <GatsbyLink to={'/interviews/1/test'}>Test interview 1</GatsbyLink> */}
       <div className="form">
         <div>

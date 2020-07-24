@@ -18,11 +18,6 @@ const SettingPage = (props) => {
   return (
     <>
       <Article>
-        <header>
-          <Headline>
-            <span>Setting</span>
-          </Headline>
-        </header>
         <Setting />
       </Article>
       <Seo facebook={facebook} />
