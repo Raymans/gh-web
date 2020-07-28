@@ -5,6 +5,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 const StyledList = styled(List)`
+  padding-top: 20px;
   .ant-list-item-meta-title{
     margin: 18px 0;
     font-size: 24px;

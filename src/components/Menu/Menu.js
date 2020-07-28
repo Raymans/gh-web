@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Avatar, Menu as AntMenu, Popover, Switch,
+  Avatar, Button, Menu as AntMenu, Popover, Switch, Drawer, Affix,
 } from 'antd';
 import { Link } from 'gatsby-plugin-intl';
 import styled, { ThemeContext } from 'styled-components';
@@ -9,7 +9,7 @@ import Icon, {
   EyeOutlined,
   HomeOutlined,
   LogoutOutlined,
-  MailOutlined,
+  MailOutlined, MenuFoldOutlined, MenuUnfoldOutlined,
   QuestionCircleOutlined,
   SettingOutlined,
   UserOutlined,
@@ -17,6 +17,7 @@ import Icon, {
 import {
   getUserInfo, isAuthenticated, login, logout,
 } from '../../utils/auth';
+import useLayout from '../../hooks/useLayout';
 
 
 require('core-js/fn/array/from');
@@ -30,6 +31,10 @@ const StyledAlignSpan = styled.span`
 const Menu = (props) => {
   const [current, setCurrent] = useState('Home');
   const { switchDark } = useContext(ThemeContext);
+  const [layout] = useLayout();
+  const { sub, picture, nickname } = getUserInfo();
+  const [menuVisible, setMenuVisible] = useState(false);
+
 
   const pages = props.pages.map((page) => ({
     to: page.node.fields.slug,
@@ -59,6 +64,7 @@ const Menu = (props) => {
 
   const handleClick = (e) => {
     setCurrent(e.key);
+    setMenuVisible(false);
   };
 
   const renderItem = (item) => (
@@ -124,78 +130,105 @@ const Menu = (props) => {
     // }
   };
 
-  const { sub, picture, nickname } = getUserInfo();
+  const showMenu = () => {
+    setMenuVisible(true);
+  };
+  const onClose = () => {
+    setMenuVisible(false);
+  };
+
+  const antdMenu = (
+    <AntMenu
+      selectedKeys={[current]}
+      onClick={handleClick}
+      mode={layout.screenWidth < 700 ? 'inline' : 'horizontal'}
+      style={{
+        borderBottom: 'none',
+        background: 'transparent',
+      }}
+    >
+      {
+        items.map((item, index) => {
+          if (item.label === 'Login') {
+            if (isAuthenticated()) {
+              return (
+                <AntMenu.SubMenu
+                  key={index}
+                  title={(
+                    <span>
+                      <Avatar src={picture} style={{ marginRight: '5px' }} />
+                      {nickname}
+                    </span>
+                  )}
+                >
+                  {renderItem({
+                    to: '/testedInterviews',
+                    icon: <SettingOutlined />,
+                    label: 'Pass Interviews',
+                  })}
+                  {renderItem({
+                    to: '/manageInterviews',
+                    icon: <SettingOutlined />,
+                    label: 'My Interviews',
+                  })}
+                  {renderItem({
+                    to: `/profile/${sub}`,
+                    icon: <SettingOutlined />,
+                    label: 'Profile',
+                  })}
+                  {renderItem({
+                    to: '/setting',
+                    icon: <SettingOutlined />,
+                    label: 'Setting',
+                  })}
+                  <AntMenu.Item onClick={() => logout()}>
+                    <LogoutOutlined />
+                    Login out
+                  </AntMenu.Item>
+                </AntMenu.SubMenu>
+              );
+            }
+            return (
+              <AntMenu.Item key={item.to} onClick={() => login()}>
+                {item.icon}
+                {item.label}
+              </AntMenu.Item>
+            );
+          }
+          if (!item.needAuth) {
+            if (item.subMenu) {
+              return renderSubMenu(item, index);
+            }
+            return renderItem(item);
+          }
+        })
+      }
+    </AntMenu>
+  );
   return (
     <>
-      <StyledAlignSpan>
-        <AntMenu
-          selectedKeys={[current]}
-          onClick={handleClick}
-          mode="horizontal"
-          style={{ borderBottom: 'none', background: 'transparent' }}
+      {layout.screenWidth < 700
+      && (
+      <>
+        <Affix offsetTop={20}>
+          <Button type="primary" onClick={showMenu}>
+            {React.createElement(menuVisible ? MenuFoldOutlined : MenuUnfoldOutlined)}
+          </Button>
+        </Affix>
+        <Drawer
+          placement="left"
+          closable={false}
+          onClose={onClose}
+          visible={menuVisible}
+          bodyStyle={{ padding: 0 }}
         >
-          {
-            items.map((item, index) => {
-              if (item.label === 'Login') {
-                if (isAuthenticated()) {
-                  return (
-                    <AntMenu.SubMenu
-                      key={index}
-                      title={(
-                        <span>
-                          <Avatar src={picture} style={{ marginRight: '5px' }} />
-                          {nickname}
-                        </span>
-                      )}
-                    >
-                      {renderItem({ to: '/testedInterviews', icon: <SettingOutlined />, label: 'Pass Interviews' })}
-                      {renderItem({ to: '/manageInterviews', icon: <SettingOutlined />, label: 'My Interviews' })}
-                      {renderItem({ to: `/profile/${sub}`, icon: <SettingOutlined />, label: 'Profile' })}
-                      {renderItem({ to: '/setting', icon: <SettingOutlined />, label: 'Setting' })}
-                      <AntMenu.Item onClick={() => logout()}>
-                        <LogoutOutlined />
-                        Login out
-                      </AntMenu.Item>
-                    </AntMenu.SubMenu>
-                  );
-                }
-                return (
-                  <AntMenu.Item key={item.to} onClick={() => login()}>
-                    {item.icon}
-                    {item.label}
-                  </AntMenu.Item>
-                );
-              }
-              if (!item.needAuth) {
-                if (item.subMenu) {
-                  return renderSubMenu(item, index);
-                }
-                return renderItem(item);
-              }
-            })
-          }
-        </AntMenu>
-        <Popover
-          content={(
-            <>
-              <Switch
-                checkedChildren="light"
-                unCheckedChildren="dark"
-                defaultChecked="light"
-                onChange={changeTheme}
-                size="medium"
-              />
-              <br />
-              <Link to="/">en</Link>
-              {' / '}
-              <Link to="/zh-tw" data-slug="/zh-tw">繁中</Link>
-            </>
-          )}
-          trigger="hover"
-        >
-          <SettingOutlined style={{ cursor: 'pointer' }} />
-        </Popover>
-      </StyledAlignSpan>
+          {antdMenu}
+        </Drawer>
+      </>
+      )}
+
+      {layout.screenWidth >= 700
+      && antdMenu}
     </>
   );
 };
