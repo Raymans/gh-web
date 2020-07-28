@@ -172,6 +172,31 @@ const Interview = ({
               </Descriptions.Item>
             </Descriptions>
             {
+              !isTesting
+              && (
+                <StyledInterviewGeekStatus>
+                  <Row gutter={16}>
+                    <Col span={12}>
+                      <Statistic
+                        title={<Badge status="processing" text="In Testing" />}
+                        value={11}
+                        prefix={<UserOutlined />}
+                        suffix=" geeks"
+                      />
+                    </Col>
+                    <Col span={12}>
+                      <Statistic
+                        title={<Badge status="success" text="Completed" />}
+                        value={93}
+                        prefix={<UserOutlined />}
+                        suffix=" geeks"
+                      />
+                    </Col>
+                  </Row>
+                </StyledInterviewGeekStatus>
+              )
+            }
+            {
               !interviewSession && !isOwner
               && (
                 <>
@@ -196,31 +221,6 @@ const Interview = ({
 
                   </Modal>
                 </>
-              )
-            }
-            {
-              !isTesting
-              && (
-                <StyledInterviewGeekStatus>
-                  <Row gutter={16}>
-                    <Col span={12}>
-                      <Statistic
-                        title={<Badge status="processing" text="In Testing" />}
-                        value={11}
-                        prefix={<UserOutlined />}
-                        suffix=" geeks"
-                      />
-                    </Col>
-                    <Col span={12}>
-                      <Statistic
-                        title={<Badge status="success" text="Completed" />}
-                        value={93}
-                        prefix={<UserOutlined />}
-                        suffix=" geeks"
-                      />
-                    </Col>
-                  </Row>
-                </StyledInterviewGeekStatus>
               )
             }
             {

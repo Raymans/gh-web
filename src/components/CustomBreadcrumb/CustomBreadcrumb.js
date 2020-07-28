@@ -4,7 +4,7 @@ import { Link } from 'gatsby-plugin-intl';
 import styled from 'styled-components';
 
 const StyledBreadcrumb = styled.div`
-  padding: 50px 0 0 20px;
+  padding: 30px 0 0 20px;
 `;
 const CustomBreadcrumb = ({
   crumbs = [{
@@ -21,15 +21,19 @@ const CustomBreadcrumb = ({
             Home
         </Link>
       </Breadcrumb.Item>
-      {crumbs.map((crumb) => (
-        <Breadcrumb.Item>
+      {crumbs.map((crumb, i) => ((crumbs.length === i + 1) ? (
+        <Breadcrumb.Item key={crumb.path}>
+          {crumb.label}
+        </Breadcrumb.Item>
+      ) : (
+        <Breadcrumb.Item key={crumb.path}>
           <Link
             to={crumb.path}
           >
             {crumb.label}
           </Link>
         </Breadcrumb.Item>
-      ))}
+      )))}
     </Breadcrumb>
   </StyledBreadcrumb>
 );
