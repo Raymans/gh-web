@@ -49,9 +49,8 @@ const QuestionGrid = (props) => {
           <Button size="small" shape="circle" icon={<EditOutlined />} onClick={() => { navigate(`questions/${questionId}/edit`); }} />
           <Button
             size="small"
-            danger
             shape="circle"
-            icon={<DeleteOutlined />}
+            icon={<DeleteOutlined style={{ color: 'lightcoral' }} />}
             onClick={() => setIsDeleteModalVisible(true)}
           />
         </Space>]];

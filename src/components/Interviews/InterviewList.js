@@ -1,5 +1,5 @@
 import { Input, Layout } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'gatsby-plugin-intl';
 import { getInterviews } from '../../utils/api';
 
@@ -10,6 +10,7 @@ import CardList from '../CardList';
 import InterviewGrid from './InterviewGrid';
 import { isAuthenticated } from '../../utils/auth';
 import CustomBreadcrumb from '../CustomBreadcrumb';
+import { StoreContext } from '../../context/ContextProvider';
 
 const { Search } = Input;
 const { Content } = Layout;
@@ -17,13 +18,14 @@ const { Content } = Layout;
 let filters = { keyword: '', pageSize: 10 };
 
 const InterviewList = ({ location }) => {
-  const [interviews, setInterviews] = useState([]);
+  const store = useContext(StoreContext);
+  // const [interviews, setInterviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState();
   const searchInterviews = ({ isAppend = false, showLoading = true, url } = {}) => {
     setLoading(showLoading);
     return getInterviews({ url, ...filters }).then((res) => {
-      setInterviews(isAppend ? interviews.concat(res.results) : res.results);
+      store.setInterviews(isAppend ? store.interviews.concat(res.results) : res.results);
       setNext(res.next);
       setLoading(false);
     });
@@ -73,7 +75,7 @@ const InterviewList = ({ location }) => {
               <CardList
                 loading={loading}
                 hasMore={!!next}
-                dataSource={interviews}
+                dataSource={store.interviews}
                 onLoadMore={handleLoadMore}
                 renderItem={(item) => (
                   <InterviewGrid

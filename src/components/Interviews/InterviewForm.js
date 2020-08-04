@@ -17,7 +17,12 @@ import Divider from 'antd/lib/divider';
 import FormItem from 'antd/lib/form/FormItem';
 import TextArea from 'antd/lib/input/TextArea';
 import { Link, navigate } from 'gatsby-plugin-intl';
-import { LoadingOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import {
+  LoadingOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
+  QuestionCircleOutlined,
+} from '@ant-design/icons';
 import AnchorSilder from '../Sider/AnchorSider';
 import transformSwitchValue from '../../utils/questionHelpers';
 import {
@@ -370,7 +375,9 @@ const InterviewForm = ({ id }) => {
                     {sections.map((section, sectionIndex) => (
                       <div key={`section_${section.name}`}>
                         <h2 id={`section_${section.name}`}>
-                          <Button onClick={() => { removeSection(section.name); numberOfSection--; }}>Remove</Button>
+                          <Tooltip title="remove Section">
+                            <MinusCircleOutlined style={{ color: 'lightcoral', padding: '0 10px' }} onClick={() => { removeSection(section.name); numberOfSection--; }} />
+                          </Tooltip>
                           Section
                           {' '}
                           <FormItem name={[sectionIndex, 'title']} noStyle>
@@ -390,7 +397,9 @@ const InterviewForm = ({ id }) => {
                             <>
                               {questions.map((question, quesionIndex) => (
                                 <StyledQuestionSection key={question.name}>
-                                  <Button onClick={() => { removeQuestion(question.name); }}>Remove</Button>
+                                  <Tooltip title="remove Question">
+                                    <MinusCircleOutlined style={{ color: 'lightcoral', padding: '0 10px' }} onClick={() => { removeQuestion(question.name); }} />
+                                  </Tooltip>
                                   <QuestionForm id={`${question.name}`} form={form} />
                                 </StyledQuestionSection>
                               ))}

@@ -12,4 +12,4 @@ const React = require('react');
 
 export const wrapRootElement = ({ element }) => (
   <StoreProvider>{element}</StoreProvider>
-);
+)
