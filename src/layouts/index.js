@@ -76,6 +76,7 @@ export const Layout = (props) => {
             {
               theme.dark && <link rel="stylesheet" type="text/css" href="https://ant.design/dark.css" />
             }
+            <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap" rel="stylesheet" />
             <FontLoadedContext.Provider value={layoutState.font400loaded}>
               <ScreenWidthContext.Provider value={layoutState.screenWidth}>
                 <>

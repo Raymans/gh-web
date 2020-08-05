@@ -30,7 +30,7 @@ const StyledRow = styled(Row)`
 `;
 const ImageSection = styled.section`
   height: 250px;
-  background-image: url(${(props) => props.backgrounds.bq});
+  background-image: url('https://dvokhk8ohqhd8.cloudfront.net/assets/landing/how-it-works/why-triplebyte-technical-skills-04301dc3de284da4beedc59823678befc78b07e4dd83fc302be64f3999dc748c.svg');
   background-size: cover;
 `;
 
@@ -39,8 +39,9 @@ const Home = (props) => {
   return (
     <>
       <Section>
-        <h1><p>LANGUAGES</p></h1>
-        <p>Try to explore any language you interest</p>
+        <h1><p>Practice Interviews</p></h1>
+        <p>Explore and exam REAL Interviews!!</p>
+        <p>__List Specializations and roles here.__</p>
         <StyledRow type="flex" justify="space-around">
           <Col span={6}>
             <FontAwesomeIcon icon={faHtml5} size="7x" color="#08c" />
@@ -55,7 +56,7 @@ const Home = (props) => {
             <p>NodeJs</p>
           </Col>
           <Col span={6}>
-            <FontAwesomeIcon icon={faJava} size="7x" color="#08c" spin />
+            <FontAwesomeIcon icon={faJava} size="7x" color="#08c" />
             <p>Java</p>
           </Col>
         </StyledRow>
@@ -63,11 +64,23 @@ const Home = (props) => {
       <Section>
         <StyledRow type="flex" justify="space-around">
           <Col span={12}>
-            <h1><p>Building questions</p></h1>
-            <p>Building your own questions for later use or share it</p>
+            <h1><p>Create your interviews</p></h1>
+            <p>Want to have your own interviews to let everyone see and test it? you can do that easily to build up your own questions for later use or share it</p>
+            <p>Keep your interview privately so you can share and decide who can see/test your interview</p>
           </Col>
           <Col span={12}>
             <ImageSection backgrounds={backgrounds} />
+          </Col>
+        </StyledRow>
+      </Section>
+      <Section>
+        <StyledRow type="flex" justify="space-around">
+          <Col span={12}>
+            <ImageSection backgrounds={backgrounds} />
+          </Col>
+          <Col span={12}>
+            <h1><p>Review candidate's results.</p></h1>
+            <p>You can easily see who tests your interview and review summary of each result in a very clear view.</p>
           </Col>
         </StyledRow>
       </Section>
