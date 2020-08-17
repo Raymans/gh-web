@@ -4,8 +4,8 @@ import {
 import React, { useEffect, useState } from 'react';
 import {
   ExclamationCircleOutlined,
+  FireOutlined,
   LoadingOutlined,
-  SyncOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import Countdown from 'antd/lib/statistic/Countdown';
@@ -145,7 +145,7 @@ const Interview = ({
     <>
       <CustomBreadcrumb crumbs={[{ label: 'List Interviews', path: '/interviews' }, { label: interview.title, path: location.pathname }]} />
       <Headline title={interview.title}>
-        <Tag icon={<SyncOutlined spin />} color="processing">
+        <Tag icon={<FireOutlined style={{ color: 'red' }} />}>
           Hiring
         </Tag>
       </Headline>

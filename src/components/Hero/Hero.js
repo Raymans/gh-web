@@ -54,7 +54,6 @@ const ParticlesWrapper = styled.div`
   top: 100px;
   left: 0;
   width: 100%;
-  height: 70%;
 `;
 const Hero = (props) => {
   const { backgrounds } = props;

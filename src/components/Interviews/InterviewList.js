@@ -15,44 +15,39 @@ import { StoreContext } from '../../context/ContextProvider';
 const { Search } = Input;
 const { Content } = Layout;
 
-let filters = { keyword: '', pageSize: 10 };
-
-const InterviewList = ({ location }) => {
-  const store = useContext(StoreContext);
+const InterviewList = () => {
+  const {
+    interviews, setInterviews, searchedInterviewCriteria, setSearchedInterviewCriteria,
+  } = useContext(StoreContext);
   // const [interviews, setInterviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState();
   const searchInterviews = ({ isAppend = false, showLoading = true, url } = {}) => {
     setLoading(showLoading);
-    return getInterviews({ url, ...filters }).then((res) => {
-      store.setInterviews(isAppend ? store.interviews.concat(res.results) : res.results);
+    return getInterviews({ url, ...searchedInterviewCriteria }).then((res) => {
+      setInterviews(isAppend ? interviews.concat(res.results) : res.results);
       setNext(res.next);
       setLoading(false);
     });
   };
 
-  useEffect(() => {
-    searchInterviews();
-    filters.pageSize = null;
-  }, []);
-
   const handleSpecSelect = (specialization) => {
-    filters = { ...filters, specialization };
-    searchInterviews();
+    setSearchedInterviewCriteria({ ...searchedInterviewCriteria, specialization });
   };
 
   const handleSearch = (keyword) => {
-    filters = { ...filters, keyword };
-    searchInterviews();
+    setSearchedInterviewCriteria({ ...searchedInterviewCriteria, keyword });
   };
 
   const handleTabChange = ({ target }) => {
-    filters = { ...filters, owner: target.value === 'mine' };
-    searchInterviews();
+    setSearchedInterviewCriteria({ ...searchedInterviewCriteria, owner: target.value === 'mine' });
   };
 
   const handleLoadMore = () => searchInterviews({ isAppend: true, showLoading: false, url: next });
 
+  useEffect(() => {
+    searchInterviews();
+  }, [searchedInterviewCriteria.keyword, searchedInterviewCriteria.sepcialization, searchedInterviewCriteria.owner]);
   return (
     <>
       <CustomBreadcrumb crumbs={[{ label: 'List Interviews', path: '/interviews' }]} />
@@ -63,19 +58,20 @@ const InterviewList = ({ location }) => {
       <div className="form">
         <div>
           <Layout>
-            { isAuthenticated() && <FilterSider onChange={handleTabChange} />}
+            { isAuthenticated() && <FilterSider onChange={handleTabChange} defaultOpenKeys={searchedInterviewCriteria.owner && 'mine'} />}
             <Content>
-              <Specialization onSelect={handleSpecSelect} />
+              <Specialization onSelect={handleSpecSelect} selected={searchedInterviewCriteria.specialization} />
 
               <Search
                 placeholder="search interview"
                 onSearch={handleSearch}
                 style={{ width: 200, float: 'right' }}
+                defaultValue={searchedInterviewCriteria.keyword}
               />
               <CardList
                 loading={loading}
                 hasMore={!!next}
-                dataSource={store.interviews}
+                dataSource={interviews}
                 onLoadMore={handleLoadMore}
                 renderItem={(item) => (
                   <InterviewGrid

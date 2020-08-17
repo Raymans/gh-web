@@ -10,7 +10,7 @@ const StyledRadioGroup = styled(Radio.Group)`
 const FilterSider = (props) => {
   const { onChange, defaultOpenKeys } = props;
   return (
-    <StyledRadioGroup defaultValue={defaultOpenKeys} buttonStyle="solid" onChange={onChange}>
+    <StyledRadioGroup defaultValue={defaultOpenKeys || 'explore'} buttonStyle="solid" onChange={onChange}>
       <Radio.Button value="explore">Explore</Radio.Button>
       <Radio.Button value="mine">Mine</Radio.Button>
     </StyledRadioGroup>
