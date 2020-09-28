@@ -6,7 +6,7 @@ import { StoreContext } from '../../context/ContextProvider';
 import useApi from '../../hooks/useApi';
 
 const Specialization = ({ onSelect, selected }) => {
-  const getSpecializations = useApi().getSpecializations();
+  const { getSpecializations } = useApi();
   const store = useContext(StoreContext);
   const { sp = '' } = queryString.parse(location.search);
   const { specializations, setSpecializations } = store;

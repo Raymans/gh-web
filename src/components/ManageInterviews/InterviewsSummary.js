@@ -31,12 +31,12 @@ const columns = [
 ];
 
 const InterviewsSummary = ({ headline = null, breadcrumbs = null }) => {
-  const getInterviews = useApi().getInterviews({ owner: true });
+  const { getInterviews } = useApi();
   const [myInterviews, setMyInterviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [myInterviewsSessions, setMyInterviewsSessions] = useState({});
   useEffect(() => {
-    getInterviews()
+    getInterviews({ owner: true })
       .then(({ results: myIvs }) => {
         setMyInterviews(myIvs);
         setLoading(false);

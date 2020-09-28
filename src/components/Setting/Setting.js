@@ -43,8 +43,7 @@ function beforeUpload(file) {
 
 const Setting = () => {
   const { user } = useAuth0();
-  const getUserProfile = useApi().getUserProfile(user?.sub);
-  const updateUserProfile = useApi().updateUserProfile();
+  const { getUserProfile, updateUserProfile } = useApi();
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -54,7 +53,7 @@ const Setting = () => {
     imageUrl: 'https://avatars0.githubusercontent.com/u/5819635?s=400&u=28fed09b4c20e36c8dfa58063d3dedfa93bee04c&v=4',
   });
   useEffect(() => {
-    getUserProfile().then((res) => {
+    getUserProfile(user?.sub).then((res) => {
       form.setFieldsValue({
         ...res,
       });

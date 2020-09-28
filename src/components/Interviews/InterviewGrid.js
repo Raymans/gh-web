@@ -52,10 +52,9 @@ const InterviewGrid = (props) => {
   const {
     id, title, description = '', specialization: { name: specializationName }, jobTitle, clientUser = {}, visibility, likeCount, liked,
   } = props;
-  const createInterviewSession = useApi().createInterviewSession();
-  const deleteInterview = useApi().deleteInterview(id);
-  const getInterviewSessions = useApi().getInterviewSessions({ interviewId: id });
-  const sendInterviewSessionToCandidate = useApi().sendInterviewSessionToCandidate({ id });
+  const {
+    createInterviewSession, deleteInterview, getInterviewSessions, sendInterviewSessionToCandidate,
+  } = useApi();
   const shareLink = `https://geekhub.tw/interviews/${id}`;
   const { user } = useAuth0();
   const [sendings, setSendings] = useState({ sending: false });
@@ -67,7 +66,7 @@ const InterviewGrid = (props) => {
   const [deleted, setDeleted] = useState(false);
   const handleDeleteInterview = () => {
     setSaving(true);
-    deleteInterview()
+    deleteInterview(id)
       .then(() => {
         setDeleted(true);
         message.success(`Interview has been deleted: ${title}`);
@@ -80,7 +79,7 @@ const InterviewGrid = (props) => {
         icon={<ShareAltOutlined />}
         onClick={() => {
           setIsShareModalVisible(true);
-          getInterviewSessions().then(({ results = [] }) => {
+          getInterviewSessions({ interviewId: id }).then(({ results = [] }) => {
             setSharedEmails(results.map((interviewSession) => interviewSession.userEmail));
             setLoadingSharedEmails(false);
           });
@@ -114,7 +113,7 @@ const InterviewGrid = (props) => {
   const handleResendEmail = (value) => {
     sendings[value] = true;
     setSendings({ ...sendings });
-    sendInterviewSessionToCandidate().then(() => {
+    sendInterviewSessionToCandidate({ id }).then(() => {
       if (!sharedEmails.includes(value)) {
         setSharedEmails([...sharedEmails, value]);
       }

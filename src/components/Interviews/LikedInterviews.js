@@ -6,11 +6,11 @@ import InterviewLike from '../Like/InterviewLike';
 import useApi from '../../hooks/useApi';
 
 const LikedInterviews = () => {
-  const getInterviews = useApi().getInterviews({ owner: true });
+  const { getInterviews } = useApi();
   const [likedInterviews, setLikeInterviews] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    getInterviews()
+    getInterviews({ owner: true })
       .then(({ results: myIvs }) => {
         setLikeInterviews(myIvs);
         setLoading(false);

@@ -3,13 +3,12 @@ import Like from './Like';
 import useApi from '../../hooks/useApi';
 
 const QuestionLike = ({ id, liked: likedProp, likeCount: likeCountProp }) => {
-  const likeQuestion = useApi().likeQuestion({ id });
-  const unlikeQuestion = useApi().unlikeQuestion({ id });
+  const { likeQuestion, unlikeQuestion } = useApi();
   const [liked, setLiked] = useState(likedProp);
   const [likeCount, setLikeCount] = useState(likeCountProp);
   const handleLikeQuestion = () => {
     const likeInteractiveFn = liked ? unlikeQuestion : likeQuestion;
-    likeInteractiveFn()
+    likeInteractiveFn({ id })
       .then((q) => {
         setLiked(!liked);
         setLikeCount(q.likeCount);

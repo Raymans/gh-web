@@ -18,11 +18,11 @@ const StyledBasicProfileRow = styled(Row)`
 padding-bottom: 50px;
 `;
 const Profile = ({ userId }) => {
-  const getUserProfile = useApi().getUserProfile(userId);
+  const { getUserProfile } = useApi();
   const [profile, setProfile] = useState({ nickname: '' });
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    getUserProfile().then((res) => {
+    getUserProfile(userId).then((res) => {
       setProfile(res);
       setLoading(false);
     });

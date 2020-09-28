@@ -31,7 +31,7 @@ const QuestionGrid = (props) => {
   const {
     id: questionId, possibleAnswers, clientUser, question, showAuthor, visibility, showActionButtons, likeCount: likeCountProp, liked: likeProp,
   } = props;
-  const deletedQuestionApi = useApi().deleteQuestion(questionId);
+  const { deleteQuestion: deletedQuestionApi } = useApi();
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deleted, setDeleted] = useState(false);
@@ -39,7 +39,7 @@ const QuestionGrid = (props) => {
   const [likeCount, setLikeCount] = useState(likeCountProp);
   const deleteQuestion = () => {
     setSaving(true);
-    deletedQuestionApi().then(() => {
+    deletedQuestionApi(questionId).then(() => {
       setDeleted(true);
       message.success(`Question has been deleted: ${question}`);
     });

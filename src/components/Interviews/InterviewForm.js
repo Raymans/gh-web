@@ -75,12 +75,9 @@ let isPublishAction = false;
 
 const InterviewForm = ({ id }) => {
   const isEditForm = !!id;
-  const createInterview = useApi().createInterview();
-  const getInterview = useApi().getInterview(id);
-  const getQuestions = useApi().getQuestions();
-  const getSpecializations = useApi().getSpecializations();
-  const updateInterview = useApi().updateInterview({ id });
-  const publishInterview = useApi().publishInterview({ id });
+  const {
+    createInterview, getInterview, getQuestions, getSpecializations, updateInterview, publishInterview,
+  } = useApi();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [jobTitle, setJobTitle] = useState('');
@@ -101,7 +98,7 @@ const InterviewForm = ({ id }) => {
       }));
     if (isEditForm) {
       setLoading(true);
-      getInterview()
+      getInterview(id)
         .then((data = { sections: [] }) => {
           data.visibility = data.visibility === 'PUBLIC';
           form.setFieldsValue({
@@ -149,7 +146,7 @@ const InterviewForm = ({ id }) => {
 
   const publish = (data) => {
     if (isPublishAction) {
-      return publishInterview().then((pi) => {
+      return publishInterview({ id: data.id }).then((pi) => {
         setPublishedInterviewId(pi.interview.publishedInterviewId);
       });
     }
@@ -164,7 +161,7 @@ const InterviewForm = ({ id }) => {
     ));
     values.visibility = !values.visibility || values.visibility === 'PRIVATE' ? 'PRIVATE' : 'PUBLIC';
     if (isEditForm) {
-      updateInterview(values).then(publish)
+      updateInterview({ id, params: values }).then(publish)
         .then(() => {
           afterSaving(isPublishAction ? 'Interview Published.' : 'Interview Saved.');
         }).catch((error) => {

@@ -4,15 +4,14 @@ import useApi from '../../hooks/useApi';
 
 
 const InterviewLike = ({ id, liked: likedProp, likeCount: likeCountProp }) => {
-  const likeInterview = useApi().likeInterview({ id });
-  const unlikeInterview = useApi().unlikeInterview({ id });
+  const { likeInterview, unlikeInterview } = useApi();
   const [liked, setLiked] = useState(likedProp);
   const [likeCount, setLikeCount] = useState(likeCountProp);
   const handleLikeInterview = () => {
     const likeInteractiveFn = liked ? unlikeInterview : likeInterview;
     setLikeCount(liked ? likeCount - 1 : likeCount + 1);
     setLiked(!liked);
-    likeInteractiveFn()
+    likeInteractiveFn({ id })
       .then((interview) => {
         setLikeCount(interview.likeCount);
       });

@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { createGlobalStyle } from 'styled-components';
-import { signup } from '../../utils/api';
+//import { signup } from '../../utils/api';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -82,16 +82,16 @@ const Register = (props) => {
   };
 
   function sendMessage(values) {
-    return signup({
-      firstName: 'Joe',
-      lastName: 'Lin',
-      ...values,
-    }).then((user) => {
-      console.log('Form submission success');
-    })
-      .catch((error) => {
-        console.error('Form submission error:', error);
-      });
+  //   return signup({
+  //     firstName: 'Joe',
+  //     lastName: 'Lin',
+  //     ...values,
+  //   }).then((user) => {
+  //     console.log('Form submission success');
+  //   })
+  //     .catch((error) => {
+  //       console.error('Form submission error:', error);
+  //     });
   }
 
   return (

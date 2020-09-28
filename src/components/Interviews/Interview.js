@@ -30,16 +30,9 @@ const Interview = ({
   const {
     user,
   } = useAuth0();
-  const createInterviewSession = useApi().createInterviewSession({
-    id,
-    email: user?.email,
-    name: user?.email.split('@')[0],
-  });
-  const getCurrentInterviewSession = useApi().getCurrentInterviewSession({ id });
-  const getInterview = useApi().getInterview(id);
-  const getInterviewSession = useApi().getInterviewSession(sessionId);
-  const getPublishedInterview = useApi().getPublishedInterview(publishedId);
-  const startInterviewSession = useApi().startInterviewSession({ id: sessionId });
+  const {
+    createInterviewSession, getCurrentInterviewSession, getInterview, getInterviewSession, getPublishedInterview, startInterviewSession,
+  } = useApi();
 
   const [isTesting, setIsTesting] = useState(false);
   const [deadline, setDeadline] = useState(0);
@@ -81,7 +74,7 @@ const Interview = ({
 
   useEffect(() => {
     if (publishedId) {
-      getPublishedInterview()
+      getPublishedInterview(publishedId)
         .then((pi) => {
           setInterview(pi.interview);
           setLoading(false);
@@ -89,7 +82,7 @@ const Interview = ({
       return;
     }
     if (sessionId) {
-      getInterviewSession()
+      getInterviewSession(sessionId)
         .then((interviewS) => {
           if (interviewS.interviewStartDate) {
             setInterview(interviewS.interview);
@@ -101,14 +94,14 @@ const Interview = ({
         });
       return;
     }
-    getCurrentInterviewSession()
+    getCurrentInterviewSession({ id })
       .then((is) => {
         setLoading(false);
         setInterview(is.interview);
         startInterviewS(is);
       })
       .catch(() => {
-        getInterview()
+        getInterview(id)
           .then((i) => {
             setLoading(false);
             setInterview(i);
@@ -119,15 +112,19 @@ const Interview = ({
   const startTest = () => {
     setIsTestModalVisible(false);
     if (sessionId) {
-      startInterviewSession()
+      startInterviewSession(sessionId)
         .then((interviewS) => {
           startInterviewS(interviewS);
         });
       return;
     }
-    createInterviewSession()
+    createInterviewSession({
+      id,
+      email: user?.email,
+      name: user?.email.split('@')[0],
+    })
       .then(({ id: createdSessionId }) => {
-        startInterviewSession({ url: useApi().getStartInterviewSessionUrl({ id: createdSessionId }) })
+        startInterviewSession(createdSessionId)
           .then((interviewS) => {
             startInterviewS(interviewS);
           });

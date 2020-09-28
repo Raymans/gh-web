@@ -1,177 +1,151 @@
-import qs from 'qs';
-import request from '../utils/request';
+import { useAuth0 } from '@auth0/auth0-react';
+import request1 from '../utils/request';
 import config from '../../content/meta/config';
 
+export default () => {
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const request = request1(isAuthenticated, getAccessTokenSilently);
 
-const getStartInterviewSessionUrl = ({ id }) => `${config.ghServiceUrl}/api/interviewSessions/${id}/start`;
+  return {
+    getUser: (params) => request(`${config.ghServiceUrl}/api/users`, {
+      method: 'GET',
+      data: params,
+    }),
+    getQuestions: ({ url = `${config.ghServiceUrl}/api/questions`, ...params } = {}) => request(`${url}`, {
+      method: 'GET',
+      params,
+    }).then((res) => (!res ? {} : res)),
 
-const getSpecializations = (params) => request(`${config.ghServiceUrl}/api/specializations`, {
-  method: 'GET',
-  params,
-});
+    getQuestion: ({ id }) => request(`${config.ghServiceUrl}/api/questions/${id}`, {
+      method: 'GET',
+    }),
 
-const getInterviews = ({ url = `${config.ghServiceUrl}/api/interviews` } = {}) => request(url, {
-  method: 'GET',
-});
+    createQuestion: ({ params }) => request(`${config.ghServiceUrl}/api/questions`, {
+      method: 'POST',
+      data: params,
+    }),
 
-const getUser = (params) => request(`${config.ghServiceUrl}/api/users`, {
-  method: 'GET',
-  data: params,
-});
+    updateQuestion: ({ id, params }) => request(`${config.ghServiceUrl}/api/questions/${id}`, {
+      method: 'POST',
+      data: params,
+    }),
 
-const getQuestions = ({ url = `${config.ghServiceUrl}/api/questions`, ...params } = {}) => request(`${url}`, {
-  method: 'GET',
-  params,
-});
+    deleteQuestion: (id) => request(`${config.ghServiceUrl}/api/questions/${id}`, {
+      method: 'DELETE',
+    }),
 
-const getQuestion = ({ id }) => request(`${config.ghServiceUrl}/api/questions/${id}`, {
-  method: 'GET',
-});
+    likeQuestion: ({ id }) => request(`${config.ghServiceUrl}/api/questions/${id}/like`, {
+      method: 'POST',
+    }),
 
-const createQuestion = () => request(`${config.ghServiceUrl}/api/questions`, {
-  method: 'POST',
-});
+    unlikeQuestion: ({ id }) => request(`${config.ghServiceUrl}/api/questions/${id}/unlike`, {
+      method: 'POST',
+    }),
 
-const updateQuestion = ({ id } = {}) => request(`${config.ghServiceUrl}/api/questions/${id}`, {
-  method: 'POST',
-});
+    createInterview: (params) => request(`${config.ghServiceUrl}/api/interviews`, {
+      method: 'POST',
+      data: params,
+    }),
 
-const deleteQuestion = (id) => request(`${config.ghServiceUrl}/api/questions/${id}`, {
-  method: 'DELETE',
-});
+    updateInterview: ({ params, id }) => request(`${config.ghServiceUrl}/api/interviews/${id}`, {
+      method: 'POST',
+      data: params,
+    }),
 
-const likeQuestion = ({ id }) => request(`${config.ghServiceUrl}/api/questions/${id}/like`, {
-  method: 'POST',
-});
+    publishInterview: ({ id }) => request(`${config.ghServiceUrl}/api/interviews/${id}/publish`, {
+      method: 'POST',
+    }),
 
-const unlikeQuestion = ({ id }) => request(`${config.ghServiceUrl}/api/questions/${id}/unlike`, {
-  method: 'POST',
-});
+    getInterviews: ({ url = `${config.ghServiceUrl}/api/interviews`, ...params }) => request(url, {
+      method: 'GET',
+      params,
+    }).then((res) => (!res ? {} : res)),
 
-const createInterview = () => request(`${config.ghServiceUrl}/api/interviews`, {
-  method: 'POST',
-});
+    getInterview: (id) => request(`${config.ghServiceUrl}/api/interviews/${id}`, {
+      method: 'GET',
+    }),
 
-const updateInterview = ({ id }) => request(`${config.ghServiceUrl}/api/interviews/${id}`, {
-  method: 'POST',
-});
+    getPublishedInterview: (id) => request(`${config.ghServiceUrl}/api/publishedInterviews/${id}`, {
+      method: 'GET',
+    }),
 
-const publishInterview = ({ id } = {}) => request(`${config.ghServiceUrl}/api/interviews/${id}/publish`, {
-  method: 'POST',
-});
+    deleteInterview: (id) => request(`${config.ghServiceUrl}/api/interviews/${id}`, {
+      method: 'DELETE',
+    }),
 
-const getInterview = (id) => request(`${config.ghServiceUrl}/api/interviews/${id}`, {
-  method: 'GET',
-});
+    likeInterview: ({ id }) => request(`${config.ghServiceUrl}/api/interviews/${id}/like`, {
+      method: 'POST',
+    }),
 
-const getPublishedInterview = (id) => request(`${config.ghServiceUrl}/api/publishedInterviews/${id}`, {
-  method: 'GET',
-});
+    unlikeInterview: ({ id }) => request(`${config.ghServiceUrl}/api/interviews/${id}/unlike`, {
+      method: 'POST',
+    }),
 
-const deleteInterview = (id) => request(`${config.ghServiceUrl}/api/interviews/${id}`, {
-  method: 'DELETE',
-});
+    createInterviewSession: ({
+      id: interviewId, email: userEmail, name, interviewMode = 'REAL', duration = -1,
+    }) => request(`${config.ghServiceUrl}/api/interviewSessions`, {
+      method: 'POST',
+      data: {
+        interviewId, userEmail, name, interviewMode, duration,
+      },
+    }),
 
-const likeInterview = ({ id }) => request(`${config.ghServiceUrl}/api/interviews/${id}/like`, {
-  method: 'POST',
-});
+    startInterviewSession: (id) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}/start`, {
+      method: 'POST',
+    }),
 
-const unlikeInterview = ({ id }) => request(`${config.ghServiceUrl}/api/interviews/${id}/unlike`, {
-  method: 'POST',
-});
+    submitInterviewSession: (id) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}/submit`, {
+      method: 'POST',
+    }),
 
-const createInterviewSession = ({
-  id: interviewId, email: userEmail, name, interviewMode = 'REAL', duration = -1,
-} = {}) => request(`${config.ghServiceUrl}/api/interviewSessions`, {
-  method: 'POST',
-  data: {
-    interviewId, userEmail, name, interviewMode, duration,
-  },
-});
+    calculateInterviewSession: (id) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}/calculateScore`, {
+      method: 'POST',
+    }),
 
-const startInterviewSession = ({ id }) => request(getStartInterviewSessionUrl({ id }), {
-  method: 'POST',
-});
+    getAverageScore: (interviewSessionId) => request(`${config.ghServiceUrl}/api/interviewSessions/${interviewSessionId}/averageScore`, {
+      method: 'GET',
+    }),
 
+    sendInterviewSessionToCandidate: ({ id }) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}/send`, {
+      method: 'POST',
+    }),
 
-const submitInterviewSession = (id) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}/submit`, {
-  method: 'POST',
-});
+    addAnswerToInterviewSession: ({
+      id, sectionId, questionId, answerId = [],
+    }) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}/answers`, {
+      method: 'POST',
+      data: { sectionId, questionSnapshotId: questionId, answerId },
+    }),
 
-const calculateInterviewSession = (id) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}/calculateScore`, {
-  method: 'POST',
-});
+    getCurrentInterviewSession: ({ id }) => request(`${config.ghServiceUrl}/api/interviews/${id}/interviewSession`, {
+      method: 'GET',
+    }),
 
-const getAverageScore = (interviewSessionId) => request(`${config.ghServiceUrl}/api/interviewSessions/${interviewSessionId}/averageScore`, {
-  method: 'GET',
-});
+    getInterviewSession: (id) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}`, {
+      method: 'GET',
+    }),
 
-const sendInterviewSessionToCandidate = ({ id }) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}/send`, {
-  method: 'POST',
-});
+    getInterviewSessions: ({ interviewId = '', owner = true } = {}) => request(`${config.ghServiceUrl}/api/interviewSessions`, {
+      method: 'GET',
+      params: { interviewId, owner },
+    }),
 
-const addAnswerToInterviewSession = ({
-  id,
-} = {}) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}/answers`, {
-  method: 'POST',
-});
+    getSpecializations: (params) => request(`${config.ghServiceUrl}/api/specializations`, {
+      method: 'GET',
+      params,
+    }),
 
-const getCurrentInterviewSession = ({ id }) => request(`${config.ghServiceUrl}/api/interviews/${id}/interviewSession`, {
-  method: 'GET',
-});
+    getUserProfile: (userId = '') => request(`${config.ghServiceUrl}/api/users/${decodeURIComponent(userId)}`, {
+      method: 'GET',
+    }),
 
-const getInterviewSession = (id) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}`, {
-  method: 'GET',
-});
-
-const getInterviewSessions = ({ interviewId = '', owner = true } = {}) => request(`${config.ghServiceUrl}/api/interviewSessions?${qs.stringify({ interviewId, owner })}`, {
-  method: 'GET',
-  data: { interviewId, owner },
-});
-
-const getUserProfile = (userId = '') => request(`${config.ghServiceUrl}/api/users/${decodeURIComponent(userId)}`, {
-  method: 'GET',
-});
-
-const updateUserProfile = ({
-  email, name, nickname, companyName, linkedIn, github, note,
-} = {}) => request(`${config.ghServiceUrl}/api/users/me`, {
-  method: 'POST',
-  data: {
-    email, name, nickname, companyName, linkedIn, github, note,
-  },
-});
-
-export default () => ({
-  getSpecializations,
-  getInterviews,
-  getQuestions,
-  getUser,
-  getUserProfile,
-  updateUserProfile,
-  getInterviewSession,
-  getInterviewSessions,
-  getQuestion,
-  createQuestion,
-  updateQuestion,
-  deleteQuestion,
-  likeQuestion,
-  unlikeQuestion,
-  createInterview,
-  updateInterview,
-  publishInterview,
-  getInterview,
-  getPublishedInterview,
-  deleteInterview,
-  likeInterview,
-  unlikeInterview,
-  createInterviewSession,
-  startInterviewSession,
-  submitInterviewSession,
-  calculateInterviewSession,
-  getAverageScore,
-  sendInterviewSessionToCandidate,
-  addAnswerToInterviewSession,
-  getCurrentInterviewSession,
-  getStartInterviewSessionUrl,
-});
+    updateUserProfile: ({
+      email, name, nickname, companyName, linkedIn, github, note,
+    }) => request(`${config.ghServiceUrl}/api/users/me`, {
+      method: 'POST',
+      data: {
+        email, name, nickname, companyName, linkedIn, github, note,
+      },
+    }),
+  };
+};

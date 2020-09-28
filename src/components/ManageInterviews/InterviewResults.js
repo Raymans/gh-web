@@ -65,7 +65,7 @@ const columns = [
 ];
 
 const InterviewResults = ({ id, location }) => {
-  const getInterviewSessions = useApi().getInterviewSessions();
+  const { getInterviewSessions } = useApi();
   const [myInterviewsSessions, setMyInterviewsSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -80,7 +80,7 @@ const InterviewResults = ({ id, location }) => {
   }, []);
   return (
     <>
-      <CustomBreadcrumb crumbs={[{ label: 'Manage Interviews', path: '/manageInterviews' }, {label: location.state.interviewName, path: location.pathname}]} />
+      <CustomBreadcrumb crumbs={[{ label: 'Manage Interviews', path: '/manageInterviews' }, { label: location.state.interviewName, path: location.pathname }]} />
       <Headline title="Manage Interviews">
         <Link to={`/interviews/${id}`}>{location.state.interviewName}</Link>
       </Headline>

@@ -74,8 +74,7 @@ const InterviewSession = ({
   const {
     user,
   } = useAuth0();
-  const addAnswerToInterviewSession = useApi().addAnswerToInterviewSession({ id });
-  const submitInterviewSession = useApi().submitInterviewSession(id);
+  const { addAnswerToInterviewSession, submitInterviewSession } = useApi();
   const isOwner = user?.sub === interview.clientUser.id;
   const [isSubmitted, setIsSubmitted] = useState(!!interviewEndDate);
   const handleSubmitQuestionAttempt = (sectionId, questionId, values) => {
@@ -83,7 +82,9 @@ const InterviewSession = ({
       return;
     }
 
-    addAnswerToInterviewSession({ sectionId, questionSnapshotId: questionId, answerId: values });
+    addAnswerToInterviewSession({
+      id, sectionId, questionSnapshotId: questionId, answerId: values,
+    });
   };
   const handleSubmitInterviewSession = () => {
     Modal.confirm({
@@ -91,7 +92,7 @@ const InterviewSession = ({
       icon: <ExclamationCircleOutlined />,
       content: 'Once you submit your result, you cannot change it anymore. Are you sure submit it now?',
       onOk() {
-        return submitInterviewSession()
+        return submitInterviewSession(id)
           .then(() => {
             setIsSubmitted(true);
             onEndInterviewSession();
@@ -104,7 +105,7 @@ const InterviewSession = ({
 
   useEffect(() => {
     if (endSession) {
-      submitInterviewSession()
+      submitInterviewSession(id)
         .then(() => {
           setIsSubmitted(true);
           onEndInterviewSession();

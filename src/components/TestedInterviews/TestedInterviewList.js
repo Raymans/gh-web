@@ -64,8 +64,8 @@ const columns = [
   },
 ];
 
-const TestedInterviewList = ({ headline = null,  breadcrumbs = null }) => {
-  const getInterviewSessions = useApi().getInterviewSessions();
+const TestedInterviewList = ({ headline = null, breadcrumbs = null }) => {
+  const { getInterviewSessions } = useApi();
   const [myInterviewsSessions, setMyInterviewsSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {

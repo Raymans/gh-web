@@ -26,9 +26,8 @@ function checkStatus(error) {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, options) {
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-  return async ({ url: overrideUrl = '', ...overrideParams } = {}) => {
+export default function request(isAuthenticated, getAccessTokenSilently) {
+  return async (url, options) => {
     const defaultOptions = {
       withCredentials: true,
     };
@@ -43,15 +42,10 @@ export default function request(url, options) {
     }
     const newOptions = { ...defaultOptions, ...options };
     if (
-      newOptions.method === 'GET'
-    ) {
-      newOptions.params = { ...newOptions.params, ...overrideParams };
-    } else if (
       newOptions.method === 'POST'
       || newOptions.method === 'PUT'
       || newOptions.method === 'DELETE'
     ) {
-      newOptions.data = { ...newOptions.data, ...overrideParams };
       if (!(newOptions.data instanceof FormData)) {
         newOptions.headers = {
           Accept: 'application/json',
@@ -75,7 +69,7 @@ export default function request(url, options) {
     //   overrideUrl || url, { ...newOptions, params: { ...overrideParams, ...newOptions.params } },
     // );
     return axios(
-      overrideUrl || url, newOptions,
+      url, newOptions,
     )
       .then((response) => {
         if (newOptions.method === 'DELETE' || response.status === 204) {

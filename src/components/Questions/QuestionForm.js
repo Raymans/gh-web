@@ -56,9 +56,7 @@ const QuestionForm = (props) => {
     id, form,
   } = props;
 
-  const createQuestion = useApi().createQuestion();
-  const getQuestion = useApi().getQuestion({ id });
-  const updateQuestion = useApi().updateQuestion({ id });
+  const { createQuestion, getQuestion, updateQuestion } = useApi();
 
   const formContent = (
     <>
@@ -145,16 +143,17 @@ const QuestionForm = (props) => {
         correctAnswer: !!possibleAnswer.correctAnswer,
       }));
       if (isEditForm) {
-        updateQuestion(
-          { possibleAnswers, ...values },
-        )
+        updateQuestion({
+          id,
+          params: { possibleAnswers, ...values },
+        })
           .then(() => {
             navigate('questions');
           });
       } else {
-        createQuestion(
-          { possibleAnswers, ...values },
-        )
+        createQuestion({
+          params: { possibleAnswers, ...values },
+        })
           .then(() => {
             navigate('/questions');
           });
@@ -164,7 +163,7 @@ const QuestionForm = (props) => {
     useEffect(() => {
       if (isEditForm) {
         setSaving(true);
-        getQuestion()
+        getQuestion({ id })
           .then((data) => {
             editForm.setFieldsValue({ ...data });
             setSaving(false);

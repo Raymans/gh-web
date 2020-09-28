@@ -30,12 +30,11 @@ const columns = [
 ];
 
 const InterviewResult = () => {
-  const getInterviews = useApi().getInterviews({ owner: true });
-  const getInterviewSessions = useApi().getInterviewSessions();
+  const { getInterviews, getInterviewSessions } = useApi();
   const [myInterviews, setMyInterviews] = useState([]);
   const [myInterviewsSessions, setMyInterviewsSessions] = useState({});
   useEffect(() => {
-    getInterviews()
+    getInterviews({ owner: true })
       .then(({ results: myIvs }) => {
         setMyInterviews(myIvs);
         myIvs.map((myIv) => {

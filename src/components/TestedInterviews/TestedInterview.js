@@ -29,9 +29,7 @@ const TestedInterview = ({ sessionId }) => {
   const {
     user,
   } = useAuth0();
-  const calculateInterviewSession = useApi().calculateInterviewSession(sessionId);
-  const getAverageScore = useApi().getAverageScore(sessionId);
-  const getInterviewSession = useApi().getInterviewSession(sessionId);
+  const { calculateInterviewSession, getAverageScore, getInterviewSession } = useApi();
   const [loading, setLoading] = useState(true);
   const [interview, setInterview] = useState({
     specialization: { name: '' },
@@ -43,12 +41,12 @@ const TestedInterview = ({ sessionId }) => {
   const isOwner = user?.sub === interview.clientUser.id;
 
   useEffect(() => {
-    getInterviewSession()
+    getInterviewSession(sessionId)
       .then((interviewS) => {
         setInterviewSession(interviewS);
         setInterview(interviewS.interview);
         setLoading(false);
-        getAverageScore().then((res) => {
+        getAverageScore(sessionId).then((res) => {
           setAverageScore({ scoreDiff: (interviewS.score - res.averageScore.averageScore) * 100, ...res });
         });
       });
@@ -56,7 +54,7 @@ const TestedInterview = ({ sessionId }) => {
 
   const handleCalculateScore = () => {
     setCalculating(true);
-    calculateInterviewSession()
+    calculateInterviewSession(sessionId)
       .then((is) => {
         setInterviewSession(is);
         setCalculating(false);

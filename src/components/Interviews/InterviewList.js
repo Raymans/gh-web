@@ -17,7 +17,7 @@ const { Content } = Layout;
 
 const InterviewList = () => {
   const { isAuthenticated } = useAuth0();
-  const getInterviews = useApi().getInterviews();
+  const { getInterviews } = useApi();
   const {
     interviews, setInterviews, searchedInterviewCriteria, setSearchedInterviewCriteria,
   } = useContext(StoreContext);
