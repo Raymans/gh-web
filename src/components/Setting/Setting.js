@@ -7,10 +7,10 @@ import {
   LoadingOutlined, PlusOutlined, UploadOutlined, UserOutlined,
 } from '@ant-design/icons';
 import styled from 'styled-components';
-import { getUserProfile, updateUserProfile } from '../../utils/api';
-import { getUserInfo } from '../../utils/auth';
+import { useAuth0 } from '@auth0/auth0-react';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
+import useApi from '../../hooks/useApi';
 
 const FlexAvatarDiv = styled.div`
   display: flex;
@@ -42,6 +42,9 @@ function beforeUpload(file) {
 }
 
 const Setting = () => {
+  const { user } = useAuth0();
+  const getUserProfile = useApi().getUserProfile(user?.sub);
+  const updateUserProfile = useApi().updateUserProfile();
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -50,9 +53,8 @@ const Setting = () => {
     loading: false,
     imageUrl: 'https://avatars0.githubusercontent.com/u/5819635?s=400&u=28fed09b4c20e36c8dfa58063d3dedfa93bee04c&v=4',
   });
-
   useEffect(() => {
-    getUserProfile(getUserInfo().sub).then((res) => {
+    getUserProfile().then((res) => {
       form.setFieldsValue({
         ...res,
       });

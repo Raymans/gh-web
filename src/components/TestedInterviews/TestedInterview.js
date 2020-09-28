@@ -5,15 +5,13 @@ import React, { useEffect, useState } from 'react';
 import { ArrowDownOutlined, ArrowUpOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Link } from 'gatsby-plugin-intl';
 import styled from 'styled-components';
+import { useAuth0 } from '@auth0/auth0-react';
 import AnchorSilder from '../Sider/AnchorSider';
 import Headline from '../Article/Headline';
-import { calculateInterviewSession, getAverageScore, getInterviewSession } from '../../utils/api';
-import { getUserInfo } from '../../utils/auth';
 import InterviewSession from '../Interviews/InterviewSession';
 import AuthorBy from '../AuthorBy';
 import CustomBreadcrumb from '../CustomBreadcrumb';
-
-const { sub } = getUserInfo();
+import useApi from '../../hooks/useApi';
 
 const StyleTotalScoreCol = styled(Col)`
   text-align: center;
@@ -28,23 +26,29 @@ const StyledScoresRow = styled(Row)`
 `;
 
 const TestedInterview = ({ sessionId }) => {
+  const {
+    user,
+  } = useAuth0();
+  const calculateInterviewSession = useApi().calculateInterviewSession(sessionId);
+  const getAverageScore = useApi().getAverageScore(sessionId);
+  const getInterviewSession = useApi().getInterviewSession(sessionId);
   const [loading, setLoading] = useState(true);
   const [interview, setInterview] = useState({
     specialization: { name: '' },
     clientUser: { email: '' },
   });
   const [interviewSession, setInterviewSession] = useState({ candidateUser: {} });
-  const [averageScore, setAverageScore] = useState({ sectionsAverageScore: [{averageSectionScore: 0}] });
+  const [averageScore, setAverageScore] = useState({ sectionsAverageScore: [{ averageSectionScore: 0 }] });
   const [calculating, setCalculating] = useState(false);
-  const isOwner = sub === interview.clientUser.id;
+  const isOwner = user?.sub === interview.clientUser.id;
 
   useEffect(() => {
-    getInterviewSession(sessionId)
+    getInterviewSession()
       .then((interviewS) => {
         setInterviewSession(interviewS);
         setInterview(interviewS.interview);
         setLoading(false);
-        getAverageScore(sessionId).then((res) => {
+        getAverageScore().then((res) => {
           setAverageScore({ scoreDiff: (interviewS.score - res.averageScore.averageScore) * 100, ...res });
         });
       });
@@ -52,7 +56,7 @@ const TestedInterview = ({ sessionId }) => {
 
   const handleCalculateScore = () => {
     setCalculating(true);
-    calculateInterviewSession(sessionId)
+    calculateInterviewSession()
       .then((is) => {
         setInterviewSession(is);
         setCalculating(false);
@@ -61,7 +65,7 @@ const TestedInterview = ({ sessionId }) => {
 
   return (
     <>
-      <CustomBreadcrumb crumbs={[{ label: 'Tested Interviews', path: '/testedInterviews' }, {label: interview.title, path: location.pathname}]} />
+      <CustomBreadcrumb crumbs={[{ label: 'Tested Interviews', path: '/testedInterviews' }, { label: interview.title, path: location.pathname }]} />
       <Headline title={interview.title}>
         {
           isOwner

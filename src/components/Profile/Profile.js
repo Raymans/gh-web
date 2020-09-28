@@ -9,19 +9,20 @@ import styled from 'styled-components';
 import MyInterview from './MyInterview';
 import PassInterview from './PassInterview';
 import LikedInterviews from '../Interviews/LikedInterviews';
-import { getUserProfile } from '../../utils/api';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
+import useApi from '../../hooks/useApi';
 
 
 const StyledBasicProfileRow = styled(Row)`
 padding-bottom: 50px;
 `;
 const Profile = ({ userId }) => {
+  const getUserProfile = useApi().getUserProfile(userId);
   const [profile, setProfile] = useState({ nickname: '' });
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    getUserProfile(userId).then((res) => {
+    getUserProfile().then((res) => {
       setProfile(res);
       setLoading(false);
     });

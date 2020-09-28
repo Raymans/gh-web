@@ -5,7 +5,7 @@ import {
 import { Link } from 'gatsby-plugin-intl';
 import { LoadingOutlined } from '@ant-design/icons';
 import Headline from '../Article/Headline';
-import { getInterviews } from '../../utils/api';
+import useApi from '../../hooks/useApi';
 
 const columns = [
   {
@@ -31,11 +31,12 @@ const columns = [
 ];
 
 const InterviewsSummary = ({ headline = null, breadcrumbs = null }) => {
+  const getInterviews = useApi().getInterviews({ owner: true });
   const [myInterviews, setMyInterviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [myInterviewsSessions, setMyInterviewsSessions] = useState({});
   useEffect(() => {
-    getInterviews({ owner: true })
+    getInterviews()
       .then(({ results: myIvs }) => {
         setMyInterviews(myIvs);
         setLoading(false);

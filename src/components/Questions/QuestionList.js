@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Input, Layout } from 'antd';
 import { Link } from 'gatsby-plugin-intl';
+import { useAuth0 } from '@auth0/auth0-react';
 import QuestionGrid from './QuestionGrid';
 import FilterSider from '../Sider/FilterSider';
-import { getQuestions } from '../../utils/api';
 import Headline from '../Article/Headline';
 import CardList from '../CardList';
-import { isAuthenticated } from '../../utils/auth';
 import CustomBreadcrumb from '../CustomBreadcrumb';
+import useApi from '../../hooks/useApi';
 
 const StyledSearchFilter = styled.div`
     text-align: end;
@@ -33,7 +33,11 @@ let filters = {
 };
 
 const QuestionList = (props) => {
-  const { isModal, onSelectQuestion, selectedQuestions = [], location } = props;
+  const { isAuthenticated } = useAuth0();
+  const getQuestions = useApi().getQuestions();
+  const {
+    isModal, onSelectQuestion, selectedQuestions = [], location,
+  } = props;
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState();
@@ -82,13 +86,13 @@ const QuestionList = (props) => {
             <CustomBreadcrumb crumbs={[{ label: 'List Questions', path: '/questions' }]} />
             <Headline>
               <span>Questions</span>
-              { isAuthenticated() && <Link to="/questions/create">Create</Link>}
+              { isAuthenticated && <Link to="/questions/create">Create</Link>}
             </Headline>
           </>
         )
       }
       <Layout>
-        { isAuthenticated() && <FilterSider onChange={handleChange} />}
+        { isAuthenticated && <FilterSider onChange={handleChange} />}
         <Layout.Content>
           <StyledSearchFilter>
             <Input.Search

@@ -6,11 +6,10 @@ import {
 import styled from 'styled-components';
 import { DeleteOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
 import { navigate } from 'gatsby-plugin-intl';
-import { deleteQuestion as deletedQuestionApi } from '../../utils/api';
-import { getUserInfo } from '../../utils/auth';
+import { useAuth0 } from '@auth0/auth0-react';
 import QuestionLike from '../Like/QuestionLike';
-import InterviewLike from '../Like/InterviewLike';
 import AuthorBy from '../AuthorBy';
+import useApi from '../../hooks/useApi';
 
 const StyledListItem = styled(List.Item)`
   .ant-list-item-extra{
@@ -27,8 +26,12 @@ const StyledVisibilityTag = styled(Tag)`
 
 const QuestionGrid = (props) => {
   const {
+    user,
+  } = useAuth0();
+  const {
     id: questionId, possibleAnswers, clientUser, question, showAuthor, visibility, showActionButtons, likeCount: likeCountProp, liked: likeProp,
   } = props;
+  const deletedQuestionApi = useApi().deleteQuestion(questionId);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deleted, setDeleted] = useState(false);
@@ -36,13 +39,13 @@ const QuestionGrid = (props) => {
   const [likeCount, setLikeCount] = useState(likeCountProp);
   const deleteQuestion = () => {
     setSaving(true);
-    deletedQuestionApi(questionId).then(() => {
+    deletedQuestionApi().then(() => {
       setDeleted(true);
       message.success(`Question has been deleted: ${question}`);
     });
   };
   let updateActions = [];
-  if (showActionButtons && clientUser.id === getUserInfo().sub) {
+  if (showActionButtons && clientUser.id === user?.sub) {
     updateActions = [
       [
         <Space>

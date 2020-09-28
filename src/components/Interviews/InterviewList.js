@@ -1,21 +1,23 @@
 import { Input, Layout } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'gatsby-plugin-intl';
-import { getInterviews } from '../../utils/api';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import FilterSider from '../Sider/FilterSider';
 import Headline from '../Article/Headline';
 import Specialization from '../Specialization';
 import CardList from '../CardList';
 import InterviewGrid from './InterviewGrid';
-import { isAuthenticated } from '../../utils/auth';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import { StoreContext } from '../../context/ContextProvider';
+import useApi from '../../hooks/useApi';
 
 const { Search } = Input;
 const { Content } = Layout;
 
 const InterviewList = () => {
+  const { isAuthenticated } = useAuth0();
+  const getInterviews = useApi().getInterviews();
   const {
     interviews, setInterviews, searchedInterviewCriteria, setSearchedInterviewCriteria,
   } = useContext(StoreContext);
@@ -47,18 +49,18 @@ const InterviewList = () => {
 
   useEffect(() => {
     searchInterviews();
-  }, [searchedInterviewCriteria.keyword, searchedInterviewCriteria.sepcialization, searchedInterviewCriteria.owner]);
+  }, [searchedInterviewCriteria.keyword, searchedInterviewCriteria.specialization, searchedInterviewCriteria.owner]);
   return (
     <>
       <CustomBreadcrumb crumbs={[{ label: 'List Interviews', path: '/interviews' }]} />
       <Headline title="Interviews">
-        { isAuthenticated() && <Link to="/interviews/create">Create</Link>}
+        { isAuthenticated && <Link to="/interviews/create">Create</Link>}
       </Headline>
       {/* <GatsbyLink to={'/interviews/1/test'}>Test interview 1</GatsbyLink> */}
       <div className="form">
         <div>
           <Layout>
-            { isAuthenticated() && <FilterSider onChange={handleTabChange} defaultOpenKeys={searchedInterviewCriteria.owner && 'mine'} />}
+            { isAuthenticated && <FilterSider onChange={handleTabChange} defaultOpenKeys={searchedInterviewCriteria.owner ? 'mine' : 'explore'} />}
             <Content>
               <Specialization onSelect={handleSpecSelect} selected={searchedInterviewCriteria.specialization} />
 

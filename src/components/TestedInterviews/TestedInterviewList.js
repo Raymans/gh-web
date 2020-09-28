@@ -3,8 +3,7 @@ import { Badge, Spin, Table } from 'antd';
 import { Link } from 'gatsby-plugin-intl';
 import Moment from 'react-moment';
 import { LoadingOutlined } from '@ant-design/icons';
-import { getInterviewSessions } from '../../utils/api';
-import Headline from '../Article/Headline';
+import useApi from '../../hooks/useApi';
 
 const columns = [
   {
@@ -66,6 +65,7 @@ const columns = [
 ];
 
 const TestedInterviewList = ({ headline = null,  breadcrumbs = null }) => {
+  const getInterviewSessions = useApi().getInterviewSessions();
   const [myInterviewsSessions, setMyInterviewsSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {

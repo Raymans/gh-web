@@ -2,10 +2,11 @@ import { Select } from 'antd';
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { getSpecializations } from '../../utils/api';
 import { StoreContext } from '../../context/ContextProvider';
+import useApi from '../../hooks/useApi';
 
 const Specialization = ({ onSelect, selected }) => {
+  const getSpecializations = useApi().getSpecializations();
   const store = useContext(StoreContext);
   const { sp = '' } = queryString.parse(location.search);
   const { specializations, setSpecializations } = store;

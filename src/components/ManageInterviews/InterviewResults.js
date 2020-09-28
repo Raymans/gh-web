@@ -4,8 +4,8 @@ import { Link } from 'gatsby-plugin-intl';
 import Moment from 'react-moment';
 import { LoadingOutlined } from '@ant-design/icons';
 import Headline from '../Article/Headline';
-import { getInterviewSessions } from '../../utils/api';
 import CustomBreadcrumb from '../CustomBreadcrumb';
+import useApi from '../../hooks/useApi';
 
 const columns = [
   {
@@ -65,6 +65,7 @@ const columns = [
 ];
 
 const InterviewResults = ({ id, location }) => {
+  const getInterviewSessions = useApi().getInterviewSessions();
   const [myInterviewsSessions, setMyInterviewsSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {

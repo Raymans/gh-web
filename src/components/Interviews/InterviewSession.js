@@ -10,11 +10,8 @@ import {
   ExclamationCircleOutlined,
 } from '@ant-design/icons';
 import { Link } from 'gatsby-plugin-intl';
-import { addAnswerToInterviewSession, submitInterviewSession } from '../../utils/api';
-import { getUserInfo } from '../../utils/auth';
-
-const { sub } = getUserInfo();
-
+import { useAuth0 } from '@auth0/auth0-react';
+import useApi from '../../hooks/useApi';
 
 const defaultInterviewSession = {
   id: '',
@@ -74,18 +71,19 @@ const InterviewSession = ({
   } = defaultInterviewSession, preview = false, viewResult = true, endSession = false, onEndInterviewSession = () => {
   },
 }) => {
-  const isOwner = sub === interview.clientUser.id;
+  const {
+    user,
+  } = useAuth0();
+  const addAnswerToInterviewSession = useApi().addAnswerToInterviewSession({ id });
+  const submitInterviewSession = useApi().submitInterviewSession(id);
+  const isOwner = user?.sub === interview.clientUser.id;
   const [isSubmitted, setIsSubmitted] = useState(!!interviewEndDate);
   const handleSubmitQuestionAttempt = (sectionId, questionId, values) => {
     if (preview) {
       return;
     }
-    addAnswerToInterviewSession({
-      id,
-      sectionId,
-      questionId,
-      answerId: values,
-    });
+
+    addAnswerToInterviewSession({ sectionId, questionSnapshotId: questionId, answerId: values });
   };
   const handleSubmitInterviewSession = () => {
     Modal.confirm({
@@ -93,7 +91,7 @@ const InterviewSession = ({
       icon: <ExclamationCircleOutlined />,
       content: 'Once you submit your result, you cannot change it anymore. Are you sure submit it now?',
       onOk() {
-        return submitInterviewSession(id)
+        return submitInterviewSession()
           .then(() => {
             setIsSubmitted(true);
             onEndInterviewSession();
@@ -106,7 +104,7 @@ const InterviewSession = ({
 
   useEffect(() => {
     if (endSession) {
-      submitInterviewSession(id)
+      submitInterviewSession()
         .then(() => {
           setIsSubmitted(true);
           onEndInterviewSession();

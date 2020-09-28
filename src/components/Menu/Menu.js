@@ -14,11 +14,8 @@ import Icon, {
   SettingOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import {
-  getUserInfo, isAuthenticated, login, logout,
-} from '../../utils/auth';
+import { useAuth0 } from '@auth0/auth0-react';
 import useLayout from '../../hooks/useLayout';
-
 
 require('core-js/fn/array/from');
 
@@ -29,10 +26,19 @@ const StyledAlignSpan = styled.span`
 `;
 
 const Menu = (props) => {
+  const {
+    isLoading,
+    isAuthenticated,
+    error,
+    user,
+    loginWithRedirect,
+    logout,
+  } = useAuth0();
+  console.log(user)
+
   const [current, setCurrent] = useState('Home');
   const { switchDark } = useContext(ThemeContext);
   const [layout] = useLayout();
-  const { sub, picture, nickname } = getUserInfo();
   const [menuVisible, setMenuVisible] = useState(false);
 
 
@@ -150,14 +156,14 @@ const Menu = (props) => {
       {
         items.map((item, index) => {
           if (item.label === 'Login') {
-            if (isAuthenticated()) {
+            if (isAuthenticated) {
               return (
                 <AntMenu.SubMenu
                   key={index}
                   title={(
                     <span>
-                      <Avatar src={picture} style={{ marginRight: '5px' }} />
-                      {nickname}
+                      <Avatar src={user.picture} style={{ marginRight: '5px' }} />
+                      {user.nickname}
                     </span>
                   )}
                 >
@@ -172,7 +178,7 @@ const Menu = (props) => {
                     label: 'My Interviews',
                   })}
                   {renderItem({
-                    to: `/profile/${sub}`,
+                    to: `/profile/${user.sub}`,
                     icon: <SettingOutlined />,
                     label: 'Profile',
                   })}
@@ -189,7 +195,7 @@ const Menu = (props) => {
               );
             }
             return (
-              <AntMenu.Item key={item.to} onClick={() => login()}>
+              <AntMenu.Item key={item.to} onClick={loginWithRedirect}>
                 {item.icon}
                 {item.label}
               </AntMenu.Item>

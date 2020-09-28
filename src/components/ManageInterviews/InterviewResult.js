@@ -3,8 +3,8 @@ import {
   Badge, Collapse, Progress, Table,
 } from 'antd';
 import Headline from '../Article/Headline';
-import { getInterviews, getInterviewSessions } from '../../utils/api';
 import CustomBreadcrumb from '../CustomBreadcrumb';
+import useApi from '../../hooks/useApi';
 
 const columns = [
   {
@@ -30,10 +30,12 @@ const columns = [
 ];
 
 const InterviewResult = () => {
+  const getInterviews = useApi().getInterviews({ owner: true });
+  const getInterviewSessions = useApi().getInterviewSessions();
   const [myInterviews, setMyInterviews] = useState([]);
   const [myInterviewsSessions, setMyInterviewsSessions] = useState({});
   useEffect(() => {
-    getInterviews({ owner: true })
+    getInterviews()
       .then(({ results: myIvs }) => {
         setMyInterviews(myIvs);
         myIvs.map((myIv) => {
@@ -46,7 +48,7 @@ const InterviewResult = () => {
       });
   }, []);
   const handleOpenMyInterviews = (interviewId) => {
-    getInterviewSessions(interviewId)
+    getInterviewSessions({ interviewId })
       .then(({ results: iss }) => {
         setMyInterviewsSessions({ ...myInterviewsSessions }[interviewId] = iss);
       });

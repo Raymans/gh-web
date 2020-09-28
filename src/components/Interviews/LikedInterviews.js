@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Descriptions, List, Spin } from 'antd';
 import { Link } from 'gatsby-plugin-intl';
 import { LoadingOutlined } from '@ant-design/icons';
-import { getInterviews } from '../../utils/api';
 import InterviewLike from '../Like/InterviewLike';
+import useApi from '../../hooks/useApi';
 
 const LikedInterviews = () => {
+  const getInterviews = useApi().getInterviews({ owner: true });
   const [likedInterviews, setLikeInterviews] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    getInterviews({ owner: true })
+    getInterviews()
       .then(({ results: myIvs }) => {
         setLikeInterviews(myIvs);
         setLoading(false);

@@ -11,23 +11,14 @@ import {
 import Countdown from 'antd/lib/statistic/Countdown';
 import styled from 'styled-components';
 import moment from 'moment';
+import { useAuth0 } from '@auth0/auth0-react';
 import AnchorSilder from '../Sider/AnchorSider';
 import Headline from '../Article/Headline';
-import {
-  createInterviewSession,
-  getCurrentInterviewSession,
-  getInterview,
-  getInterviewSession,
-  getPublishedInterview,
-  startInterviewSession,
-} from '../../utils/api';
-import { getUserInfo } from '../../utils/auth';
 import InterviewSession from './InterviewSession';
 import LoginPrompt from '../Login/LoginPrompt';
 import AuthorBy from '../AuthorBy';
 import CustomBreadcrumb from '../CustomBreadcrumb';
-
-const { sub, email } = getUserInfo();
+import useApi from '../../hooks/useApi';
 
 const StyledInterviewGeekStatus = styled.div`
   margin: 30px 0 20px;
@@ -36,6 +27,20 @@ const StyledInterviewGeekStatus = styled.div`
 const Interview = ({
   id, sessionId = '', publishedId = '',
 }) => {
+  const {
+    user,
+  } = useAuth0();
+  const createInterviewSession = useApi().createInterviewSession({
+    id,
+    email: user?.email,
+    name: user?.email.split('@')[0],
+  });
+  const getCurrentInterviewSession = useApi().getCurrentInterviewSession({ id });
+  const getInterview = useApi().getInterview(id);
+  const getInterviewSession = useApi().getInterviewSession(sessionId);
+  const getPublishedInterview = useApi().getPublishedInterview(publishedId);
+  const startInterviewSession = useApi().startInterviewSession({ id: sessionId });
+
   const [isTesting, setIsTesting] = useState(false);
   const [deadline, setDeadline] = useState(0);
   const [isTimeUp, setIsTimeUp] = useState(false);
@@ -46,7 +51,7 @@ const Interview = ({
     clientUser: { email: '' },
   });
   const [interviewSession, setInterviewSession] = useState(null);
-  const isOwner = sub === interview.clientUser.id;
+  const isOwner = user?.sub === interview.clientUser.id;
   const handleTimesUp = () => {
     Modal.warning({
       title: 'Times Up',
@@ -76,7 +81,7 @@ const Interview = ({
 
   useEffect(() => {
     if (publishedId) {
-      getPublishedInterview(publishedId)
+      getPublishedInterview()
         .then((pi) => {
           setInterview(pi.interview);
           setLoading(false);
@@ -84,7 +89,7 @@ const Interview = ({
       return;
     }
     if (sessionId) {
-      getInterviewSession(sessionId)
+      getInterviewSession()
         .then((interviewS) => {
           if (interviewS.interviewStartDate) {
             setInterview(interviewS.interview);
@@ -96,14 +101,14 @@ const Interview = ({
         });
       return;
     }
-    getCurrentInterviewSession({ id })
+    getCurrentInterviewSession()
       .then((is) => {
         setLoading(false);
         setInterview(is.interview);
         startInterviewS(is);
       })
       .catch(() => {
-        getInterview(id)
+        getInterview()
           .then((i) => {
             setLoading(false);
             setInterview(i);
@@ -114,19 +119,15 @@ const Interview = ({
   const startTest = () => {
     setIsTestModalVisible(false);
     if (sessionId) {
-      startInterviewSession(sessionId)
+      startInterviewSession()
         .then((interviewS) => {
           startInterviewS(interviewS);
         });
       return;
     }
-    createInterviewSession({
-      id,
-      email,
-      name: email.split('@')[0],
-    })
+    createInterviewSession()
       .then(({ id: createdSessionId }) => {
-        startInterviewSession(createdSessionId)
+        startInterviewSession({ url: useApi().getStartInterviewSessionUrl({ id: createdSessionId }) })
           .then((interviewS) => {
             startInterviewS(interviewS);
           });

@@ -21,15 +21,10 @@ import {
 import { Link, navigate } from 'gatsby-plugin-intl';
 import Search from 'antd/es/input/Search';
 import { CopyToClipboard } from 'react-copy-to-clipboard/lib/Component';
-import { getUserInfo } from '../../utils/auth';
-import {
-  createInterviewSession,
-  deleteInterview,
-  getInterviewSessions,
-  sendInterviewSessionToCandidate,
-} from '../../utils/api';
+import { useAuth0 } from '@auth0/auth0-react';
 import InterviewLike from '../Like/InterviewLike';
 import AuthorBy from '../AuthorBy';
+import useApi from '../../hooks/useApi';
 
 const StyleReSendRow = styled.div`
   display: flex;
@@ -57,7 +52,12 @@ const InterviewGrid = (props) => {
   const {
     id, title, description = '', specialization: { name: specializationName }, jobTitle, clientUser = {}, visibility, likeCount, liked,
   } = props;
+  const createInterviewSession = useApi().createInterviewSession();
+  const deleteInterview = useApi().deleteInterview(id);
+  const getInterviewSessions = useApi().getInterviewSessions({ interviewId: id });
+  const sendInterviewSessionToCandidate = useApi().sendInterviewSessionToCandidate({ id });
   const shareLink = `https://geekhub.tw/interviews/${id}`;
+  const { user } = useAuth0();
   const [sendings, setSendings] = useState({ sending: false });
   const [sharedEmails, setSharedEmails] = useState([]);
   const [loadingSharedEmails, setLoadingSharedEmails] = useState(true);
@@ -67,7 +67,7 @@ const InterviewGrid = (props) => {
   const [deleted, setDeleted] = useState(false);
   const handleDeleteInterview = () => {
     setSaving(true);
-    deleteInterview(id)
+    deleteInterview()
       .then(() => {
         setDeleted(true);
         message.success(`Interview has been deleted: ${title}`);
@@ -80,14 +80,14 @@ const InterviewGrid = (props) => {
         icon={<ShareAltOutlined />}
         onClick={() => {
           setIsShareModalVisible(true);
-          getInterviewSessions({ interviewId: id }).then(({ results = [] }) => {
+          getInterviewSessions().then(({ results = [] }) => {
             setSharedEmails(results.map((interviewSession) => interviewSession.userEmail));
             setLoadingSharedEmails(false);
           });
         }}
       />
       {
-        clientUser.id === getUserInfo().sub
+        clientUser.id === user?.sub
         && (
           <>
             <Button
@@ -114,7 +114,7 @@ const InterviewGrid = (props) => {
   const handleResendEmail = (value) => {
     sendings[value] = true;
     setSendings({ ...sendings });
-    sendInterviewSessionToCandidate(id).then(() => {
+    sendInterviewSessionToCandidate().then(() => {
       if (!sharedEmails.includes(value)) {
         setSharedEmails([...sharedEmails, value]);
       }
@@ -132,7 +132,7 @@ const InterviewGrid = (props) => {
       name: value.split('@')[0],
     })
       .then(({ id: interviewSessionId }) => {
-        sendInterviewSessionToCandidate(interviewSessionId).then(() => {
+        sendInterviewSessionToCandidate({ id: interviewSessionId }).then(() => {
           if (!sharedEmails.includes(value)) {
             setSharedEmails([...sharedEmails, value]);
           }
@@ -224,9 +224,6 @@ const InterviewGrid = (props) => {
 };
 
 InterviewGrid.propTypes = {
-  description: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
 };
 
 export default InterviewGrid;

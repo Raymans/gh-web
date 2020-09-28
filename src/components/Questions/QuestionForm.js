@@ -16,9 +16,9 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { Link, navigate } from 'gatsby-plugin-intl';
-import { createQuestion, getQuestion, updateQuestion } from '../../utils/api';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
+import useApi from '../../hooks/useApi';
 
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
@@ -55,6 +55,10 @@ const QuestionForm = (props) => {
   const {
     id, form,
   } = props;
+
+  const createQuestion = useApi().createQuestion();
+  const getQuestion = useApi().getQuestion({ id });
+  const updateQuestion = useApi().updateQuestion({ id });
 
   const formContent = (
     <>
@@ -141,17 +145,16 @@ const QuestionForm = (props) => {
         correctAnswer: !!possibleAnswer.correctAnswer,
       }));
       if (isEditForm) {
-        updateQuestion({
-          id,
-          params: { possibleAnswers, ...values },
-        })
+        updateQuestion(
+          { possibleAnswers, ...values },
+        )
           .then(() => {
             navigate('questions');
           });
       } else {
-        createQuestion({
-          params: { possibleAnswers, ...values },
-        })
+        createQuestion(
+          { possibleAnswers, ...values },
+        )
           .then(() => {
             navigate('/questions');
           });
@@ -161,7 +164,7 @@ const QuestionForm = (props) => {
     useEffect(() => {
       if (isEditForm) {
         setSaving(true);
-        getQuestion({ id })
+        getQuestion()
           .then((data) => {
             editForm.setFieldsValue({ ...data });
             setSaving(false);
@@ -171,7 +174,7 @@ const QuestionForm = (props) => {
 
     return (
       <>
-        <CustomBreadcrumb crumbs={[{ label: 'List Questions', path: '/questions' },  { label: isEditForm ? 'Question - edit' : 'Question - create', path: location.pathname }]} />
+        <CustomBreadcrumb crumbs={[{ label: 'List Questions', path: '/questions' }, { label: isEditForm ? 'Question - edit' : 'Question - create', path: location.pathname }]} />
         <Headline title={isEditForm ? 'Question - Edit' : 'Question - Create'} />
         <Spin spinning={saving} indicator={antIcon}>
           <div className="form">

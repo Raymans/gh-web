@@ -25,18 +25,11 @@ import {
 } from '@ant-design/icons';
 import AnchorSilder from '../Sider/AnchorSider';
 import transformSwitchValue from '../../utils/questionHelpers';
-import {
-  createInterview,
-  getInterview,
-  getQuestions,
-  getSpecializations,
-  updateInterview,
-  publishInterview,
-} from '../../utils/api';
 import Headline from '../Article/Headline';
 import QuestionList from '../Questions/QuestionList';
 import QuestionForm from '../Questions/QuestionForm';
 import CustomBreadcrumb from '../CustomBreadcrumb';
+import useApi from '../../hooks/useApi';
 
 const {
   Content,
@@ -82,6 +75,12 @@ let isPublishAction = false;
 
 const InterviewForm = ({ id }) => {
   const isEditForm = !!id;
+  const createInterview = useApi().createInterview();
+  const getInterview = useApi().getInterview(id);
+  const getQuestions = useApi().getQuestions();
+  const getSpecializations = useApi().getSpecializations();
+  const updateInterview = useApi().updateInterview({ id });
+  const publishInterview = useApi().publishInterview({ id });
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [jobTitle, setJobTitle] = useState('');
@@ -102,7 +101,7 @@ const InterviewForm = ({ id }) => {
       }));
     if (isEditForm) {
       setLoading(true);
-      getInterview(id)
+      getInterview()
         .then((data = { sections: [] }) => {
           data.visibility = data.visibility === 'PUBLIC';
           form.setFieldsValue({
@@ -150,7 +149,7 @@ const InterviewForm = ({ id }) => {
 
   const publish = (data) => {
     if (isPublishAction) {
-      return publishInterview({ id: data.id }).then((pi) => {
+      return publishInterview().then((pi) => {
         setPublishedInterviewId(pi.interview.publishedInterviewId);
       });
     }
@@ -165,10 +164,7 @@ const InterviewForm = ({ id }) => {
     ));
     values.visibility = !values.visibility || values.visibility === 'PRIVATE' ? 'PRIVATE' : 'PUBLIC';
     if (isEditForm) {
-      updateInterview({
-        params: values,
-        id,
-      }).then(publish)
+      updateInterview(values).then(publish)
         .then(() => {
           afterSaving(isPublishAction ? 'Interview Published.' : 'Interview Saved.');
         }).catch((error) => {
@@ -201,7 +197,7 @@ const InterviewForm = ({ id }) => {
 
   const onOpenSelectQuestionModal = (sectionIndex) => {
     sectionIndexOfAddingQuestion = sectionIndex;
-    getQuestions({})
+    getQuestions()
       .then((data) => {
         setQuestionList(data.results);
         setIsSelectedQuestionVisible(true);

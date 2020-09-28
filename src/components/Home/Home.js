@@ -156,7 +156,7 @@ const Home = (props) => {
         <h1><p>Top engineering roles come to you</p></h1>
         <p>450+ top tech companies hire for their best engineering teams from GeekHub. Teams reach out to you so you will never miss those hot opportunities!</p>
         <StyledRow type="flex" justify="space-around">
-          <div style={{ 'max-width': '1000px' }}>
+          <div style={{ maxWidth: '1000px' }}>
             <img
               className=" lazyloaded"
               data-src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/adobe-301888a5fa8af639f440f58c91bbc034083406d44a9ef03b4cc54f08d43a1310.svg"

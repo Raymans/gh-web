@@ -7,7 +7,6 @@ import { Button, Checkbox, Input } from 'antd';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { login } from '../../utils/api';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -38,12 +37,12 @@ const Login = (props) => {
   };
 
   function sendMessage(values) {
-    return login(values).then((user) => {
-      console.log('Form submission success', user);
-      //
-    }).catch((error) => {
-      console.error('Form submission error:', error);
-    });
+    // return login(values).then((user) => {
+    //   console.log('Form submission success', user);
+    //   //
+    // }).catch((error) => {
+    //   console.error('Form submission error:', error);
+    // });
   }
 
   return (
