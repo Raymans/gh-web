@@ -22,8 +22,9 @@ export const wrapRootElement = ({ element }) => (
     responseType="token id_token"
     scope="openid profile email"
     // state= redirectUrl
+    useRefreshTokens="true"
+    cacheLocation="localstorage"
   >
     <StoreProvider>{element}</StoreProvider>
   </Auth0Provider>
-
 );

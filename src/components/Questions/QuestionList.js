@@ -34,7 +34,7 @@ let filters = {
 
 const QuestionList = (props) => {
   const { isAuthenticated } = useAuth0();
-  const getQuestions = useApi().getQuestions();
+  const { getQuestions } = useApi();
   const {
     isModal, onSelectQuestion, selectedQuestions = [], location,
   } = props;
