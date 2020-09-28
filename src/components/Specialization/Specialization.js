@@ -8,12 +8,12 @@ import useApi from '../../hooks/useApi';
 const Specialization = ({ onSelect, selected }) => {
   const { getSpecializations } = useApi();
   const store = useContext(StoreContext);
-  const { sp = '' } = queryString.parse(location.search);
   const { specializations, setSpecializations } = store;
   const selectedValueProp = selected ? { value: selected } : '';
 
   useEffect(() => {
     getSpecializations().then(((data = []) => {
+      const { sp = '' } = queryString.parse(location.search);
       const value = data.find((s) => s.name === sp);
       setSpecializations(data);
       onSelect(value ? value.id : selected);
