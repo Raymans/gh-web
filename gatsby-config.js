@@ -91,7 +91,6 @@ module.exports = {
         ],
       },
     },
-    // 'gatsby-plugin-typescript',
     {
       resolve: 'gatsby-plugin-breadcrumb',
       options: {
