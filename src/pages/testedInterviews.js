@@ -3,7 +3,6 @@ import React from 'react';
 
 import { graphql } from 'gatsby';
 import Article from '../components/Article';
-import Seo from '../components/Seo';
 import TestedInterviews from '../components/TestedInterviews';
 
 const TestedInterviewsPage = (props) => {
@@ -20,7 +19,6 @@ const TestedInterviewsPage = (props) => {
       <Article>
         <TestedInterviews />
       </Article>
-      <Seo facebook={facebook} />
     </>
   );
 };

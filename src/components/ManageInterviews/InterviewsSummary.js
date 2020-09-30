@@ -6,6 +6,7 @@ import { Link } from 'gatsby-plugin-intl';
 import { LoadingOutlined } from '@ant-design/icons';
 import Headline from '../Article/Headline';
 import useApi from '../../hooks/useApi';
+import Seo from '../Seo';
 
 const columns = [
   {
@@ -97,6 +98,7 @@ const InterviewsSummary = ({ headline = null, breadcrumbs = null }) => {
           }}
         />
       </Spin>
+      <Seo subTitle="Manage Interviews" />
     </>
   );
 };

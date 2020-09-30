@@ -3,9 +3,7 @@ import React from 'react';
 
 import { graphql } from 'gatsby';
 import Hero from '../components/Hero';
-import Seo from '../components/Seo';
 import Home from '../components/Home';
-import CustomBreadcrumb from '../components/CustomBreadcrumb';
 
 class IndexPage extends React.Component {
   render() {
@@ -42,7 +40,6 @@ class IndexPage extends React.Component {
           <Hero backgrounds={backgrounds} />
           <Home backgrounds={backgrounds} />
         </div>
-        <Seo facebook={facebook} />
       </>
     );
   }

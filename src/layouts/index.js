@@ -8,6 +8,7 @@ import useLayout from '../hooks/useLayout';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import themeObjectFromYaml from '../theme/theme.yaml';
+import Seo from '../components/Seo';
 
 export const ScreenWidthContext = React.createContext(0);
 export const FontLoadedContext = React.createContext(false);
@@ -81,6 +82,7 @@ export const Layout = (props) => {
               <ScreenWidthContext.Provider value={layoutState.screenWidth}>
                 <>
                   <GlobalStyle />
+                  <Seo />
                   <Header path={location.pathname} pages={pages} />
                   <Main>{children}</Main>
                   <Footer body={footnoteHTML} />

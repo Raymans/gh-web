@@ -5,6 +5,7 @@ import {
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
+import Seo from '../Seo';
 
 const columns = [
   {
@@ -93,6 +94,7 @@ const InterviewResult = () => {
           <div>test</div>
         </Collapse.Panel>
       </Collapse>
+      <Seo subTitle="Manage Interviews" />
     </>
   );
 };

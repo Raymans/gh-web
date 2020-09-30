@@ -6,6 +6,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
+import Seo from '../Seo';
 
 const columns = [
   {
@@ -93,6 +94,7 @@ const InterviewResults = ({ id, location }) => {
           pagination={false}
         />
       </Spin>
+      <Seo subTitle={location.state.interviewName} />
     </>
   );
 };

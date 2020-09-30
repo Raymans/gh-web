@@ -4,6 +4,7 @@ import { Link } from 'gatsby-plugin-intl';
 import Moment from 'react-moment';
 import { LoadingOutlined } from '@ant-design/icons';
 import useApi from '../../hooks/useApi';
+import Seo from '../Seo';
 
 const columns = [
   {
@@ -88,6 +89,7 @@ const TestedInterviewList = ({ headline = null, breadcrumbs = null }) => {
           pagination={false}
         />
       </Spin>
+      <Seo subTitle="Tested Interviews" />
     </>
   );
 };

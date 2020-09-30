@@ -5,7 +5,6 @@ import { graphql } from 'gatsby';
 import Article from '../components/Article';
 import Contact from '../components/Contact';
 import Headline from '../components/Article/Headline';
-import Seo from '../components/Seo';
 
 const ContactPage = (props) => {
   const {
@@ -24,7 +23,6 @@ const ContactPage = (props) => {
         </header>
         <Contact />
       </Article>
-      <Seo facebook={facebook} />
     </>
   );
 };

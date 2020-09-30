@@ -12,6 +12,7 @@ import LikedInterviews from '../Interviews/LikedInterviews';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
+import Seo from '../Seo';
 
 
 const StyledBasicProfileRow = styled(Row)`
@@ -57,6 +58,7 @@ const Profile = ({ userId }) => {
       <LikedInterviews />
       <MyInterview />
       <PassInterview />
+      <Seo subTitle={profile.nickname} />
     </>
   );
 };

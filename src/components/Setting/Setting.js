@@ -11,6 +11,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
+import Seo from '../Seo';
 
 const FlexAvatarDiv = styled.div`
   display: flex;
@@ -188,6 +189,7 @@ const Setting = () => {
           <br />
         </Form>
       </Spin>
+      <Seo subTitle="Setting" />
     </>
   );
 };

@@ -4,8 +4,6 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import { Router } from '@reach/router';
 import Article from '../components/Article';
-import Headline from '../components/Article/Headline';
-import Seo from '../components/Seo';
 import Profile from '../components/Profile';
 
 const ProfilePage = (props) => {
@@ -25,7 +23,6 @@ const ProfilePage = (props) => {
         </Router>
 
       </Article>
-      <Seo facebook={facebook} />
     </>
   );
 };

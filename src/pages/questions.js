@@ -2,10 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 
 import { graphql } from 'gatsby';
-import { Link } from 'gatsby-plugin-intl';
 import Article from '../components/Article';
-import Headline from '../components/Article/Headline';
-import Seo from '../components/Seo';
 import Questions from '../components/Questions';
 
 const QuestionsPage = (props) => {
@@ -22,8 +19,6 @@ const QuestionsPage = (props) => {
       <Article>
         <Questions />
       </Article>
-
-      <Seo facebook={facebook} />
     </>
   );
 };

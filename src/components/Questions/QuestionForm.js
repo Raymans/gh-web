@@ -19,6 +19,7 @@ import { Link, navigate } from 'gatsby-plugin-intl';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
+import Seo from '../Seo';
 
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
@@ -199,6 +200,7 @@ const QuestionForm = (props) => {
             </Form>
           </div>
         </Spin>
+        <Seo subTitle={isEditForm ? 'Question - Edit' : 'Question - Create'} />
       </>
     );
   }

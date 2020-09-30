@@ -12,6 +12,7 @@ import InterviewSession from '../Interviews/InterviewSession';
 import AuthorBy from '../AuthorBy';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
+import Seo from '../Seo';
 
 const StyleTotalScoreCol = styled(Col)`
   text-align: center;
@@ -154,6 +155,7 @@ const TestedInterview = ({ sessionId }) => {
           }
         </Spin>
       </Layout>
+      <Seo subTitle={interview.title} />
     </>
   );
 };

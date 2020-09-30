@@ -11,6 +11,7 @@ import InterviewGrid from './InterviewGrid';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import { StoreContext } from '../../context/ContextProvider';
 import useApi from '../../hooks/useApi';
+import Seo from '../Seo';
 
 const { Search } = Input;
 const { Content } = Layout;
@@ -93,6 +94,7 @@ const InterviewList = () => {
           </Layout>
         </div>
       </div>
+      <Seo subTitle="Interviews" />
     </>
   );
 };

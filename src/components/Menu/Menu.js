@@ -17,8 +17,6 @@ import Icon, {
 import { useAuth0 } from '@auth0/auth0-react';
 import useLayout from '../../hooks/useLayout';
 
-require('core-js/fn/array/from');
-
 const StyledAlignSpan = styled.span`
     display: flex;
     align-items: center;

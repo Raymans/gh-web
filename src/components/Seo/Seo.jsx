@@ -4,13 +4,13 @@ import Helmet from 'react-helmet';
 import config from '../../../content/meta/config';
 
 const Seo = (props) => {
-  const { data, facebook } = props;
-  const postTitle = ((data || {}).frontmatter || {}).title;
+  const { data, facebook, subTitle } = props;
+  const postTitle = ((data || {}).frontmatter || {}).title || subTitle;
   const postDescription = ((data || {}).frontmatter || {}).description;
   const postCover = ((data || {}).frontmatter || {}).cover;
   const postSlug = ((data || {}).fields || {}).slug;
 
-  const title = postTitle ? `${postTitle} - ${config.shortSiteTitle}` : config.siteTitle;
+  const title = postTitle ? `${postTitle} | ${config.shortSiteTitle}` : config.siteTitle;
   const description = postDescription || config.siteDescription;
   const image = postCover || config.siteImage;
   const url = config.siteUrl + config.pathPrefix + postSlug;
@@ -31,14 +31,15 @@ const Seo = (props) => {
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
       <meta property="og:type" content="website" />
-      <meta property="fb:app_id" content={facebook.appId} />
+      {/*<meta property="fb:app_id" content={facebook.appId} />*/}
     </Helmet>
   );
 };
 
 Seo.propTypes = {
   data: PropTypes.object,
-  facebook: PropTypes.object.isRequired,
+  facebook: PropTypes.object,
+  subTitle: PropTypes.string,
 };
 
 export default Seo;

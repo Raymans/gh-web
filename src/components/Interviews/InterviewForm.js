@@ -30,6 +30,7 @@ import QuestionList from '../Questions/QuestionList';
 import QuestionForm from '../Questions/QuestionForm';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
+import Seo from '../Seo';
 
 const {
   Content,
@@ -456,6 +457,7 @@ const InterviewForm = ({ id }) => {
           </Spin>
         </Content>
       </Layout>
+      <Seo subTitle={isEditForm ? 'Interview - Edit' : 'Interview - Create'} />
     </>
   );
 };

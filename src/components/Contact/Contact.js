@@ -6,6 +6,7 @@ import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
 import PropTypes from 'prop-types';
 import React from 'react';
+import Seo from '../Seo';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -97,6 +98,7 @@ const Contact = (props) => {
           </FormItem>
         </Form>
       </div>
+      <Seo subTitle="Contact" />
     </>
   );
 };

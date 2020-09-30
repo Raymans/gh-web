@@ -19,6 +19,7 @@ import LoginPrompt from '../Login/LoginPrompt';
 import AuthorBy from '../AuthorBy';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
+import Seo from '../Seo';
 
 const StyledInterviewGeekStatus = styled.div`
   margin: 30px 0 20px;
@@ -237,6 +238,7 @@ const Interview = ({
           </Layout.Content>
         </Spin>
       </Layout>
+      <Seo subTitle={interview.title} />
     </>
   );
 };

@@ -2,8 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql } from 'gatsby';
 import Article from '../components/Article';
-import Headline from '../components/Article/Headline';
-import Seo from '../components/Seo';
 import Setting from '../components/Setting';
 
 const SettingPage = (props) => {
@@ -20,7 +18,6 @@ const SettingPage = (props) => {
       <Article>
         <Setting />
       </Article>
-      <Seo facebook={facebook} />
     </>
   );
 };
