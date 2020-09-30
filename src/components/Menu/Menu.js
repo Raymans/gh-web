@@ -32,7 +32,6 @@ const Menu = (props) => {
     loginWithRedirect,
     logout,
   } = useAuth0();
-  console.log(user)
 
   const [current, setCurrent] = useState('Home');
   const { switchDark } = useContext(ThemeContext);

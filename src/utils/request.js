@@ -26,19 +26,20 @@ function checkStatus(error) {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(isAuthenticated, getAccessTokenSilently) {
+export default function request(getAccessTokenSilently) {
   return async (url, options) => {
     const defaultOptions = {
       withCredentials: true,
     };
-
-    if (isAuthenticated) {
+    try {
+      const token = await getAccessTokenSilently();
       options = {
         ...options,
         headers: {
-          Authorization: `Bearer ${await getAccessTokenSilently()}`,
+          Authorization: `Bearer ${token}`,
         },
       };
+    } catch {
     }
     const newOptions = { ...defaultOptions, ...options };
     if (

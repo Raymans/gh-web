@@ -3,8 +3,8 @@ import request1 from '../utils/request';
 import config from '../../content/meta/config';
 
 export default () => {
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const request = request1(isAuthenticated, getAccessTokenSilently);
+  const { getAccessTokenSilently } = useAuth0();
+  const request = request1(getAccessTokenSilently);
 
   return {
     getUser: (params) => request(`${config.ghServiceUrl}/api/users`, {
