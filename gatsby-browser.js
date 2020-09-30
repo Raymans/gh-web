@@ -17,11 +17,9 @@ export const wrapRootElement = ({ element }) => (
     domain={process.env.AUTH0_DOMAIN}
     clientId={process.env.AUTH0_CLIENTID}
     audience={process.env.AUTH0_AUDIENCE}
-    redirectUri={process.env.AUTH0_CALLBACK}
-    onRedirectCallback={(state) => navigate(state)}
+    redirectUri={window.location.origin}
     responseType="token id_token"
     scope="openid profile email"
-    // state= redirectUrl
     useRefreshTokens="true"
     cacheLocation="localstorage"
   >
