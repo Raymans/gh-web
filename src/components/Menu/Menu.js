@@ -140,6 +140,9 @@ const Menu = (props) => {
     setMenuVisible(false);
   };
 
+  const logoutWithRedirect = () => logout({
+    returnTo: window.location.origin,
+  });
   const antdMenu = (
     <AntMenu
       selectedKeys={[current]}
@@ -184,7 +187,7 @@ const Menu = (props) => {
                     icon: <SettingOutlined />,
                     label: 'Setting',
                   })}
-                  <AntMenu.Item onClick={() => logout()}>
+                  <AntMenu.Item onClick={() => logoutWithRedirect()}>
                     <LogoutOutlined />
                     Login out
                   </AntMenu.Item>
