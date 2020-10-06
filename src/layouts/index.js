@@ -18,6 +18,9 @@ const Main = styled.main`
 `;
 
 const GlobalStyle = createGlobalStyle`
+  h1, h2, h3, h4, h5, h6{
+  color: inherit;
+  }
   h2 {
     font-weight: 500;
     border-bottom: 1px solid #e8e8e8;
@@ -28,14 +31,14 @@ const GlobalStyle = createGlobalStyle`
 export const Layout = (props) => {
   const [theme, setTheme] = useState({
     ...themeObjectFromYaml,
-    dark: false,
+    isDark: localStorage.getItem('isDark'),
     switchDark: (isDark) => {
-      setTheme({ ...theme, dark: isDark });
+      localStorage.setItem('isDark', isDark);
+      setTheme({ ...theme, isDark });
     },
   });
 
   const [layoutState] = useLayout();
-
 
   return (
     <StaticQuery
@@ -75,7 +78,7 @@ export const Layout = (props) => {
         return (
           <ThemeProvider theme={theme}>
             {
-              theme.dark && <link rel="stylesheet" type="text/css" href="https://ant.design/dark.css" />
+              theme.isDark && <link rel="stylesheet" type="text/css" href="https://ant.design/dark.css" />
             }
             <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap" rel="stylesheet" />
             <FontLoadedContext.Provider value={layoutState.font400loaded}>

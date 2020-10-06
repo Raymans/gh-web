@@ -69,62 +69,62 @@ const Home = (props) => {
         <p>__List Specializations and roles here.__</p>
         <h2>Looking for a specialization?</h2>
         <StyledRow type="flex" justify="space-around">
-          <Col style={{ 'text-align': 'center' }}>
+          <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=Front End Engineer">
               <FontAwesomeIcon icon={faJs} size="7x" />
-              <p style={{ 'padding-top': '10px' }}>Front-End Engineer</p>
+              <p style={{ paddingTop: '10px' }}>Front-End Engineer</p>
             </Link>
           </Col>
-          <Col style={{ 'text-align': 'center' }}>
+          <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=java">
               <FontAwesomeIcon icon={faJava} size="7x" />
-              <p style={{ 'padding-top': '10px' }}>Java Engineer</p>
+              <p style={{ paddingTop: '10px' }}>Java Engineer</p>
             </Link>
           </Col>
-          <Col style={{ 'text-align': 'center' }}>
+          <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=fullstack">
               <FontAwesomeIcon icon={faTerminal} size="7x" />
-              <p style={{ 'padding-top': '10px' }}>Full Stack Engineer</p>
+              <p style={{ paddingTop: '10px' }}>Full Stack Engineer</p>
             </Link>
           </Col>
         </StyledRow>
 
         <h2>Looking for a Company who is hiring?</h2>
         <StyledRow type="flex" justify="space-around">
-          <Col style={{ 'text-align': 'center' }}>
+          <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=frontend">
               <FontAwesomeIcon icon={faFacebookSquare} size="7x" />
-              <p style={{ 'padding-top': '10px' }}>Facebook</p>
+              <p style={{ paddingTop: '10px' }}>Facebook</p>
             </Link>
           </Col>
-          <Col style={{ 'text-align': 'center' }}>
+          <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=java">
               <FontAwesomeIcon icon={faGithubSquare} size="7x" />
-              <p style={{ 'padding-top': '10px' }}>Github</p>
+              <p style={{ paddingTop: '10px' }}>Github</p>
             </Link>
           </Col>
-          <Col style={{ 'text-align': 'center' }}>
+          <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=fullstack">
               <FontAwesomeIcon icon={faStripe} size="7x" />
-              <p style={{ 'padding-top': '10px' }}>Stripe</p>
+              <p style={{ paddingTop: '10px' }}>Stripe</p>
             </Link>
           </Col>
-          <Col style={{ 'text-align': 'center' }}>
+          <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=frontend">
               <FontAwesomeIcon icon={faFacebookSquare} size="7x" />
-              <p style={{ 'padding-top': '10px' }}>Facebook</p>
+              <p style={{ paddingTop: '10px' }}>Facebook</p>
             </Link>
           </Col>
-          <Col style={{ 'text-align': 'center' }}>
+          <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=java">
               <FontAwesomeIcon icon={faGithubSquare} size="7x" />
-              <p style={{ 'padding-top': '10px' }}>Github</p>
+              <p style={{ paddingTop: '10px' }}>Github</p>
             </Link>
           </Col>
-          <Col style={{ 'text-align': 'center' }}>
+          <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=fullstack">
               <FontAwesomeIcon icon={faStripe} size="7x" />
-              <p style={{ 'padding-top': '10px' }}>Stripe</p>
+              <p style={{ paddingTop: '10px' }}>Stripe</p>
             </Link>
           </Col>
         </StyledRow>

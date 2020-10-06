@@ -143,6 +143,14 @@ const Menu = (props) => {
   const logoutWithRedirect = () => logout({
     returnTo: window.location.origin,
   });
+
+  const handleLogin = async () => {
+    await loginWithRedirect({
+      appState: {
+        targetUrl: '/',
+      },
+    });
+  };
   const antdMenu = (
     <AntMenu
       selectedKeys={[current]}
@@ -195,7 +203,7 @@ const Menu = (props) => {
               );
             }
             return (
-              <AntMenu.Item key={item.to} onClick={loginWithRedirect}>
+              <AntMenu.Item key={item.to} onClick={handleLogin}>
                 {item.icon}
                 {item.label}
               </AntMenu.Item>

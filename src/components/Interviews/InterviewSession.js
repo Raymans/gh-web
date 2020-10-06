@@ -33,7 +33,7 @@ const StyledQuestionBlock = styled.div`
 `;
 
 const StyledCheckbox = styled(Checkbox)`
-  display: block;
+  display: block !important;
   margin-left: 0 !important;
   padding: 4px;
   &.wrong{
