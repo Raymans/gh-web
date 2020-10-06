@@ -46,6 +46,7 @@ const StyledListItem = styled(List.Item)`
 const StyledVisibilityTag = styled(Tag)`
   position: absolute;
   top: -9px;
+  background-color: ${(props) => (props.theme.isDark ? 'darkslategray !important' : undefined)};
 `;
 
 const InterviewGrid = (props) => {

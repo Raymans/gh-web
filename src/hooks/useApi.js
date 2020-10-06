@@ -111,10 +111,10 @@ export default () => {
     }),
 
     addAnswerToInterviewSession: ({
-      id, sectionId, questionId, answerId = [],
+      id, sectionId, questionSnapshotId, answerId = [],
     }) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}/answers`, {
       method: 'POST',
-      data: { sectionId, questionSnapshotId: questionId, answerId },
+      data: { sectionId, questionSnapshotId, answerId },
     }),
 
     getCurrentInterviewSession: ({ id }) => request(`${config.ghServiceUrl}/api/interviews/${id}/interviewSession`, {
