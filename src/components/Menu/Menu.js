@@ -33,7 +33,6 @@ const Menu = (props) => {
     logout,
   } = useAuth0();
 
-  const [current, setCurrent] = useState('Home');
   const { switchDark } = useContext(ThemeContext);
   const [layout] = useLayout();
   const [menuVisible, setMenuVisible] = useState(false);
@@ -63,10 +62,7 @@ const Menu = (props) => {
     },
   ];
 
-  useEffect(() => setCurrent(props.path), []);
-
-  const handleClick = (e) => {
-    setCurrent(e.key);
+  const handleClick = () => {
     setMenuVisible(false);
   };
 
@@ -153,7 +149,7 @@ const Menu = (props) => {
   };
   const antdMenu = (
     <AntMenu
-      selectedKeys={[current]}
+      selectedKeys={[props.path]}
       onClick={handleClick}
       mode={layout.screenWidth < 700 ? 'inline' : 'horizontal'}
       style={{
@@ -194,6 +190,11 @@ const Menu = (props) => {
                     to: '/setting',
                     icon: <SettingOutlined />,
                     label: 'Setting',
+                  })}
+                  {renderItem({
+                    to: '/organization',
+                    icon: <SettingOutlined />,
+                    label: 'Organization',
                   })}
                   <AntMenu.Item onClick={() => logoutWithRedirect()}>
                     <LogoutOutlined />
