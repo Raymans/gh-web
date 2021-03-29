@@ -21,11 +21,16 @@ const GlobalStyle = createGlobalStyle`
   h1, h2, h3, h4, h5, h6{
   color: inherit;
   }
-  h2 {
+  h2, h3 {
     font-weight: 500;
     border-bottom: 1px solid #e8e8e8;
     padding-bottom: 10px;
-    margin: 0 0 20px;
+    margin: 20px 0 20px;
+  }
+
+  h4 {
+    padding-bottom: 10px;
+    margin: 20px 0 20px;
   }
 `;
 export const Layout = (props) => {

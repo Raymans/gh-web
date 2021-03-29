@@ -4,9 +4,9 @@ import {
 } from 'antd';
 import { Link } from 'gatsby-plugin-intl';
 import { LoadingOutlined } from '@ant-design/icons';
-import Headline from '../Article/Headline';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
+import AuthorBy from '../AuthorBy';
 
 const columns = [
   {
@@ -31,7 +31,7 @@ const columns = [
   },
 ];
 
-const InterviewsSummary = ({ headline = null, breadcrumbs = null }) => {
+const InterviewsSummary = ({ headline = null, breadcrumbs = null, isOwnerChangeable = false }) => {
   const { getInterviews } = useApi();
   const [myInterviews, setMyInterviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -86,11 +86,31 @@ const InterviewsSummary = ({ headline = null, breadcrumbs = null }) => {
                         >
                           {interview.specialization.name}
                         </Descriptions.Item>
-                        <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
-                        <Descriptions.Item span={2}>{interview.description}</Descriptions.Item>
+                        <Descriptions.Item
+                          label="Job Title"
+                        >
+                          {interview.jobTitle}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Status">
+                          <Badge
+                            status="processing"
+                            text="In Testing"
+                          />
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Created Date">
+                          2021-1-31 3:45
+                          PM
+                        </Descriptions.Item>
+                        <Descriptions.Item
+                          span={2}
+                          style={{ whiteSpace: 'pre-line' }}
+                        >
+                          {interview.description}
+                        </Descriptions.Item>
                       </Descriptions>
+                      <AuthorBy isOwnerChangeable={isOwnerChangeable} />
                     </>
-                )}
+                  )}
                 />
 
               </List.Item>

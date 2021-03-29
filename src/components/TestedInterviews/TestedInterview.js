@@ -47,9 +47,10 @@ const TestedInterview = ({ sessionId }) => {
         setInterviewSession(interviewS);
         setInterview(interviewS.interview);
         setLoading(false);
-        getAverageScore(sessionId).then((res) => {
-          setAverageScore({ scoreDiff: (interviewS.score - res.averageScore.averageScore) * 100, ...res });
-        });
+        getAverageScore(sessionId)
+          .then((res) => {
+            setAverageScore({ scoreDiff: (interviewS.score - res.averageScore.averageScore) * 100, ...res });
+          });
       });
   }, []);
 
@@ -64,7 +65,14 @@ const TestedInterview = ({ sessionId }) => {
 
   return (
     <>
-      <CustomBreadcrumb crumbs={[{ label: 'Tested Interviews', path: '/testedInterviews' }, { label: interview.title, path: location.pathname }]} />
+      <CustomBreadcrumb crumbs={[{
+        label: 'Tested Interviews',
+        path: '/testedInterviews',
+      }, {
+        label: interview.title,
+        path: location.pathname,
+      }]}
+      />
       <Headline title={interview.title}>
         {
           isOwner
@@ -88,11 +96,19 @@ const TestedInterview = ({ sessionId }) => {
                 {interview.specialization.name}
               </Descriptions.Item>
               <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
-              <Descriptions.Item span={2}>{interview.description}</Descriptions.Item>
+              <Descriptions.Item
+                span={2}
+                style={{ whiteSpace: 'pre-line' }}
+              >
+                {interview.description}
+              </Descriptions.Item>
               <Descriptions.Item
                 span={2}
               >
-                <AuthorBy author={interview.clientUser.email} avatarSrc={interview.clientUser.avatar} />
+                <AuthorBy
+                  author={interview.clientUser.email}
+                  avatarSrc={interview.clientUser.avatar}
+                />
               </Descriptions.Item>
             </Descriptions>
             {
@@ -114,7 +130,8 @@ const TestedInterview = ({ sessionId }) => {
                           <Statistic
                             value={sectionScoreDiff}
                             valueStyle={{ color: sectionScoreDiff === 0 ? '#2f9eba' : (sectionScoreDiff > 0 ? '#3f8600' : 'red') }}
-                            prefix={sectionScoreDiff === 0 ? '-' : (sectionScoreDiff > 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />)}
+                            prefix={sectionScoreDiff === 0 ? '-' : (sectionScoreDiff > 0
+                              ? <ArrowUpOutlined /> : <ArrowDownOutlined />)}
                           />
                           <Progress
                             type="circle"
@@ -132,7 +149,8 @@ const TestedInterview = ({ sessionId }) => {
                     <Statistic
                       value={averageScore.scoreDiff}
                       valueStyle={{ color: averageScore.scoreDiff === 0 ? '#2f9eba' : (averageScore.scoreDiff > 0 ? '#3f8600' : 'red') }}
-                      prefix={averageScore.scoreDiff === 0 ? '-' : (averageScore.scoreDiff > 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />)}
+                      prefix={averageScore.scoreDiff === 0 ? '-' : (averageScore.scoreDiff > 0
+                        ? <ArrowUpOutlined /> : <ArrowDownOutlined />)}
                     />
                     <Progress
                       type="circle"
@@ -151,7 +169,12 @@ const TestedInterview = ({ sessionId }) => {
           </Layout.Content>
           {
             isOwner && interviewSession.status === 'ENDED'
-            && <Button type="primary" onClick={handleCalculateScore} loading={calculating}>Calculate Score</Button>
+            && (
+            <Button type="primary" onClick={handleCalculateScore} loading={calculating}>
+              Calculate
+              Score
+            </Button>
+            )
           }
         </Spin>
       </Layout>

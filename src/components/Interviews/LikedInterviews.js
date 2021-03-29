@@ -27,7 +27,11 @@ const LikedInterviews = () => {
           renderItem={(interview) => (
             <List.Item
               actions={[
-                <InterviewLike id={interview.id} liked={interview.liked} likeCount={interview.likeCount} />]}
+                <InterviewLike
+                  id={interview.id}
+                  liked={interview.liked}
+                  likeCount={interview.likeCount}
+                />]}
             >
               <List.Item.Meta
                 title={<h1><Link to={`/interviews/${interview.id}`}>{interview.title}</Link></h1>}
@@ -40,7 +44,12 @@ const LikedInterviews = () => {
                         {interview.specialization.name}
                       </Descriptions.Item>
                       <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
-                      <Descriptions.Item span={2}>{interview.description}</Descriptions.Item>
+                      <Descriptions.Item
+                        span={2}
+                        style={{ whiteSpace: 'pre-line' }}
+                      >
+                        {interview.description}
+                      </Descriptions.Item>
                     </Descriptions>
                   </>
                 )}

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
 import { message } from 'antd';
-import { useAuth0 } from '@auth0/auth0-react';
 
 axios.defaults.withCredentials = true;
 
@@ -10,13 +9,18 @@ const errorMsg = 'Oops! Something went wrong, please try again later. ';
 function checkStatus(error) {
   const { response } = error;
   if (!response) {
-    message.error({ content: errorMsg, duration: 5, top: 50 });
+    message.error({
+      content: errorMsg,
+      duration: 5,
+      top: 50,
+    });
     return;
   }
   if (response.status >= 200 && response.status < 300) {
     return response.data.message;
   }
-  return Promise.reject(error);
+  // navigate('404');
+  return Promise.reject(response);
 }
 
 /**

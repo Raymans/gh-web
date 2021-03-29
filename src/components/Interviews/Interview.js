@@ -61,8 +61,10 @@ const Interview = ({
     let timeOfEnd = -1;
     setIsTesting(!interviewS.interviewEndDate);
     if (!interviewS.interviewEndDate && interviewS.duration > 0) {
-      timeOfEnd = moment(new Date(interviewS.interviewStartDate)).add(interviewS.duration, 'm');
-      if (moment(Date.now()).isAfter(timeOfEnd)) {
+      timeOfEnd = moment(new Date(interviewS.interviewStartDate))
+        .add(interviewS.duration, 'm');
+      if (moment(Date.now())
+        .isAfter(timeOfEnd)) {
         handleTimesUp();
         setIsTesting(false);
       } else {
@@ -142,7 +144,14 @@ const Interview = ({
 
   return (
     <>
-      <CustomBreadcrumb crumbs={[{ label: 'List Interviews', path: '/interviews' }, { label: interview.title, path: location.pathname }]} />
+      <CustomBreadcrumb crumbs={[{
+        label: 'List Interviews',
+        path: '/interviews',
+      }, {
+        label: interview.title,
+        path: location.pathname,
+      }]}
+      />
       <Headline title={interview.title}>
         <Tag icon={<FireOutlined style={{ color: 'red' }} />}>
           Hiring
@@ -154,7 +163,14 @@ const Interview = ({
           <Layout.Content>
             {
               isTesting && interviewSession && interviewSession.duration > 0
-              && <Countdown title="Remaining" value={deadline} format="HH:mm:ss" onFinish={handleTimesUp} />
+              && (
+              <Countdown
+                title="Remaining"
+                value={deadline}
+                format="HH:mm:ss"
+                onFinish={handleTimesUp}
+              />
+              )
             }
             <Descriptions column={2}>
               <Descriptions.Item
@@ -163,11 +179,19 @@ const Interview = ({
                 {interview.specialization.name}
               </Descriptions.Item>
               <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
-              <Descriptions.Item span={2}>{interview.description}</Descriptions.Item>
+              <Descriptions.Item
+                span={2}
+                style={{ whiteSpace: 'pre-line' }}
+              >
+                {interview.description}
+              </Descriptions.Item>
               <Descriptions.Item
                 span={2}
               >
-                <AuthorBy author={interview.clientUser.nickname} avatarSrc={interview.clientUser.avatar} />
+                <AuthorBy
+                  author={interview.clientUser.nickname}
+                  avatarSrc={interview.clientUser.avatar}
+                />
               </Descriptions.Item>
             </Descriptions>
             {
@@ -201,7 +225,11 @@ const Interview = ({
                 <>
                   <LoginPrompt title="Login to Test Interview">
                     {(isAuth) => (
-                      <Button type="primary" onClick={isAuth ? handleOpenTestPrompt : () => {}}>
+                      <Button
+                        type="primary"
+                        onClick={isAuth ? handleOpenTestPrompt : () => {
+                        }}
+                      >
                         Start Testing Interview
                       </Button>
                     )}

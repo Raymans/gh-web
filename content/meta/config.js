@@ -19,5 +19,6 @@ module.exports = {
   manifestDisplay: 'standalone',
   authorSocialLinks: [{ name: 'github', url: 'https://github.com/raymans' }],
   ghServiceUrl: 'https://api.geekhub.tw',
+  // ghServiceUrl: 'http://192.168.2.244:8080',
   // ghServiceUrl: 'http://gh-stack-ecs-apploadbalancer-55277355.ap-northeast-1.elb.amazonaws.com'
 };

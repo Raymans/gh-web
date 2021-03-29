@@ -14,7 +14,8 @@ export default () => {
     getQuestions: ({ url = `${config.ghServiceUrl}/api/questions`, ...params } = {}) => request(`${url}`, {
       method: 'GET',
       params,
-    }).then((res) => (!res ? {} : res)),
+    })
+      .then((res) => (!res ? {} : res)),
 
     getQuestion: ({ id }) => request(`${config.ghServiceUrl}/api/questions/${id}`, {
       method: 'GET',
@@ -59,7 +60,8 @@ export default () => {
     getInterviews: ({ url = `${config.ghServiceUrl}/api/interviews`, ...params }) => request(url, {
       method: 'GET',
       params,
-    }).then((res) => (!res ? {} : res)),
+    })
+      .then((res) => (!res ? {} : res)),
 
     getInterview: (id) => request(`${config.ghServiceUrl}/api/interviews/${id}`, {
       method: 'GET',
@@ -86,7 +88,11 @@ export default () => {
     }) => request(`${config.ghServiceUrl}/api/interviewSessions`, {
       method: 'POST',
       data: {
-        interviewId, userEmail, name, interviewMode, duration,
+        interviewId,
+        userEmail,
+        name,
+        interviewMode,
+        duration,
       },
     }),
 
@@ -114,7 +120,11 @@ export default () => {
       id, sectionId, questionSnapshotId, answerId = [],
     }) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}/answers`, {
       method: 'POST',
-      data: { sectionId, questionSnapshotId, answerId },
+      data: {
+        sectionId,
+        questionSnapshotId,
+        answerId,
+      },
     }),
 
     getCurrentInterviewSession: ({ id }) => request(`${config.ghServiceUrl}/api/interviews/${id}/interviewSession`, {
@@ -127,7 +137,10 @@ export default () => {
 
     getInterviewSessions: ({ interviewId = '', owner = true } = {}) => request(`${config.ghServiceUrl}/api/interviewSessions`, {
       method: 'GET',
-      params: { interviewId, owner },
+      params: {
+        interviewId,
+        owner,
+      },
     }),
 
     getSpecializations: (params) => request(`${config.ghServiceUrl}/api/specializations`, {
@@ -139,13 +152,71 @@ export default () => {
       method: 'GET',
     }),
 
+    getMyProfile: () => request(`${config.ghServiceUrl}/api/users/me`, {
+      method: 'GET',
+    }),
     updateUserProfile: ({
       email, name, nickname, companyName, linkedIn, github, note,
     }) => request(`${config.ghServiceUrl}/api/users/me`, {
       method: 'POST',
       data: {
-        email, name, nickname, companyName, linkedIn, github, note,
+        email,
+        name,
+        nickname,
+        companyName,
+        linkedIn,
+        github,
+        note,
       },
+    }),
+    enableOrganization: ({ organizationName }) => request(`${config.ghServiceUrl}/api/users/me/organization`, {
+      method: 'POST',
+      data: { organizationName },
+    }),
+    updateOrganization: ({ id, name }) => request(`${config.ghServiceUrl}/api/organizations/${id}`, {
+      method: 'POST',
+      data: { name },
+    }),
+    joinOrganization: ({ organizationId }) => request(`${config.ghServiceUrl}/api/users/me/organization/join`, {
+      method: 'POST',
+      data: { organizationId },
+    }),
+    leaveOrganization: () => request(`${config.ghServiceUrl}/api/users/me/organization`, {
+      method: 'DELETE',
+    }),
+    removeUserFromOrganization: ({ userId, organizationId }) => request(`${config.ghServiceUrl}/api/organizations/${organizationId}/users/${userId}`, {
+      method: 'DELETE',
+    }),
+    getOrganization: ({ organizationId = '' }) => request(`${config.ghServiceUrl}/api/organizations/${organizationId}`, {
+      method: 'GET',
+    }),
+    getMyOrganization: () => request(`${config.ghServiceUrl}/api/users/me/organization`, {
+      method: 'GET',
+    }),
+    inviteUserToOrganization: ({ email, organizationId }) => request(`${config.ghServiceUrl}/api/organizations/${decodeURIComponent(organizationId)}/invitations`, {
+      method: 'POST',
+      data: { email },
+    }),
+    unInviteUserFromOrganization: ({ email, organizationId }) => request(`${config.ghServiceUrl}/api/organizations/${decodeURIComponent(organizationId)}/invitations`, {
+      method: 'DELETE',
+      data: { email },
+    }),
+    createDepartment: ({ departmentName }) => request(`${config.ghServiceUrl}/api/departments`, {
+      method: 'POST',
+      data: { departmentName },
+    }),
+    getDepartment: ({ departmentId }) => request(`${config.ghServiceUrl}/api/departments/${departmentId}`, {
+      method: 'GET',
+    }),
+    getDepartments: () => request(`${config.ghServiceUrl}/api/departments`, {
+      method: 'GET',
+    }),
+    updateDepartment: ({ departmentId, departmentName }) => request(`${config.ghServiceUrl}/api/departments/${departmentId}`, {
+      method: 'POST',
+      data: { departmentName },
+    }),
+    deleteDepartment: ({ departmentId }) => request(`${config.ghServiceUrl}/api/departments/${departmentId}`, {
+      method: 'DELETE',
     }),
   };
 };
