@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const H1 = styled.h1`
   white-space: nowrap;
   font-weight: 200;
-  margin: 20px auto 40px;
+  margin: 20px auto 20px;
   border-bottom: 1px solid #e8e8e8;
   padding-bottom: 10px;
   font-size: ${(props) => props.theme.font.size.xxl};
@@ -27,7 +27,7 @@ const H1 = styled.h1`
 
 const StyledHeaderSpan = styled.span`
   margin: 0 10px;
-`
+`;
 
 const Headline = (props) => {
   const { title, children } = props;

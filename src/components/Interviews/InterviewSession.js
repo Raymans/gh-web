@@ -29,6 +29,9 @@ const defaultInterviewSession = {
 };
 
 const StyledQuestionBlock = styled.div`
+  h3 {
+    white-space: pre-wrap;
+  }
   margin: 24px;
 `;
 
@@ -201,6 +204,5 @@ const InterviewSession = ({
 InterviewSession.propTypes = {
   interviewSession: PropTypes.object,
 };
-
 
 export default InterviewSession;

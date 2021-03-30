@@ -23,7 +23,6 @@ import {
   PlusOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons';
-import AnchorSilder from '../Sider/AnchorSider';
 import transformSwitchValue from '../../utils/questionHelpers';
 import Headline from '../Article/Headline';
 import QuestionList from '../Questions/QuestionList';
@@ -444,14 +443,14 @@ const InterviewForm = ({ id }) => {
                   </>
                 )}
               </Form.List>
+              <Button type="link">
+                <Link to="/interviews" replace>Back</Link>
+              </Button>
               <Button type="primary" onClick={handleSave}>
                 {isEditForm ? 'Update' : 'Create'}
               </Button>
               <Button type="primary" onClick={handlePublish}>
                 Publish
-              </Button>
-              <Button type="link">
-                <Link to="/interviews" replace>Back</Link>
               </Button>
             </Form>
           </Spin>

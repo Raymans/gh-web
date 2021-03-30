@@ -21,7 +21,10 @@ const ConfirmModal = ({
         setModalVisible(false);
         message.success(successMessage);
       })
-      .catch(() => setOKLoading(false));
+      .catch((response) => {
+        message.error(response.data.message);
+        setOKLoading(false);
+      });
   };
 
   const handleCancel = () => {

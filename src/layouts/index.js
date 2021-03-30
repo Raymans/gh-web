@@ -32,6 +32,9 @@ const GlobalStyle = createGlobalStyle`
     padding-bottom: 10px;
     margin: 20px 0 20px;
   }
+  .ant-btn{
+    margin: 5px 5px;
+  }
 `;
 export const Layout = (props) => {
   const [theme, setTheme] = useState({

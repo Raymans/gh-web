@@ -22,12 +22,12 @@ const InviteUserModal = ({
     await addUserForm.validateFields();
   };
   const handelAddUserSubmit = async () => {
-    inviteUserToOrganization({
+    await inviteUserToOrganization({
       email: addUserForm.getFieldsValue().email,
       organizationId,
     })
-      .then(refreshUserOrg())
-      .then(clearForm);
+      .then(() => refreshUserOrg())
+      .then(() => clearForm);
   };
 
   return (

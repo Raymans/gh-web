@@ -12,6 +12,7 @@ import Countdown from 'antd/lib/statistic/Countdown';
 import styled from 'styled-components';
 import moment from 'moment';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Link } from 'gatsby-plugin-intl';
 import AnchorSilder from '../Sider/AnchorSider';
 import Headline from '../Article/Headline';
 import InterviewSession from './InterviewSession';
@@ -153,9 +154,7 @@ const Interview = ({
       }]}
       />
       <Headline title={interview.title}>
-        <Tag icon={<FireOutlined style={{ color: 'red' }} />}>
-          Hiring
-        </Tag>
+        {interview.clientUser.id === user?.sub && <Link to={`/interviews/${interview.id}/edit`}>Edit</Link>}
       </Headline>
       <Layout>
         <AnchorSilder />
@@ -173,6 +172,13 @@ const Interview = ({
               )
             }
             <Descriptions column={2}>
+              <Descriptions.Item
+                span={2}
+              >
+                <Tag icon={<FireOutlined style={{ color: 'red' }} />}>
+                  Hiring
+                </Tag>
+              </Descriptions.Item>
               <Descriptions.Item
                 label="Specialization"
               >
