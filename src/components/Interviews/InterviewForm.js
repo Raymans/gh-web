@@ -283,7 +283,12 @@ const InterviewForm = ({ id }) => {
         {/* <AnchorSilder anchors={anchorSections} /> */}
         <Content>
           <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
-            <Form {...inputLayout} onFinish={onFinish} form={form} scrollToFirstError>
+            <Form
+              {...inputLayout}
+              onFinish={onFinish}
+              form={form}
+              scrollToFirstError
+            >
               <StyledVisibilityDiv>
                 <FormItem label="Visibility" name="visibility" valuePropName="checked" noStyle>
                   <Switch checkedChildren="public" unCheckedChildren="private" />
@@ -351,8 +356,7 @@ const InterviewForm = ({ id }) => {
                 <TextArea
                   placeholder="Interview description"
                   autoSize={{
-                    minRows: 2,
-                    maxRows: 6,
+                    minRows: 4,
                   }}
                 />
               </FormItem>

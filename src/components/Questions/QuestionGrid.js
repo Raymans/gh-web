@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import {
-  Avatar, Button, Checkbox, Descriptions, Divider, List, message, Modal, Space, Spin, Tag,
+  Button, Checkbox, Descriptions, List, message, Modal, Space, Spin, Tag,
 } from 'antd';
 import styled from 'styled-components';
 import { DeleteOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -12,6 +12,9 @@ import AuthorBy from '../AuthorBy';
 import useApi from '../../hooks/useApi';
 
 const StyledListItem = styled(List.Item)`
+  h1{
+    white-space: pre-wrap;
+  }
   .ant-list-item-extra{
     position: absolute;
     float: left;
@@ -50,7 +53,7 @@ const QuestionGrid = (props) => {
     updateActions = [
       [
         <Space>
-          <Button size="small" shape="circle" icon={<EditOutlined />} onClick={() => { navigate(`questions/${questionId}/edit`); }} />
+          <Button size="small" shape="circle" icon={<EditOutlined />} onClick={() => { navigate(`/questions/${questionId}/edit`); }} />
           <Button
             size="small"
             shape="circle"

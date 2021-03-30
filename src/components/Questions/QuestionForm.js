@@ -32,7 +32,6 @@ if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
   require('codemirror/lib/codemirror.css');
 }
 
-
 const StyledMinusCircleOutlined = styled(MinusCircleOutlined)`
     color: #999;
     transition: all .3s;
@@ -70,10 +69,10 @@ const QuestionForm = (props) => {
           whitespace: true,
         }]}
       >
-        <TextArea autoSize={{
-          minRows: 2,
-          maxRows: 6,
-        }}
+        <TextArea
+          autoSize={{
+            minRows: 2,
+          }}
         />
       </FormItem>
       <Tabs defaultActiveKey="1">
@@ -189,12 +188,11 @@ const QuestionForm = (props) => {
             >
               {formContent}
               <StyledButtonsGroup>
-                <Button type="primary" htmlType="submit">
-                  {isEditForm ? 'Update' : 'Create'}
-                </Button>
-                {' '}
                 <Button type="link">
                   <Link to="/questions" replace>Back</Link>
+                </Button>
+                <Button type="primary" htmlType="submit">
+                  {isEditForm ? 'Update' : 'Create'}
                 </Button>
               </StyledButtonsGroup>
             </Form>

@@ -39,10 +39,11 @@ const GlobalStyle = createGlobalStyle`
 export const Layout = (props) => {
   const [theme, setTheme] = useState({
     ...themeObjectFromYaml,
-    isDark: localStorage.getItem('isDark'),
+    // isDark: localStorage.getItem('isDark'),
+    isDark: false,
     switchDark: (isDark) => {
-      localStorage.setItem('isDark', isDark);
-      setTheme({ ...theme, isDark });
+      // localStorage.setItem('isDark', isDark);
+      // setTheme({ ...theme, isDark });
     },
   });
 
