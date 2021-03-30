@@ -6,7 +6,7 @@ import useApi from '../../hooks/useApi';
 import ConfirmModal from './ConfirmModal';
 import { StoreContext } from '../../context/ContextProvider';
 
-const AddUserModal = ({
+const InviteUserModal = ({
   organizationId = null,
 }) => {
   const [addUserForm] = Form.useForm();
@@ -26,7 +26,7 @@ const AddUserModal = ({
       email: addUserForm.getFieldsValue().email,
       organizationId,
     })
-      .then(refreshUserOrg({ id: organizationId }))
+      .then(refreshUserOrg())
       .then(clearForm);
   };
 
@@ -46,25 +46,23 @@ const AddUserModal = ({
           required
           rules={[{
             required: true,
-            message: 'Please input email',
+            message: 'Please input email format.',
+            type: 'email',
           }]}
         >
-          <Input />
-        </FormItem>
-        <FormItem name="department" label="Department">
-          <Input />
+          <Input autoFocus />
         </FormItem>
       </Form>
     </ConfirmModal>
   );
 };
 
-export default AddUserModal;
+export default InviteUserModal;
 
-AddUserModal.propTypes = {
+InviteUserModal.propTypes = {
   organizationId: PropTypes.string,
 };
 
-AddUserModal.defaultProps = {
+InviteUserModal.defaultProps = {
   organizationId: '',
 };

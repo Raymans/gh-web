@@ -218,5 +218,9 @@ export default () => {
     deleteDepartment: ({ departmentId }) => request(`${config.ghServiceUrl}/api/departments/${departmentId}`, {
       method: 'DELETE',
     }),
+    assignUserToDepartment: ({ userId, departmentId }) => request(`${config.ghServiceUrl}/api/users/${userId}/department`, {
+      method: 'POST',
+      data: { departmentId },
+    }),
   };
 };

@@ -27,8 +27,8 @@ const StoreProvider = ({ children }) => {
     .then((data) => setOrganization(data))
     .catch(() => setTimeout(refreshUserProfile, 10000));
 
-  const refreshUserOrg = ({ id }) => {
-    getOrganization({ organizationId: id })
+  const refreshUserOrg = () => {
+    getMyOrganization()
       .then((data) => setOrganization(data));
   };
   useEffect(() => {

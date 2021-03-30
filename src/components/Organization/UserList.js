@@ -1,14 +1,17 @@
 import PropTypes from 'prop-types';
 import {
-  message, Space, Table, Tag,
+  Cascader, message, Space, Table, Tag,
 } from 'antd';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import useApi from '../../hooks/useApi';
 import ConfirmModal from './ConfirmModal';
+import { StoreContext } from '../../context/ContextProvider';
 
 const { Column } = Table;
 const UserList = ({ users }) => {
-  const { removeUserFromOrganization } = useApi();
+  const { removeUserFromOrganization, getDepartments, assignUserToDepartment } = useApi();
+  const { refreshUserOrg } = useContext(StoreContext);
+  const [departments, setDepartments] = useState([]);
 
   const handleRemoveUserFromOrg = (user) => removeUserFromOrganization({
     userId: user.id,
@@ -17,10 +20,40 @@ const UserList = ({ users }) => {
     .catch((error) => {
       message.error(error.data.message);
       return Promise.reject(error);
-    })
-    //   });
-  ;
+    });
 
+  const handleChangeDept = (user, departmentId) => {
+    if (user.department?.id === departmentId) {
+      return;
+    }
+    assignUserToDepartment({
+      userId: user.id,
+      departmentId,
+    })
+      .then(() => refreshUserOrg());
+  };
+  const renderDept = (val, user) => (
+    <span>
+      {val?.name}
+      &nbsp;
+      (
+      <Cascader
+        options={departments}
+        onChange={(selectedDept) => handleChangeDept(user, selectedDept[0])}
+        defaultValue={[user.department.id]}
+      >
+        <a href="#">Change</a>
+      </Cascader>
+      )
+    </span>
+  );
+  useEffect(() => {
+    getDepartments()
+      .then(({ results = [] }) => setDepartments(results.length === 0 ? [] : results.map((dept) => ({
+        value: dept.id,
+        label: dept.name,
+      }))));
+  }, []);
   return (
     <>
       <div style={{
@@ -35,8 +68,7 @@ const UserList = ({ users }) => {
       <Table dataSource={users} pagination={false} size="small">
         <Column title="Name" dataIndex="name" key="name" />
         <Column title="Email" dataIndex="email" key="email" />
-        <Column title="Department" dataIndex="department" key="department" />
-        <Column title="Role" dataIndex="role" key="role" />
+        <Column title="Department" dataIndex="department" key="department" render={renderDept} />
         <Column
           align="right"
           render={(text, record) => (record.accountPrivilege !== 'OWNER' ? (

@@ -12,12 +12,13 @@ const Specialization = ({ onSelect, selected }) => {
   const selectedValueProp = selected ? { value: selected } : '';
 
   useEffect(() => {
-    getSpecializations().then(((data = []) => {
-      const { sp = '' } = queryString.parse(location.search);
-      const value = data.find((s) => s.name === sp);
-      setSpecializations(data);
-      onSelect(value ? value.id : selected);
-    }));
+    getSpecializations()
+      .then(((data = []) => {
+        const { sp = '' } = queryString.parse(location.search);
+        const value = data.find((s) => s.name === sp);
+        setSpecializations(data);
+        onSelect(value ? value.id : selected);
+      }));
   }, []);
 
   const handleSelect = (value) => {
@@ -27,17 +28,17 @@ const Specialization = ({ onSelect, selected }) => {
   return (
     specializations.length > 0
     && (
-    <Select
-      placeholder="Specialization"
-      optionFilterProp="children"
-      {...selectedValueProp}
-      style={{ width: 200 }}
-      onSelect={handleSelect}
-    >
-      {specializations && specializations.map((spec) => (
-        <Select.Option key={spec.id} value={spec.id}>{spec.name}</Select.Option>
-      ))}
-    </Select>
+      <Select
+        placeholder="Specialization"
+        optionFilterProp="children"
+        {...selectedValueProp}
+        style={{ width: 200 }}
+        onSelect={handleSelect}
+      >
+        {specializations && specializations.map((spec) => (
+          <Select.Option key={spec.id} value={spec.id}>{spec.name}</Select.Option>
+        ))}
+      </Select>
     )
   );
 };
@@ -49,4 +50,6 @@ Specialization.propTypes = {
 export default Specialization;
 
 Specialization.defaultProps = {
+  onSelect: () => {
+  },
 };

@@ -20,6 +20,7 @@ function checkStatus(error) {
     return response.data.message;
   }
   // navigate('404');
+  message.error(response.data.message);
   return Promise.reject(response);
 }
 

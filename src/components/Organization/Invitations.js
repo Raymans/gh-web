@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import ConfirmModal from './ConfirmModal';
 import useApi from '../../hooks/useApi';
 import { StoreContext } from '../../context/ContextProvider';
-import AddUserModal from './AddUserModal';
+import InviteUserModal from './InviteUserModal';
 
 const { Column } = Table;
 
@@ -35,13 +35,13 @@ const Invitations = ({ invitations, orgId }) => {
       email: invitation.email,
       organizationId: orgId,
     })
-      .then(() => refreshUserOrg({ id: orgId }));
+      .then(() => refreshUserOrg());
     //   });
   };
 
   return (
     <>
-      <AddUserModal organizationId={orgId} />
+      <InviteUserModal organizationId={orgId} />
       <Table dataSource={invitations} pagination={false} size="small">
         <Column title="Email" dataIndex="email" key="email" />
         <Column title="Inviter" dataIndex="inviterName" key="inviterName" />

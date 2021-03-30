@@ -19,7 +19,7 @@ const DeptForm = ({ form }) => (
         message: 'Please input Department Name',
       }]}
     >
-      <Input />
+      <Input autoFocus />
     </FormItem>
   </Form>
 );
