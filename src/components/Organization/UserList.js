@@ -40,7 +40,7 @@ const UserList = ({ users }) => {
       <Cascader
         options={departments}
         onChange={(selectedDept) => handleChangeDept(user, selectedDept[0])}
-        defaultValue={[user.department.id]}
+        defaultValue={[user.department?.id]}
       >
         <a href="#">Change</a>
       </Cascader>
