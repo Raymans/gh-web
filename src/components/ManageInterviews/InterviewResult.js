@@ -1,103 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Badge, Collapse, Progress, Table,
-} from 'antd';
+import React, { useState } from 'react';
+import { Link } from 'gatsby-plugin-intl';
+import { useAuth0 } from '@auth0/auth0-react';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
-import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
+import InterviewSessionResult from '../Interviews/InterviewSessionResult';
 
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    width: 150,
-  },
-  {
-    title: 'Status',
-    dataIndex: 'status',
-    width: 150,
-    render: (text) => (
-      <span>
-        <Badge status="success" />
-        {text}
-      </span>
-    ),
-  },
-  {
-    title: 'Complete Date',
-    dataIndex: 'completeDate',
-  },
-];
+const InterviewResult = ({ sessionId }) => {
+  const {
+    user,
+  } = useAuth0();
 
-const InterviewResult = () => {
-  const { getInterviews, getInterviewSessions } = useApi();
-  const [myInterviews, setMyInterviews] = useState([]);
-  const [myInterviewsSessions, setMyInterviewsSessions] = useState({});
-  useEffect(() => {
-    getInterviews({ owner: true })
-      .then(({ results: myIvs }) => {
-        setMyInterviews(myIvs);
-        myIvs.map((myIv) => {
-          getInterviewSessions({ interviewId: myIv.id })
-            .then(({ results: iss }) => {
-              myInterviewsSessions[myIv.id] = iss;
-              setMyInterviewsSessions(myInterviewsSessions);
-            });
-        });
-      });
-  }, []);
-  const handleOpenMyInterviews = (interviewId) => {
-    getInterviewSessions({ interviewId })
-      .then(({ results: iss }) => {
-        setMyInterviewsSessions({ ...myInterviewsSessions }[interviewId] = iss);
-      });
-  };
+  const [interviewSession, setInterviewSession] = useState({ interview: {}, candidateUser: {} });
+  const isOwner = user?.sub === interviewSession.interview.clientUser?.id;
+
+  const onLoadedInterviewSession = (is) => setInterviewSession(is);
   return (
     <>
-      <CustomBreadcrumb crumbs={[{ label: 'Manage Interviews', path: '/manageInterviews' }]} />
-      <Headline title="Manage Interviews" />
-      <Collapse onChange={handleOpenMyInterviews}>
+      <CustomBreadcrumb crumbs={[{
+        label: 'Manage Interviews',
+        path: '/manageInterviews',
+      }, {
+        label: interviewSession.interview.title,
+        path: location.pathname,
+      }]}
+      />
+      <Headline title={interviewSession.interview.title}>
         {
-          myInterviews.map((myInterview) => (
-            <Collapse.Panel
-              header={(
-                <span>
-                  <div>{myInterview.title}</div>
-                  <span>Section 1:</span>
-                  <Progress type="circle" percent={70} width={50} />
-                  <span>Section 1:</span>
-                  <Progress type="circle" percent={70} width={50} />
-                  <span>Section 1:</span>
-                  <Progress type="circle" percent={70} width={50} />
-                  <span>5 geeks</span>
-                  <span>Average score: </span>
-                  <Progress type="circle" percent={70} width={50} />
-                </span>
-              )}
-              key={myInterview.id}
+          isOwner
+          && (
+            <Link
+              to={`/profile/${interviewSession.candidateUser.id}`}
             >
-              {
-                myInterviewsSessions[myInterview.id] && myInterviewsSessions[myInterview.id].map((is) => (
-                  <Table showHeader={false} columns={columns} dataSource={is} pagination={false} />
-                ))
-              }
-
-            </Collapse.Panel>
-          ))
+              {interviewSession.candidateUser.name}
+            </Link>
+          )
         }
-
-        <Collapse.Panel header="This is panel header 2" key="2">
-          <div>test</div>
-        </Collapse.Panel>
-        <Collapse.Panel header="This is panel header 3" key="3">
-          <div>test</div>
-        </Collapse.Panel>
-      </Collapse>
-      <Seo subTitle="Manage Interviews" />
+      </Headline>
+      <InterviewSessionResult onLoaded={onLoadedInterviewSession} sessionId={sessionId} isOwner={isOwner} />
+      <Seo subTitle={interviewSession.interview.title} />
     </>
   );
 };
-InterviewResult.propTypes = {};
 
 export default InterviewResult;

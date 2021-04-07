@@ -59,7 +59,7 @@ const columns = [
     width: 150,
     render: (action, { id }) => (
       <span>
-        <Link to={`/testedInterviews/${id}`}>Result</Link>
+        <Link to={`/manageInterviews/${action.interview.id}/${id}`}>Result</Link>
       </span>
     ),
   },
@@ -75,6 +75,7 @@ const InterviewResults = ({ id, location }) => {
       owner: false,
     })
       .then(({ results: iss }) => {
+        iss.sort((isa, isb) => isb.score - isa.score);
         setMyInterviewsSessions(iss);
         setLoading(false);
       });

@@ -80,7 +80,7 @@ const Footer = (props) => {
         </Row>
         <Row justify="center" align="top">
           <Col span={12}>
-            <div>©2020 GeekHub Inc.Made with in Taiwan.</div>
+            <div>©2021 GeekHub Inc.Made with in Taiwan.</div>
           </Col>
 
         </Row>
