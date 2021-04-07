@@ -9,7 +9,6 @@ import Icon, {
   EyeOutlined,
   HomeOutlined,
   LogoutOutlined,
-  MailOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   QuestionCircleOutlined,
@@ -62,17 +61,6 @@ const Menu = (props) => {
       to: '/interviews',
       label: 'Interviews',
       icon: <EyeOutlined />,
-    },
-    {
-      label: 'About',
-      subMenu: [
-        ...pages,
-        {
-          to: '/contact',
-          label: 'Contact',
-          icon: <MailOutlined />,
-        },
-      ],
     },
     {
       to: '/login',

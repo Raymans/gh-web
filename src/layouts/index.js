@@ -97,7 +97,7 @@ export const Layout = (props) => {
                   <Seo />
                   <Header path={location.pathname} pages={pages} />
                   <Main>{children}</Main>
-                  <Footer body={footnoteHTML} />
+                  <Footer body={footnoteHTML} pages={pages} />
                 </>
               </ScreenWidthContext.Provider>
             </FontLoadedContext.Provider>

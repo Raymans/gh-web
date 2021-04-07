@@ -1,5 +1,5 @@
 import {
-  Button, Col, Descriptions, Layout, Progress, Row, Spin, Statistic,
+  Button, Col, Descriptions, Layout, Progress, Row, Spin, Statistic, Tooltip,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { ArrowDownOutlined, ArrowUpOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -127,18 +127,20 @@ const TestedInterview = ({ sessionId }) => {
                       sectionScoreDiff = sectionScore - averageScore.sectionsAverageScore[index]?.averageSectionScore * 100;
                       return (
                         <Col key={section.id} justify="center" style={{ textAlign: 'center' }}>
-                          <Statistic
-                            value={sectionScoreDiff}
-                            valueStyle={{ color: sectionScoreDiff === 0 ? '#2f9eba' : (sectionScoreDiff > 0 ? '#3f8600' : 'red') }}
-                            prefix={sectionScoreDiff === 0 ? '-' : (sectionScoreDiff > 0
-                              ? <ArrowUpOutlined /> : <ArrowDownOutlined />)}
-                          />
+                          <Tooltip title={`Compares to average score: ${averageScore.sectionsAverageScore[index]?.averageSectionScore * 100}`}>
+                            <Statistic
+                              value={sectionScoreDiff}
+                              valueStyle={{ color: sectionScoreDiff === 0 ? '#2f9eba' : (sectionScoreDiff > 0 ? '#3f8600' : 'red') }}
+                              prefix={sectionScoreDiff === 0 ? '-' : (sectionScoreDiff > 0
+                                ? <ArrowUpOutlined /> : <ArrowDownOutlined />)}
+                            />
+                          </Tooltip>
                           <Progress
                             type="circle"
                             percent={sectionScore}
                             width={70}
                             format={(score) => score}
-                            status={sectionScore < 60 ? 'exception' : ''}
+                            status={sectionScore < averageScore.sectionsAverageScore[index]?.averageSectionScore * 100 ? 'exception' : ''}
                           />
                           <div>{section.title}</div>
                         </Col>
@@ -146,17 +148,19 @@ const TestedInterview = ({ sessionId }) => {
                     })
                   }
                   <StyleTotalScoreCol justify="center">
-                    <Statistic
-                      value={averageScore.scoreDiff}
-                      valueStyle={{ color: averageScore.scoreDiff === 0 ? '#2f9eba' : (averageScore.scoreDiff > 0 ? '#3f8600' : 'red') }}
-                      prefix={averageScore.scoreDiff === 0 ? '-' : (averageScore.scoreDiff > 0
-                        ? <ArrowUpOutlined /> : <ArrowDownOutlined />)}
-                    />
+                    <Tooltip title={`Compares to average score: ${averageScore.averageScore?.averageScore * 100}`}>
+                      <Statistic
+                        value={averageScore.scoreDiff}
+                        valueStyle={{ color: averageScore.scoreDiff === 0 ? '#2f9eba' : (averageScore.scoreDiff > 0 ? '#3f8600' : 'red') }}
+                        prefix={averageScore.scoreDiff === 0 ? '-' : (averageScore.scoreDiff > 0
+                          ? <ArrowUpOutlined /> : <ArrowDownOutlined />)}
+                      />
+                    </Tooltip>
                     <Progress
                       type="circle"
                       percent={interviewSession.score * 100}
                       format={(score) => score}
-                      status={interviewSession.score < 60 ? 'exception' : ''}
+                      status={interviewSession.score < averageScore.averageScore?.averageScore ? 'exception' : ''}
                     />
                   </StyleTotalScoreCol>
                 </StyledScoresRow>

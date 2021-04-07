@@ -2,33 +2,23 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 import { changeLocale, Link, useIntl } from 'gatsby-plugin-intl';
-import { Switch } from 'antd';
+import { Col, Row, Switch } from 'antd';
 
+const SytledTitleDiv = styled.div`
+  font-weight: bold;
+`;
 const StyledFooter = styled.footer`
-  text-align: center;
   background: ${(props) => (props.theme.isDark ? props.theme.color.neutral.gray.k : props.theme.color.neutral.black)};
-  padding: ${(props) => props.theme.space.inset.default};
   color: ${(props) => props.theme.color.neutral.gray.g};
   padding-top: 0;
   padding-bottom: 120px;
   ul {
     list-style: none;
-    text-align: center;
+    text-align: left;
     padding: 0;
     li {
-      font-size: ${(props) => props.theme.font.size.xxs};
-      padding: ${(props) => props.theme.space.xxs} ${(props) => props.theme.space.s};
-      position: relative;
-      display: inline-block;
-
-      &::after {
-        content: "•";
-        position: absolute;
-        right: ${`calc(${(props) => props.theme.space.xs} * -1)`};
-      }
-      &:last-child::after {
-        content: "";
-      }
+      font-size: ${(props) => props.theme.font.size.s};
+      padding: 4px 0;
     }
   }
   @media (min-width: 1024px) {
@@ -36,9 +26,17 @@ const StyledFooter = styled.footer`
   }
 `;
 
-const Footer = () => {
+const Footer = (props) => {
   const { locale } = useIntl();
   const { switchDark, isDark } = useContext(ThemeContext);
+
+  const pages = props.pages.map((page) => ({
+    to: page.node.fields.slug,
+    label: page.node.frontmatter.menuTitle
+      ? page.node.frontmatter.menuTitle
+      : page.node.frontmatter.title,
+    // icon: page.node.frontmatter.icon,
+  }));
 
   const changeTheme = (checked) => {
     switchDark(!checked);
@@ -46,39 +44,53 @@ const Footer = () => {
   return (
     <>
       <StyledFooter>
-        <span>Theme: </span>
-        <Switch
-          checkedChildren="light"
-          unCheckedChildren="dark"
-          defaultChecked={!isDark}
-          onChange={changeTheme}
-          size="medium"
-        />
-        <br />
-        <span>Language: </span>
-        {
-          locale === 'en' ? <span>English</span> : <a onClick={() => changeLocale('en')}>English</a>
-        }
-        {' / '}
-        {
-          locale === 'zh-tw' ? <span>繁體中文</span> : <a data-slug="/zh-tw" onClick={() => changeLocale('zh-tw')}>繁體中文</a>
-        }
-        <ul>
-          <li>
-            ©2020 GeekHub Inc.Made with in Taiwan.
-          </li>
-          <li>
-            it's a web site of the
-            {' '}
-            <Link to="/">GeekHub</Link>
-          </li>
-        </ul>
+        <Row justify="center" align="top">
+          <Col span={6}>
+            <div>
+              <SytledTitleDiv>ABOUT</SytledTitleDiv>
+              <ul>
+                {pages.map((page) => <li><Link to={page.to}>{page.label}</Link></li>)}
+              </ul>
+            </div>
+          </Col>
+          <Col span={6}>
+            <ul>
+              <li>
+                <span>Theme: </span>
+                <Switch
+                  checkedChildren="light"
+                  unCheckedChildren="dark"
+                  defaultChecked={!isDark}
+                  onChange={changeTheme}
+                  size="medium"
+                />
+              </li>
+              <li>
+                {
+                  locale === 'en' ? <span>English</span> : <a onClick={() => changeLocale('en')}>English</a>
+                }
+                {' / '}
+                {
+                  locale === 'zh-tw' ? <span>繁體中文</span>
+                    : <a data-slug="/zh-tw" onClick={() => changeLocale('zh-tw')}>繁體中文</a>
+                }
+              </li>
+            </ul>
+          </Col>
+        </Row>
+        <Row justify="center" align="top">
+          <Col span={12}>
+            <div>©2020 GeekHub Inc.Made with in Taiwan.</div>
+          </Col>
+
+        </Row>
       </StyledFooter>
     </>
   );
 };
 
 Footer.propTypes = {
+  pages: PropTypes.array.isRequired,
   body: PropTypes.string,
 };
 export default Footer;
