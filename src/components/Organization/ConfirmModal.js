@@ -91,7 +91,6 @@ ConfirmModal.defaultProps = {
   },
   onBeforeSubmit: async () => {
   },
-  openButtonType: 'primary',
   style: {},
   danger: false,
 };

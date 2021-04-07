@@ -19,7 +19,10 @@ const Setting = () => {
   const [saving, setSaving] = useState(false);
   const [form] = Form.useForm();
   useEffect(() => {
-    getUserProfile(user?.sub)
+    if (!user) {
+      return;
+    }
+    getUserProfile(user.sub)
       .then((res) => {
         form.setFieldsValue({
           ...res,
@@ -27,7 +30,7 @@ const Setting = () => {
         // setProfile(res);
         setLoading(false);
       });
-  }, []);
+  }, [user]);
 
   const onFinish = (values) => {
     console.log(values);

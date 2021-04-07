@@ -66,6 +66,7 @@ export default function request(getAccessTokenSilently) {
         // newOptions.data is FormData
         newOptions.headers = {
           Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
           ...newOptions.headers,
         };
       }

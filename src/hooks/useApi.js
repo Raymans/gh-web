@@ -169,6 +169,15 @@ export default () => {
         note,
       },
     }),
+    updateUserAvatar: ({ file }) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      return request(`${config.ghServiceUrl}/api/users/me/avatar`, {
+        method: 'POST',
+        data: formData,
+      });
+    },
+
     enableOrganization: ({ organizationName }) => request(`${config.ghServiceUrl}/api/users/me/organization`, {
       method: 'POST',
       data: { organizationName },

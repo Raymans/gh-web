@@ -18,7 +18,7 @@ import ConfirmModal from './ConfirmModal';
 const Organization = () => {
   const { userProfile, refreshUserProfile, organization } = useContext(StoreContext);
   const {
-    enableOrganization, joinOrganization, leaveOrganization, removeUserFromOrganization, updateOrganization,
+    enableOrganization, joinOrganization, removeUserFromOrganization, updateOrganization, updateUserAvatar,
   } = useApi();
   const [newOrgName, setNewOrgName] = useState('');
   const [saving, setSaving] = useState(false);
@@ -36,14 +36,26 @@ const Organization = () => {
 
   const onFinish = (values) => {
     setSaving(true);
-    updateOrganization({
-      id: organization.id,
-      name: values.name,
-    })
-      .then(() => {
-        message.success('Organization has been updated successfully!');
-        setTimeout(() => setSaving(false), 500);
-      });
+    if (values.avatar) {
+      updateUserAvatar({ file: values.avatar.file.originFileObj })
+        .then(() => updateOrganization({
+          id: organization.id,
+          name: values.name,
+        }))
+        .then(() => {
+          message.success('Organization has been updated successfully!');
+          setTimeout(() => setSaving(false), 500);
+        });
+    } else {
+      updateOrganization({
+        id: organization.id,
+        name: values.name,
+      })
+        .then(() => {
+          message.success('Organization has been updated successfully!');
+          setTimeout(() => setSaving(false), 500);
+        });
+    }
   };
 
   const handleJoinOrg = () => {
@@ -143,8 +155,16 @@ const Organization = () => {
               </ConfirmModal>
             )}
             <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
-              <UploadImage label="Image of your Organization" name="companyPhoto" />
-              <FormItem name="name" label="Name" required>
+              <UploadImage name="companyPhoto" />
+              <FormItem
+                name="name"
+                label="Name"
+                required
+                rules={[{
+                  required: true,
+                  message: 'Please input your Organization Name.',
+                }]}
+              >
                 <Input />
               </FormItem>
               <br />

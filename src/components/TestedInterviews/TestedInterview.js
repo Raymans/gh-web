@@ -78,7 +78,7 @@ const TestedInterview = ({ sessionId }) => {
           isOwner
           && (
             <Link
-              to={`/profiles/${interviewSession.candidateUser.id}`}
+              to={`/profile/${interviewSession.candidateUser.id}`}
             >
               {interviewSession.candidateUser.name}
             </Link>
@@ -170,10 +170,10 @@ const TestedInterview = ({ sessionId }) => {
           {
             isOwner && interviewSession.status === 'ENDED'
             && (
-            <Button type="primary" onClick={handleCalculateScore} loading={calculating}>
-              Calculate
-              Score
-            </Button>
+              <Button type="primary" onClick={handleCalculateScore} loading={calculating}>
+                Calculate
+                Score
+              </Button>
             )
           }
         </Spin>

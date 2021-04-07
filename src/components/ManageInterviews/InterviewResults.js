@@ -81,9 +81,16 @@ const InterviewResults = ({ id, location }) => {
   }, []);
   return (
     <>
-      <CustomBreadcrumb crumbs={[{ label: 'Manage Interviews', path: '/manageInterviews' }, { label: location.state.interviewName, path: location.pathname }]} />
+      <CustomBreadcrumb crumbs={[{
+        label: 'Manage Interviews',
+        path: '/manageInterviews',
+      }, {
+        label: location.state?.interviewName,
+        path: location.pathname,
+      }]}
+      />
       <Headline title="Manage Interviews">
-        <Link to={`/interviews/${id}`}>{location.state.interviewName}</Link>
+        <Link to={`/interviews/${id}`}>{location.state?.interviewName}</Link>
       </Headline>
       <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
         <Table
@@ -94,7 +101,7 @@ const InterviewResults = ({ id, location }) => {
           pagination={false}
         />
       </Spin>
-      <Seo subTitle={location.state.interviewName} />
+      <Seo subTitle={location.state?.interviewName} />
     </>
   );
 };

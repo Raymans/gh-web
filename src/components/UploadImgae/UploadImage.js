@@ -4,15 +4,7 @@ import styled from 'styled-components';
 import {
   Avatar, Button, Form, message, Upload,
 } from 'antd';
-import {
-  LoadingOutlined, PlusOutlined, UploadOutlined, UserOutlined,
-} from '@ant-design/icons';
-
-const FlexAvatarDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+import { LoadingOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
 
 const StyledAvatar = styled(Avatar)`
   margin-bottom: 15px;
@@ -21,7 +13,9 @@ const StyledAvatar = styled(Avatar)`
 
 function getBase64(img, callback) {
   const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
+  reader.addEventListener('load', () => {
+    callback(reader.result);
+  });
   reader.readAsDataURL(img);
 }
 
@@ -65,6 +59,10 @@ const UploadImage = ({ name, label }) => {
         loading: false,
       }));
     }
+    getBase64(info.file.originFileObj, (imageUrl) => setUploadingImage({
+      imageUrl,
+      loading: false,
+    }));
   };
   const uploadButton = (
     <div>
@@ -76,17 +74,16 @@ const UploadImage = ({ name, label }) => {
     <Form.Item
       name="avatar"
       label={label}
-      valuePropName="fileList"
-      getValueFromEvent={normFile}
+      valuePropName="originFileObj"
+      // getValueFromEvent={normFile}
     >
       <Upload
-        name={name}
+        name="avatar"
         showUploadList={false}
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         beforeUpload={beforeUpload}
         onChange={handleChange}
       >
-        <FlexAvatarDiv>
+        <div>
           {uploadImage.imageUrl
             ? (
               <StyledAvatar
@@ -94,11 +91,7 @@ const UploadImage = ({ name, label }) => {
                 src={uploadImage.imageUrl ? uploadImage.imageUrl : uploadButton}
               />
             ) : <StyledAvatar size={150} icon={<UserOutlined />} />}
-          <Button>
-            <UploadOutlined />
-            {' Edit '}
-          </Button>
-        </FlexAvatarDiv>
+        </div>
       </Upload>
     </Form.Item>
   );

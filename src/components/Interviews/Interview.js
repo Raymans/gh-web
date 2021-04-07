@@ -154,122 +154,125 @@ const Interview = ({
       }]}
       />
       <Headline title={interview.title}>
-        {interview.clientUser.id === user?.sub && <Link to={`/interviews/${interview.id}/edit`}>Edit</Link>}
+        {interview.clientUser.id === user?.sub
+        && <Link to={`/interviews/${interview.id}/edit`}>Edit</Link>}
       </Headline>
       <Layout>
         <AnchorSilder />
         <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
-          <Layout.Content>
-            {
-              isTesting && interviewSession && interviewSession.duration > 0
-              && (
-              <Countdown
-                title="Remaining"
-                value={deadline}
-                format="HH:mm:ss"
-                onFinish={handleTimesUp}
-              />
-              )
-            }
-            <Descriptions column={2}>
-              <Descriptions.Item
-                span={2}
-              >
-                <Tag icon={<FireOutlined style={{ color: 'red' }} />}>
-                  Hiring
-                </Tag>
-              </Descriptions.Item>
-              <Descriptions.Item
-                label="Specialization"
-              >
-                {interview.specialization.name}
-              </Descriptions.Item>
-              <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
-              <Descriptions.Item
-                span={2}
-                style={{ whiteSpace: 'pre-line' }}
-              >
-                {interview.description}
-              </Descriptions.Item>
-              <Descriptions.Item
-                span={2}
-              >
-                <AuthorBy
-                  author={interview.clientUser.nickname}
-                  avatarSrc={interview.clientUser.avatar}
-                />
-              </Descriptions.Item>
-            </Descriptions>
-            {
-              !isTesting
-              && (
-                <StyledInterviewGeekStatus>
-                  <Row gutter={16}>
-                    <Col span={12}>
-                      <Statistic
-                        title={<Badge status="processing" text="In Testing" />}
-                        value={11}
-                        prefix={<UserOutlined />}
-                        suffix=" geeks"
-                      />
-                    </Col>
-                    <Col span={12}>
-                      <Statistic
-                        title={<Badge status="success" text="Completed" />}
-                        value={93}
-                        prefix={<UserOutlined />}
-                        suffix=" geeks"
-                      />
-                    </Col>
-                  </Row>
-                </StyledInterviewGeekStatus>
-              )
-            }
-            {
-              !interviewSession && !isOwner
-              && (
-                <>
-                  <LoginPrompt title="Login to Test Interview">
-                    {(isAuth) => (
-                      <Button
-                        type="primary"
-                        onClick={isAuth ? handleOpenTestPrompt : () => {
-                        }}
-                      >
-                        Start Testing Interview
-                      </Button>
-                    )}
-                  </LoginPrompt>
-                  <Modal
-                    title="Start Testing Interview"
-                    visible={isTestModalVisible}
-                    onOk={startTest}
-                    onCancel={() => setIsTestModalVisible(false)}
-                  >
-                    <p>Start testing the Interview!!</p>
-                    {
-                      (interviewSession?.duration > 0 || interview.defaultDuration > 0)
-                      && <p>{`You will have ${interviewSession?.duration || interview.defaultDuration} minutes complete the interview.`}</p>
-                    }
+          {!loading && (
+            <Layout.Content>
+              {
+                isTesting && interviewSession && interviewSession.duration > 0
+                && (
+                  <Countdown
+                    title="Remaining"
+                    value={deadline}
+                    format="HH:mm:ss"
+                    onFinish={handleTimesUp}
+                  />
+                )
+              }
+              <Descriptions column={2}>
+                <Descriptions.Item
+                  span={2}
+                >
+                  <Tag icon={<FireOutlined style={{ color: 'red' }} />}>
+                    Hiring
+                  </Tag>
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label="Specialization"
+                >
+                  {interview.specialization.name}
+                </Descriptions.Item>
+                <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
+                <Descriptions.Item
+                  span={2}
+                  style={{ whiteSpace: 'pre-line' }}
+                >
+                  {interview.description}
+                </Descriptions.Item>
+                <Descriptions.Item
+                  span={2}
+                >
+                  <AuthorBy
+                    author={interview.clientUser.nickname}
+                    avatarSrc={interview.clientUser.avatar}
+                  />
+                </Descriptions.Item>
+              </Descriptions>
+              {
+                !isTesting
+                && (
+                  <StyledInterviewGeekStatus>
+                    <Row gutter={16}>
+                      <Col span={12}>
+                        <Statistic
+                          title={<Badge status="processing" text="In Testing" />}
+                          value={11}
+                          prefix={<UserOutlined />}
+                          suffix=" geeks"
+                        />
+                      </Col>
+                      <Col span={12}>
+                        <Statistic
+                          title={<Badge status="success" text="Completed" />}
+                          value={93}
+                          prefix={<UserOutlined />}
+                          suffix=" geeks"
+                        />
+                      </Col>
+                    </Row>
+                  </StyledInterviewGeekStatus>
+                )
+              }
+              {
+                !interviewSession && !isOwner
+                && (
+                  <>
+                    <LoginPrompt title="Login to Test Interview">
+                      {(isAuth) => (
+                        <Button
+                          type="primary"
+                          onClick={isAuth ? handleOpenTestPrompt : () => {
+                          }}
+                        >
+                          Start Testing Interview
+                        </Button>
+                      )}
+                    </LoginPrompt>
+                    <Modal
+                      title="Start Testing Interview"
+                      visible={isTestModalVisible}
+                      onOk={startTest}
+                      onCancel={() => setIsTestModalVisible(false)}
+                    >
+                      <p>Start testing the Interview!!</p>
+                      {
+                        (interviewSession?.duration > 0 || interview.defaultDuration > 0)
+                        && <p>{`You will have ${interviewSession?.duration || interview.defaultDuration} minutes complete the interview.`}</p>
+                      }
+                    </Modal>
+                  </>
+                )
+              }
+              {
+                isOwner
+                && <InterviewSession interviewSession={{ interview }} preview viewResult={false} />
+              }
+              {
+                interviewSession && (
+                  <InterviewSession
+                    interviewSession={interviewSession}
+                    onEndInterviewSession={handleEndInterviewSession}
+                    endSession={isTimeUp}
+                  />
+                )
+              }
+            </Layout.Content>
+          )}
 
-                  </Modal>
-                </>
-              )
-            }
-            {
-              isOwner
-              && <InterviewSession interviewSession={{ interview }} preview viewResult={false} />
-            }
-            {
-              interviewSession && (
-                <InterviewSession
-                  interviewSession={interviewSession}
-                  onEndInterviewSession={handleEndInterviewSession}
-                  endSession={isTimeUp}
-                />
-              )
-            }
-          </Layout.Content>
         </Spin>
       </Layout>
       <Seo subTitle={interview.title} />
