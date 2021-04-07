@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
@@ -38,7 +39,7 @@ const searchResult = (query) => new Array(getRandomInt(5))
     };
   });
 
-const AuthorBy = ({ avatarSrc, author, isOwnerChangeable = false }) => {
+const AuthorBy = ({ avatarSrc, author, isOwnerChangeable }) => {
   const [options, setOptions] = useState([]);
 
   const handleSearch = (value) => {
@@ -104,6 +105,14 @@ const AuthorBy = ({ avatarSrc, author, isOwnerChangeable = false }) => {
     </>
   );
 };
-AuthorBy.propTypes = {};
+AuthorBy.propTypes = {
+  author: PropTypes.string.isRequired,
+  avatarSrc: PropTypes.string.isRequired,
+  isOwnerChangeable: PropTypes.bool,
+};
 
 export default AuthorBy;
+
+AuthorBy.defaultProps = {
+  isOwnerChangeable: false,
+};

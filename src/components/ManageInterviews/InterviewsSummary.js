@@ -1,9 +1,11 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import {
   Badge, Descriptions, List, Spin,
 } from 'antd';
 import { Link } from 'gatsby-plugin-intl';
 import { LoadingOutlined } from '@ant-design/icons';
+import { useAuth0 } from '@auth0/auth0-react';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import AuthorBy from '../AuthorBy';
@@ -31,22 +33,19 @@ const columns = [
   },
 ];
 
-const InterviewsSummary = ({ headline = null, breadcrumbs = null, isOwnerChangeable = false }) => {
+const InterviewsSummary = ({
+  userId, headline = null, breadcrumbs = null, isOwnerChangeable = false,
+}) => {
   const { getInterviews } = useApi();
+  const { user } = useAuth0();
   const [myInterviews, setMyInterviews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [myInterviewsSessions, setMyInterviewsSessions] = useState({});
+  const isOwner = user?.sub === userId;
   useEffect(() => {
     getInterviews({ owner: true })
       .then(({ results: myIvs }) => {
         setMyInterviews(myIvs);
         setLoading(false);
-        // myIvs.map((myIv) => {
-        //   getInterviewSessions({ interviewId: myIv.id }).then(({ results: iss }) => {
-        //     myInterviewsSessions[myIv.id] = iss;
-        //     setMyInterviewsSessions(myInterviewsSessions);
-        //   });
-        // });
       });
   }, []);
   return (
@@ -108,7 +107,15 @@ const InterviewsSummary = ({ headline = null, breadcrumbs = null, isOwnerChangea
                           {interview.description}
                         </Descriptions.Item>
                       </Descriptions>
-                      <AuthorBy isOwnerChangeable={isOwnerChangeable} />
+                      {(!userId || !isOwner)
+                      && (
+                        <AuthorBy
+                          author={interview.clientUser.nickname}
+                          avatarSrc={interview.clientUser.avatar}
+                          isOwnerChangeable={isOwnerChangeable}
+                        />
+                      )}
+
                     </>
                   )}
                 />
@@ -122,6 +129,18 @@ const InterviewsSummary = ({ headline = null, breadcrumbs = null, isOwnerChangea
     </>
   );
 };
-InterviewsSummary.propTypes = {};
+InterviewsSummary.propTypes = {
+  breadcrumbs: PropTypes.object,
+  headline: PropTypes.object,
+  isOwnerChangeable: PropTypes.bool,
+  userId: PropTypes.string,
+};
 
 export default InterviewsSummary;
+
+InterviewsSummary.defaultProps = {
+  breadcrumbs: null,
+  headline: null,
+  isOwnerChangeable: false,
+  userId: null,
+};

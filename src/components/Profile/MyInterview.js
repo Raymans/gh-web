@@ -63,7 +63,7 @@ const MyInterview = () => {
   ) : null;
   return (
     <>
-      <h2 id="myinterview">My Interview</h2>
+      <h2 id="myinterview">Own Interviews</h2>
       <InterviewsSummary />
     </>
   );

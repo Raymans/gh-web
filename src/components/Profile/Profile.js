@@ -6,14 +6,13 @@ import {
   GithubOutlined, LinkedinOutlined, LoadingOutlined, MailOutlined,
 } from '@ant-design/icons';
 import styled from 'styled-components';
-import MyInterview from './MyInterview';
 import PassInterview from './PassInterview';
 import LikedInterviews from '../Interviews/LikedInterviews';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
-
+import InterviewsSummary from '../ManageInterviews/InterviewsSummary';
 
 const StyledBasicProfileRow = styled(Row)`
 padding-bottom: 50px;
@@ -35,7 +34,7 @@ const Profile = ({ userId }) => {
       <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
         <StyledBasicProfileRow align="middle">
           <Col span={8}>
-            <Avatar size={200} src="https://avatars0.githubusercontent.com/u/5819635?s=400&u=28fed09b4c20e36c8dfa58063d3dedfa93bee04c&v=4" />
+            <Avatar size={200} src={profile.avatar} />
           </Col>
           <Col span={16}>
             <Descriptions column={1}>
@@ -56,7 +55,8 @@ const Profile = ({ userId }) => {
         </StyledBasicProfileRow>
       </Spin>
       <LikedInterviews />
-      <MyInterview />
+      {/* <MyInterview /> */}
+      <InterviewsSummary userId={userId} />
       <PassInterview />
       <Seo subTitle={profile.nickname} />
     </>

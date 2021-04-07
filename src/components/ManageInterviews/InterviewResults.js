@@ -3,11 +3,17 @@ import { Badge, Spin, Table } from 'antd';
 import { Link } from 'gatsby-plugin-intl';
 import Moment from 'react-moment';
 import { LoadingOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 
+const StyledScore = styled.span`
+  color: cadetblue;
+  font-weight: bold;
+  font-size: 14px;
+`;
 const columns = [
   {
     title: 'Candidate',
@@ -21,7 +27,7 @@ const columns = [
       if (!interviewEndDate) {
         return '';
       }
-      return score * 100;
+      return (<StyledScore>{score * 100}</StyledScore>);
     },
   },
   {

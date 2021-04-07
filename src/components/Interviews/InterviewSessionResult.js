@@ -30,11 +30,11 @@ const InterviewSessionResult = ({ sessionId, isOwner, onLoaded }) => {
     getInterviewSession(sessionId)
       .then((interviewS) => {
         setInterviewSession(interviewS);
-        setLoading(false);
         onLoaded(interviewS);
         getAverageScore(sessionId)
           .then((res) => {
             setAverageScore({ scoreDiff: (interviewS.score - res.averageScore.averageScore) * 100, ...res });
+            setLoading(false);
           });
       });
   }, []);
@@ -97,7 +97,7 @@ const InterviewSessionResult = ({ sessionId, isOwner, onLoaded }) => {
                           <Statistic
                             value={sectionScoreDiff}
                             valueStyle={{ color: sectionScoreDiff === 0 ? '#2f9eba' : (sectionScoreDiff > 0 ? '#3f8600' : 'red') }}
-                            prefix={sectionScoreDiff === 0 ? '-' : (sectionScoreDiff > 0
+                            prefix={sectionScoreDiff === 0 ? '= ' : (sectionScoreDiff > 0
                               ? <ArrowUpOutlined/> : <ArrowDownOutlined/>)}
                           />
 
