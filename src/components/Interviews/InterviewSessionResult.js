@@ -77,7 +77,6 @@ const InterviewSessionResult = ({ sessionId, isOwner, onLoaded }) => {
             </Descriptions.Item>
           </Descriptions>
           {
-
             !loading && interviewSession.status === 'ENDED' && interviewSession.answerAttemptSections
             && (
               <StyledScoresRow gutter={[16, 32]}>
@@ -96,11 +95,10 @@ const InterviewSessionResult = ({ sessionId, isOwner, onLoaded }) => {
                           title={`Compares to average score: ${averageScore.sectionsAverageScore[index]?.averageSectionScore * 100}`}>
                           <Statistic
                             value={sectionScoreDiff}
-                            valueStyle={{ color: sectionScoreDiff === 0 ? '#2f9eba' : (sectionScoreDiff > 0 ? '#3f8600' : 'red') }}
+                            valueStyle={{ color: sectionScoreDiff === 0 ? '#276dba' : (sectionScoreDiff > 0 ? '#138651' : 'red') }}
                             prefix={sectionScoreDiff === 0 ? '= ' : (sectionScoreDiff > 0
                               ? <ArrowUpOutlined/> : <ArrowDownOutlined/>)}
                           />
-
                           <Progress
                             type="circle"
                             percent={sectionScore}
