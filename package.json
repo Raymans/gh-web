@@ -20,7 +20,7 @@
     "babel-plugin-styled-components": "^1.10.7",
     "codemirror": "^5.51.0",
     "fontfaceobserver": "^2.1.0",
-    "gatsby": "^2.19.16",
+    "gatsby": "2.24.66",
     "gatsby-codemods": "^1.1.22",
     "gatsby-image": "^2.2.40",
     "gatsby-link": "^2.2.29",
