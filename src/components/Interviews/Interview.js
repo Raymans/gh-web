@@ -154,11 +154,11 @@ const Interview = ({
       }]}
       />
       <Headline title={interview.title}>
-        {interview.clientUser.id === user?.sub
+        {user?.sub && interview.clientUser.id === user?.sub
         && <Link to={`/interviews/${interview.id}/edit`}>Edit</Link>}
       </Headline>
       <Layout>
-        <AnchorSilder />
+        {/*<AnchorSilder />*/}
         <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
           {!loading && (
             <Layout.Content>
@@ -272,7 +272,6 @@ const Interview = ({
               }
             </Layout.Content>
           )}
-
         </Spin>
       </Layout>
       <Seo subTitle={interview.title} />

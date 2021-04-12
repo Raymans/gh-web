@@ -96,7 +96,9 @@
     "stylelint": "stylelint src/**/*.js",
     "generate-app-icons": "sh ./scripts/generate-app-icons.sh",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "clean": "rm -r .cache public",
+    "clean-all": "rm -r .cache public node_modules"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",

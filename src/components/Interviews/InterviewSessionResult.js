@@ -50,7 +50,7 @@ const InterviewSessionResult = ({ sessionId, isOwner, onLoaded }) => {
   '';
   return (
     <Layout>
-      <AnchorSilder/>
+      {/*<AnchorSilder/>*/}
       <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
         <Layout.Content>
           <Descriptions column={2}>
