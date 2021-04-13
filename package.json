@@ -3,6 +3,24 @@
   "version": "1.0.0",
   "author": "Raymans <raymans86@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "gatsby"
+  ],
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop --host 127.0.0.1 --port 8010",
+    "devhost": "gatsby develop --host 192.168.0.112",
+    "format": "prettier --write 'src/**/*.js'",
+    "lint-errors": "eslint src/**/*.{js,jsx} --quiet",
+    "lint": "eslint src/**/*.{js,jsx}",
+    "lint-fix": "eslint --fix src/**/*.{js,jsx}",
+    "stylelint": "stylelint src/**/*.js",
+    "generate-app-icons": "sh ./scripts/generate-app-icons.sh",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "clean": "rm -r .cache public",
+    "clean-all": "rm -r .cache public node_modules"
+  },
   "dependencies": {
     "@ant-design/compatible": "^1.0.1",
     "@ant-design/icons": "latest",
@@ -82,24 +100,6 @@
     "tinycolor2": "^1.4.1",
     "typeface-open-sans": "^0.0.75",
     "yaml-loader": "^0.5.0"
-  },
-  "keywords": [
-    "gatsby"
-  ],
-  "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop --host 127.0.0.1 --port 8010",
-    "devhost": "gatsby develop --host 192.168.0.112",
-    "format": "prettier --write 'src/**/*.js'",
-    "lint-errors": "eslint src/**/*.{js,jsx} --quiet",
-    "lint": "eslint src/**/*.{js,jsx}",
-    "lint-fix": "eslint --fix src/**/*.{js,jsx}",
-    "stylelint": "stylelint src/**/*.js",
-    "generate-app-icons": "sh ./scripts/generate-app-icons.sh",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "clean": "rm -r .cache public",
-    "clean-all": "rm -r .cache public node_modules"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",

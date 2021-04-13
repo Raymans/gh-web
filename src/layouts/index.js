@@ -9,8 +9,11 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import themeObjectFromYaml from '../theme/theme.yaml';
 import Seo from '../components/Seo';
-import 'cookieconsent';
-import 'cookieconsent/build/cookieconsent.min.css';
+
+if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
+  require('cookieconsent');
+  require('cookieconsent/build/cookieconsent.min.css');
+}
 
 export const ScreenWidthContext = React.createContext(0);
 export const FontLoadedContext = React.createContext(false);
@@ -51,21 +54,21 @@ export const Layout = (props) => {
 
   const [layoutState] = useLayout();
 
-  useEffect(()=> {
+  useEffect(() => {
     window.cookieconsent.initialise({
-      "palette": {
-        "popup": {
-          "background": "#000"
+      'palette': {
+        'popup': {
+          'background': '#000'
         },
-        "button": {
-          "background": "transparent",
-          "text": "#2f9eba",
-          "border": "#2f9eba"
+        'button': {
+          'background': 'transparent',
+          'text': '#2f9eba',
+          'border': '#2f9eba'
         }
       },
-      "content": {
-        "message": "GeekHub uses cookies to ensure you get the best experience on our website.",
-        "href": "https://geekhub.tw/privacy"
+      'content': {
+        'message': 'GeekHub uses cookies to ensure you get the best experience on our website.',
+        'href': 'https://geekhub.tw/privacy'
       }
     });
   }, []);
