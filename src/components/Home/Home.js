@@ -9,12 +9,13 @@ import {
   faGithubSquare,
   faJava,
   faJs,
-  faStripe,
+  faStripe
 } from '@fortawesome/free-brands-svg-icons';
 import styled from 'styled-components';
 import { Link } from 'gatsby-plugin-intl';
 import PropTypes from 'prop-types';
 import { faTerminal } from '@fortawesome/free-solid-svg-icons';
+import InterviewDetailPng from '../../images/InterviewDetail.png';
 
 const Section = styled.section`
   padding: 0 50px;
@@ -49,8 +50,8 @@ const StyledRow = styled(Row)`
 `;
 
 const ImageSection = styled.section`
-  height: 250px;
-  background-image: url('https://dvokhk8ohqhd8.cloudfront.net/assets/landing/how-it-works/why-triplebyte-technical-skills-04301dc3de284da4beedc59823678befc78b07e4dd83fc302be64f3999dc748c.svg');
+  height: 800px;
+  background-image: url(${InterviewDetailPng});
   background-size: cover;
 `;
 
@@ -71,19 +72,19 @@ const Home = (props) => {
         <StyledRow type="flex" justify="space-around">
           <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=Front End Engineer">
-              <FontAwesomeIcon icon={faJs} size="7x" />
+              <FontAwesomeIcon icon={faJs} size="7x"/>
               <p style={{ paddingTop: '10px' }}>Front-End Engineer</p>
             </Link>
           </Col>
           <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=java">
-              <FontAwesomeIcon icon={faJava} size="7x" />
+              <FontAwesomeIcon icon={faJava} size="7x"/>
               <p style={{ paddingTop: '10px' }}>Java Engineer</p>
             </Link>
           </Col>
           <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=fullstack">
-              <FontAwesomeIcon icon={faTerminal} size="7x" />
+              <FontAwesomeIcon icon={faTerminal} size="7x"/>
               <p style={{ paddingTop: '10px' }}>Full Stack Engineer</p>
             </Link>
           </Col>
@@ -93,37 +94,37 @@ const Home = (props) => {
         <StyledRow type="flex" justify="space-around">
           <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=frontend">
-              <FontAwesomeIcon icon={faFacebookSquare} size="7x" />
+              <FontAwesomeIcon icon={faFacebookSquare} size="7x"/>
               <p style={{ paddingTop: '10px' }}>Facebook</p>
             </Link>
           </Col>
           <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=java">
-              <FontAwesomeIcon icon={faGithubSquare} size="7x" />
+              <FontAwesomeIcon icon={faGithubSquare} size="7x"/>
               <p style={{ paddingTop: '10px' }}>Github</p>
             </Link>
           </Col>
           <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=fullstack">
-              <FontAwesomeIcon icon={faStripe} size="7x" />
+              <FontAwesomeIcon icon={faStripe} size="7x"/>
               <p style={{ paddingTop: '10px' }}>Stripe</p>
             </Link>
           </Col>
           <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=frontend">
-              <FontAwesomeIcon icon={faFacebookSquare} size="7x" />
+              <FontAwesomeIcon icon={faFacebookSquare} size="7x"/>
               <p style={{ paddingTop: '10px' }}>Facebook</p>
             </Link>
           </Col>
           <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=java">
-              <FontAwesomeIcon icon={faGithubSquare} size="7x" />
+              <FontAwesomeIcon icon={faGithubSquare} size="7x"/>
               <p style={{ paddingTop: '10px' }}>Github</p>
             </Link>
           </Col>
           <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=fullstack">
-              <FontAwesomeIcon icon={faStripe} size="7x" />
+              <FontAwesomeIcon icon={faStripe} size="7x"/>
               <p style={{ paddingTop: '10px' }}>Stripe</p>
             </Link>
           </Col>
@@ -133,28 +134,32 @@ const Home = (props) => {
         <StyledRow type="flex" justify="space-around">
           <Col span={12}>
             <h1><p>Create your interviews</p></h1>
-            <p>Want to have your own interviews to let everyone see and test it? you can do that easily to build up your own questions for later use or share it</p>
-            <p>Keep your interview privately so you can share and decide who can see/test your interview</p>
+            <p>Want to have your own interviews to let everyone see and test it? you can do that
+              easily to build up your own questions for later use or share it</p>
+            <p>Keep your interview privately so you can share and decide who can see/test your
+              interview</p>
           </Col>
           <Col span={12}>
-            <ImageSection backgrounds={backgrounds} />
+            <ImageSection backgrounds={backgrounds}/>
           </Col>
         </StyledRow>
       </Section>
       <Section>
         <StyledRow type="flex" justify="space-around">
           <Col span={12}>
-            <ImageSection backgrounds={backgrounds} />
+            <ImageSection backgrounds={backgrounds}/>
           </Col>
           <Col span={12}>
             <h1><p>Review candidate's results.</p></h1>
-            <p>You can easily see who tests your interview and review summary of each result in a very clear view.</p>
+            <p>You can easily see who tests your interview and review summary of each result in a
+              very clear view.</p>
           </Col>
         </StyledRow>
       </Section>
       <Section className="no-pic">
         <h1><p>Top engineering roles come to you</p></h1>
-        <p>450+ top tech companies hire for their best engineering teams from GeekHub. Teams reach out to you so you will never miss those hot opportunities!</p>
+        <p>450+ top tech companies hire for their best engineering teams from GeekHub. Teams reach
+          out to you so you will never miss those hot opportunities!</p>
         <StyledRow type="flex" justify="space-around">
           <div style={{ maxWidth: '1000px' }}>
             <img
@@ -237,7 +242,7 @@ const Home = (props) => {
 };
 
 Home.propTypes = {
-  backgrounds: PropTypes.object,
+  backgrounds: PropTypes.object
 };
 
 export default Home;

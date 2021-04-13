@@ -32,7 +32,7 @@ const GlobalStyle = createGlobalStyle`
     padding-bottom: 10px;
     margin: 20px 0 20px;
   }
-  .ant-btn{
+  .ant-btn-primary:not(.ant-input-search-button){
     margin: 5px 5px;
   }
 `;
@@ -44,7 +44,7 @@ export const Layout = (props) => {
     switchDark: (isDark) => {
       // localStorage.setItem('isDark', isDark);
       // setTheme({ ...theme, isDark });
-    },
+    }
   });
 
   const [layoutState] = useLayout();
@@ -81,23 +81,25 @@ export const Layout = (props) => {
         const { children, location } = props;
         const {
           footnote: { body: footnoteHTML },
-          pages: { edges: pages },
+          pages: { edges: pages }
         } = data;
 
         return (
           <ThemeProvider theme={theme}>
             {
-              theme.isDark && <link rel="stylesheet" type="text/css" href="https://ant.design/dark.css" />
+              theme.isDark &&
+              <link rel="stylesheet" type="text/css" href="https://ant.design/dark.css"/>
             }
-            <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap" rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap"
+                  rel="stylesheet"/>
             <FontLoadedContext.Provider value={layoutState.font400loaded}>
               <ScreenWidthContext.Provider value={layoutState.screenWidth}>
                 <>
-                  <GlobalStyle />
-                  <Seo />
-                  <Header path={location.pathname} pages={pages} />
+                  <GlobalStyle/>
+                  <Seo/>
+                  <Header path={location.pathname} pages={pages}/>
                   <Main>{children}</Main>
-                  <Footer body={footnoteHTML} pages={pages} />
+                  <Footer body={footnoteHTML} pages={pages}/>
                 </>
               </ScreenWidthContext.Provider>
             </FontLoadedContext.Provider>
@@ -110,7 +112,7 @@ export const Layout = (props) => {
 
 Layout.propTypes = {
   children: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 export default Layout;

@@ -4,25 +4,22 @@ import styled, { ThemeContext } from 'styled-components';
 import { changeLocale, Link, useIntl } from 'gatsby-plugin-intl';
 import { Col, Row, Switch } from 'antd';
 
-const SytledTitleDiv = styled.div`
+const StyledTitleLi = styled.li`
   font-weight: bold;
 `;
 const StyledFooter = styled.footer`
   background: ${(props) => (props.theme.isDark ? props.theme.color.neutral.gray.k : props.theme.color.neutral.black)};
   color: ${(props) => props.theme.color.neutral.gray.g};
   padding-top: 0;
-  padding-bottom: 120px;
+  padding-bottom: 20px;
   ul {
     list-style: none;
     text-align: left;
-    padding: 0;
+    padding: 10px 0;
     li {
       font-size: ${(props) => props.theme.font.size.s};
       padding: 4px 0;
     }
-  }
-  @media (min-width: 1024px) {
-    padding: 1.5em 1em;
   }
 `;
 
@@ -34,7 +31,7 @@ const Footer = (props) => {
     to: page.node.fields.slug,
     label: page.node.frontmatter.menuTitle
       ? page.node.frontmatter.menuTitle
-      : page.node.frontmatter.title,
+      : page.node.frontmatter.title
     // icon: page.node.frontmatter.icon,
   }));
 
@@ -47,8 +44,8 @@ const Footer = (props) => {
         <Row justify="center" align="top">
           <Col span={6}>
             <div>
-              <SytledTitleDiv>ABOUT</SytledTitleDiv>
               <ul>
+                <StyledTitleLi>ABOUT</StyledTitleLi>
                 {pages.map((page) => <li><Link to={page.to}>{page.label}</Link></li>)}
               </ul>
             </div>
@@ -67,7 +64,8 @@ const Footer = (props) => {
               </li>
               <li>
                 {
-                  locale === 'en' ? <span>English</span> : <a onClick={() => changeLocale('en')}>English</a>
+                  locale === 'en' ? <span>English</span> :
+                    <a onClick={() => changeLocale('en')}>English</a>
                 }
                 {' / '}
                 {
@@ -91,6 +89,6 @@ const Footer = (props) => {
 
 Footer.propTypes = {
   pages: PropTypes.array.isRequired,
-  body: PropTypes.string,
+  body: PropTypes.string
 };
 export default Footer;

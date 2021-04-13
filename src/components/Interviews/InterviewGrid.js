@@ -11,7 +11,7 @@ import {
   Modal,
   Space,
   Spin,
-  Tag,
+  Tag
 } from 'antd';
 import { LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Link } from 'gatsby-plugin-intl';
@@ -22,6 +22,7 @@ import InterviewLike from '../Like/InterviewLike';
 import AuthorBy from '../AuthorBy';
 import useApi from '../../hooks/useApi';
 import InverviewActionsRow from './InterviewActionsRow';
+import { useForm } from 'antd/lib/form/Form';
 
 const StyleReSendRow = styled.div`
   display: flex;
@@ -48,12 +49,13 @@ const StyledVisibilityTag = styled(Tag)`
 
 const InterviewGrid = (props) => {
   const {
-    id, title, description = '', specialization: { name: specializationName }, jobTitle, clientUser = {}, visibility, likeCount, liked,
+    id, title, description = '', specialization: { name: specializationName }, jobTitle, clientUser = {}, visibility, likeCount, liked
   } = props;
   const {
-    createInterviewSession, getInterviewSessions, sendInterviewSessionToCandidate,
+    createInterviewSession, getInterviewSessions, sendInterviewSessionToCandidate
   } = useApi();
   const shareLink = `https://geekhub.tw/interviews/${id}`;
+  const [sharedForm] = useForm();
   const { user } = useAuth0();
   const [sendings, setSendings] = useState({ sending: false });
   const [sharedEmails, setSharedEmails] = useState([]);
@@ -65,7 +67,7 @@ const InterviewGrid = (props) => {
   updateActions = [
     <Space key="actionBlockId">
       <Button
-        icon={<ShareAltOutlined />}
+        icon={<ShareAltOutlined/>}
         onClick={() => {
           setIsShareModalVisible(true);
           getInterviewSessions({ interviewId: id })
@@ -104,26 +106,29 @@ const InterviewGrid = (props) => {
   };
 
   const handleShareEmail = (value) => {
-    setSendings({
-      ...sendings,
-      sending: true,
-    });
-    createInterviewSession({
-      id,
-      email: value,
-      name: value.split('@')[0],
-    })
-      .then(({ id: interviewSessionId }) => {
-        sendInterviewSessionToCandidate({ id: interviewSessionId })
-          .then(() => {
-            if (!sharedEmails.includes(value)) {
-              setSharedEmails([...sharedEmails, value]);
-            }
-            setSendings({
-              ...sendings,
-              sending: false,
-            });
-            message.success(`Sent Interview to ${value}`);
+    sharedForm.validateFields()
+      .then(() => {
+        setSendings({
+          ...sendings,
+          sending: true
+        });
+        createInterviewSession({
+          id,
+          email: value,
+          name: value.split('@')[0]
+        })
+          .then(({ id: interviewSessionId }) => {
+            sendInterviewSessionToCandidate({ id: interviewSessionId })
+              .then(() => {
+                if (!sharedEmails.includes(value)) {
+                  setSharedEmails([...sharedEmails, value]);
+                }
+                setSendings({
+                  ...sendings,
+                  sending: false
+                });
+                message.success(`Sent Interview to ${value}`);
+              });
           });
       });
   };
@@ -141,11 +146,11 @@ const InterviewGrid = (props) => {
               footer={[
                 <Button key="back" onClick={() => setIsShareModalVisible(false)}>
                   Close
-                </Button>,
+                </Button>
               ]}
             >
               <div style={{ display: 'flex' }}>
-                <Input placeholder="Email" value={shareLink} />
+                <Input placeholder="Email" value={shareLink}/>
                 <CopyToClipboard
                   text={shareLink}
                   onCopy={() => message.info('Copied.')}
@@ -154,9 +159,16 @@ const InterviewGrid = (props) => {
                 </CopyToClipboard>
               </div>
               <Divider orientation="left">Or</Divider>
-              <Form>
-                <Form.Item rule={[{ type: 'email' }]}>
+              <Form form={sharedForm}>
+                <Form.Item
+                  name="email"
+                  rules={[{
+                    required: true,
+                    message: 'Please input email format.',
+                    type: 'email'
+                  }]}>
                   <Search
+                    name="email"
                     placeholder="Email"
                     enterButton="Send"
                     loading={sendings.sending}
@@ -178,7 +190,7 @@ const InterviewGrid = (props) => {
               ))}
             </Modal>
 
-            <Spin spinning={saving} indicator={<LoadingOutlined spin />}>
+            <Spin spinning={saving} indicator={<LoadingOutlined spin/>}>
               <StyledListItem
                 key={id}
                 extra={updateActions}
@@ -193,7 +205,7 @@ const InterviewGrid = (props) => {
                   <Descriptions.Item label="Job Title">{jobTitle}</Descriptions.Item>
                   <Descriptions.Item span={2}>{description}</Descriptions.Item>
                   <Descriptions.Item span={2}>
-                    <AuthorBy author={clientUser.nickname} avatarSrc={clientUser.avatar} />
+                    <AuthorBy author={clientUser.nickname} avatarSrc={clientUser.avatar}/>
                   </Descriptions.Item>
                   <Descriptions.Item span={2}>
                     <InterviewLike

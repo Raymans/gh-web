@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { SwapLeftOutlined } from '@ant-design/icons';
+import { navigate } from 'gatsby-link';
+import { Tooltip } from 'antd';
 
 const H1 = styled.h1`
   white-space: nowrap;
@@ -35,6 +38,9 @@ const Headline = (props) => {
     <header>
       <section>
         <H1>
+          <Tooltip title={'Go back'}>
+            <a onClick={() => navigate(-1)}><SwapLeftOutlined/></a>
+          </Tooltip>
           {title && <StyledHeaderSpan>{title}</StyledHeaderSpan>}
           {children}
         </H1>
@@ -45,7 +51,7 @@ const Headline = (props) => {
 
 Headline.propTypes = {
   title: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 export default Headline;
