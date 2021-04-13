@@ -19,6 +19,7 @@
     "axios": "^0.19.2",
     "babel-plugin-styled-components": "^1.10.7",
     "codemirror": "^5.51.0",
+    "cookieconsent": "^3.1.1",
     "fontfaceobserver": "^2.1.0",
     "gatsby": "2.24.66",
     "gatsby-codemods": "^1.1.22",
