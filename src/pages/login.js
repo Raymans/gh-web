@@ -10,25 +10,25 @@ const LoginPage = (props) => {
   const {
     data: {
       site: {
-        siteMetadata: { facebook },
-      },
-    },
+        siteMetadata: { facebook }
+      }
+    }
   } = props;
 
   return (
     <>
       <Article>
         <header>
-          <Headline title="Login" />
+          <Headline title="Login"/>
         </header>
-        <Login />
+        <Login/>
       </Article>
     </>
   );
 };
 
 LoginPage.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 export default LoginPage;

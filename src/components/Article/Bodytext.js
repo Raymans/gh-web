@@ -69,7 +69,7 @@ const Bodytext = (props) => {
 };
 
 Bodytext.propTypes = {
-  body: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired
 };
 
 export default Bodytext;

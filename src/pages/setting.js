@@ -8,22 +8,22 @@ const SettingPage = (props) => {
   const {
     data: {
       site: {
-        siteMetadata: { facebook },
-      },
-    },
+        siteMetadata: { facebook }
+      }
+    }
   } = props;
 
   return (
     <>
       <Article>
-        <Setting />
+        <Setting/>
       </Article>
     </>
   );
 };
 
 SettingPage.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 export default SettingPage;

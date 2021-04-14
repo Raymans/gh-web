@@ -1,4 +1,4 @@
-import {Link} from 'gatsby-plugin-intl';
+import { Link } from 'gatsby-plugin-intl';
 import PropTypes from 'prop-types';
 import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
@@ -101,7 +101,7 @@ class Header extends React.Component {
   };
 
   visibilitySensorChange = val => {
-    if(val) {
+    if (val) {
       this.setState({ fixed: false });
     } else {
       this.setState({ fixed: true });
@@ -116,8 +116,11 @@ class Header extends React.Component {
     return `${homepage}`;
   };
 
-  render(){
-    const { pages, path } = this.props;
+  render() {
+    const {
+      pages,
+      path
+    } = this.props;
     const { fixed } = this.state;
     return (
       <React.Fragment>

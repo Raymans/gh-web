@@ -8,7 +8,10 @@ import InviteUserModal from './InviteUserModal';
 
 const { Column } = Table;
 
-const Invitations = ({ invitations, orgId }) => {
+const Invitations = ({
+  invitations,
+  orgId
+}) => {
   const { unInviteUserFromOrganization } = useApi();
   const { refreshUserOrg } = useContext(StoreContext);
 
@@ -16,13 +19,13 @@ const Invitations = ({ invitations, orgId }) => {
     message.loading({
       content: 'Sending Invite email....',
       key: 'invite',
-      duration: 4,
+      duration: 4
     });
     setTimeout(() => {
       message.success({
         content: 'Invitation has sent to Raymans!',
         key: 'invite',
-        duration: 4,
+        duration: 4
       });
     }, 1000);
   };
@@ -33,7 +36,7 @@ const Invitations = ({ invitations, orgId }) => {
     //     onDeleted();
     unInviteUserFromOrganization({
       email: invitation.email,
-      organizationId: orgId,
+      organizationId: orgId
     })
       .then(() => refreshUserOrg());
     //   });
@@ -41,11 +44,11 @@ const Invitations = ({ invitations, orgId }) => {
 
   return (
     <>
-      <InviteUserModal organizationId={orgId} />
+      <InviteUserModal organizationId={orgId}/>
       <Table dataSource={invitations} pagination={false} size="small">
-        <Column title="Email" dataIndex="email" key="email" />
-        <Column title="Inviter" dataIndex="inviterName" key="inviterName" />
-        <Column title="Inviter's email" dataIndex="inviterEmail" key="inviterEmail" />
+        <Column title="Email" dataIndex="email" key="email"/>
+        <Column title="Inviter" dataIndex="inviterName" key="inviterName"/>
+        <Column title="Inviter's email" dataIndex="inviterEmail" key="inviterEmail"/>
         <Column
           align="right"
           render={(text, record) => (
@@ -77,12 +80,12 @@ const Invitations = ({ invitations, orgId }) => {
 
 Invitations.propTypes = {
   invitations: PropTypes.array,
-  orgId: PropTypes.string,
+  orgId: PropTypes.string
 };
 
 Invitations.defaultProps = {
   invitations: [],
-  orgId: '',
+  orgId: ''
 };
 
 export default Invitations;

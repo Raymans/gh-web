@@ -11,42 +11,45 @@ const Item = (props) => {
   const {
     post: {
       excerpt,
-      fields: { slug, prefix },
+      fields: {
+        slug,
+        prefix
+      },
       frontmatter: {
         title,
         category,
         author,
         cover: {
-          children: [{ sizes }],
-        },
-      },
-    },
+          children: [{ sizes }]
+        }
+      }
+    }
   } = props;
 
   return (
     <>
       <li>
         <Link to={slug} key={slug} className="link">
-          <Img sizes={sizes} />
+          <Img sizes={sizes}/>
           <h1>
             {title}
             {' '}
-            <FaArrowRight className="arrow" />
+            <FaArrowRight className="arrow"/>
           </h1>
           <p className="meta">
             <span>
-              <FaCalendar size={18} />
+              <FaCalendar size={18}/>
               {' '}
               {prefix}
             </span>
             <span>
-              <FaUser size={18} />
+              <FaUser size={18}/>
               {' '}
               {author}
             </span>
             {category && (
               <span>
-                <FaTag size={18} />
+                <FaTag size={18}/>
                 {' '}
                 {category}
               </span>
@@ -60,7 +63,7 @@ const Item = (props) => {
 };
 
 Item.propTypes = {
-  post: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired
 };
 
 export default Item;

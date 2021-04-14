@@ -19,17 +19,22 @@ const StyledLike = styled.span`
   }
 `;
 
-const Like = ({ active, count, onClick = () => {} }) => (
+const Like = ({
+  active,
+  count,
+  onClick = () => {
+  }
+}) => (
   <LoginPrompt>
     {(isAuth) => (
-      <StyledLike className={active && 'active'} onClick={isAuth ? onClick : () => {}}>
-        <LikeOutlined />
+      <StyledLike className={active && 'active'} onClick={isAuth ? onClick : () => {
+      }}>
+        <LikeOutlined/>
         {` ${count}`}
       </StyledLike>
     )}
   </LoginPrompt>
 );
-Like.propTypes = {
-};
+Like.propTypes = {};
 
 export default Like;

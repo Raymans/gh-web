@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { graphql } from 'gatsby';
 import Article from '../components/Article';
@@ -9,22 +9,22 @@ const QuestionsPage = (props) => {
   const {
     data: {
       site: {
-        siteMetadata: { facebook },
-      },
-    },
+        siteMetadata: { facebook }
+      }
+    }
   } = props;
 
   return (
     <>
       <Article>
-        <Questions />
+        <Questions/>
       </Article>
     </>
   );
 };
 
 QuestionsPage.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 export default QuestionsPage;

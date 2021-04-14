@@ -14,11 +14,14 @@ const ManageInterviews = (props) => {
     >
       <InterviewsSummary
         path="/"
-        breadcrumbs={<CustomBreadcrumb crumbs={[{ label: 'Manage Interviews', path: '/manageInterviews' }]} />}
-        headline={<Headline title="Manage Interviews" />}
+        breadcrumbs={<CustomBreadcrumb crumbs={[{
+          label: 'Manage Interviews',
+          path: '/manageInterviews'
+        }]}/>}
+        headline={<Headline title="Manage Interviews"/>}
       />
-      <InterviewResults path="/:id/" />
-      <InterviewResult path="/:id/:sessionId" />
+      <InterviewResults path="/:id/"/>
+      <InterviewResult path="/:id/:sessionId"/>
     </Router>
   );
 };

@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import {
-  Button, Checkbox, Descriptions, List, message, Modal, Space, Spin, Tag,
-} from 'antd';
+import { Button, Checkbox, Descriptions, List, message, Modal, Space, Spin, Tag } from 'antd';
 import styled from 'styled-components';
 import { DeleteOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
 import { navigate } from 'gatsby-plugin-intl';
@@ -30,10 +28,18 @@ const StyledVisibilityTag = styled(Tag)`
 
 const QuestionGrid = (props) => {
   const {
-    user,
+    user
   } = useAuth0();
   const {
-    id: questionId, possibleAnswers, clientUser, question, showAuthor, visibility, showActionButtons, likeCount: likeCountProp, liked: likeProp,
+    id: questionId,
+    possibleAnswers,
+    clientUser,
+    question,
+    showAuthor,
+    visibility,
+    showActionButtons,
+    likeCount: likeCountProp,
+    liked: likeProp
   } = props;
   const { deleteQuestion: deletedQuestionApi } = useApi();
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
@@ -43,21 +49,24 @@ const QuestionGrid = (props) => {
   const [likeCount, setLikeCount] = useState(likeCountProp);
   const deleteQuestion = () => {
     setSaving(true);
-    deletedQuestionApi(questionId).then(() => {
-      setDeleted(true);
-      message.success(`Question has been deleted: ${question}`);
-    });
+    deletedQuestionApi(questionId)
+      .then(() => {
+        setDeleted(true);
+        message.success(`Question has been deleted: ${question}`);
+      });
   };
   let updateActions = [];
   if (showActionButtons && clientUser.id === user?.sub) {
     updateActions = [
       [
         <Space>
-          <Button size="small" shape="circle" icon={<EditOutlined />} onClick={() => { navigate(`/questions/${questionId}/edit`); }} />
+          <Button size="small" shape="circle" icon={<EditOutlined/>} onClick={() => {
+            navigate(`/questions/${questionId}/edit`);
+          }}/>
           <Button
             size="small"
             shape="circle"
-            icon={<DeleteOutlined style={{ color: 'lightcoral' }} />}
+            icon={<DeleteOutlined style={{ color: 'lightcoral' }}/>}
             onClick={() => setIsDeleteModalVisible(true)}
           />
         </Space>]];
@@ -77,36 +86,37 @@ const QuestionGrid = (props) => {
             >
               <p>{`Are you sure to delete the question: ${question}?`}</p>
             </Modal>
-            <Spin spinning={saving} indicator={<LoadingOutlined spin />}>
+            <Spin spinning={saving} indicator={<LoadingOutlined spin/>}>
               <StyledListItem
                 key={questionId}
                 extra={updateActions}
               >
                 {
-                  visibility === 'PRIVATE' && <StyledVisibilityTag color="default">private</StyledVisibilityTag>
+                  visibility === 'PRIVATE' &&
+                  <StyledVisibilityTag color="default">private</StyledVisibilityTag>
                 }
                 <h1>{question}</h1>
                 <Descriptions column={1}>
                   {possibleAnswers.length > 0
                   && (
-                  <Descriptions.Item>
-                    {possibleAnswers.map((possibleAnswer) => (
-                      <div key={possibleAnswer.answerId}>
-                        <Checkbox>{possibleAnswer.answer}</Checkbox>
-                      </div>
-                    ))}
-                  </Descriptions.Item>
+                    <Descriptions.Item>
+                      {possibleAnswers.map((possibleAnswer) => (
+                        <div key={possibleAnswer.answerId}>
+                          <Checkbox>{possibleAnswer.answer}</Checkbox>
+                        </div>
+                      ))}
+                    </Descriptions.Item>
                   )}
                   <Descriptions.Item>
                     {
                       showAuthor
                       && (
-                        <AuthorBy author={clientUser.nickname} avatarSrc={clientUser.avatar} />
+                        <AuthorBy author={clientUser.nickname} avatarSrc={clientUser.avatar}/>
                       )
                     }
                   </Descriptions.Item>
                   <Descriptions.Item>
-                    <QuestionLike id={questionId} liked={liked} likeCount={likeCount} />
+                    <QuestionLike id={questionId} liked={liked} likeCount={likeCount}/>
                   </Descriptions.Item>
                 </Descriptions>
               </StyledListItem>
@@ -124,11 +134,11 @@ QuestionGrid.propTypes = {
   id: PropTypes.string.isRequired,
   showAuthor: PropTypes.bool,
   visibility: PropTypes.string,
-  showActionButtons: PropTypes.bool,
+  showActionButtons: PropTypes.bool
 };
 
 QuestionGrid.defaultProps = {
-  showAuthor: true,
+  showAuthor: true
 };
 
 export default QuestionGrid;

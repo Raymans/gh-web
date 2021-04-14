@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button, Checkbox, Modal, Result, Tabs,
-} from 'antd';
+import { Button, Checkbox, Modal, Result, Tabs } from 'antd';
 import styled from 'styled-components';
 import {
   CheckCircleTwoTone,
   CloseCircleTwoTone,
-  ExclamationCircleOutlined,
+  ExclamationCircleOutlined
 } from '@ant-design/icons';
 import { Link } from 'gatsby-plugin-intl';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -22,10 +20,10 @@ const defaultInterviewSession = {
         questions:
           [{
             id: '',
-            question: '',
-          }],
-      }],
-  },
+            question: ''
+          }]
+      }]
+  }
 };
 
 const StyledQuestionBlock = styled.div`
@@ -70,14 +68,24 @@ const StyledQuestionH2 = styled.h2`
 `;
 const InterviewSession = ({
   interviewSession: {
-    id, interviewEndDate, interview, answerAttemptSections = null,
-  } = defaultInterviewSession, preview = false, viewResult = true, endSession = false, onEndInterviewSession = () => {
-  },
+    id,
+    interviewEndDate,
+    interview,
+    answerAttemptSections = null
+  } = defaultInterviewSession,
+  preview = false,
+  viewResult = true,
+  endSession = false,
+  onEndInterviewSession = () => {
+  }
 }) => {
   const {
-    user,
+    user
   } = useAuth0();
-  const { addAnswerToInterviewSession, submitInterviewSession } = useApi();
+  const {
+    addAnswerToInterviewSession,
+    submitInterviewSession
+  } = useApi();
   const isOwner = user?.sub === interview.clientUser.id;
   const [isSubmitted, setIsSubmitted] = useState(!!interviewEndDate);
   const handleSubmitQuestionAttempt = (sectionId, questionId, values) => {
@@ -86,13 +94,16 @@ const InterviewSession = ({
     }
 
     addAnswerToInterviewSession({
-      id, sectionId, questionSnapshotId: questionId, answerId: values,
+      id,
+      sectionId,
+      questionSnapshotId: questionId,
+      answerId: values
     });
   };
   const handleSubmitInterviewSession = () => {
     Modal.confirm({
       title: 'Submit your interview result?',
-      icon: <ExclamationCircleOutlined />,
+      icon: <ExclamationCircleOutlined/>,
       content: 'Once you submit your result, you cannot change it anymore. Are you sure submit it now?',
       onOk() {
         return submitInterviewSession(id)
@@ -102,7 +113,7 @@ const InterviewSession = ({
           });
       },
       onCancel() {
-      },
+      }
     });
   };
 
@@ -138,10 +149,18 @@ const InterviewSession = ({
               && (
                 <Tabs>
                   {
-                    interview.sections.map(({ id: sectionId, title, questions = [] }) => (
+                    interview.sections.map(({
+                      id: sectionId,
+                      title,
+                      questions = []
+                    }) => (
                       <Tabs.TabPane tab={title} key={sectionId}>
                         {
-                          questions.map(({ id: questionId, possibleAnswers = [], ...question }, questionIndex) => {
+                          questions.map(({
+                            id: questionId,
+                            possibleAnswers = [],
+                            ...question
+                          }, questionIndex) => {
                             const correctAnswers = possibleAnswers.filter((possibleAnswer) => possibleAnswer.correctAnswer)
                               .map((possibleAnswer) => possibleAnswer.answerId);
                             const answerAttemptQuestionIds = !answerAttemptSections || !answerAttemptSections[sectionId] || !answerAttemptSections[sectionId].answerAttempts[questionId] ? [] : answerAttemptSections[sectionId].answerAttempts[questionId].answerIds;
@@ -153,8 +172,8 @@ const InterviewSession = ({
                                   {`Q${questionIndex + 1}`}
                                   {
                                     preview && viewResult && (isOwner ? correctAnswers?.length > 0 : true) && (correct
-                                      ? <CheckCircleTwoTone />
-                                      : <CloseCircleTwoTone twoToneColor="red" />)
+                                      ? <CheckCircleTwoTone/>
+                                      : <CloseCircleTwoTone twoToneColor="red"/>)
                                   }
                                 </StyledQuestionH2>
                                 <StyledQuestionBlock>
@@ -202,7 +221,7 @@ const InterviewSession = ({
 };
 
 InterviewSession.propTypes = {
-  interviewSession: PropTypes.object,
+  interviewSession: PropTypes.object
 };
 
 export default InterviewSession;

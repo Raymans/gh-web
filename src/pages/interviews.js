@@ -9,22 +9,22 @@ const InterviewsPage = (props) => {
   const {
     data: {
       site: {
-        siteMetadata: { facebook },
-      },
-    },
+        siteMetadata: { facebook }
+      }
+    }
   } = props;
 
   return (
     <>
       <Article>
-        <Interviews />
+        <Interviews/>
       </Article>
     </>
   );
 };
 
 InterviewsPage.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 export default InterviewsPage;

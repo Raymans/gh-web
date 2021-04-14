@@ -102,7 +102,10 @@ export const Layout = (props) => {
       }
     `}
       render={(data) => {
-        const { children, location } = props;
+        const {
+          children,
+          location
+        } = props;
         const {
           footnote: { body: footnoteHTML },
           pages: { edges: pages }

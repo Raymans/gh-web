@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Avatar, Col, Descriptions, Row, Spin,
-} from 'antd';
-import {
-  GithubOutlined, LinkedinOutlined, LoadingOutlined, MailOutlined,
-} from '@ant-design/icons';
+import { Avatar, Col, Descriptions, Row, Spin } from 'antd';
+import { GithubOutlined, LinkedinOutlined, LoadingOutlined, MailOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import PassInterview from './PassInterview';
 import LikedInterviews from '../Interviews/LikedInterviews';
@@ -22,19 +18,23 @@ const Profile = ({ userId }) => {
   const [profile, setProfile] = useState({ nickname: '' });
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    getUserProfile(userId).then((res) => {
-      setProfile(res);
-      setLoading(false);
-    });
+    getUserProfile(userId)
+      .then((res) => {
+        setProfile(res);
+        setLoading(false);
+      });
   }, []);
   return (
     <>
-      <CustomBreadcrumb crumbs={[{ label: `${profile.nickname}`, path: location.pathname }]} />
-      <Headline title={`Profile - ${profile.nickname}`} />
-      <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
+      <CustomBreadcrumb crumbs={[{
+        label: `${profile.nickname}`,
+        path: location.pathname
+      }]}/>
+      <Headline title={`Profile - ${profile.nickname}`}/>
+      <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
         <StyledBasicProfileRow align="middle">
           <Col span={8}>
-            <Avatar size={200} src={profile.avatar} />
+            <Avatar size={200} src={profile.avatar}/>
           </Col>
           <Col span={16}>
             <Descriptions column={1}>
@@ -42,23 +42,25 @@ const Profile = ({ userId }) => {
                 {profile.nickname}
               </Descriptions.Item>
               <Descriptions.Item
-                label={<MailOutlined />}
+                label={<MailOutlined/>}
               >
                 {profile.email}
               </Descriptions.Item>
-              <Descriptions.Item label={<GithubOutlined />}>{profile.metadata?.github}</Descriptions.Item>
-              <Descriptions.Item label={<LinkedinOutlined />}>{profile.metadata?.linkedIn}</Descriptions.Item>
+              <Descriptions.Item
+                label={<GithubOutlined/>}>{profile.metadata?.github}</Descriptions.Item>
+              <Descriptions.Item
+                label={<LinkedinOutlined/>}>{profile.metadata?.linkedIn}</Descriptions.Item>
               <Descriptions.Item label="Company">{profile.metadata?.companyName}</Descriptions.Item>
               <Descriptions.Item>{profile.metadata?.note}</Descriptions.Item>
             </Descriptions>
           </Col>
         </StyledBasicProfileRow>
       </Spin>
-      <LikedInterviews />
+      <LikedInterviews/>
       {/* <MyInterview /> */}
-      <InterviewsSummary userId={userId} />
-      <PassInterview />
-      <Seo subTitle={profile.nickname} />
+      <InterviewsSummary userId={userId}/>
+      <PassInterview/>
+      <Seo subTitle={profile.nickname}/>
     </>
   );
 };

@@ -6,12 +6,12 @@ const count = 3;
 
 const fakelist = {
   results: [{
-    name: 'First Interview',
+    name: 'First Interview'
   }, {
-    name: 'Second Interview',
+    name: 'Second Interview'
   }, {
-    name: 'Third Interview',
-  }],
+    name: 'Third Interview'
+  }]
 };
 const getData = (callback) => callback(fakelist);
 const MyInterview = () => {
@@ -19,13 +19,16 @@ const MyInterview = () => {
     initLoading: true,
     loading: false,
     data: [],
-    list: [],
+    list: []
   });
   const onLoadMore = () => {
     setLoadingData({
       ...loadingData,
       loading: true,
-      list: loadingData.data.concat([...new Array(count)].map(() => ({ loading: true, name: {} }))),
+      list: loadingData.data.concat([...new Array(count)].map(() => ({
+        loading: true,
+        name: {}
+      })))
     });
     getData((res) => {
       const data = loadingData.data.concat(res.results);
@@ -33,7 +36,7 @@ const MyInterview = () => {
         ...loadingData,
         data,
         list: data,
-        loading: false,
+        loading: false
       });
     });
   };
@@ -44,18 +47,22 @@ const MyInterview = () => {
         ...loadingData,
         initLoading: false,
         data: res.results,
-        list: res.results,
+        list: res.results
       });
     });
   }, []);
-  const { initLoading, loading, list } = loadingData;
+  const {
+    initLoading,
+    loading,
+    list
+  } = loadingData;
   const loadMore = !initLoading && !loading ? (
     <div
       style={{
         textAlign: 'center',
         marginTop: 12,
         height: 32,
-        lineHeight: '32px',
+        lineHeight: '32px'
       }}
     >
       <Button onClick={onLoadMore}>loading more</Button>
@@ -64,11 +71,10 @@ const MyInterview = () => {
   return (
     <>
       <h2 id="myinterview">Own Interviews</h2>
-      <InterviewsSummary />
+      <InterviewsSummary/>
     </>
   );
 };
-MyInterview.propTypes = {
-};
+MyInterview.propTypes = {};
 
 export default MyInterview;

@@ -10,16 +10,16 @@ const ProfilePage = (props) => {
   const {
     data: {
       site: {
-        siteMetadata: { facebook },
-      },
-    },
+        siteMetadata: { facebook }
+      }
+    }
   } = props;
 
   return (
     <>
       <Article>
         <Router basepath="/profile">
-          <Profile path="/:userId" />
+          <Profile path="/:userId"/>
         </Router>
 
       </Article>
@@ -28,7 +28,7 @@ const ProfilePage = (props) => {
 };
 
 ProfilePage.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 export default ProfilePage;

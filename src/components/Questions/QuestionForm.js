@@ -1,8 +1,6 @@
 import '@ant-design/compatible/assets/index.css';
 
-import {
-  Button, Form, Input, Spin, Switch, Tabs,
-} from 'antd';
+import { Button, Form, Input, Spin, Switch, Tabs } from 'antd';
 import {
   CheckOutlined,
   CheckSquareOutlined,
@@ -10,7 +8,7 @@ import {
   CodeOutlined,
   LoadingOutlined,
   MinusCircleOutlined,
-  PlusOutlined,
+  PlusOutlined
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -33,30 +31,36 @@ if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
 }
 
 const StyledMinusCircleOutlined = styled(MinusCircleOutlined)`
-    color: #999;
-    transition: all .3s;
-    :hover {
-      color: #777;
-    }
-  `;
+  color: #999;
+  transition: all .3s;
+
+  :hover {
+    color: #777;
+  }
+`;
 const StyledButtonsGroup = styled(FormItem)`
   margin: 30px 0;
 `;
 const inputLayout = {
   labelCol: { span: 4 },
-  wrapperCol: { span: 20 },
+  wrapperCol: { span: 20 }
 };
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin/>;
 
 const QuestionForm = (props) => {
   const [saving, setSaving] = useState(false);
 
   const {
-    id, form,
+    id,
+    form
   } = props;
 
-  const { createQuestion, getQuestion, updateQuestion } = useApi();
+  const {
+    createQuestion,
+    getQuestion,
+    updateQuestion
+  } = useApi();
 
   const formContent = (
     <>
@@ -66,12 +70,12 @@ const QuestionForm = (props) => {
         rules={[{
           required: true,
           message: 'Please enter description.',
-          whitespace: true,
+          whitespace: true
         }]}
       >
         <TextArea
           autoSize={{
-            minRows: 2,
+            minRows: 2
           }}
         />
       </FormItem>
@@ -79,7 +83,7 @@ const QuestionForm = (props) => {
         <TabPane
           tab={(
             <span>
-              <CheckSquareOutlined />
+              <CheckSquareOutlined/>
               {' '}
               Multiple Question
             </span>
@@ -87,15 +91,18 @@ const QuestionForm = (props) => {
           key="1"
         >
           <Form.List name={form ? [id, 'possibleAnswers'] : 'possibleAnswers'}>
-            {(fields, { add, remove }) => (
-              <QuestionFormItem form={form} id={id} fields={fields} add={add} remove={remove} />
+            {(fields, {
+              add,
+              remove
+            }) => (
+              <QuestionFormItem form={form} id={id} fields={fields} add={add} remove={remove}/>
             )}
           </Form.List>
         </TabPane>
         <TabPane
           tab={(
             <span>
-              <CodeOutlined />
+              <CodeOutlined/>
               {' '}
               Coding
             </span>
@@ -109,12 +116,12 @@ const QuestionForm = (props) => {
               name="code"
               rules={[{
                 required: true,
-                message: 'Please enter your code!',
+                message: 'Please enter your code!'
               }]}
             >
               <CodeMirror options={{
                 lineNumbers: true,
-                mode: 'javascript',
+                mode: 'javascript'
               }}
               />
             </FormItem>
@@ -140,19 +147,19 @@ const QuestionForm = (props) => {
       }
       const possibleAnswers = values.possibleAnswers.map((possibleAnswer) => ({
         ...possibleAnswer,
-        correctAnswer: !!possibleAnswer.correctAnswer,
+        correctAnswer: !!possibleAnswer.correctAnswer
       }));
       if (isEditForm) {
         updateQuestion({
           id,
-          params: { possibleAnswers, ...values },
+          params: { possibleAnswers, ...values }
         })
           .then(() => {
             navigate('questions');
           });
       } else {
         createQuestion({
-          params: { possibleAnswers, ...values },
+          params: { possibleAnswers, ...values }
         })
           .then(() => {
             navigate('/questions');
@@ -173,8 +180,14 @@ const QuestionForm = (props) => {
 
     return (
       <>
-        <CustomBreadcrumb crumbs={[{ label: 'List Questions', path: '/questions' }, { label: isEditForm ? 'Question - edit' : 'Question - create', path: location.pathname }]} />
-        <Headline title={isEditForm ? 'Question - Edit' : 'Question - Create'} />
+        <CustomBreadcrumb crumbs={[{
+          label: 'List Questions',
+          path: '/questions'
+        }, {
+          label: isEditForm ? 'Question - edit' : 'Question - create',
+          path: location.pathname
+        }]}/>
+        <Headline title={isEditForm ? 'Question - Edit' : 'Question - Create'}/>
         <Spin spinning={saving} indicator={antIcon}>
           <div className="form">
             <Form
@@ -198,7 +211,7 @@ const QuestionForm = (props) => {
             </Form>
           </div>
         </Spin>
-        <Seo subTitle={isEditForm ? 'Question - Edit' : 'Question - Create'} />
+        <Seo subTitle={isEditForm ? 'Question - Edit' : 'Question - Create'}/>
       </>
     );
   }
@@ -207,7 +220,11 @@ const QuestionForm = (props) => {
 
 const QuestionFormItem = (props) => {
   const {
-    form, id, fields, add, remove,
+    form,
+    id,
+    fields,
+    add,
+    remove
   } = props;
   return (
     <div>
@@ -222,11 +239,11 @@ const QuestionFormItem = (props) => {
             noStyle
           >
             <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
+              checkedChildren={<CheckOutlined/>}
+              unCheckedChildren={<CloseOutlined/>}
               style={{
                 float: 'left',
-                margin: '5px',
+                margin: '5px'
               }}
             />
           </FormItem>
@@ -237,8 +254,8 @@ const QuestionFormItem = (props) => {
               {
                 required: true,
                 whitespace: true,
-                message: 'answer option',
-              },
+                message: 'answer option'
+              }
             ]}
             noStyle
           >
@@ -246,7 +263,7 @@ const QuestionFormItem = (props) => {
               placeholder="Please input answer option"
               style={{
                 width: '80%',
-                marginRight: 8,
+                marginRight: 8
               }}
             />
           </Form.Item>
@@ -266,7 +283,7 @@ const QuestionFormItem = (props) => {
           add();
         }}
       >
-        <PlusOutlined />
+        <PlusOutlined/>
         {' '}
         Add Answer
       </Button>
@@ -275,7 +292,7 @@ const QuestionFormItem = (props) => {
 };
 
 QuestionForm.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.string
 };
 
 export default QuestionForm;

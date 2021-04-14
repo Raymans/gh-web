@@ -10,25 +10,25 @@ const ContactPage = (props) => {
   const {
     data: {
       site: {
-        siteMetadata: { facebook },
-      },
-    },
+        siteMetadata: { facebook }
+      }
+    }
   } = props;
 
   return (
     <>
       <Article>
         <header>
-          <Headline title="Contact" />
+          <Headline title="Contact"/>
         </header>
-        <Contact />
+        <Contact/>
       </Article>
     </>
   );
 };
 
 ContactPage.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 export default ContactPage;

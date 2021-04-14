@@ -3,7 +3,18 @@ import { Button, message, Modal as AntdModal } from 'antd';
 import React, { useState } from 'react';
 
 const ConfirmModal = ({
-  title, onOpen, onOK, onCancel, onBeforeSubmit, children, successMessage, openButtonTitle, submitButtonTitle, openButtonType, style, danger,
+  title,
+  onOpen,
+  onOK,
+  onCancel,
+  onBeforeSubmit,
+  children,
+  successMessage,
+  openButtonTitle,
+  submitButtonTitle,
+  openButtonType,
+  style,
+  danger
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [okLoading, setOKLoading] = useState(false);
@@ -53,7 +64,7 @@ const ConfirmModal = ({
           </Button>,
           <Button type="primary" loading={okLoading} onClick={handleOK} danger={danger}>
             {submitButtonTitle}
-          </Button>,
+          </Button>
         ]}
         onCancel={handleCancel}
       >
@@ -75,7 +86,7 @@ ConfirmModal.propTypes = {
   title: PropTypes.string,
   openButtonType: PropTypes.string,
   style: PropTypes.object,
-  danger: PropTypes.bool,
+  danger: PropTypes.bool
 };
 
 ConfirmModal.defaultProps = {
@@ -92,6 +103,6 @@ ConfirmModal.defaultProps = {
   onBeforeSubmit: async () => {
   },
   style: {},
-  danger: false,
+  danger: false
 };
 export default ConfirmModal;

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {
-  Avatar, Button, Form, message, Upload,
-} from 'antd';
+import { Avatar, Form, message, Upload } from 'antd';
 import { LoadingOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
 
 const StyledAvatar = styled(Avatar)`
@@ -31,10 +29,13 @@ function beforeUpload(file) {
   return isJpgOrPng && isLt2M;
 }
 
-const UploadImage = ({ name, label }) => {
+const UploadImage = ({
+  name,
+  label
+}) => {
   const [uploadImage, setUploadingImage] = useState({
     loading: false,
-    imageUrl: 'https://avatars0.githubusercontent.com/u/5819635?s=400&u=28fed09b4c20e36c8dfa58063d3dedfa93bee04c&v=4',
+    imageUrl: 'https://avatars0.githubusercontent.com/u/5819635?s=400&u=28fed09b4c20e36c8dfa58063d3dedfa93bee04c&v=4'
   });
 
   const normFile = (e) => {
@@ -48,7 +49,7 @@ const UploadImage = ({ name, label }) => {
     if (info.file.status === 'uploading') {
       setUploadingImage({
         ...uploadImage,
-        loading: true,
+        loading: true
       });
       return;
     }
@@ -56,17 +57,17 @@ const UploadImage = ({ name, label }) => {
       // Get this url from response in real world.
       getBase64(info.file.originFileObj, (imageUrl) => setUploadingImage({
         imageUrl,
-        loading: false,
+        loading: false
       }));
     }
     getBase64(info.file.originFileObj, (imageUrl) => setUploadingImage({
       imageUrl,
-      loading: false,
+      loading: false
     }));
   };
   const uploadButton = (
     <div>
-      {uploadImage.loading ? <LoadingOutlined /> : <PlusOutlined />}
+      {uploadImage.loading ? <LoadingOutlined/> : <PlusOutlined/>}
       <div className="ant-upload-text">Upload</div>
     </div>
   );
@@ -90,14 +91,14 @@ const UploadImage = ({ name, label }) => {
                 size={150}
                 src={uploadImage.imageUrl ? uploadImage.imageUrl : uploadButton}
               />
-            ) : <StyledAvatar size={150} icon={<UserOutlined />} />}
+            ) : <StyledAvatar size={150} icon={<UserOutlined/>}/>}
         </div>
       </Upload>
     </Form.Item>
   );
 };
 UploadImage.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired
 };
 
 export default UploadImage;

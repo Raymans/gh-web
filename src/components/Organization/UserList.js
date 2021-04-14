@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types';
-import {
-  Cascader, message, Space, Table, Tag,
-} from 'antd';
+import { Cascader, message, Space, Table, Tag } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import useApi from '../../hooks/useApi';
 import ConfirmModal from './ConfirmModal';
@@ -9,13 +7,17 @@ import { StoreContext } from '../../context/ContextProvider';
 
 const { Column } = Table;
 const UserList = ({ users }) => {
-  const { removeUserFromOrganization, getDepartments, assignUserToDepartment } = useApi();
+  const {
+    removeUserFromOrganization,
+    getDepartments,
+    assignUserToDepartment
+  } = useApi();
   const { refreshUserOrg } = useContext(StoreContext);
   const [departments, setDepartments] = useState([]);
 
   const handleRemoveUserFromOrg = (user) => removeUserFromOrganization({
     userId: user.id,
-    organizationId: user.orgId,
+    organizationId: user.orgId
   })
     .catch((error) => {
       message.error(error.data.message);
@@ -28,7 +30,7 @@ const UserList = ({ users }) => {
     }
     assignUserToDepartment({
       userId: user.id,
-      departmentId,
+      departmentId
     })
       .then(() => refreshUserOrg());
   };
@@ -51,13 +53,13 @@ const UserList = ({ users }) => {
     getDepartments()
       .then(({ results = [] }) => setDepartments(results.length === 0 ? [] : results.map((dept) => ({
         value: dept.id,
-        label: dept.name,
+        label: dept.name
       }))));
   }, []);
   return (
     <>
       <div style={{
-        marginBottom: 16,
+        marginBottom: 16
       }}
       >
         <Tag>Architecture Team</Tag>
@@ -66,9 +68,9 @@ const UserList = ({ users }) => {
       </div>
 
       <Table dataSource={users} pagination={false} size="small">
-        <Column title="Name" dataIndex="name" key="name" />
-        <Column title="Email" dataIndex="email" key="email" />
-        <Column title="Department" dataIndex="department" key="department" render={renderDept} />
+        <Column title="Name" dataIndex="name" key="name"/>
+        <Column title="Email" dataIndex="email" key="email"/>
+        <Column title="Department" dataIndex="department" key="department" render={renderDept}/>
         <Column
           align="right"
           render={(text, record) => (record.accountPrivilege !== 'OWNER' ? (
@@ -101,9 +103,9 @@ const UserList = ({ users }) => {
 export default UserList;
 
 UserList.propTypes = {
-  users: PropTypes.array,
+  users: PropTypes.array
 };
 
 UserList.defaultProps = {
-  users: [],
+  users: []
 };

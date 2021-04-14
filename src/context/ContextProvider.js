@@ -14,10 +14,14 @@ const StoreProvider = ({ children }) => {
     specialization: '',
     keyword: '',
     pageSize: 10,
-    owner: false,
+    owner: false
   });
 
-  const { getMyProfile, getMyOrganization, getOrganization } = useApi();
+  const {
+    getMyProfile,
+    getMyOrganization,
+    getOrganization
+  } = useApi();
 
   const refreshUserProfile = () => getMyProfile(user.sub)
     .then((data) => {
@@ -49,7 +53,7 @@ const StoreProvider = ({ children }) => {
       refreshUserProfile,
       organization,
       setOrganization,
-      refreshUserOrg,
+      refreshUserOrg
     }}
     >
       {children}

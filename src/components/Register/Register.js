@@ -3,14 +3,10 @@
 import { navigateTo } from 'gatsby-link';
 import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import {
-  AutoComplete, Button, Checkbox, Input, Select, Tooltip,
-} from 'antd';
+import { AutoComplete, Button, Checkbox, Input, Select, Tooltip } from 'antd';
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import { createGlobalStyle } from 'styled-components';
 //import { signup } from '../../utils/api';
 
 const FormItem = Form.Item;
@@ -22,24 +18,24 @@ const Register = (props) => {
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
-      sm: { span: 8 },
+      sm: { span: 8 }
     },
     wrapperCol: {
       xs: { span: 24 },
-      sm: { span: 16 },
-    },
+      sm: { span: 16 }
+    }
   };
   const tailFormItemLayout = {
     wrapperCol: {
       xs: {
         span: 24,
-        offset: 0,
+        offset: 0
       },
       sm: {
         span: 16,
-        offset: 8,
-      },
-    },
+        offset: 8
+      }
+    }
   };
 
   const handleConfirmBlur = (e) => {
@@ -73,25 +69,26 @@ const Register = (props) => {
     e.preventDefault();
     props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        sendMessage(values).then(() => {
-          refreshAuth();
-          navigateTo('/');
-        });
+        sendMessage(values)
+          .then(() => {
+            refreshAuth();
+            navigateTo('/');
+          });
       }
     });
   };
 
   function sendMessage(values) {
-  //   return signup({
-  //     firstName: 'Joe',
-  //     lastName: 'Lin',
-  //     ...values,
-  //   }).then((user) => {
-  //     console.log('Form submission success');
-  //   })
-  //     .catch((error) => {
-  //       console.error('Form submission error:', error);
-  //     });
+    //   return signup({
+    //     firstName: 'Joe',
+    //     lastName: 'Lin',
+    //     ...values,
+    //   }).then((user) => {
+    //     console.log('Form submission success');
+    //   })
+    //     .catch((error) => {
+    //       console.error('Form submission error:', error);
+    //     });
   }
 
   return (
@@ -101,53 +98,61 @@ const Register = (props) => {
           <FormItem
             name="email"
             rules={[{
-              type: 'email', message: 'The input is not valid E-mail!',
+              type: 'email',
+              message: 'The input is not valid E-mail!'
             }, {
-              required: true, message: 'Please input your E-mail!',
+              required: true,
+              message: 'Please input your E-mail!'
             }]}
             {...formItemLayout}
             label="E-mail"
           >
-            <Input />
+            <Input/>
           </FormItem>
           <FormItem
             name="username"
-            rules={[{ required: true, message: 'Please input your user name!', whitespace: true }]}
+            rules={[{
+              required: true,
+              message: 'Please input your user name!',
+              whitespace: true
+            }]}
             {...formItemLayout}
             label={(
               <span>
               User Name&nbsp;
                 <Tooltip title="What do you want others to see you?">
-                  <LegacyIcon type="question-circle-o" />
+                  <LegacyIcon type="question-circle-o"/>
                 </Tooltip>
               </span>
-           )}
+            )}
           >
-            <Input />
+            <Input/>
           </FormItem>
           <FormItem
             name="password"
             rules={[{
-              required: true, message: 'Please input your password!',
+              required: true,
+              message: 'Please input your password!'
             }, {
-              validator: validateToNextPassword,
+              validator: validateToNextPassword
             }]}
             {...formItemLayout}
             label="Password"
           >
-            <Input type="password" />
+            <Input type="password"/>
           </FormItem>
           <FormItem
             name="confirm"
             rules={[{
-              required: true, message: 'Please confirm your password!',
+              required: true,
+              message: 'Please confirm your password!'
             }, {
-              validator: compareToFirstPassword,
+              validator: compareToFirstPassword
             }]}
             {...formItemLayout}
             label="Confirm Password"
           >
-            <Input type="password" onBlur={handleConfirmBlur} />
+            <Input type="password" onBlur={handleConfirmBlur}/>
           </FormItem>
           <FormItem name="remeber" {...tailFormItemLayout}>
             <Checkbox>Remember me</Checkbox>
@@ -162,7 +167,7 @@ const Register = (props) => {
 };
 
 Register.propTypes = {
-  form: PropTypes.object,
+  form: PropTypes.object
 };
 
 export default Register;

@@ -1,6 +1,4 @@
-import {
-  Form, Input, message, Table,
-} from 'antd';
+import { Form, Input, message, Table } from 'antd';
 import React, { useEffect, useState } from 'react';
 import FormItem from 'antd/lib/form/FormItem';
 import useApi from '../../hooks/useApi';
@@ -16,10 +14,10 @@ const DeptForm = ({ form }) => (
       required
       rules={[{
         required: true,
-        message: 'Please input Department Name',
+        message: 'Please input Department Name'
       }]}
     >
-      <Input autoFocus />
+      <Input autoFocus/>
     </FormItem>
   </Form>
 );
@@ -28,7 +26,10 @@ const Departments = () => {
   const [deptForm] = Form.useForm();
   const [departments, setDepartments] = useState([]);
   const {
-    getDepartments, createDepartment, deleteDepartment, updateDepartment,
+    getDepartments,
+    createDepartment,
+    deleteDepartment,
+    updateDepartment
   } = useApi();
 
   const retrieveDepts = () => getDepartments()
@@ -41,7 +42,7 @@ const Departments = () => {
   };
   const handleNewDepartment = () => {
     createDepartment({
-      departmentName: deptForm.getFieldsValue().departmentName,
+      departmentName: deptForm.getFieldsValue().departmentName
     })
       .then(retrieveDepts)
       .then(() => deptForm.resetFields())
@@ -54,7 +55,7 @@ const Departments = () => {
   const handleEditDepartment = (dept) => {
     updateDepartment({
       departmentId: dept.id,
-      departmentName: deptForm.getFieldsValue().departmentName,
+      departmentName: deptForm.getFieldsValue().departmentName
     })
       .then(retrieveDepts)
       .then(() => deptForm.resetFields())
@@ -81,10 +82,10 @@ const Departments = () => {
         onOK={handleNewDepartment}
         onOpen={() => deptForm.setFieldsValue({ departmentName: '' })}
       >
-        <DeptForm form={deptForm} />
+        <DeptForm form={deptForm}/>
       </ConfirmModal>
       <Table dataSource={departments} pagination={false} size="small">
-        <Column title="Name" dataIndex="name" key="name" />
+        <Column title="Name" dataIndex="name" key="name"/>
         <Column
           align="right"
           render={(text, record) => (
@@ -98,7 +99,7 @@ const Departments = () => {
                 onOpen={() => deptForm.setFieldsValue({ departmentName: record.name })}
                 openButtonType="link"
               >
-                <DeptForm form={deptForm} name={record.name} />
+                <DeptForm form={deptForm} name={record.name}/>
               </ConfirmModal>
               <ConfirmModal
                 title="Delete Department"

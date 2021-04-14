@@ -9,7 +9,7 @@ const StyledLayoutSider = styled(Layout.Sider)`
   left: 60px;
   min-width: 160px !important;
   width: 160px !important;
-`
+`;
 
 const AnchorSilder = (props) => {
   const { anchors = [] } = props;
@@ -18,7 +18,7 @@ const AnchorSilder = (props) => {
       <Anchor offsetTop={60}>
         {
           anchors.map((anchor) => (
-            <Anchor.Link key={anchor.href} href={anchor.href} title={anchor.title} />
+            <Anchor.Link key={anchor.href} href={anchor.href} title={anchor.title}/>
           ))
         }
 
@@ -29,5 +29,5 @@ const AnchorSilder = (props) => {
 export default AnchorSilder;
 
 AnchorSilder.propTypes = {
-  anchors: PropTypes.array,
+  anchors: PropTypes.array
 };

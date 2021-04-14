@@ -4,7 +4,6 @@ import { Button, Col, Descriptions, Layout, Progress, Row, Spin, Statistic, Tool
 import { ArrowDownOutlined, ArrowUpOutlined, LoadingOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import useApi from '../../hooks/useApi';
-import AnchorSilder from '../Sider/AnchorSider';
 import AuthorBy from '../AuthorBy';
 import InterviewSession from './InterviewSession';
 
@@ -20,8 +19,16 @@ const StyledScoresRow = styled(Row)`
   }
 `;
 
-const InterviewSessionResult = ({ sessionId, isOwner, onLoaded }) => {
-  const { calculateInterviewSession, getAverageScore, getInterviewSession } = useApi();
+const InterviewSessionResult = ({
+  sessionId,
+  isOwner,
+  onLoaded
+}) => {
+  const {
+    calculateInterviewSession,
+    getAverageScore,
+    getInterviewSession
+  } = useApi();
   const [interviewSession, setInterviewSession] = useState({ candidateUser: {} });
   const [averageScore, setAverageScore] = useState({ sectionsAverageScore: [{ averageSectionScore: 0 }] });
   const [calculating, setCalculating] = useState(false);

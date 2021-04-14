@@ -5,7 +5,7 @@ export const isBrowser = typeof window !== 'undefined';
 const tokens = {
   accessToken: false,
   idToken: false,
-  expiresAt: false,
+  expiresAt: false
 };
 
 // Only instantiate Auth0 if we’re in the browser.
@@ -16,7 +16,7 @@ const auth0 = isBrowser
     redirectUri: process.env.AUTH0_CALLBACK,
     audience: process.env.AUTH0_AUDIENCE,
     responseType: 'token id_token',
-    scope: 'openid profile email',
+    scope: 'openid profile email'
   })
   : {};
 
@@ -32,7 +32,10 @@ export const logout = () => {
   localStorage.removeItem('profile');
   localStorage.removeItem('accessToken');
 
-  const { protocol, host } = window.location;
+  const {
+    protocol,
+    host
+  } = window.location;
   const returnTo = `${protocol}//${host}`;
 
   auth0.logout({ returnTo });
@@ -78,7 +81,8 @@ export const silentAuth = (callback) => {
   auth0.checkSession({}, setSession(callback));
 };
 
-export const handleAuthentication = (callback = () => {}) => {
+export const handleAuthentication = (callback = () => {
+}) => {
   if (!isBrowser) {
     return;
   }

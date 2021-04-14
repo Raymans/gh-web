@@ -24,7 +24,7 @@ const Contact = (props) => {
     fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: encode({ 'form-name': 'contact', ...values }),
+      body: encode({ 'form-name': 'contact', ...values })
     })
       .then(() => {
         console.log('Form submission success');
@@ -59,11 +59,11 @@ const Contact = (props) => {
             name="name"
             rules={[
               {
-                whitespace: true,
-              },
+                whitespace: true
+              }
             ]}
           >
-            <Input />
+            <Input/>
           </FormItem>
           <FormItem
             label="E-mail"
@@ -73,22 +73,29 @@ const Contact = (props) => {
                 required: true,
                 message: 'Please input your e-mail address!',
                 whitespace: true,
-                type: 'email',
-              },
+                type: 'email'
+              }
             ]}
           >
-            <Input />
+            <Input/>
           </FormItem>
           <FormItem
             label="Message"
             name="message"
             rules={[
-              { required: true, message: 'Please input your message!', whitespace: true },
+              {
+                required: true,
+                message: 'Please input your message!',
+                whitespace: true
+              }
             ]}
           >
             <TextArea
               placeholder="Autosize height with minimum and maximum number of lines"
-              autoSize={{ minRows: 4, maxRows: 10 }}
+              autoSize={{
+                minRows: 4,
+                maxRows: 10
+              }}
             />
           </FormItem>
           <FormItem>
@@ -98,13 +105,13 @@ const Contact = (props) => {
           </FormItem>
         </Form>
       </div>
-      <Seo subTitle="Contact" />
+      <Seo subTitle="Contact"/>
     </>
   );
 };
 
 Contact.propTypes = {
-  form: PropTypes.shape,
+  form: PropTypes.shape
 };
 
 export default Contact;

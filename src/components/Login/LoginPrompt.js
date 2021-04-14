@@ -4,8 +4,14 @@ import { useLocation } from '@reach/router';
 import { useAuth0 } from '@auth0/auth0-react';
 
 
-const LoginPrompt = ({ children, title }) => {
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
+const LoginPrompt = ({
+  children,
+  title
+}) => {
+  const {
+    isAuthenticated,
+    loginWithRedirect
+  } = useAuth0();
   const location = useLocation();
   const [isLoginPrompt, setIsLoginPrompt] = useState(false);
   const handleLoginPrompt = () => {
@@ -21,8 +27,8 @@ const LoginPrompt = ({ children, title }) => {
         onCancel={() => setIsLoginPrompt(false)}
         footer={[
           <Button key="submit" type="primary" onClick={() => loginWithRedirect(location.pathname)}>
-          Login
-          </Button>,
+            Login
+          </Button>
         ]}
       >
         <p>You have to Login to continue!</p>

@@ -8,22 +8,22 @@ const OrganizationPage = (props) => {
   const {
     data: {
       site: {
-        siteMetadata: { facebook },
-      },
-    },
+        siteMetadata: { facebook }
+      }
+    }
   } = props;
 
   return (
     <>
       <Article>
-        <Organization />
+        <Organization/>
       </Article>
     </>
   );
 };
 
 OrganizationPage.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 export default OrganizationPage;

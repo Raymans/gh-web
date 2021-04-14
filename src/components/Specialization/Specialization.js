@@ -5,10 +5,16 @@ import queryString from 'query-string';
 import { StoreContext } from '../../context/ContextProvider';
 import useApi from '../../hooks/useApi';
 
-const Specialization = ({ onSelect, selected }) => {
+const Specialization = ({
+  onSelect,
+  selected
+}) => {
   const { getSpecializations } = useApi();
   const store = useContext(StoreContext);
-  const { specializations, setSpecializations } = store;
+  const {
+    specializations,
+    setSpecializations
+  } = store;
   const selectedValueProp = selected ? { value: selected } : '';
 
   useEffect(() => {
@@ -44,12 +50,12 @@ const Specialization = ({ onSelect, selected }) => {
 };
 
 Specialization.propTypes = {
-  onSelect: PropTypes.func,
+  onSelect: PropTypes.func
 };
 
 export default Specialization;
 
 Specialization.defaultProps = {
   onSelect: () => {
-  },
+  }
 };

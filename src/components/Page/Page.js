@@ -8,22 +8,22 @@ const Page = (props) => {
   const {
     page: {
       body,
-      frontmatter: { title },
-    },
+      frontmatter: { title }
+    }
   } = props;
 
   return (
     <>
       <header>
-        <Headline title={title} />
+        <Headline title={title}/>
       </header>
-      <Bodytext body={body} />
+      <Bodytext body={body}/>
     </>
   );
 };
 
 Page.propTypes = {
-  page: PropTypes.object.isRequired,
+  page: PropTypes.object.isRequired
 };
 
 export default Page;

@@ -12,7 +12,7 @@ function checkStatus(error) {
     message.error({
       content: errorMsg,
       duration: 5,
-      top: 50,
+      top: 50
     });
     return;
   }
@@ -33,15 +33,15 @@ function checkStatus(error) {
 export default function request(getAccessTokenSilently) {
   return async (url, options) => {
     const defaultOptions = {
-      withCredentials: true,
+      withCredentials: true
     };
     try {
       const token = await getAccessTokenSilently();
       options = {
         ...options,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       };
     } catch {
     }
@@ -55,7 +55,7 @@ export default function request(getAccessTokenSilently) {
         newOptions.headers = {
           Accept: 'application/json',
           'Content-Type': 'application/json; charset=utf-8',
-          ...newOptions.headers,
+          ...newOptions.headers
         };
         if (newOptions.headers['Content-Type'] === 'application/x-www-form-urlencoded') {
           newOptions.data = qs.stringify(newOptions.data);
@@ -67,7 +67,7 @@ export default function request(getAccessTokenSilently) {
         newOptions.headers = {
           Accept: 'application/json',
           'Content-Type': 'multipart/form-data',
-          ...newOptions.headers,
+          ...newOptions.headers
         };
       }
     }
@@ -75,7 +75,7 @@ export default function request(getAccessTokenSilently) {
     //   overrideUrl || url, { ...newOptions, params: { ...overrideParams, ...newOptions.params } },
     // );
     return axios(
-      url, newOptions,
+      url, newOptions
     )
       .then((response) => {
         if (newOptions.method === 'DELETE' || response.status === 204) {

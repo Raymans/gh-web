@@ -10,9 +10,10 @@ export default function asyncComponent(getComponent, loadingComponent) {
     componentDidMount() {
       const { Component } = this.state;
       if (!Component) {
-        getComponent().then((Comp) => {
-          this.setState({ Component: Comp });
-        });
+        getComponent()
+          .then((Comp) => {
+            this.setState({ Component: Comp });
+          });
       }
     }
 

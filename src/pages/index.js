@@ -10,35 +10,35 @@ class IndexPage extends React.Component {
     const {
       data: {
         bgDesktop: {
-          resize: { src: desktop },
+          resize: { src: desktop }
         },
         bgTablet: {
-          resize: { src: tablet },
+          resize: { src: tablet }
         },
         bgMobile: {
-          resize: { src: mobile },
+          resize: { src: mobile }
         },
         bgBuildingQ: {
-          resize: { src: bq },
+          resize: { src: bq }
         },
         site: {
-          siteMetadata: { facebook },
-        },
-      },
+          siteMetadata: { facebook }
+        }
+      }
     } = this.props;
 
     const backgrounds = {
       desktop,
       tablet,
       mobile,
-      bq,
+      bq
     };
 
     return (
       <>
         <div>
-          <Hero backgrounds={backgrounds} />
-          <Home backgrounds={backgrounds} />
+          <Hero backgrounds={backgrounds}/>
+          <Home backgrounds={backgrounds}/>
         </div>
       </>
     );
@@ -46,7 +46,7 @@ class IndexPage extends React.Component {
 }
 
 IndexPage.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 export default IndexPage;

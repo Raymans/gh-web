@@ -12,10 +12,12 @@ const StyledFooter = styled.footer`
   color: ${(props) => props.theme.color.neutral.gray.g};
   padding-top: 0;
   padding-bottom: 20px;
+
   ul {
     list-style: none;
     text-align: left;
     padding: 10px 0;
+
     li {
       font-size: ${(props) => props.theme.font.size.s};
       padding: 4px 0;

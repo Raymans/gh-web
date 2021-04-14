@@ -7,12 +7,12 @@ import ConfirmModal from './ConfirmModal';
 import { StoreContext } from '../../context/ContextProvider';
 
 const InviteUserModal = ({
-  organizationId = null,
+  organizationId = null
 }) => {
   const [addUserForm] = Form.useForm();
   const { refreshUserOrg } = useContext(StoreContext);
   const {
-    inviteUserToOrganization,
+    inviteUserToOrganization
   } = useApi();
 
   const clearForm = async () => {
@@ -24,7 +24,7 @@ const InviteUserModal = ({
   const handelAddUserSubmit = async () => {
     await inviteUserToOrganization({
       email: addUserForm.getFieldsValue().email,
-      organizationId,
+      organizationId
     })
       .then(() => refreshUserOrg())
       .then(() => clearForm);
@@ -47,10 +47,10 @@ const InviteUserModal = ({
           rules={[{
             required: true,
             message: 'Please input email format.',
-            type: 'email',
+            type: 'email'
           }]}
         >
-          <Input autoFocus />
+          <Input autoFocus/>
         </FormItem>
       </Form>
     </ConfirmModal>
@@ -60,9 +60,9 @@ const InviteUserModal = ({
 export default InviteUserModal;
 
 InviteUserModal.propTypes = {
-  organizationId: PropTypes.string,
+  organizationId: PropTypes.string
 };
 
 InviteUserModal.defaultProps = {
-  organizationId: '',
+  organizationId: ''
 };

@@ -20,7 +20,7 @@ const Article = (props) => {
 };
 
 Article.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 export default Article;

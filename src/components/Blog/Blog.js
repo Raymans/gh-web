@@ -14,10 +14,10 @@ const Blog = (props) => {
             const {
               node,
               node: {
-                fields: { slug },
-              },
+                fields: { slug }
+              }
             } = post;
-            return <Item key={slug} post={node} />;
+            return <Item key={slug} post={node}/>;
           })}
         </ul>
       </main>
@@ -26,7 +26,7 @@ const Blog = (props) => {
 };
 
 Blog.propTypes = {
-  posts: PropTypes.array.isRequired,
+  posts: PropTypes.array.isRequired
 };
 
 export default Blog;

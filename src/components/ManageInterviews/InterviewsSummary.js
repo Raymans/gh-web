@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import {
-  Badge, Descriptions, List, Spin,
-} from 'antd';
+import { Badge, Descriptions, List, Spin } from 'antd';
 import { Link } from 'gatsby-plugin-intl';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -14,7 +12,7 @@ const columns = [
   {
     title: 'Title',
     dataIndex: 'title',
-    width: 150,
+    width: 150
   },
   {
     title: 'Status',
@@ -22,19 +20,22 @@ const columns = [
     width: 150,
     render: (text) => (
       <span>
-        <Badge status="success" />
+        <Badge status="success"/>
         {text}
       </span>
-    ),
+    )
   },
   {
     title: 'Complete Date',
-    dataIndex: 'completeDate',
-  },
+    dataIndex: 'completeDate'
+  }
 ];
 
 const InterviewsSummary = ({
-  userId, headline = null, breadcrumbs = null, isOwnerChangeable = false,
+  userId,
+  headline = null,
+  breadcrumbs = null,
+  isOwnerChangeable = false
 }) => {
   const { getInterviews } = useApi();
   const { user } = useAuth0();
@@ -52,7 +53,7 @@ const InterviewsSummary = ({
     <>
       {breadcrumbs}
       {headline}
-      <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
+      <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
         <List
           itemLayout="horizontal"
           dataSource={myInterviews}
@@ -125,7 +126,7 @@ const InterviewsSummary = ({
           }}
         />
       </Spin>
-      <Seo subTitle="Manage Interviews" />
+      <Seo subTitle="Manage Interviews"/>
     </>
   );
 };
@@ -133,7 +134,7 @@ InterviewsSummary.propTypes = {
   breadcrumbs: PropTypes.object,
   headline: PropTypes.object,
   isOwnerChangeable: PropTypes.bool,
-  userId: PropTypes.string,
+  userId: PropTypes.string
 };
 
 export default InterviewsSummary;
@@ -142,5 +143,5 @@ InterviewsSummary.defaultProps = {
   breadcrumbs: null,
   headline: null,
   isOwnerChangeable: false,
-  userId: null,
+  userId: null
 };

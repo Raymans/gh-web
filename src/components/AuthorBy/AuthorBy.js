@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {
-  AutoComplete, Avatar, Button, Input, Modal,
-} from 'antd';
+import { AutoComplete, Avatar, Button, Input, Modal } from 'antd';
 
 const StyledAvatar = styled(Avatar)`
   margin: 0 5px;
@@ -24,7 +22,7 @@ const searchResult = (query) => new Array(getRandomInt(5))
         <div
           style={{
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: 'space-between'
           }}
         >
           <span>
@@ -35,11 +33,15 @@ const searchResult = (query) => new Array(getRandomInt(5))
             @gmail.com
           </span>
         </div>
-      ),
+      )
     };
   });
 
-const AuthorBy = ({ avatarSrc, author, isOwnerChangeable }) => {
+const AuthorBy = ({
+  avatarSrc,
+  author,
+  isOwnerChangeable
+}) => {
   const [options, setOptions] = useState([]);
 
   const handleSearch = (value) => {
@@ -86,19 +88,19 @@ const AuthorBy = ({ avatarSrc, author, isOwnerChangeable }) => {
           </Button>,
           <Button key="submit" type="primary" onClick={handelChangeOwner}>
             Change Owner
-          </Button>,
+          </Button>
         ]}
       >
         <AutoComplete
           dropdownMatchSelectWidth={252}
           style={{
-            width: 300,
+            width: 300
           }}
           options={options}
           onSelect={onSelect}
           onSearch={handleSearch}
         >
-          <Input.Search size="large" placeholder="input here" enterButton />
+          <Input.Search size="large" placeholder="input here" enterButton/>
         </AutoComplete>
       </Modal>
 
@@ -108,11 +110,11 @@ const AuthorBy = ({ avatarSrc, author, isOwnerChangeable }) => {
 AuthorBy.propTypes = {
   author: PropTypes.string.isRequired,
   avatarSrc: PropTypes.string.isRequired,
-  isOwnerChangeable: PropTypes.bool,
+  isOwnerChangeable: PropTypes.bool
 };
 
 export default AuthorBy;
 
 AuthorBy.defaultProps = {
-  isOwnerChangeable: false,
+  isOwnerChangeable: false
 };

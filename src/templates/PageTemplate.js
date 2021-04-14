@@ -11,23 +11,23 @@ const PageTemplate = (props) => {
     data: {
       page,
       site: {
-        siteMetadata: { facebook },
-      },
-    },
+        siteMetadata: { facebook }
+      }
+    }
   } = props;
 
   return (
     <>
       <Article>
-        <Page page={page} />
+        <Page page={page}/>
       </Article>
-      <Seo data={page} facebook={facebook} />
+      <Seo data={page} facebook={facebook}/>
     </>
   );
 };
 
 PageTemplate.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 export default PageTemplate;

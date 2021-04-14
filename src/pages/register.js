@@ -11,26 +11,26 @@ const RegisterPage = (props) => {
   const {
     data: {
       site: {
-        siteMetadata: { facebook },
-      },
-    },
+        siteMetadata: { facebook }
+      }
+    }
   } = props;
 
   return (
     <>
       <Article>
         <header>
-          <Headline title="Register" />
+          <Headline title="Register"/>
         </header>
-        <Register />
+        <Register/>
       </Article>
-      <Seo facebook={facebook} />
+      <Seo facebook={facebook}/>
     </>
   );
 };
 
 RegisterPage.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 export default RegisterPage;

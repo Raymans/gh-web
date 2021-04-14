@@ -5,9 +5,12 @@ import React, { useState } from 'react';
 import useApi from '../../hooks/useApi';
 
 const InverviewActionsRow = ({
-  id, title, onDeleting = () => {
-  }, onDeleted = () => {
+  id,
+  title,
+  onDeleting = () => {
   },
+  onDeleted = () => {
+  }
 }) => {
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const { deleteInterview } = useApi();
@@ -33,7 +36,7 @@ const InverviewActionsRow = ({
       <Button
         size="small"
         shape="circle"
-        icon={<EditOutlined />}
+        icon={<EditOutlined/>}
         onClick={() => {
           navigate(`/interviews/${id}/edit`);
         }}
@@ -42,7 +45,7 @@ const InverviewActionsRow = ({
         size="small"
         danger
         shape="circle"
-        icon={<DeleteOutlined />}
+        icon={<DeleteOutlined/>}
         onClick={() => setIsDeleteModalVisible(true)}
       />
     </>

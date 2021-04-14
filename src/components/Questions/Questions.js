@@ -10,10 +10,10 @@ const Questions = () => {
     <Router
       basepath={matchDefault}
     >
-      <QuestionList path="/" />
-      <Question path="/:id" />
-      <QuestionForm path="/create" />
-      <QuestionForm path="/:id/edit" />
+      <QuestionList path="/"/>
+      <Question path="/:id"/>
+      <QuestionForm path="/create"/>
+      <QuestionForm path="/:id/edit"/>
     </Router>
   );
 };

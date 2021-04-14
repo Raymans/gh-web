@@ -22,7 +22,11 @@ const StyledList = styled(List)`
 const CardList = (props) => {
   const [loadingMore, setLoadingMore] = useState(false);
   const {
-    loading, dataSource, renderItem, hasMore, onLoadMore
+    loading,
+    dataSource,
+    renderItem,
+    hasMore,
+    onLoadMore
   } = props;
 
   const handleLoadMore = () => {

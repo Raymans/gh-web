@@ -3,8 +3,15 @@ import Like from './Like';
 import useApi from '../../hooks/useApi';
 
 
-const InterviewLike = ({ id, liked: likedProp, likeCount: likeCountProp }) => {
-  const { likeInterview, unlikeInterview } = useApi();
+const InterviewLike = ({
+  id,
+  liked: likedProp,
+  likeCount: likeCountProp
+}) => {
+  const {
+    likeInterview,
+    unlikeInterview
+  } = useApi();
   const [liked, setLiked] = useState(likedProp);
   const [likeCount, setLikeCount] = useState(likeCountProp);
   const handleLikeInterview = () => {
@@ -17,7 +24,7 @@ const InterviewLike = ({ id, liked: likedProp, likeCount: likeCountProp }) => {
       });
   };
   return (
-    <Like active={liked} count={likeCount} onClick={handleLikeInterview} />
+    <Like active={liked} count={likeCount} onClick={handleLikeInterview}/>
   );
 };
 

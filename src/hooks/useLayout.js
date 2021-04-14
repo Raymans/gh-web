@@ -7,29 +7,36 @@ export default function () {
     font400loaded: false,
     font600loaded: false,
     screenWidth: getScreenWidth(),
-    headerMinimized: false,
+    headerMinimized: false
   });
   const timeouts = {};
 
   const resizeHandler = () => {
-    setLayoutState({ ...layoutState, screenWidth: getScreenWidth() });
+    setLayoutState({
+      ...layoutState,
+      screenWidth: getScreenWidth()
+    });
   };
 
   const resizeThrottler = () => timeoutThrottlerHandler(timeouts, 'resize', 100, resizeHandler);
 
   const loadFont = (name, family, weight) => {
     const font = new FontFaceObserver(family, {
-      weight,
+      weight
     });
 
-    font.load(null, 10000).then(
-      () => {
-        setLayoutState({ ...layoutState, [`${name}loaded`]: true });
-      },
-      () => {
-        console.log(`${name} is not available`);
-      },
-    );
+    font.load(null, 10000)
+      .then(
+        () => {
+          setLayoutState({
+            ...layoutState,
+            [`${name}loaded`]: true
+          });
+        },
+        () => {
+          console.log(`${name} is not available`);
+        }
+      );
   };
 
   useEffect(() => {
@@ -42,7 +49,7 @@ export default function () {
   useEffect(() => {
     setLayoutState({
       ...layoutState,
-      screenWidth: getScreenWidth(),
+      screenWidth: getScreenWidth()
     });
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', resizeThrottler, false);

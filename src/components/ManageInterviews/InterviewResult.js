@@ -8,10 +8,13 @@ import InterviewSessionResult from '../Interviews/InterviewSessionResult';
 
 const InterviewResult = ({ sessionId }) => {
   const {
-    user,
+    user
   } = useAuth0();
 
-  const [interviewSession, setInterviewSession] = useState({ interview: {}, candidateUser: {} });
+  const [interviewSession, setInterviewSession] = useState({
+    interview: {},
+    candidateUser: {}
+  });
   const isOwner = user?.sub === interviewSession.interview.clientUser?.id;
 
   const onLoadedInterviewSession = (is) => setInterviewSession(is);
@@ -19,10 +22,10 @@ const InterviewResult = ({ sessionId }) => {
     <>
       <CustomBreadcrumb crumbs={[{
         label: 'Manage Interviews',
-        path: '/manageInterviews',
+        path: '/manageInterviews'
       }, {
         label: interviewSession.interview.title,
-        path: location.pathname,
+        path: location.pathname
       }]}
       />
       <Headline title={interviewSession.interview.title}>
@@ -37,8 +40,9 @@ const InterviewResult = ({ sessionId }) => {
           )
         }
       </Headline>
-      <InterviewSessionResult onLoaded={onLoadedInterviewSession} sessionId={sessionId} isOwner={isOwner} />
-      <Seo subTitle={interviewSession.interview.title} />
+      <InterviewSessionResult onLoaded={onLoadedInterviewSession} sessionId={sessionId}
+                              isOwner={isOwner}/>
+      <Seo subTitle={interviewSession.interview.title}/>
     </>
   );
 };

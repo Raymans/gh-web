@@ -75,7 +75,10 @@ const columns = [
   }
 ];
 
-const InterviewResults = ({ id, location }) => {
+const InterviewResults = ({
+  id,
+  location
+}) => {
   const { getInterviewSessions } = useApi();
   const [myInterviewsSessions, setMyInterviewsSessions] = useState([]);
   const [loading, setLoading] = useState(true);

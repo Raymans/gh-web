@@ -3,7 +3,7 @@ import QuestionForm from './QuestionForm';
 
 const Question = () => (
   <>
-    <QuestionForm />
+    <QuestionForm/>
   </>
 );
 

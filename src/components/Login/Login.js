@@ -6,17 +6,17 @@ import '@ant-design/compatible/assets/index.css';
 import { Button, Checkbox, Input } from 'antd';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
 const StyledLoginButton = styled(Button)`
-    width: 100%;
-  `;
+  width: 100%;
+`;
 const StyledForgetLink = styled.a`
-    float: right;
-  `;
+  float: right;
+`;
 const Login = (props) => {
   function encode(data) {
     return Object.keys(data)
@@ -28,10 +28,11 @@ const Login = (props) => {
     e.preventDefault();
     props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        sendMessage(values).then(() => {
-          navigateTo('/');
-          refreshAuth({ userName: 'raymans' });
-        });
+        sendMessage(values)
+          .then(() => {
+            navigateTo('/');
+            refreshAuth({ userName: 'raymans' });
+          });
       }
     });
   };
@@ -49,12 +50,19 @@ const Login = (props) => {
     <>
       <div className="form">
         <Form onSubmit={(e) => handleSubmit(e)}>
-          <FormItem name="username" rules={[{ required: true, message: 'Please input your username!' }]}>
-            <Input prefix={<LegacyIcon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+          <FormItem name="username" rules={[{
+            required: true,
+            message: 'Please input your username!'
+          }]}>
+            <Input prefix={<LegacyIcon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
+                   placeholder="Username"/>
           </FormItem>
-          <FormItem name="password" rules={[{ required: true, message: 'Please input your Password!' }]}>
+          <FormItem name="password" rules={[{
+            required: true,
+            message: 'Please input your Password!'
+          }]}>
             <Input
-              prefix={<LegacyIcon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              prefix={<LegacyIcon type="lock" style={{ color: 'rgba(0,0,0,.25)' }}/>}
               type="password"
               placeholder="Password"
             />
@@ -76,7 +84,7 @@ const Login = (props) => {
 };
 
 Login.propTypes = {
-  form: PropTypes.object,
+  form: PropTypes.object
 };
 
 export default Login;

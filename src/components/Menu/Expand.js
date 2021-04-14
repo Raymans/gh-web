@@ -8,14 +8,14 @@ const Expand = (props) => {
   return (
     <>
       <button className="more" to="#" onClick={onClick} aria-label="expand">
-        <FaAngleDown size={30} />
+        <FaAngleDown size={30}/>
       </button>
     </>
   );
 };
 
 Expand.propTypes = {
-  onClick: PropTypes.func,
+  onClick: PropTypes.func
 };
 
 export default Expand;

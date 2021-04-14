@@ -49,10 +49,20 @@ const StyledVisibilityTag = styled(Tag)`
 
 const InterviewGrid = (props) => {
   const {
-    id, title, description = '', specialization: { name: specializationName }, jobTitle, clientUser = {}, visibility, likeCount, liked
+    id,
+    title,
+    description = '',
+    specialization: { name: specializationName },
+    jobTitle,
+    clientUser = {},
+    visibility,
+    likeCount,
+    liked
   } = props;
   const {
-    createInterviewSession, getInterviewSessions, sendInterviewSessionToCandidate
+    createInterviewSession,
+    getInterviewSessions,
+    sendInterviewSessionToCandidate
   } = useApi();
   const shareLink = `https://geekhub.tw/interviews/${id}`;
   const [sharedForm] = useForm();

@@ -9,22 +9,22 @@ const ManageInterviewsPage = (props) => {
   const {
     data: {
       site: {
-        siteMetadata: { facebook },
-      },
-    },
+        siteMetadata: { facebook }
+      }
+    }
   } = props;
 
   return (
     <>
       <Article>
-        <ManageInterviews />
+        <ManageInterviews/>
       </Article>
     </>
   );
 };
 
 ManageInterviewsPage.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 export default ManageInterviewsPage;
