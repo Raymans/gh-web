@@ -12,36 +12,41 @@ import {
   faStripe
 } from '@fortawesome/free-brands-svg-icons';
 import styled from 'styled-components';
-import { Link } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link } from 'gatsby-plugin-intl';
 import PropTypes from 'prop-types';
 import { faTerminal } from '@fortawesome/free-solid-svg-icons';
 import InterviewDetailPng from '../../images/InterviewDetail.png';
 
 const Section = styled.section`
   padding: 0 50px;
+
   h1 {
     font-weight: 500;
     margin: 50px auto 7px;
     padding-bottom: 10px;
+
     p {
       text-align: center;
       font-size: 26px;
     }
   }
+
   h2 {
-  text-align: center;
+    text-align: center;
     border: 0;
     font-size: 18px;
   }
+
   p {
     font-size: 16px;
     text-align: left;
   }
-  &.no-pic p{
+
+  &.no-pic p {
     text-align: center;
   }
 
-  .ant-col-6, .ant-col-12{
+  .ant-col-6, .ant-col-12 {
     text-align: center;
   }
 `;
@@ -60,7 +65,7 @@ const Home = (props) => {
   return (
     <>
       <Section className="no-pic">
-        <h1><p>Practice Interviews</p></h1>
+        <h1><p><FormattedMessage defaultMessage="Explore Interviews"/></p></h1>
         <p>Explore and exam REAL Interviews!!</p>
         <p>Hiring company will be noticed when you submit your result!!</p>
         <p>

@@ -10,6 +10,7 @@
     "build": "gatsby build",
     "develop": "gatsby develop --host 127.0.0.1 --port 8010",
     "devhost": "gatsby develop --host 192.168.0.112",
+    "develop-message": "npm run make-message && rm -r .cache && npm run develop",
     "format": "prettier --write 'src/**/*.js'",
     "lint-errors": "eslint src/**/*.{js,jsx} --quiet",
     "lint": "eslint src/**/*.{js,jsx}",
@@ -19,7 +20,10 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "clean": "rm -r .cache public",
-    "clean-all": "rm -r .cache public node_modules"
+    "clean-all": "rm -r .cache public node_modules",
+    "extract": "formatjs extract",
+    "make-message": "npm run extract -- \"src/**/**/*.js*\" --out-file src/intl/en.json --format simple",
+    "compile": "formatjs compile"
   },
   "dependencies": {
     "@ant-design/compatible": "^1.0.1",
@@ -35,6 +39,7 @@
     "antd": "^4.1.0",
     "auth0-js": "^9.12.2",
     "axios": "^0.19.2",
+    "babel-plugin-formatjs": "^10.2.7",
     "babel-plugin-styled-components": "^1.10.7",
     "codemirror": "^5.51.0",
     "cookieconsent": "^3.1.1",
@@ -105,6 +110,7 @@
     "@babel/core": "^7.11.6",
     "@babel/eslint-parser": "^7.13.14",
     "@babel/eslint-plugin": "^7.13.10",
+    "@formatjs/cli": "^4.2.7",
     "@mapbox/stylelint-processor-arbitrary-tags": "^0.3.0",
     "@storybook/addon-actions": "^6.0.22",
     "@storybook/addon-essentials": "^6.0.22",

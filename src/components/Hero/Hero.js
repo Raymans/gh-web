@@ -18,6 +18,7 @@ const HeroSection = styled.section`
   height: 10px;
   padding: ${(props) => props.theme.space.inset.l};
   padding-top: ${(props) => props.theme.header.height.homepage};
+
   h1 {
     text-align: center;
     font-size: ${(props) => props.theme.hero.h1.size};
@@ -27,6 +28,7 @@ const HeroSection = styled.section`
     text-remove-gap: both 0 "Open Sans";
     font-weight: 400;
   }
+
   @media (min-width: 768px) {
     background-image: url(${(props) => props.backgrounds.tablet});
     h1 {
@@ -60,25 +62,27 @@ const Hero = (props) => {
   return (
     <>
       <ParticlesWrapper>
-          <Particles
-            params={particleConfig}
-            width="100%"
-            height="480px"
-          />
+        <Particles
+          params={particleConfig}
+          width="100%"
+          height="480px"
+        />
       </ParticlesWrapper>
       <HeroSection backgrounds={backgrounds}>
         <h1>
-          <FormattedMessage id="mainTitle" />
+          <FormattedMessage defaultMessage="Best prepare tools for interviews"/>
         </h1>
-        <SubTitle>Store knowledge as your second brand</SubTitle>
-        <SubTitle>Practice anonymously with engineers who have worked at great company</SubTitle>
+        <SubTitle><FormattedMessage
+          defaultMessage="Store knowledge as your second brand"/></SubTitle>
+        <SubTitle><FormattedMessage
+          defaultMessage="Practice anonymously with engineers who have worked at great company"/></SubTitle>
       </HeroSection>
     </>
   );
 };
 
 Hero.propTypes = {
-  backgrounds: PropTypes.object.isRequired,
+  backgrounds: PropTypes.object.isRequired
 };
 
 export default Hero;

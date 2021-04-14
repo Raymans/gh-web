@@ -6,10 +6,17 @@ const Promise = require('bluebird');
 
 const { createFilePath } = require('gatsby-source-filesystem');
 
-exports.onCreateNode = ({ node, getNode, actions }) => {
+exports.onCreateNode = ({
+  node,
+  getNode,
+  actions
+}) => {
   const { createNodeField } = actions;
   if (node.internal.type === 'Mdx') {
-    const slug = createFilePath({ node, getNode });
+    const slug = createFilePath({
+      node,
+      getNode
+    });
     const fileNode = getNode(node.parent);
     const source = fileNode.sourceInstanceName;
     const separtorIndex = ~slug.indexOf('--') ? slug.indexOf('--') : 0;
@@ -19,23 +26,26 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       createNodeField({
         node,
         name: 'slug',
-        value: `${separtorIndex ? '/' : ''}${slug.substring(shortSlugStart)}`,
+        value: `${separtorIndex ? '/' : ''}${slug.substring(shortSlugStart)}`
       });
     }
     createNodeField({
       node,
       name: 'prefix',
-      value: separtorIndex ? slug.substring(1, separtorIndex) : '',
+      value: separtorIndex ? slug.substring(1, separtorIndex) : ''
     });
     createNodeField({
       node,
       name: 'source',
-      value: source,
+      value: source
     });
   }
 };
 
-exports.onCreatePage = async ({ page, actions }) => {
+exports.onCreatePage = async ({
+  page,
+  actions
+}) => {
   const { createPage } = actions;
   if (page.path.match(/^\/zh-tw\/interviews/)) {
     // set client-only path pattern
@@ -133,7 +143,10 @@ exports.onCreatePage = async ({ page, actions }) => {
   }
 };
 
-exports.createPages = ({ graphql, actions }) => {
+exports.createPages = ({
+  graphql,
+  actions
+}) => {
   const { createPage } = actions;
 
   return new Promise((resolve, reject) => {
@@ -162,37 +175,41 @@ exports.createPages = ({ graphql, actions }) => {
               }
             }
           }
-        `,
-      ).then((result) => {
-        if (result.errors) {
-          console.log(result.errors);
-          reject(result.errors);
-        }
+        `
+      )
+        .then((result) => {
+          if (result.errors) {
+            console.log(result.errors);
+            reject(result.errors);
+          }
 
-        const items = result.data.allMdx.edges;
+          const items = result.data.allMdx.edges;
 
 
-        // Create pages.
-        const pages = items.filter((item) => item.node.fields.source === 'pages');
-        pages.forEach(({ node }) => {
-          const { slug } = node.fields;
-          const { source } = node.fields;
+          // Create pages.
+          const pages = items.filter((item) => item.node.fields.source === 'pages');
+          pages.forEach(({ node }) => {
+            const { slug } = node.fields;
+            const { source } = node.fields;
 
-          createPage({
-            path: slug,
-            component: pageTemplate,
-            context: {
-              slug,
-              source,
-            },
+            createPage({
+              path: slug,
+              component: pageTemplate,
+              context: {
+                slug,
+                source
+              }
+            });
           });
-        });
-      }),
+        })
     );
   });
 };
 
-exports.onCreateWebpackConfig = ({ stage, actions }) => {
+exports.onCreateWebpackConfig = ({
+  stage,
+  actions
+}) => {
   switch (stage) {
     case 'build-javascript': {
       actions.setWebpackConfig({
@@ -202,9 +219,9 @@ exports.onCreateWebpackConfig = ({ stage, actions }) => {
             reportFilename: './report/treemap.html',
             openAnalyzer: true,
             logLevel: 'error',
-            defaultSizes: 'gzip',
-          }),
-        ],
+            defaultSizes: 'gzip'
+          })
+        ]
       });
     }
       break;
@@ -215,7 +232,14 @@ exports.onCreateBabelConfig = ({ actions: { setBabelPlugin } }) => {
     name: 'babel-plugin-import',
     options: {
       libraryName: 'antd',
-      style: true,
-    },
+      style: true
+    }
+  });
+  setBabelPlugin({
+    name: 'babel-plugin-formatjs',
+    options: {
+      'idInterpolationPattern': '[sha512:contenthash:base64:6]',
+      'ast': true
+    }
   });
 };

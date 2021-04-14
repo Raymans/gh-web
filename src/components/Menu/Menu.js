@@ -1,9 +1,7 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Affix, Avatar, Button, Drawer, Menu as AntMenu,
-} from 'antd';
-import { Link } from 'gatsby-plugin-intl';
+import { Affix, Avatar, Button, Drawer, Menu as AntMenu } from 'antd';
+import { FormattedMessage, Link } from 'gatsby-plugin-intl';
 import styled, { ThemeContext } from 'styled-components';
 import Icon, {
   EyeOutlined,
@@ -13,7 +11,7 @@ import Icon, {
   MenuUnfoldOutlined,
   QuestionCircleOutlined,
   SettingOutlined,
-  UserOutlined,
+  UserOutlined
 } from '@ant-design/icons';
 import { useAuth0 } from '@auth0/auth0-react';
 import useLayout from '../../hooks/useLayout';
@@ -31,7 +29,7 @@ const Menu = (props) => {
     error,
     user,
     loginWithRedirect,
-    logout,
+    logout
   } = useAuth0();
 
   const { switchDark } = useContext(ThemeContext);
@@ -42,32 +40,32 @@ const Menu = (props) => {
     to: page.node.fields.slug,
     label: page.node.frontmatter.menuTitle
       ? page.node.frontmatter.menuTitle
-      : page.node.frontmatter.title,
+      : page.node.frontmatter.title
     // icon: page.node.frontmatter.icon,
   }));
 
   const items = [
     {
       to: '/',
-      label: 'Home',
-      icon: <HomeOutlined />,
+      label: <FormattedMessage defaultMessage="Home"/>,
+      icon: <HomeOutlined/>
     },
     {
       to: '/questions',
-      label: 'Questions',
-      icon: <QuestionCircleOutlined />,
+      label: <FormattedMessage defaultMessage="Questions"/>,
+      icon: <QuestionCircleOutlined/>
     },
     {
       to: '/interviews',
-      label: 'Interviews',
-      icon: <EyeOutlined />,
+      label: <FormattedMessage defaultMessage="Interviews"/>,
+      icon: <EyeOutlined/>
     },
     {
       to: '/login',
-      label: 'Login',
-      icon: <UserOutlined />,
-      needAuth: true,
-    },
+      label: <FormattedMessage defaultMessage="Login"/>,
+      icon: <UserOutlined/>,
+      needAuth: true
+    }
   ];
 
   const handleClick = () => {
@@ -91,7 +89,7 @@ const Menu = (props) => {
       key={index}
       title={(
         <span>
-          <SettingOutlined />
+          <SettingOutlined/>
           {item.label}
         </span>
       )}
@@ -106,7 +104,7 @@ const Menu = (props) => {
               type="user"
               style={{
                 fontSize: '16px',
-                color: '#08c',
+                color: '#08c'
               }}
               theme="outlined"
             />
@@ -153,14 +151,14 @@ const Menu = (props) => {
   };
 
   const logoutWithRedirect = () => logout({
-    returnTo: window.location.origin,
+    returnTo: window.location.origin
   });
 
   const handleLogin = async () => {
     await loginWithRedirect({
       appState: {
-        targetUrl: '/',
-      },
+        targetUrl: '/'
+      }
     });
   };
   const antdMenu = (
@@ -170,46 +168,46 @@ const Menu = (props) => {
       mode={layout.screenWidth < 700 ? 'inline' : 'horizontal'}
       style={{
         borderBottom: 'none',
-        background: 'transparent',
+        background: 'transparent'
       }}
     >
       {
         items.map((item, index) => {
-          if (item.label === 'Login') {
+          if (item.to === '/login') {
             if (isAuthenticated) {
               return (
                 <AntMenu.SubMenu
                   key={index}
                   title={(
                     <span>
-                      <Avatar src={user.picture} style={{ marginRight: '5px' }} />
+                      <Avatar src={user.picture} style={{ marginRight: '5px' }}/>
                       {user.nickname}
                     </span>
                   )}
                 >
                   {renderItem({
                     to: '/testedInterviews',
-                    label: 'Pass Interviews',
+                    label: <FormattedMessage defaultMessage="Pass Interviews"/>
                   })}
                   {renderItem({
                     to: '/manageInterviews',
-                    label: 'My Interviews',
+                    label: <FormattedMessage defaultMessage="My Interviews"/>
                   })}
                   {renderItem({
                     to: `/profile/${user.sub}`,
-                    label: 'Profile',
+                    label: <FormattedMessage defaultMessage="Profile"/>
                   })}
                   {renderItem({
                     to: '/setting',
-                    label: 'Setting',
+                    label: <FormattedMessage defaultMessage="Setting"/>
                   })}
                   {renderItem({
                     to: '/organization',
-                    label: 'Organization',
+                    label: <FormattedMessage defaultMessage="Organization"/>
                   })}
                   <AntMenu.Item onClick={() => logoutWithRedirect()}>
-                    <LogoutOutlined />
-                    Login out
+                    <LogoutOutlined/>
+                    <FormattedMessage defaultMessage="Login out"/>
                   </AntMenu.Item>
                 </AntMenu.SubMenu>
               );
@@ -261,7 +259,7 @@ const Menu = (props) => {
 
 Menu.propTypes = {
   pages: PropTypes.array.isRequired,
-  path: PropTypes.string,
+  path: PropTypes.string
 };
 
 export default Menu;
