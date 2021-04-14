@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Descriptions, List, Spin } from 'antd';
-import { Link } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link } from 'gatsby-plugin-intl';
 import { LoadingOutlined } from '@ant-design/icons';
 import InterviewLike from '../Like/InterviewLike';
 import useApi from '../../hooks/useApi';
@@ -19,8 +19,8 @@ const LikedInterviews = () => {
 
   return (
     <>
-      <h2>Liked interviews</h2>
-      <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
+      <h2><FormattedMessage defaultMessage="Liked interviews"/></h2>
+      <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
         <List
           itemLayout="horizontal"
           dataSource={likedInterviews}

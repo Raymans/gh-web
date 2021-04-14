@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Input, Layout } from 'antd';
-import { Link } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import { useAuth0 } from '@auth0/auth0-react';
 import QuestionGrid from './QuestionGrid';
 import FilterSider from '../Sider/FilterSider';
@@ -12,8 +12,8 @@ import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 
 const StyledSearchFilter = styled.div`
-    text-align: end;
-    flex: auto;
+  text-align: end;
+  flex: auto;
 `;
 
 const StyledSelected = styled.div`
@@ -29,20 +29,28 @@ const StyledSelected = styled.div`
 let filters = {
   keyword: '',
   tab: 'explore',
-  pageSize: 10,
+  pageSize: 10
 };
 
 const QuestionList = (props) => {
+  const intl = useIntl();
   const { isAuthenticated } = useAuth0();
   const { getQuestions } = useApi();
   const {
-    isModal, onSelectQuestion, selectedQuestions = [], location,
+    isModal,
+    onSelectQuestion,
+    selectedQuestions = [],
+    location
   } = props;
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState();
 
-  const searchQuestions = ({ isAppend = false, showLoading = true, url } = {}) => {
+  const searchQuestions = ({
+    isAppend = false,
+    showLoading = true,
+    url
+  } = {}) => {
     setLoading(showLoading);
     return getQuestions(isAppend ? { url } : { url, ...filters })
       .then((res) => {
@@ -59,7 +67,7 @@ const QuestionList = (props) => {
   const handleChange = ({ target }) => {
     filters = {
       ...filters,
-      owner: target.value === 'mine',
+      owner: target.value === 'mine'
     };
     searchQuestions();
   };
@@ -67,7 +75,7 @@ const QuestionList = (props) => {
   const onSearch = (keyword) => {
     filters = {
       ...filters,
-      keyword,
+      keyword
     };
     searchQuestions();
   };
@@ -75,7 +83,7 @@ const QuestionList = (props) => {
   const handleLoadMore = () => searchQuestions({
     isAppend: true,
     showLoading: false,
-    url: next,
+    url: next
   });
   return (
     <div className="form">
@@ -83,20 +91,24 @@ const QuestionList = (props) => {
         !isModal
         && (
           <>
-            <CustomBreadcrumb crumbs={[{ label: 'List Questions', path: '/questions' }]} />
+            <CustomBreadcrumb crumbs={[{
+              label: <FormattedMessage defaultMessage="List Questions"/>,
+              path: '/questions'
+            }]}/>
             <Headline>
-              <span>Questions</span>
-              { isAuthenticated && <Link to="/questions/create">Create</Link>}
+              <span><FormattedMessage defaultMessage="Questions"/> </span>
+              {isAuthenticated &&
+              <Link to="/questions/create"><FormattedMessage defaultMessage="Create"/></Link>}
             </Headline>
           </>
         )
       }
       <Layout>
-        { isAuthenticated && <FilterSider onChange={handleChange} />}
+        {isAuthenticated && <FilterSider onChange={handleChange}/>}
         <Layout.Content>
           <StyledSearchFilter>
             <Input.Search
-              placeholder="search question"
+              placeholder={intl.formatMessage({ defaultMessage: 'search question' })}
               onSearch={onSearch}
               style={{ width: 200 }}
             />
@@ -111,7 +123,9 @@ const QuestionList = (props) => {
               return (
                 <StyledSelected
                   key={item.id}
-                  onClick={() => { onSelectQuestion(item); }}
+                  onClick={() => {
+                    onSelectQuestion(item);
+                  }}
                   className={selectedClass}
                 >
                   <QuestionGrid
@@ -133,12 +147,13 @@ QuestionList.propTypes = {
   dataSource: PropTypes.arrayOf(PropTypes.object),
   isModal: PropTypes.bool,
   onSelectQuestion: PropTypes.func,
-  selectedQuestions: PropTypes.arrayOf(PropTypes.string),
+  selectedQuestions: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default QuestionList;
 
 QuestionList.defaultProps = {
   isModal: false,
-  onSelectQuestion: () => {},
+  onSelectQuestion: () => {
+  }
 };

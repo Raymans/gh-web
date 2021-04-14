@@ -1,19 +1,16 @@
-import {
-  Badge, Button, Col, Descriptions, Layout, Modal, Row, Spin, Statistic, Tag,
-} from 'antd';
+import { Badge, Button, Col, Descriptions, Layout, Modal, Row, Spin, Statistic, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
 import {
   ExclamationCircleOutlined,
   FireOutlined,
   LoadingOutlined,
-  UserOutlined,
+  UserOutlined
 } from '@ant-design/icons';
 import Countdown from 'antd/lib/statistic/Countdown';
 import styled from 'styled-components';
 import moment from 'moment';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Link } from 'gatsby-plugin-intl';
-import AnchorSilder from '../Sider/AnchorSider';
+import { FormattedMessage, Link } from 'gatsby-plugin-intl';
 import Headline from '../Article/Headline';
 import InterviewSession from './InterviewSession';
 import LoginPrompt from '../Login/LoginPrompt';
@@ -27,13 +24,20 @@ const StyledInterviewGeekStatus = styled.div`
 `;
 
 const Interview = ({
-  id, sessionId = '', publishedId = '',
+  id,
+  sessionId = '',
+  publishedId = ''
 }) => {
   const {
-    user,
+    user
   } = useAuth0();
   const {
-    createInterviewSession, getCurrentInterviewSession, getInterview, getInterviewSession, getPublishedInterview, startInterviewSession,
+    createInterviewSession,
+    getCurrentInterviewSession,
+    getInterview,
+    getInterviewSession,
+    getPublishedInterview,
+    startInterviewSession
   } = useApi();
 
   const [isTesting, setIsTesting] = useState(false);
@@ -43,18 +47,18 @@ const Interview = ({
   const [isTestModalVisible, setIsTestModalVisible] = useState(false);
   const [interview, setInterview] = useState({
     specialization: { name: '' },
-    clientUser: { email: '' },
+    clientUser: { email: '' }
   });
   const [interviewSession, setInterviewSession] = useState(null);
   const isOwner = user?.sub === interview.clientUser.id;
   const handleTimesUp = () => {
     Modal.warning({
       title: 'Times Up',
-      icon: <ExclamationCircleOutlined />,
+      icon: <ExclamationCircleOutlined/>,
       content: 'This interview Result is submitted automatically since you already passed interview time.',
       onOk() {
         setIsTimeUp(true);
-      },
+      }
     });
   };
 
@@ -125,7 +129,7 @@ const Interview = ({
     createInterviewSession({
       id,
       email: user?.email,
-      name: user?.email.split('@')[0],
+      name: user?.email.split('@')[0]
     })
       .then(({ id: createdSessionId }) => {
         startInterviewSession(createdSessionId)
@@ -146,11 +150,11 @@ const Interview = ({
   return (
     <>
       <CustomBreadcrumb crumbs={[{
-        label: 'List Interviews',
-        path: '/interviews',
+        label: <FormattedMessage defaultMessage="List Interviews"/>,
+        path: '/interviews'
       }, {
         label: interview.title,
-        path: location.pathname,
+        path: location.pathname
       }]}
       />
       <Headline title={interview.title}>
@@ -159,7 +163,7 @@ const Interview = ({
       </Headline>
       <Layout>
         {/*<AnchorSilder />*/}
-        <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
+        <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
           {!loading && (
             <Layout.Content>
               {
@@ -177,7 +181,7 @@ const Interview = ({
                 <Descriptions.Item
                   span={2}
                 >
-                  <Tag icon={<FireOutlined style={{ color: 'red' }} />}>
+                  <Tag icon={<FireOutlined style={{ color: 'red' }}/>}>
                     Hiring
                   </Tag>
                 </Descriptions.Item>
@@ -209,17 +213,17 @@ const Interview = ({
                     <Row gutter={16}>
                       <Col span={12}>
                         <Statistic
-                          title={<Badge status="processing" text="In Testing" />}
+                          title={<Badge status="processing" text="In Testing"/>}
                           value={11}
-                          prefix={<UserOutlined />}
+                          prefix={<UserOutlined/>}
                           suffix=" geeks"
                         />
                       </Col>
                       <Col span={12}>
                         <Statistic
-                          title={<Badge status="success" text="Completed" />}
+                          title={<Badge status="success" text="Completed"/>}
                           value={93}
-                          prefix={<UserOutlined />}
+                          prefix={<UserOutlined/>}
                           suffix=" geeks"
                         />
                       </Col>
@@ -251,7 +255,8 @@ const Interview = ({
                       <p>Start testing the Interview!!</p>
                       {
                         (interviewSession?.duration > 0 || interview.defaultDuration > 0)
-                        && <p>{`You will have ${interviewSession?.duration || interview.defaultDuration} minutes complete the interview.`}</p>
+                        &&
+                        <p>{`You will have ${interviewSession?.duration || interview.defaultDuration} minutes complete the interview.`}</p>
                       }
                     </Modal>
                   </>
@@ -259,7 +264,7 @@ const Interview = ({
               }
               {
                 isOwner
-                && <InterviewSession interviewSession={{ interview }} preview viewResult={false} />
+                && <InterviewSession interviewSession={{ interview }} preview viewResult={false}/>
               }
               {
                 interviewSession && (
@@ -274,7 +279,7 @@ const Interview = ({
           )}
         </Spin>
       </Layout>
-      <Seo subTitle={interview.title} />
+      <Seo subTitle={interview.title}/>
     </>
   );
 };

@@ -16,7 +16,7 @@ import styled from 'styled-components';
 import Divider from 'antd/lib/divider';
 import FormItem from 'antd/lib/form/FormItem';
 import TextArea from 'antd/lib/input/TextArea';
-import { Link, navigate } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, navigate, useIntl } from 'gatsby-plugin-intl';
 import {
   LoadingOutlined,
   MinusCircleOutlined,
@@ -79,6 +79,7 @@ let isPublishAction = false;
 
 const InterviewForm = ({ id }) => {
   const isEditForm = !!id;
+  const intl = useIntl();
   const {
     createInterview,
     getInterview,
@@ -288,7 +289,7 @@ const InterviewForm = ({ id }) => {
         />
       </Modal>
       <CustomBreadcrumb crumbs={[{
-        label: 'List Interviews',
+        label: <FormattedMessage defaultMessage="List Interviews"/>,
         path: '/interviews'
       }, {
         label: isEditForm ? 'Interview - edit' : 'Interview - create',
@@ -327,17 +328,17 @@ const InterviewForm = ({ id }) => {
                 <Input/>
               </FormItem>
               <FormItem
-                label="Specialization"
+                label={intl.formatMessage({ defaultMessage: 'Specialization' })}
                 name="specializationId"
                 rules={[{
                   required: true,
-                  message: 'Please choose a Specialization'
+                  message: intl.formatMessage({ defaultMessage: 'Please choose a Specialization' })
                 }]}
               >
                 <Select
                   showSearch
                   style={{ width: 200 }}
-                  placeholder="Select a Specialization"
+                  placeholder={intl.formatMessage({ defaultMessage: 'Select a Specialization' })}
                   optionFilterProp="children"
                   filterOption={(input, option) => option.children.toLowerCase()
                     .indexOf(input.toLowerCase()) >= 0}
@@ -348,11 +349,11 @@ const InterviewForm = ({ id }) => {
                 </Select>
               </FormItem>
               <FormItem
-                label="Job Title"
+                label={intl.formatMessage({ defaultMessage: 'Job Title' })}
                 name="jobTitle"
                 rules={[{
                   required: true,
-                  message: 'Please enter Job Title'
+                  message: intl.formatMessage({ defaultMessage: 'Please enter Job Title' })
                 }]}
                 size="small"
               >
@@ -367,26 +368,26 @@ const InterviewForm = ({ id }) => {
                 />
               </FormItem>
               <FormItem
-                label="Description"
+                label={intl.formatMessage({ defaultMessage: 'Description' })}
                 name="description"
                 rules={[{
                   required: true,
-                  message: 'Interview description',
+                  message: intl.formatMessage({ defaultMessage: 'Interview description' }),
                   whitespace: true
                 }]}
               >
                 <TextArea
-                  placeholder="Interview description"
+                  placeholder={intl.formatMessage({ defaultMessage: 'Interview description' })}
                   autoSize={{
                     minRows: 4
                   }}
                 />
               </FormItem>
               <FormItem
-                label="Duration"
+                label={intl.formatMessage({ defaultMessage: 'Duration' })}
                 name="defaultDuration"
               >
-                <Input placeholder="Minutes"/>
+                <Input placeholder={intl.formatMessage({ defaultMessage: 'Minutes' })}/>
               </FormItem>
               <Form.List name="sections">
                 {(sections, {
@@ -406,7 +407,7 @@ const InterviewForm = ({ id }) => {
                               numberOfSection--;
                             }}/>
                           </Tooltip>
-                          Section
+                          <FormattedMessage defaultMessage="Section"/>
                           {' '}
                           <FormItem name={[sectionIndex, 'title']} noStyle>
                             <Input
@@ -415,7 +416,7 @@ const InterviewForm = ({ id }) => {
                             />
                           </FormItem>
                           <Tooltip
-                            title="Organize your questions via Sections like Basic Concept or Design Pattern"
+                            title={intl.formatMessage({ defaultMessage: 'Organize your questions via Sections like Basic Concept or Design Pattern' })}
                           >
                             <StyledQuestionCircleOutlined/>
                           </Tooltip>
@@ -447,14 +448,14 @@ const InterviewForm = ({ id }) => {
                                 >
                                   <PlusOutlined/>
                                   {' '}
-                                  Add a New Question
+                                  <FormattedMessage defaultMessage="Add a New Question"/>
                                 </Button>
                                 <Button
                                   onClick={onOpenSelectQuestionModal.bind(this, sectionIndex)}
                                 >
                                   <PlusOutlined/>
                                   {' '}
-                                  Select an Existed Question
+                                  <FormattedMessage defaultMessage="Select an Existed Question"/>
                                 </Button>
                               </StyledQuestionSection>
                             </>
@@ -481,19 +482,20 @@ const InterviewForm = ({ id }) => {
                     >
                       <PlusOutlined/>
                       {' '}
-                      Add Section
+                      <FormattedMessage defaultMessage="Add Section"/>
                     </Button>
                   </>
                 )}
               </Form.List>
               <Button type="link">
-                <Link to="/interviews" replace>Back</Link>
+                <Link to="/interviews" replace><FormattedMessage defaultMessage="Back"/></Link>
               </Button>
               <Button type="primary" onClick={handleSave}>
-                {isEditForm ? 'Update' : 'Create'}
+                {isEditForm ? <FormattedMessage defaultMessage="Update"/> :
+                  <FormattedMessage defaultMessage="Create"/>}
               </Button>
               <Button type="primary" onClick={handlePublish}>
-                Publish
+                <FormattedMessage defaultMessage="Publish"/>
               </Button>
             </Form>
           </Spin>

@@ -1,6 +1,6 @@
 import { Input, Layout } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link } from 'gatsby-plugin-intl';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import FilterSider from '../Sider/FilterSider';
@@ -20,55 +20,84 @@ const InterviewList = () => {
   const { isAuthenticated } = useAuth0();
   const { getInterviews } = useApi();
   const {
-    interviews, setInterviews, searchedInterviewCriteria, setSearchedInterviewCriteria,
+    interviews,
+    setInterviews,
+    searchedInterviewCriteria,
+    setSearchedInterviewCriteria
   } = useContext(StoreContext);
   // const [interviews, setInterviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState();
-  const searchInterviews = ({ isAppend = false, showLoading = true, url } = {}) => {
+  const searchInterviews = ({
+    isAppend = false,
+    showLoading = true,
+    url
+  } = {}) => {
     setLoading(showLoading);
-    return getInterviews({ url, ...searchedInterviewCriteria }).then((res) => {
-      setInterviews(isAppend ? interviews.concat(res.results) : res.results);
-      setNext(res.next);
-      setLoading(false);
-    });
+    return getInterviews({ url, ...searchedInterviewCriteria })
+      .then((res) => {
+        setInterviews(isAppend ? interviews.concat(res.results) : res.results);
+        setNext(res.next);
+        setLoading(false);
+      });
   };
 
   const handleSpecSelect = (specialization) => {
-    setSearchedInterviewCriteria({ ...searchedInterviewCriteria, specialization });
+    setSearchedInterviewCriteria({
+      ...searchedInterviewCriteria,
+      specialization
+    });
   };
 
   const handleSearch = (keyword) => {
-    setSearchedInterviewCriteria({ ...searchedInterviewCriteria, keyword });
+    setSearchedInterviewCriteria({
+      ...searchedInterviewCriteria,
+      keyword
+    });
   };
 
   const handleTabChange = ({ target }) => {
-    setSearchedInterviewCriteria({ ...searchedInterviewCriteria, owner: target.value === 'mine' });
+    setSearchedInterviewCriteria({
+      ...searchedInterviewCriteria,
+      owner: target.value === 'mine'
+    });
   };
 
-  const handleLoadMore = () => searchInterviews({ isAppend: true, showLoading: false, url: next });
+  const handleLoadMore = () => searchInterviews({
+    isAppend: true,
+    showLoading: false,
+    url: next
+  });
 
   useEffect(() => {
     searchInterviews();
   }, [searchedInterviewCriteria.keyword, searchedInterviewCriteria.specialization, searchedInterviewCriteria.owner]);
   return (
     <>
-      <CustomBreadcrumb crumbs={[{ label: 'List Interviews', path: '/interviews' }]} />
+      <CustomBreadcrumb crumbs={[{
+        label: <FormattedMessage defaultMessage="List Interviews"/>,
+        path: '/interviews'
+      }]}/>
       <Headline title="Interviews">
-        { isAuthenticated && <Link to="/interviews/create">Create</Link>}
+        {isAuthenticated && <Link to="/interviews/create">Create</Link>}
       </Headline>
       {/* <GatsbyLink to={'/interviews/1/test'}>Test interview 1</GatsbyLink> */}
       <div className="form">
         <div>
           <Layout>
-            { isAuthenticated && <FilterSider onChange={handleTabChange} defaultOpenKeys={searchedInterviewCriteria.owner ? 'mine' : 'explore'} />}
+            {isAuthenticated && <FilterSider onChange={handleTabChange}
+                                             defaultOpenKeys={searchedInterviewCriteria.owner ? 'mine' : 'explore'}/>}
             <Content>
-              <Specialization onSelect={handleSpecSelect} selected={searchedInterviewCriteria.specialization} />
+              <Specialization onSelect={handleSpecSelect}
+                              selected={searchedInterviewCriteria.specialization}/>
 
               <Search
                 placeholder="search interview"
                 onSearch={handleSearch}
-                style={{ width: 200, float: 'right' }}
+                style={{
+                  width: 200,
+                  float: 'right'
+                }}
                 defaultValue={searchedInterviewCriteria.keyword}
               />
               <CardList
@@ -94,7 +123,7 @@ const InterviewList = () => {
           </Layout>
         </div>
       </div>
-      <Seo subTitle="Interviews" />
+      <Seo subTitle="Interviews"/>
     </>
   );
 };

@@ -138,11 +138,11 @@ const Home = (props) => {
       <Section>
         <StyledRow type="flex" justify="space-around">
           <Col span={12}>
-            <h1><p>Create your interviews</p></h1>
-            <p>Want to have your own interviews to let everyone see and test it? you can do that
-              easily to build up your own questions for later use or share it</p>
-            <p>Keep your interview privately so you can share and decide who can see/test your
-              interview</p>
+            <h1><p><FormattedMessage defaultMessage="Create your interviews"/></p></h1>
+            <p><FormattedMessage defaultMessage="Want to have your own interviews to let everyone see and test it? you can do that
+              easily to build up your own questions for later use or share it"/></p>
+            <p><FormattedMessage defaultMessage="Keep your interview privately so you can share and decide who can see/test your
+              interview"/></p>
           </Col>
           <Col span={12}>
             <ImageSection backgrounds={backgrounds}/>
@@ -155,14 +155,14 @@ const Home = (props) => {
             <ImageSection backgrounds={backgrounds}/>
           </Col>
           <Col span={12}>
-            <h1><p>Review candidate's results.</p></h1>
-            <p>You can easily see who tests your interview and review summary of each result in a
-              very clear view.</p>
+            <h1><p><FormattedMessage defaultMessage="Review candidate's results."/></p></h1>
+            <p><FormattedMessage defaultMessage="You can easily see who tests your interview and review summary of each result in a
+              very clear view."/></p>
           </Col>
         </StyledRow>
       </Section>
       <Section className="no-pic">
-        <h1><p>Top engineering roles come to you</p></h1>
+        <h1><p><FormattedMessage defaultMessage="Top engineering roles come to you"/></p></h1>
         <p>450+ top tech companies hire for their best engineering teams from GeekHub. Teams reach
           out to you so you will never miss those hot opportunities!</p>
         <StyledRow type="flex" justify="space-around">

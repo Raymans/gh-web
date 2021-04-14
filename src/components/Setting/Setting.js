@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button, Checkbox, Form, Input, Spin,
-} from 'antd';
+import { Button, Checkbox, Form, Input, Spin } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -10,10 +8,15 @@ import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import UploadImage from '../UploadImgae/UploadImage';
+import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 
 const Setting = () => {
+  const intl = useIntl();
   const { user } = useAuth0();
-  const { getUserProfile, updateUserProfile } = useApi();
+  const {
+    getUserProfile,
+    updateUserProfile
+  } = useApi();
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -25,7 +28,7 @@ const Setting = () => {
     getUserProfile(user.sub)
       .then((res) => {
         form.setFieldsValue({
-          ...res,
+          ...res
         });
         // setProfile(res);
         setLoading(false);
@@ -41,73 +44,78 @@ const Setting = () => {
   return (
     <>
       <CustomBreadcrumb crumbs={[{
-        label: 'Setting',
-        path: '/setting',
+        label: <FormattedMessage defaultMessage="Setting"/>,
+        path: '/setting'
       }]}
       />
-      <Headline title="Setting" />
-      <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
+      <Headline title={intl.formatMessage({ defaultMessage: 'Setting' })}/>
+      <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
         <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
-          <h2>Profile</h2>
-          <UploadImage name="avatar" />
+          <h2><FormattedMessage defaultMessage="Profile"/></h2>
+          <UploadImage name="avatar"/>
           <FormItem name="email" label="Email" rules={[{ type: 'email' }]} required>
-            <Input />
+            <Input/>
           </FormItem>
           <FormItem name="github" label="GitHub username">
-            <Input />
+            <Input/>
           </FormItem>
           <FormItem name="linkedIn" label="LinkedIn">
-            <Input />
+            <Input/>
           </FormItem>
           <FormItem name="company" label="Company">
-            <Input />
+            <Input/>
           </FormItem>
           <FormItem name="note" label="Note">
-            <Input />
+            <Input/>
           </FormItem>
-          <br />
+          <br/>
           <Form.Item>
             <Button type="primary" loading={saving} htmlType="submit">
-              Update Profile
+              <FormattedMessage defaultMessage="Update Profile"/>
             </Button>
           </Form.Item>
-          <br />
+          <br/>
         </Form>
         <Form layout="vertical" onFinish={onFinish} scrollToFirstError>
-          <h2>Password</h2>
-          <FormItem name="oldPassword" label="Old password" rules={[{ required: true }]}>
-            <Input defaultValue="" />
+          <h2><FormattedMessage defaultMessage="Password"/></h2>
+          <FormItem name="oldPassword"
+                    label={intl.formatMessage({ defaultMessage: 'Old password' })}
+                    rules={[{ required: true }]}>
+            <Input defaultValue=""/>
           </FormItem>
-          <FormItem name="newPassword" label="New password" required>
-            <Input defaultValue="" />
+          <FormItem name="newPassword"
+                    label={intl.formatMessage({ defaultMessage: 'New password' })} required>
+            <Input defaultValue=""/>
           </FormItem>
-          <FormItem name="confirmPassword" label="Confirm new password" required>
-            <Input defaultValue="" />
+          <FormItem name="confirmPassword"
+                    label={intl.formatMessage({ defaultMessage: 'Confirm new password' })} required>
+            <Input defaultValue=""/>
           </FormItem>
-          <br />
+          <br/>
           <Form.Item>
             <Button type="primary" loading={saving} htmlType="submit">
               Update Password
             </Button>
           </Form.Item>
-          <br />
+          <br/>
         </Form>
         <Form layout="vertical" onFinish={onFinish} scrollToFirstError>
           <h2>Notification</h2>
           <Checkbox>
-            Receives email Notification when a new candidate start testing your interviews
+            <FormattedMessage
+              defaultMessage="Receives email Notification when a new candidate start testing your interviews"/>
           </Checkbox>
 
-          <br />
+          <br/>
           <Form.Item>
             <Button type="primary" loading={saving} htmlType="submit">
-              Update Notification
+              <FormattedMessage defaultMessage="Update Notification"/>
             </Button>
           </Form.Item>
-          <br />
+          <br/>
         </Form>
       </Spin>
-      <Seo subTitle="Setting" />
+      <Seo subTitle={intl.formatMessage({ defaultMessage: 'Setting' })}/>
     </>
   );
 };

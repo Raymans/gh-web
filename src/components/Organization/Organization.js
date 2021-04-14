@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-  Button, Form, Input, message, Modal, Result, Spin,
-} from 'antd';
+import { Button, Form, Input, message, Modal, Result, Spin } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { LoadingOutlined } from '@ant-design/icons';
 import Headline from '../Article/Headline';
@@ -14,11 +12,21 @@ import Departments from './Departments';
 import UserList from './UserList';
 import Invitations from './Invitations';
 import ConfirmModal from './ConfirmModal';
+import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 
 const Organization = () => {
-  const { userProfile, refreshUserProfile, organization } = useContext(StoreContext);
+  const intl = useIntl();
   const {
-    enableOrganization, joinOrganization, removeUserFromOrganization, updateOrganization, updateUserAvatar,
+    userProfile,
+    refreshUserProfile,
+    organization
+  } = useContext(StoreContext);
+  const {
+    enableOrganization,
+    joinOrganization,
+    removeUserFromOrganization,
+    updateOrganization,
+    updateUserAvatar
   } = useApi();
   const [newOrgName, setNewOrgName] = useState('');
   const [saving, setSaving] = useState(false);
@@ -28,7 +36,7 @@ const Organization = () => {
   const handleLeaveOrg = () => {
     removeUserFromOrganization({
       userId: userProfile?.id,
-      organizationId: organization?.id,
+      organizationId: organization?.id
     })
       .then(() => refreshUserProfile());
     //   });
@@ -40,19 +48,20 @@ const Organization = () => {
       updateUserAvatar({ file: values.avatar.file.originFileObj })
         .then(() => updateOrganization({
           id: organization.id,
-          name: values.name,
+          name: values.name
         }))
         .then(() => {
-          message.success('Organization has been updated successfully!');
+          message.success();
+          intl.formatMessage({ defaultMessage: 'Organization has been updated successfully!' });
           setTimeout(() => setSaving(false), 500);
         });
     } else {
       updateOrganization({
         id: organization.id,
-        name: values.name,
+        name: values.name
       })
         .then(() => {
-          message.success('Organization has been updated successfully!');
+          message.success(intl.formatMessage({ defaultMessage: 'Organization has been updated successfully!' }));
           setTimeout(() => setSaving(false), 500);
         });
     }
@@ -71,14 +80,14 @@ const Organization = () => {
   };
   const OpenEnableOrgModal = () => {
     Modal.info({
-      title: 'Enable your Organization',
+      title: intl.formatMessage({ defaultMessage: 'Enable your Organization' }),
       content: <Input
-        placeholder="Organization Name"
+        placeholder={intl.formatMessage({ defaultMessage: 'Organization Name' })}
         onChange={(e) => {
           setNewOrgName(e.target.value);
         }}
       />,
-      onOk: handleEnableOrg,
+      onOk: handleEnableOrg
     });
   };
 
@@ -86,14 +95,18 @@ const Organization = () => {
     <Result
       status="info"
       title="Confirm to join DigitalRiver Organization?"
-      subTitle={`${userProfile?.invitations[0]?.inviterName} (${userProfile?.invitations[0]?.inviterEmail}) is inviting you to join DigitalRiver Organization.`}
+      subTitle={intl.formatMessage({ defaultMessage: '{inviterName} {inviterEmail}  is inviting you to join DigitalRiver Organization.' }, {
+        inviterName: userProfile?.invitations[0]?.inviterName,
+        inviterEmail: userProfile?.invitations[0]?.inviterEmail
+      })}
+      //subTitle={`${userProfile?.invitations[0]?.inviterName} (${userProfile?.invitations[0]?.inviterEmail}) is inviting you to join DigitalRiver Organization.`}
       extra={[
         <Button type="primary" key="join" danger>
           Decline
         </Button>,
         <Button type="primary" key="join" onClick={handleJoinOrg} loading={joining}>
-          Join DitialRiver
-        </Button>,
+          <FormattedMessage defaultMessage="Join DitialRiver"/>
+        </Button>
       ]}
     />
   );
@@ -102,12 +115,12 @@ const Organization = () => {
     <>
       <Result
         status="info"
-        title="Enable your Organization can really give you so many benefits."
-        subTitle="Bring your organization on the table, manage interview across departments, invites people work with you to boost interview process together!"
+        title={intl.formatMessage({ defaultMessage: 'Enable your Organization can really give you so many benefits.' })}
+        subTitle={intl.formatMessage({ defaultMessage: 'Bring your organization on the table, manage interview across departments, invites people work with you to boost interview process together!' })}
         extra={[
           <Button type="primary" key="enableOrg" onClick={OpenEnableOrgModal}>
-            Enable your Organization
-          </Button>,
+            <FormattedMessage defaultMessage="Enable your Organization"/>
+          </Button>
         ]}
       />
     </>
@@ -120,13 +133,13 @@ const Organization = () => {
   return (
     <>
       <CustomBreadcrumb crumbs={[{
-        label: 'Organization',
-        path: '/organization',
+        label: <FormattedMessage defaultMessage="Organization"/>,
+        path: '/organization'
       }]}
       />
-      <Headline title="Organization" />
+      <Headline title={intl.formatMessage({ defaultMessage: 'Organization' })}/>
 
-      <Spin spinning={!userProfile} indicator={<LoadingOutlined spin />}>
+      <Spin spinning={!userProfile} indicator={<LoadingOutlined spin/>}>
         {(!userProfile?.organization && userProfile?.invitations.length > 0) && JoinConfirm}
         {(!userProfile?.organization && userProfile?.invitations.length === 0) && EnableOrganization}
         {organization
@@ -138,54 +151,55 @@ const Organization = () => {
                 style={{
                   position: 'absolute',
                   right: '30px',
-                  zIndex: 999,
+                  zIndex: 999
                 }}
-                openButtonTitle="Leave Organization"
-                title="Leave Organization"
+                openButtonTitle={intl.formatMessage({ defaultMessage: 'Leave Organization' })}
+                title={intl.formatMessage({ defaultMessage: 'Leave Organization' })}
                 onOK={handleLeaveOrg}
-                successMessage="Leave success"
-                submitButtonTitle="Leave"
+                successMessage={intl.formatMessage({ defaultMessage: 'Leave success' })}
+                submitButtonTitle={intl.formatMessage({ defaultMessage: 'Leave' })}
                 danger
               >
                 <p>
-                  Are you sure to Leave?
-                  <br />
-                  {'All interviews and questions you created for the Organization will be allocated to Organization\'s Owner.'}
+                  <FormattedMessage defaultMessage="Are you sure to Leave?"/>
+                  <br/>
+                  <FormattedMessage
+                    defaultMessage="All interviews and questions you created for the Organization will be allocated to Organization's Owner."/>
                 </p>
               </ConfirmModal>
             )}
             <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
-              <UploadImage name="companyPhoto" />
+              <UploadImage name="companyPhoto"/>
               <FormItem
                 name="name"
-                label="Name"
+                label={intl.formatMessage({ defaultMessage: 'Name' })}
                 required
                 rules={[{
                   required: true,
-                  message: 'Please input your Organization Name.',
+                  message: intl.formatMessage({ defaultMessage: 'Please input your Organization Name.' })
                 }]}
               >
-                <Input />
+                <Input/>
               </FormItem>
-              <br />
+              <br/>
               <Form.Item>
                 <Button type="primary" loading={saving} htmlType="submit">
-                  Update Organization
+                  <FormattedMessage defaultMessage="Update Organization"/>
                 </Button>
               </Form.Item>
-              <br />
+              <br/>
             </Form>
 
-            <h2>Departments</h2>
-            <Departments />
+            <h2><FormattedMessage defaultMessage="Departments"/></h2>
+            <Departments/>
 
-            <h2>Accounts</h2>
-            <h3>Invitations</h3>
+            <h2><FormattedMessage defaultMessage="Accounts"/></h2>
+            <h3><FormattedMessage defaultMessage="Invitations"/></h3>
 
-            <Invitations invitations={organization.userInvitations} orgId={organization.id} />
+            <Invitations invitations={organization.userInvitations} orgId={organization.id}/>
 
-            <h3>Members</h3>
-            <UserList users={organization.users} />
+            <h3><FormattedMessage defaultMessage="Members"/></h3>
+            <UserList users={organization.users}/>
 
             {/* <h2>Interviews</h2> */}
             {/* <h3>In Progress</h3> */}
@@ -204,7 +218,7 @@ const Organization = () => {
         )}
       </Spin>
 
-      <Seo subTitle="Organization" />
+      <Seo subTitle={intl.formatMessage({ defaultMessage: 'Organization' })}/>
     </>
   );
 };

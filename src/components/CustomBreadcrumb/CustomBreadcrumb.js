@@ -1,6 +1,6 @@
 import React from 'react';
 import { Breadcrumb } from 'antd';
-import { Link } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link } from 'gatsby-plugin-intl';
 import styled from 'styled-components';
 
 const StyledBreadcrumb = styled.div`
@@ -8,9 +8,9 @@ const StyledBreadcrumb = styled.div`
 `;
 const CustomBreadcrumb = ({
   crumbs = [{
-    label: 'List Interviews',
-    path: '/interviews',
-  }],
+    label: <FormattedMessage defaultMessage="List Interviews"/>,
+    path: '/interviews'
+  }]
 }) => (
   <StyledBreadcrumb>
     <Breadcrumb>
@@ -18,7 +18,7 @@ const CustomBreadcrumb = ({
         <Link
           to="/"
         >
-            Home
+          <FormattedMessage defaultMessage="Home"/>
         </Link>
       </Breadcrumb.Item>
       {crumbs.map((crumb, i) => ((crumbs.length === i + 1) ? (

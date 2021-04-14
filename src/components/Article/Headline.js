@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { SwapLeftOutlined } from '@ant-design/icons';
 import { navigate } from 'gatsby-link';
 import { Tooltip } from 'antd';
+import { useIntl } from 'gatsby-plugin-intl';
 
 const H1 = styled.h1`
   white-space: nowrap;
@@ -20,6 +21,7 @@ const H1 = styled.h1`
   @media (min-width: 1024px) {
     font-size: ${(props) => `calc(${props.theme.font.size.xl} * 1.4)`};
   }
+
   a {
     font-weight: ${(props) => props.theme.font.weight.standard};
     font-size: 0.5em;
@@ -33,12 +35,16 @@ const StyledHeaderSpan = styled.span`
 `;
 
 const Headline = (props) => {
-  const { title, children } = props;
+  const intl = useIntl();
+  const {
+    title,
+    children
+  } = props;
   return (
     <header>
       <section>
         <H1>
-          <Tooltip title={'Go back'}>
+          <Tooltip title={intl.formatMessage({ defaultMessage: 'Go back' })}>
             <a onClick={() => navigate(-1)}><SwapLeftOutlined/></a>
           </Tooltip>
           {title && <StyledHeaderSpan>{title}</StyledHeaderSpan>}

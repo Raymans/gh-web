@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link } from 'gatsby-plugin-intl';
 import { useAuth0 } from '@auth0/auth0-react';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
@@ -8,21 +8,24 @@ import InterviewSessionResult from '../Interviews/InterviewSessionResult';
 
 const TestedInterview = ({ sessionId }) => {
   const {
-    user,
+    user
   } = useAuth0();
 
-  const [interviewSession, setInterviewSession] = useState({ interview: {}, candidateUser: {} });
+  const [interviewSession, setInterviewSession] = useState({
+    interview: {},
+    candidateUser: {}
+  });
   const isOwner = user?.sub === interviewSession.interview.clientUser?.id;
 
   const onLoadedInterviewSession = (is) => setInterviewSession(is);
   return (
     <>
       <CustomBreadcrumb crumbs={[{
-        label: 'Tested Interviews',
-        path: '/testedInterviews',
+        label: <FormattedMessage defaultMessage="Tested Interviews"/>,
+        path: '/testedInterviews'
       }, {
         label: interviewSession.interview.title,
-        path: location.pathname,
+        path: location.pathname
       }]}
       />
       <Headline title={interviewSession.interview.title}>
@@ -37,8 +40,9 @@ const TestedInterview = ({ sessionId }) => {
           )
         }
       </Headline>
-      <InterviewSessionResult onLoaded={onLoadedInterviewSession} sessionId={sessionId} isOwner={isOwner} />
-      <Seo subTitle={interviewSession.interview.title} />
+      <InterviewSessionResult onLoaded={onLoadedInterviewSession} sessionId={sessionId}
+                              isOwner={isOwner}/>
+      <Seo subTitle={interviewSession.interview.title}/>
     </>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
-import { changeLocale, Link, useIntl } from 'gatsby-plugin-intl';
+import { changeLocale, FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import { Col, Row, Switch } from 'antd';
 
 const StyledTitleLi = styled.li`
@@ -25,7 +25,10 @@ const StyledFooter = styled.footer`
 
 const Footer = (props) => {
   const { locale } = useIntl();
-  const { switchDark, isDark } = useContext(ThemeContext);
+  const {
+    switchDark,
+    isDark
+  } = useContext(ThemeContext);
 
   const pages = props.pages.map((page) => ({
     to: page.node.fields.slug,
@@ -45,7 +48,7 @@ const Footer = (props) => {
           <Col span={6}>
             <div>
               <ul>
-                <StyledTitleLi>ABOUT</StyledTitleLi>
+                <StyledTitleLi><FormattedMessage defaultMessage="ABOUT"/></StyledTitleLi>
                 {pages.map((page) => <li><Link to={page.to}>{page.label}</Link></li>)}
               </ul>
             </div>
@@ -53,7 +56,7 @@ const Footer = (props) => {
           <Col span={6}>
             <ul>
               <li>
-                <span>Theme: </span>
+                <span><FormattedMessage defaultMessage="Theme:"/> </span>
                 <Switch
                   checkedChildren="light"
                   unCheckedChildren="dark"

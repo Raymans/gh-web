@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Badge, Spin, Table } from 'antd';
-import { Link } from 'gatsby-plugin-intl';
+import { Link, useIntl } from 'gatsby-plugin-intl';
 import Moment from 'react-moment';
 import { LoadingOutlined } from '@ant-design/icons';
 import useApi from '../../hooks/useApi';
@@ -10,7 +10,7 @@ const columns = [
   {
     title: 'Interview',
     dataIndex: 'interview',
-    render: (interview) => <Link to={`/interviews/${interview.id}`}>{interview.title}</Link>,
+    render: (interview) => <Link to={`/interviews/${interview.id}`}>{interview.title}</Link>
   },
   {
     title: 'Score',
@@ -20,7 +20,7 @@ const columns = [
         return '';
       }
       return score * 100;
-    },
+    }
   },
   {
     title: 'Status',
@@ -30,27 +30,30 @@ const columns = [
       <span>
         {
           status === 'STARTED'
-          && <Badge status="processing" text="In Testing" />
+          && <Badge status="processing" text="In Testing"/>
         }
         {
           status === 'ENDED'
-          && <Badge status="success" text="Completed" />
+          && <Badge status="success" text="Completed"/>
         }
       </span>
-    ),
+    )
   },
   {
     title: 'Complete Date',
     dataIndex: 'interviewEndDate',
     render: (endDate) => (
-      <Moment date={endDate} format="lll" />
-    ),
+      <Moment date={endDate} format="lll"/>
+    )
   },
   {
     title: 'Action',
     key: 'action',
     width: 150,
-    render: (action, { id, status }) => (
+    render: (action, {
+      id,
+      status
+    }) => (
       <span>
         {
           status === 'STARTED'
@@ -61,11 +64,15 @@ const columns = [
           && <Link to={`/testedInterviews/${id}`}>Result</Link>
         }
       </span>
-    ),
-  },
+    )
+  }
 ];
 
-const TestedInterviewList = ({ headline = null, breadcrumbs = null }) => {
+const TestedInterviewList = ({
+  headline = null,
+  breadcrumbs = null
+}) => {
+  const intl = useIntl();
   const { getInterviewSessions } = useApi();
   const [myInterviewsSessions, setMyInterviewsSessions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -80,7 +87,7 @@ const TestedInterviewList = ({ headline = null, breadcrumbs = null }) => {
     <>
       {breadcrumbs}
       {headline}
-      <Spin spinning={loading} indicator={<LoadingOutlined spin />}>
+      <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
         <Table
           rowKey={(interviewSession) => interviewSession.id}
           showHeader={false}
@@ -89,7 +96,7 @@ const TestedInterviewList = ({ headline = null, breadcrumbs = null }) => {
           pagination={false}
         />
       </Spin>
-      <Seo subTitle="Tested Interviews" />
+      <Seo subTitle={intl.formatMessage({ defaultMessage: 'Passed Interview' })}/>
     </>
   );
 };
