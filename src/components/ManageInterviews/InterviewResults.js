@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Badge, Spin, Table } from 'antd';
-import { Link } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import Moment from 'react-moment';
 import { LoadingOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
@@ -14,10 +14,32 @@ const StyledScore = styled.span`
   font-weight: bold;
   font-size: 14px;
 `;
+const StyledRank = styled.span`
+  &.rank_1 {
+    color: #9f9e2c;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  &.rank_2 {
+    color: #aeaeae;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  &.rank_3 {
+    color: #7c4b4b;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+`;
 const columns = [
   {
     dataIndex: 'rank',
-    render: (rank) => <span>1</span>
+    render: (rank, interviewSession, index) =>
+      <StyledRank
+        className={`rank_${index + 1}`}>{index + 1}</StyledRank>
   },
   {
     title: 'Candidate',
@@ -26,12 +48,12 @@ const columns = [
   },
   {
     title: 'Score',
-    dataIndex: 'score',
-    render: (score, { interviewEndDate }) => {
+    dataIndex: 'totalScore',
+    render: (totalScore, { interviewEndDate }) => {
       if (!interviewEndDate) {
         return '';
       }
-      return (<StyledScore>{score * 100}</StyledScore>);
+      return (<StyledScore>{totalScore * 100}</StyledScore>);
     }
   },
   {
@@ -42,17 +64,17 @@ const columns = [
       <span>
         {
           status === 'STARTED'
-          && <Badge status="processing" text="In Testing"/>
+          && <Badge status="processing" text={<FormattedMessage defaultMessage="In Testing"/>}/>
         }
         {
           status === 'ENDED'
-          && <Badge status="success" text="Completed"/>
+          && <Badge status="success" text={<FormattedMessage defaultMessage="Completed"/>}/>
         }
       </span>
     )
   },
   {
-    title: 'Complete Date',
+    title: <FormattedMessage defaultMessage="Complete Date"/>,
     dataIndex: 'interviewEndDate',
     render: (endDate) => {
       if (!endDate) {
@@ -69,7 +91,9 @@ const columns = [
     width: 150,
     render: (action, { id }) => (
       <span>
-        <Link to={`/manageInterviews/${action.interview.id}/${id}`}>Result</Link>
+        <Link to={`/manageInterviews/${action.interview.id}/${id}`}>
+          <FormattedMessage defaultMessage="Result"/>
+        </Link>
       </span>
     )
   }
@@ -80,6 +104,7 @@ const InterviewResults = ({
   location
 }) => {
   const { getInterviewSessions } = useApi();
+  const intl = useIntl();
   const [myInterviewsSessions, setMyInterviewsSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -96,14 +121,14 @@ const InterviewResults = ({
   return (
     <>
       <CustomBreadcrumb crumbs={[{
-        label: 'Manage Interviews',
+        label: intl.formatMessage({ defaultMessage: 'Manage Interviews' }),
         path: '/manageInterviews'
       }, {
         label: location.state?.interviewName,
         path: location.pathname
       }]}
       />
-      <Headline title="Manage Interviews">
+      <Headline title={intl.formatMessage({ defaultMessage: 'Manage Interviews' })}>
         <Link to={`/interviews/${id}`}>{location.state?.interviewName}</Link>
       </Headline>
       <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>

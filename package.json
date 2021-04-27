@@ -22,8 +22,9 @@
     "clean": "rm -r .cache public",
     "clean-all": "rm -r .cache public node_modules",
     "extract": "formatjs extract",
-    "make-message": "npm run extract -- \"src/**/**/*.js*\" --out-file src/intl/en.json --format simple",
-    "compile": "formatjs compile"
+    "make-message": "npm run extract -- \"src/**/**/*.js*\" --out-file src/intl/en.json --format simple && npm run copymessage",
+    "compile": "formatjs compile",
+    "copymessage": "node scripts/copy-message.js"
   },
   "dependencies": {
     "@ant-design/compatible": "^1.0.1",

@@ -9,9 +9,10 @@ import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import InterviewsSummary from '../ManageInterviews/InterviewsSummary';
+import { FormattedMessage } from 'gatsby-plugin-intl';
 
 const StyledBasicProfileRow = styled(Row)`
-padding-bottom: 50px;
+  padding-bottom: 50px;
 `;
 const Profile = ({ userId }) => {
   const { getUserProfile } = useApi();
@@ -30,7 +31,8 @@ const Profile = ({ userId }) => {
         label: `${profile.nickname}`,
         path: location.pathname
       }]}/>
-      <Headline title={`Profile - ${profile.nickname}`}/>
+      <Headline title={<FormattedMessage defaultMessage="Profile - {nickname}"
+                                         values={{ nickname: profile.nickname }}/>}/>
       <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
         <StyledBasicProfileRow align="middle">
           <Col span={8}>

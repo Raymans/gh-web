@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { Badge, Descriptions, List, Spin } from 'antd';
-import { Link } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link } from 'gatsby-plugin-intl';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useAuth0 } from '@auth0/auth0-react';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import AuthorBy from '../AuthorBy';
+import Moment from 'react-moment';
 
 const columns = [
   {
@@ -82,24 +83,24 @@ const InterviewsSummary = ({
                     <>
                       <Descriptions column={2}>
                         <Descriptions.Item
-                          label="Specialization"
+                          label={<FormattedMessage defaultMessage="Specialization"/>}
                         >
                           {interview.specialization.name}
                         </Descriptions.Item>
                         <Descriptions.Item
-                          label="Job Title"
+                          label={<FormattedMessage defaultMessage="Job Title"/>}
                         >
                           {interview.jobTitle}
                         </Descriptions.Item>
-                        <Descriptions.Item label="Status">
+                        <Descriptions.Item label={<FormattedMessage defaultMessage="Status"/>}>
                           <Badge
                             status="processing"
-                            text="In Testing"
+                            text={<FormattedMessage defaultMessage="Recruiting"/>}
                           />
                         </Descriptions.Item>
-                        <Descriptions.Item label="Created Date">
-                          2021-1-31 3:45
-                          PM
+                        <Descriptions.Item
+                          label={<FormattedMessage defaultMessage="Created Date"/>}>
+                          <Moment date={'2020/01/01'} format="lll"/>
                         </Descriptions.Item>
                         <Descriptions.Item
                           span={2}

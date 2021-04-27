@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import useApi from '../../hooks/useApi';
 import ConfirmModal from './ConfirmModal';
 import { StoreContext } from '../../context/ContextProvider';
+import { FormattedMessage } from 'gatsby-plugin-intl';
 
 const { Column } = Table;
 const UserList = ({ users }) => {
@@ -68,24 +69,27 @@ const UserList = ({ users }) => {
       </div>
 
       <Table dataSource={users} pagination={false} size="small">
-        <Column title="Name" dataIndex="name" key="name"/>
-        <Column title="Email" dataIndex="email" key="email"/>
-        <Column title="Department" dataIndex="department" key="department" render={renderDept}/>
+        <Column title={<FormattedMessage defaultMessage="Name"/>} dataIndex="name" key="name"/>
+        <Column title={<FormattedMessage defaultMessage="Email"/>} dataIndex="email" key="email"/>
+        <Column title={<FormattedMessage defaultMessage="Department"/>} dataIndex="department"
+                key="department" render={renderDept}/>
         <Column
           align="right"
           render={(text, record) => (record.accountPrivilege !== 'OWNER' ? (
             <Space size="middle" key={record.id}>
               <ConfirmModal
-                title="Remove User from Organization"
+                title={<FormattedMessage defaultMessage="Remove User from Organization"/>}
                 onOK={() => handleRemoveUserFromOrg(record)}
-                successMessage={`${record.name} has been Removed from Organization.`}
+                successMessage={<FormattedMessage
+                  defaultMessage="{username} has been Removed from Organization."
+                  values={{ username: record.name }}/>}
                 openButtonType="link"
-                openButtonTitle="Remove"
-                submitButtonTitle="Remove"
+                openButtonTitle={<FormattedMessage defaultMessage="Remove"/>}
+                submitButtonTitle={<FormattedMessage defaultMessage="Remove"/>}
                 danger
               >
                 <p>
-                  {'Are you sure to cancel the invitation for '}
+                  <FormattedMessage defaultMessage="Are you sure to cancel the invitation for "/>
                   <b>
                     {record.name}
                   </b>

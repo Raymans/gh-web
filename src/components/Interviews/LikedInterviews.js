@@ -39,11 +39,12 @@ const LikedInterviews = () => {
                   <>
                     <Descriptions column={2}>
                       <Descriptions.Item
-                        label="Specialization"
+                        label={<FormattedMessage defaultMessage="Specialization"/>}
                       >
                         {interview.specialization.name}
                       </Descriptions.Item>
-                      <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
+                      <Descriptions.Item label={<FormattedMessage
+                        defaultMessage="Job Title"/>}>{interview.jobTitle}</Descriptions.Item>
                       <Descriptions.Item
                         span={2}
                         style={{ whiteSpace: 'pre-line' }}

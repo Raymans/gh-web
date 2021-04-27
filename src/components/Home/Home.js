@@ -66,14 +66,15 @@ const Home = (props) => {
     <>
       <Section className="no-pic">
         <h1><p><FormattedMessage defaultMessage="Explore Interviews"/></p></h1>
-        <p>Explore and exam REAL Interviews!!</p>
-        <p>Hiring company will be noticed when you submit your result!!</p>
+        <p><FormattedMessage defaultMessage="Explore and exam REAL Interviews!!"/></p>
+        <p><FormattedMessage
+          defaultMessage="Hiring company will be noticed when you submit your result!!"/></p>
         <p>
-          Want to apply a job right now?! Do it
-          <Link to="/interviews"> HERE! </Link>
+          <FormattedMessage defaultMessage="Want to apply a job right now?! Do it"/>
+          <Link to="/interviews"><FormattedMessage defaultMessage="HERE!"/></Link>
         </p>
         <p>__List Specializations and roles here.__</p>
-        <h2>Looking for a specialization?</h2>
+        <h2><FormattedMessage defaultMessage="Looking for a specialization?"/></h2>
         <StyledRow type="flex" justify="space-around">
           <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=Front End Engineer">
@@ -95,7 +96,7 @@ const Home = (props) => {
           </Col>
         </StyledRow>
 
-        <h2>Looking for a Company who is hiring?</h2>
+        <h2><FormattedMessage defaultMessage="Looking for a Company who is hiring?"/></h2>
         <StyledRow type="flex" justify="space-around">
           <Col style={{ textAlign: 'center' }}>
             <Link to="interviews?sp=frontend">
@@ -163,8 +164,8 @@ const Home = (props) => {
       </Section>
       <Section className="no-pic">
         <h1><p><FormattedMessage defaultMessage="Top engineering roles come to you"/></p></h1>
-        <p>450+ top tech companies hire for their best engineering teams from GeekHub. Teams reach
-          out to you so you will never miss those hot opportunities!</p>
+        <p><FormattedMessage defaultMessage="450+ top tech companies hire for their best engineering teams from GeekHub. Teams reach
+          out to you so you will never miss those hot opportunities!"/></p>
         <StyledRow type="flex" justify="space-around">
           <div style={{ maxWidth: '1000px' }}>
             <img

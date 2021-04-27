@@ -7,7 +7,7 @@ import {
   CloseCircleTwoTone,
   ExclamationCircleOutlined
 } from '@ant-design/icons';
-import { Link } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import { useAuth0 } from '@auth0/auth0-react';
 import useApi from '../../hooks/useApi';
 
@@ -30,6 +30,7 @@ const StyledQuestionBlock = styled.div`
   h3 {
     white-space: pre-wrap;
   }
+
   margin: 24px;
 `;
 
@@ -37,24 +38,29 @@ const StyledCheckbox = styled(Checkbox)`
   display: block !important;
   margin-left: 0 !important;
   padding: 4px;
-  &.wrong{
+
+  &.wrong {
     color: red;
-    .ant-checkbox-checked .ant-checkbox-inner{
+
+    .ant-checkbox-checked .ant-checkbox-inner {
       background-color: red;
       border-color: red;
     }
   }
-  &.correct{
+
+  &.correct {
     color: green;
-    .ant-checkbox-checked .ant-checkbox-inner{
+
+    .ant-checkbox-checked .ant-checkbox-inner {
       background-color: green;
       border-color: green;
     }
   }
 
   &.answer {
-      margin: 0 8px;
+    margin: 0 8px;
   }
+
   &.answer > span:nth-child(2) {
     border-bottom: ${(props) => `2px solid ${props.theme.color.brand.primary}`};
   }
@@ -62,6 +68,7 @@ const StyledCheckbox = styled(Checkbox)`
 
 const StyledQuestionH2 = styled.h2`
   display: flex;
+
   span {
     margin-left: auto;
   }
@@ -86,6 +93,7 @@ const InterviewSession = ({
     addAnswerToInterviewSession,
     submitInterviewSession
   } = useApi();
+  const intl = useIntl();
   const isOwner = user?.sub === interview.clientUser.id;
   const [isSubmitted, setIsSubmitted] = useState(!!interviewEndDate);
   const handleSubmitQuestionAttempt = (sectionId, questionId, values) => {
@@ -102,9 +110,9 @@ const InterviewSession = ({
   };
   const handleSubmitInterviewSession = () => {
     Modal.confirm({
-      title: 'Submit your interview result?',
+      title: intl.formatMessage({ defaultMessage: 'Submit your interview result?' }),
       icon: <ExclamationCircleOutlined/>,
-      content: 'Once you submit your result, you cannot change it anymore. Are you sure submit it now?',
+      content: intl.formatMessage({ defaultMessage: 'Once you submit your result, you cannot change it anymore. Are you sure submit it now?' }),
       onOk() {
         return submitInterviewSession(id)
           .then(() => {
@@ -134,8 +142,10 @@ const InterviewSession = ({
         && (
           <Result
             status="success"
-            title="Summit your interview result Successfully!"
-            extra={<Link to="/interviews">Let's go to Explore more Interview!</Link>}
+            title={intl.formatMessage({ defaultMessage: 'Summit your interview result Successfully!' })}
+            extra={<Link to="/interviews">
+              <FormattedMessage
+                defaultMessage="Let's go to Explore more Interview!"/> </Link>}
           />
         )
       }

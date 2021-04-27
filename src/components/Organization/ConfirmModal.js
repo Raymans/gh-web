@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Button, message, Modal as AntdModal } from 'antd';
 import React, { useState } from 'react';
+import { FormattedMessage } from 'gatsby-plugin-intl';
 
 const ConfirmModal = ({
   title,
@@ -60,7 +61,7 @@ const ConfirmModal = ({
         centered
         footer={[
           <Button key="back" onClick={handleCancel} type="link">
-            Cancel
+            <FormattedMessage defaultMessage="Cancel"/>
           </Button>,
           <Button type="primary" loading={okLoading} onClick={handleOK} danger={danger}>
             {submitButtonTitle}
@@ -90,10 +91,10 @@ ConfirmModal.propTypes = {
 };
 
 ConfirmModal.defaultProps = {
-  openButtonTitle: 'Open',
-  successMessage: 'Success',
+  openButtonTitle: <FormattedMessage defaultMessage="Open"/>,
+  successMessage: <FormattedMessage defaultMessage="Success"/>,
   title: {},
-  submitButtonTitle: 'OK',
+  submitButtonTitle: <FormattedMessage defaultMessage="OK"/>,
   onCancel: async () => {
   },
   onOK: async () => {

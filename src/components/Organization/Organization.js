@@ -172,7 +172,7 @@ const Organization = () => {
               <UploadImage name="companyPhoto"/>
               <FormItem
                 name="name"
-                label={intl.formatMessage({ defaultMessage: 'Name' })}
+                label={intl.formatMessage({ defaultMessage: 'Organization Name' })}
                 required
                 rules={[{
                   required: true,

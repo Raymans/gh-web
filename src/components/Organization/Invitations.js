@@ -5,6 +5,7 @@ import ConfirmModal from './ConfirmModal';
 import useApi from '../../hooks/useApi';
 import { StoreContext } from '../../context/ContextProvider';
 import InviteUserModal from './InviteUserModal';
+import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 
 const { Column } = Table;
 
@@ -12,6 +13,7 @@ const Invitations = ({
   invitations,
   orgId
 }) => {
+  const intl = useIntl();
   const { unInviteUserFromOrganization } = useApi();
   const { refreshUserOrg } = useContext(StoreContext);
 
@@ -46,24 +48,26 @@ const Invitations = ({
     <>
       <InviteUserModal organizationId={orgId}/>
       <Table dataSource={invitations} pagination={false} size="small">
-        <Column title="Email" dataIndex="email" key="email"/>
-        <Column title="Inviter" dataIndex="inviterName" key="inviterName"/>
-        <Column title="Inviter's email" dataIndex="inviterEmail" key="inviterEmail"/>
+        <Column title={<FormattedMessage defaultMessage="Email"/>} dataIndex="email" key="email"/>
+        <Column title={<FormattedMessage defaultMessage="Inviter"/>} dataIndex="inviterName"
+                key="inviterName"/>
+        <Column title={<FormattedMessage defaultMessage="Inviter's email"/>}
+                dataIndex="inviterEmail" key="inviterEmail"/>
         <Column
           align="right"
           render={(text, record) => (
             <Space key={record.email} size="middle">
-              <a onClick={invite}>Resend Invitation</a>
+              <a onClick={invite}><FormattedMessage defaultMessage="Resend Invitation"/></a>
               <ConfirmModal
-                title="UnInvite User"
+                title={intl.formatMessage({ defaultMessage: 'UnInvite User' })}
                 onOK={() => handleUnInviteUserFromOrg(record)}
-                openButtonTitle="UnInvite"
-                submitButtonTitle="UnInvite"
+                openButtonTitle={intl.formatMessage({ defaultMessage: 'UnInvite' })}
+                submitButtonTitle={intl.formatMessage({ defaultMessage: 'UnInvite' })}
                 openButtonType="link"
-                successMessage={`${record.email} has been Removed from Organization`}
+                successMessage={intl.formatMessage({ defaultMessage: '{email} has been Removed from Organization' }, { email: record.email })}
                 danger
               >
-                {'Are you sure to cancel the invitation for '}
+                {intl.formatMessage({ defaultMessage: 'Are you sure to cancel the invitation for' })}
                 <b>
                   {record.email}
                 </b>

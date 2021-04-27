@@ -5,9 +5,11 @@ import InterviewResults from './InterviewResults';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import InterviewResult from './InterviewResult';
+import { useIntl } from 'gatsby-plugin-intl';
 
 const ManageInterviews = (props) => {
   const matchDefault = useMatch('/manageInterviews/*') ? '/manageInterviews' : '/:locale/manageInterviews';
+  const intl = useIntl();
   return (
     <Router
       basepath={matchDefault}
@@ -15,10 +17,10 @@ const ManageInterviews = (props) => {
       <InterviewsSummary
         path="/"
         breadcrumbs={<CustomBreadcrumb crumbs={[{
-          label: 'Manage Interviews',
+          label: intl.formatMessage({ defaultMessage: 'Manage Interviews' }),
           path: '/manageInterviews'
         }]}/>}
-        headline={<Headline title="Manage Interviews"/>}
+        headline={<Headline title={intl.formatMessage({ defaultMessage: 'Manage Interviews' })}/>}
       />
       <InterviewResults path="/:id/"/>
       <InterviewResult path="/:id/:sessionId"/>

@@ -10,7 +10,7 @@ import Countdown from 'antd/lib/statistic/Countdown';
 import styled from 'styled-components';
 import moment from 'moment';
 import { useAuth0 } from '@auth0/auth0-react';
-import { FormattedMessage, Link } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import Headline from '../Article/Headline';
 import InterviewSession from './InterviewSession';
 import LoginPrompt from '../Login/LoginPrompt';
@@ -39,7 +39,7 @@ const Interview = ({
     getPublishedInterview,
     startInterviewSession
   } = useApi();
-
+  const intl = useIntl();
   const [isTesting, setIsTesting] = useState(false);
   const [deadline, setDeadline] = useState(0);
   const [isTimeUp, setIsTimeUp] = useState(false);
@@ -186,11 +186,12 @@ const Interview = ({
                   </Tag>
                 </Descriptions.Item>
                 <Descriptions.Item
-                  label="Specialization"
+                  label={intl.formatMessage({ defaultMessage: 'Specialization' })}
                 >
                   {interview.specialization.name}
                 </Descriptions.Item>
-                <Descriptions.Item label="Job Title">{interview.jobTitle}</Descriptions.Item>
+                <Descriptions.Item
+                  label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{interview.jobTitle}</Descriptions.Item>
                 <Descriptions.Item
                   span={2}
                   style={{ whiteSpace: 'pre-line' }}
@@ -213,7 +214,8 @@ const Interview = ({
                     <Row gutter={16}>
                       <Col span={12}>
                         <Statistic
-                          title={<Badge status="processing" text="In Testing"/>}
+                          title={<Badge status="processing"
+                                        text={intl.formatMessage({ defaultMessage: 'In Testing' })}/>}
                           value={11}
                           prefix={<UserOutlined/>}
                           suffix=" geeks"
@@ -221,7 +223,8 @@ const Interview = ({
                       </Col>
                       <Col span={12}>
                         <Statistic
-                          title={<Badge status="success" text="Completed"/>}
+                          title={<Badge status="success"
+                                        text={intl.formatMessage({ defaultMessage: 'Completed' })}/>}
                           value={93}
                           prefix={<UserOutlined/>}
                           suffix=" geeks"
@@ -235,14 +238,15 @@ const Interview = ({
                 !interviewSession && !isOwner
                 && (
                   <>
-                    <LoginPrompt title="Login to Test Interview">
+                    <LoginPrompt
+                      title={intl.formatMessage({ defaultMessage: 'Login to Test Interview' })}>
                       {(isAuth) => (
                         <Button
                           type="primary"
                           onClick={isAuth ? handleOpenTestPrompt : () => {
                           }}
                         >
-                          Start Testing Interview
+                          <FormattedMessage defaultMessage="Start Testing Interview"/>
                         </Button>
                       )}
                     </LoginPrompt>
@@ -256,7 +260,11 @@ const Interview = ({
                       {
                         (interviewSession?.duration > 0 || interview.defaultDuration > 0)
                         &&
-                        <p>{`You will have ${interviewSession?.duration || interview.defaultDuration} minutes complete the interview.`}</p>
+                        <p>
+                          <FormattedMessage
+                            defaultMessage="You will have {duration} minutes complete the interview."
+                            values={{ duration: interviewSession?.duration || interview.defaultDuration }}/>
+                        </p>
                       }
                     </Modal>
                   </>

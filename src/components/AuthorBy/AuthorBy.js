@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { AutoComplete, Avatar, Button, Input, Modal } from 'antd';
+import { FormattedMessage } from 'gatsby-plugin-intl';
 
 const StyledAvatar = styled(Avatar)`
   margin: 0 5px;
@@ -84,10 +85,10 @@ const AuthorBy = ({
         title="Change Owner"
         footer={[
           <Button key="back" onClick={handleCancel}>
-            Cancel
+            <FormattedMessage defaultMessage="Cancel"/>
           </Button>,
           <Button key="submit" type="primary" onClick={handelChangeOwner}>
-            Change Owner
+            <FormattedMessage defaultMessage="Change Owner"/>
           </Button>
         ]}
       >

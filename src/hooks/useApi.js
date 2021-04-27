@@ -156,12 +156,14 @@ export default () => {
 
     getInterviewSessions: ({
       interviewId = '',
-      owner = true
+      owner = true,
+      sort = 'totalScore'
     } = {}) => request(`${config.ghServiceUrl}/api/interviewSessions`, {
       method: 'GET',
       params: {
         interviewId,
-        owner
+        owner,
+        sort
       }
     }),
 

@@ -14,7 +14,7 @@ import {
   Tag
 } from 'antd';
 import { LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { Link } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import Search from 'antd/es/input/Search';
 import { CopyToClipboard } from 'react-copy-to-clipboard/lib/Component';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -64,6 +64,7 @@ const InterviewGrid = (props) => {
     getInterviewSessions,
     sendInterviewSessionToCandidate
   } = useApi();
+  const intl = useIntl();
   const shareLink = `https://geekhub.tw/interviews/${id}`;
   const [sharedForm] = useForm();
   const { user } = useAuth0();
@@ -111,7 +112,7 @@ const InterviewGrid = (props) => {
         }
         sendings[value] = false;
         setSendings({ ...sendings });
-        message.success(`Sent Interview to ${value}`);
+        message.success(intl.formatMessage({ defaultMessage: 'Sent Interview to {interviewee}' }, { interviewee: value }));
       });
   };
 
@@ -137,7 +138,7 @@ const InterviewGrid = (props) => {
                   ...sendings,
                   sending: false
                 });
-                message.success(`Sent Interview to ${value}`);
+                message.success(intl.formatMessage({ defaultMessage: 'Sent Interview to {interviewee}' }, { interviewee: value }));
               });
           });
       });
@@ -155,15 +156,16 @@ const InterviewGrid = (props) => {
               onCancel={() => setIsShareModalVisible(false)}
               footer={[
                 <Button key="back" onClick={() => setIsShareModalVisible(false)}>
-                  Close
+                  <FormattedMessage defaultMessage="Close"/>
                 </Button>
               ]}
             >
               <div style={{ display: 'flex' }}>
-                <Input placeholder="Email" value={shareLink}/>
+                <Input placeholder={intl.formatMessage({ defaultMessage: 'Email' })}
+                       value={shareLink}/>
                 <CopyToClipboard
                   text={shareLink}
-                  onCopy={() => message.info('Copied.')}
+                  onCopy={() => message.info(intl.formatMessage({ defaultMessage: 'Copied.' }))}
                 >
                   <Button>Copy</Button>
                 </CopyToClipboard>
@@ -174,13 +176,13 @@ const InterviewGrid = (props) => {
                   name="email"
                   rules={[{
                     required: true,
-                    message: 'Please input email format.',
+                    message: <FormattedMessage defaultMessage="Please input email format."/>,
                     type: 'email'
                   }]}>
                   <Search
                     name="email"
-                    placeholder="Email"
-                    enterButton="Send"
+                    placeholder={intl.formatMessage({ defaultMessage: 'Email' })}
+                    enterButton={intl.formatMessage({ defaultMessage: 'Send' })}
                     loading={sendings.sending}
                     onSearch={handleShareEmail}
                   />
@@ -207,12 +209,15 @@ const InterviewGrid = (props) => {
               >
                 {
                   visibility === 'PRIVATE'
-                  && <StyledVisibilityTag color="default">private</StyledVisibilityTag>
+                  &&
+                  <StyledVisibilityTag color="default"><FormattedMessage defaultMessage="private"/></StyledVisibilityTag>
                 }
                 <h1><Link to={`/interviews/${id}`}>{title}</Link></h1>
                 <Descriptions column={2}>
-                  <Descriptions.Item label="Specialization">{specializationName}</Descriptions.Item>
-                  <Descriptions.Item label="Job Title">{jobTitle}</Descriptions.Item>
+                  <Descriptions.Item
+                    label={intl.formatMessage({ defaultMessage: 'Specialization' })}>{specializationName}</Descriptions.Item>
+                  <Descriptions.Item
+                    label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{jobTitle}</Descriptions.Item>
                   <Descriptions.Item span={2}>{description}</Descriptions.Item>
                   <Descriptions.Item span={2}>
                     <AuthorBy author={clientUser.nickname} avatarSrc={clientUser.avatar}/>

@@ -9,6 +9,9 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import themeObjectFromYaml from '../theme/theme.yaml';
 import Seo from '../components/Seo';
+import { useIntl } from 'gatsby-plugin-intl';
+import 'moment/locale/zh-tw';
+import Moment from 'react-moment';
 
 if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
   require('cookieconsent');
@@ -23,9 +26,10 @@ const Main = styled.main`
 `;
 
 const GlobalStyle = createGlobalStyle`
-  h1, h2, h3, h4, h5, h6{
-  color: inherit;
+  h1, h2, h3, h4, h5, h6 {
+    color: inherit;
   }
+
   h2, h3 {
     font-weight: 500;
     border-bottom: 1px solid #e8e8e8;
@@ -37,11 +41,13 @@ const GlobalStyle = createGlobalStyle`
     padding-bottom: 10px;
     margin: 20px 0 20px;
   }
-  .ant-btn-primary:not(.ant-input-search-button){
+
+  .ant-btn-primary:not(.ant-input-search-button) {
     margin: 5px 5px;
   }
 `;
 export const Layout = (props) => {
+  const { locale } = useIntl();
   const [theme, setTheme] = useState({
     ...themeObjectFromYaml,
     // isDark: localStorage.getItem('isDark'),
@@ -72,6 +78,10 @@ export const Layout = (props) => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    Moment.globalLocale = locale;
+  }, [locale]);
 
   return (
     <StaticQuery

@@ -53,19 +53,22 @@ const Setting = () => {
         <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
           <h2><FormattedMessage defaultMessage="Profile"/></h2>
           <UploadImage name="avatar"/>
-          <FormItem name="email" label="Email" rules={[{ type: 'email' }]} required>
+          <FormItem
+            name="email"
+            label={<FormattedMessage defaultMessage="Email"/>}
+            rules={[{ type: 'email' }]} required>
             <Input/>
           </FormItem>
-          <FormItem name="github" label="GitHub username">
+          <FormItem name="github" label={<FormattedMessage defaultMessage="GitHub username"/>}>
             <Input/>
           </FormItem>
           <FormItem name="linkedIn" label="LinkedIn">
             <Input/>
           </FormItem>
-          <FormItem name="company" label="Company">
+          <FormItem name="company" label={<FormattedMessage defaultMessage="Organization"/>}>
             <Input/>
           </FormItem>
-          <FormItem name="note" label="Note">
+          <FormItem name="note" label={<FormattedMessage defaultMessage="Note"/>}>
             <Input/>
           </FormItem>
           <br/>
@@ -94,13 +97,13 @@ const Setting = () => {
           <br/>
           <Form.Item>
             <Button type="primary" loading={saving} htmlType="submit">
-              Update Password
+              <FormattedMessage defaultMessage="Update Password"/>
             </Button>
           </Form.Item>
           <br/>
         </Form>
         <Form layout="vertical" onFinish={onFinish} scrollToFirstError>
-          <h2>Notification</h2>
+          <h2><FormattedMessage defaultMessage="Notification"/></h2>
           <Checkbox>
             <FormattedMessage
               defaultMessage="Receives email Notification when a new candidate start testing your interviews"/>

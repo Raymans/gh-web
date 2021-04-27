@@ -1,11 +1,23 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Descriptions, Layout, Progress, Row, Spin, Statistic, Tooltip } from 'antd';
+import {
+  Button,
+  Col,
+  Descriptions,
+  Layout,
+  message,
+  Progress,
+  Row,
+  Spin,
+  Statistic,
+  Tooltip
+} from 'antd';
 import { ArrowDownOutlined, ArrowUpOutlined, LoadingOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import useApi from '../../hooks/useApi';
 import AuthorBy from '../AuthorBy';
 import InterviewSession from './InterviewSession';
+import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 
 const StyleTotalScoreCol = styled(Col)`
   text-align: center;
@@ -14,7 +26,7 @@ const StyleTotalScoreCol = styled(Col)`
 `;
 
 const StyledScoresRow = styled(Row)`
-  .ant-statistic-content-prefix{
+  .ant-statistic-content-prefix {
     font-size: 14px;
   }
 `;
@@ -29,6 +41,7 @@ const InterviewSessionResult = ({
     getAverageScore,
     getInterviewSession
   } = useApi();
+  const intl = useIntl();
   const [interviewSession, setInterviewSession] = useState({ candidateUser: {} });
   const [averageScore, setAverageScore] = useState({ sectionsAverageScore: [{ averageSectionScore: 0 }] });
   const [calculating, setCalculating] = useState(false);
@@ -40,7 +53,7 @@ const InterviewSessionResult = ({
         onLoaded(interviewS);
         getAverageScore(sessionId)
           .then((res) => {
-            setAverageScore({ scoreDiff: (interviewS.score - res.averageScore.averageScore) * 100, ...res });
+            setAverageScore({ scoreDiff: (interviewS.totalScore - res.averageScore.averageScore) * 100, ...res });
             setLoading(false);
           });
       });
@@ -52,9 +65,9 @@ const InterviewSessionResult = ({
       .then((is) => {
         setInterviewSession(is);
         setCalculating(false);
+        message.success(intl.formatMessage({ defaultMessage: 'Success' }));
       });
   };
-  '';
   return (
     <Layout>
       {/*<AnchorSilder/>*/}
@@ -62,12 +75,12 @@ const InterviewSessionResult = ({
         <Layout.Content>
           <Descriptions column={2}>
             <Descriptions.Item
-              label="Specialization"
+              label={intl.formatMessage({ defaultMessage: 'Specialization' })}
             >
               {interviewSession.interview?.specialization.name}
             </Descriptions.Item>
             <Descriptions.Item
-              label="Job Title">{interviewSession.interview?.jobTitle}</Descriptions.Item>
+              label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{interviewSession.interview?.jobTitle}</Descriptions.Item>
             <Descriptions.Item
               span={2}
               style={{ whiteSpace: 'pre-line' }}
@@ -99,7 +112,9 @@ const InterviewSessionResult = ({
                     return (
                       <Col key={section.id} justify="center" style={{ textAlign: 'center' }}>
                         <Tooltip
-                          title={`Compares to average score: ${averageScore.sectionsAverageScore[index]?.averageSectionScore * 100}`}>
+                          title={<FormattedMessage
+                            defaultMessage="Compares to average score: {averageSectionScore}"
+                            values={{ averageSectionScore: averageScore.sectionsAverageScore[index]?.averageSectionScore * 100 }}/>}>
                           <Statistic
                             value={sectionScoreDiff}
                             valueStyle={{ color: sectionScoreDiff === 0 ? '#276dba' : (sectionScoreDiff > 0 ? '#138651' : 'red') }}
@@ -121,7 +136,9 @@ const InterviewSessionResult = ({
                 }
                 <StyleTotalScoreCol justify="center">
                   <Tooltip
-                    title={`Compares to average score: ${averageScore.averageScore?.averageScore * 100}`}>
+                    title={<FormattedMessage
+                      defaultMessage="Compares to average score: {averageScore}"
+                      values={{ averageScore: averageScore.averageScore?.averageScore * 100 }}/>}>
                     <Statistic
                       value={averageScore.scoreDiff}
                       valueStyle={{ color: averageScore.scoreDiff === 0 ? '#2f9eba' : (averageScore.scoreDiff > 0 ? '#3f8600' : 'red') }}
@@ -130,9 +147,9 @@ const InterviewSessionResult = ({
                     />
                     <Progress
                       type="circle"
-                      percent={interviewSession.score * 100}
-                      format={(score) => score}
-                      status={interviewSession.score < averageScore.averageScore?.averageScore ? 'exception' : ''}
+                      percent={interviewSession.totalScore * 100}
+                      format={(totalScore) => totalScore}
+                      status={interviewSession.totalScore < averageScore.averageScore?.averageScore ? 'exception' : ''}
                     />
                   </Tooltip>
                 </StyleTotalScoreCol>
@@ -148,8 +165,7 @@ const InterviewSessionResult = ({
           isOwner && interviewSession.status === 'ENDED'
           && (
             <Button type="primary" onClick={handleCalculateScore} loading={calculating}>
-              Calculate
-              Score
+              <FormattedMessage defaultMessage=" Calculate Score"/>
             </Button>
           )
         }

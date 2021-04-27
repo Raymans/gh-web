@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'gatsby-plugin-intl';
+import { Link, useIntl } from 'gatsby-plugin-intl';
 import { useAuth0 } from '@auth0/auth0-react';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
@@ -10,7 +10,7 @@ const InterviewResult = ({ sessionId }) => {
   const {
     user
   } = useAuth0();
-
+  const intl = useIntl();
   const [interviewSession, setInterviewSession] = useState({
     interview: {},
     candidateUser: {}
@@ -21,7 +21,7 @@ const InterviewResult = ({ sessionId }) => {
   return (
     <>
       <CustomBreadcrumb crumbs={[{
-        label: 'Manage Interviews',
+        label: intl.formatMessage({ defaultMessage: 'Manage Interviews' }),
         path: '/manageInterviews'
       }, {
         label: interviewSession.interview.title,

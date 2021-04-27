@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { StoreContext } from '../../context/ContextProvider';
 import useApi from '../../hooks/useApi';
+import { useIntl } from 'gatsby-plugin-intl';
 
 const Specialization = ({
   onSelect,
   selected
 }) => {
   const { getSpecializations } = useApi();
+  const intl = useIntl();
   const store = useContext(StoreContext);
   const {
     specializations,
@@ -35,7 +37,7 @@ const Specialization = ({
     specializations.length > 0
     && (
       <Select
-        placeholder="Specialization"
+        placeholder={intl.formatMessage({ defaultMessage: 'Specialization' })}
         optionFilterProp="children"
         {...selectedValueProp}
         style={{ width: 200 }}

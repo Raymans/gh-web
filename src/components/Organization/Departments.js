@@ -3,26 +3,31 @@ import React, { useEffect, useState } from 'react';
 import FormItem from 'antd/lib/form/FormItem';
 import useApi from '../../hooks/useApi';
 import ConfirmModal from './ConfirmModal';
+import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 
 const { Column } = Table;
 
-const DeptForm = ({ form }) => (
-  <Form layout="vertical" form={form}>
-    <FormItem
-      name="departmentName"
-      label="Department Name"
-      required
-      rules={[{
-        required: true,
-        message: 'Please input Department Name'
-      }]}
-    >
-      <Input autoFocus/>
-    </FormItem>
-  </Form>
-);
+const DeptForm = ({ form }) => {
+  const intl = useIntl();
+  return (
+    <Form layout="vertical" form={form}>
+      <FormItem
+        name="departmentName"
+        label={intl.formatMessage({ defaultMessage: 'Department Name' })}
+        required
+        rules={[{
+          required: true,
+          message: <FormattedMessage defaultMessage="Please input Department Name"/>
+        }]}
+      >
+        <Input autoFocus/>
+      </FormItem>
+    </Form>
+  );
+};
 
 const Departments = () => {
+  const intl = useIntl();
   const [deptForm] = Form.useForm();
   const [departments, setDepartments] = useState([]);
   const {
@@ -47,7 +52,7 @@ const Departments = () => {
       .then(retrieveDepts)
       .then(() => deptForm.resetFields())
       .catch(() => {
-        message.error('Create department fail, seems like the department is already existed.');
+        message.error(intl.formatMessage({ defaultMessage: 'Create department fail, seems like the department is already existed.' }));
         throw new Error('Create department fail, seems like the department is already existed.');
       });
   };
@@ -60,7 +65,7 @@ const Departments = () => {
       .then(retrieveDepts)
       .then(() => deptForm.resetFields())
       .catch(() => {
-        message.error('Update department fail, seems like the department is already existed.');
+        message.error(intl.formatMessage({ defaultMessage: 'Update department fail, seems like the department is already existed.' }));
         throw new Error('Update department fail, seems like the department is already existed.');
       });
   };
@@ -75,9 +80,9 @@ const Departments = () => {
   return (
     <>
       <ConfirmModal
-        openButtonTitle="New Department"
-        submitButtonTitle="Create"
-        title="New Department"
+        openButtonTitle={intl.formatMessage({ defaultMessage: 'New Department' })}
+        submitButtonTitle={intl.formatMessage({ defaultMessage: 'Create' })}
+        title={intl.formatMessage({ defaultMessage: 'New Department' })}
         onBeforeSubmit={handleBeforeSubmit}
         onOK={handleNewDepartment}
         onOpen={() => deptForm.setFieldsValue({ departmentName: '' })}
@@ -85,15 +90,15 @@ const Departments = () => {
         <DeptForm form={deptForm}/>
       </ConfirmModal>
       <Table dataSource={departments} pagination={false} size="small">
-        <Column title="Name" dataIndex="name" key="name"/>
+        <Column title={intl.formatMessage({ defaultMessage: 'Name' })} dataIndex="name" key="name"/>
         <Column
           align="right"
           render={(text, record) => (
             <div key={record.id}>
               <ConfirmModal
-                openButtonTitle="Edit"
-                submitButtonTitle="Update"
-                title="Edit Department"
+                openButtonTitle={intl.formatMessage({ defaultMessage: 'Edit' })}
+                submitButtonTitle={intl.formatMessage({ defaultMessage: 'Update' })}
+                title={intl.formatMessage({ defaultMessage: 'Edit Department' })}
                 onBeforeSubmit={handleBeforeSubmit}
                 onOK={() => handleEditDepartment(record)}
                 onOpen={() => deptForm.setFieldsValue({ departmentName: record.name })}
@@ -102,14 +107,14 @@ const Departments = () => {
                 <DeptForm form={deptForm} name={record.name}/>
               </ConfirmModal>
               <ConfirmModal
-                title="Delete Department"
+                title={intl.formatMessage({ defaultMessage: 'Delete Department' })}
                 onOK={() => handleDeleteDept(record)}
-                openButtonTitle="Delete"
-                submitButtonTitle="Delete"
+                openButtonTitle={intl.formatMessage({ defaultMessage: 'Delete' })}
+                submitButtonTitle={intl.formatMessage({ defaultMessage: 'Delete' })}
                 danger
                 openButtonType="link"
               >
-                {`Are you sure you want to Delete the Department: ${record.name}?`}
+                {intl.formatMessage({ defaultMessage: 'Are you sure you want to Delete the Department: {name}?' }, { name: record.name })}
               </ConfirmModal>
             </div>
           )}

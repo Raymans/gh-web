@@ -1,6 +1,6 @@
 import { Input, Layout } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
-import { FormattedMessage, Link } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import FilterSider from '../Sider/FilterSider';
@@ -17,6 +17,7 @@ const { Search } = Input;
 const { Content } = Layout;
 
 const InterviewList = () => {
+  const intl = useIntl();
   const { isAuthenticated } = useAuth0();
   const { getInterviews } = useApi();
   const {
@@ -78,8 +79,9 @@ const InterviewList = () => {
         label: <FormattedMessage defaultMessage="List Interviews"/>,
         path: '/interviews'
       }]}/>
-      <Headline title="Interviews">
-        {isAuthenticated && <Link to="/interviews/create">Create</Link>}
+      <Headline title={intl.formatMessage({ defaultMessage: 'List Interviews' })}>
+        {isAuthenticated &&
+        <Link to="/interviews/create"><FormattedMessage defaultMessage="Create"/></Link>}
       </Headline>
       {/* <GatsbyLink to={'/interviews/1/test'}>Test interview 1</GatsbyLink> */}
       <div className="form">
@@ -92,7 +94,7 @@ const InterviewList = () => {
                               selected={searchedInterviewCriteria.specialization}/>
 
               <Search
-                placeholder="search interview"
+                placeholder={intl.formatMessage({ defaultMessage: 'search interview' })}
                 onSearch={handleSearch}
                 style={{
                   width: 200,
