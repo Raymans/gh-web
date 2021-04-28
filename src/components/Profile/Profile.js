@@ -58,9 +58,11 @@ const Profile = ({ userId }) => {
           </Col>
         </StyledBasicProfileRow>
       </Spin>
-      <LikedInterviews/>
       {/* <MyInterview /> */}
+      <h2><FormattedMessage defaultMessage="{name}'s interviews"
+                            values={{ name: profile.nickname }}/></h2>
       <InterviewsSummary userId={userId}/>
+      <LikedInterviews/>
       <PassInterview/>
       <Seo subTitle={profile.nickname}/>
     </>

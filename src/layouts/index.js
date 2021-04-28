@@ -31,18 +31,18 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h2, h3 {
-    font-weight: 500;
+    font-weight: bold;
     border-bottom: 1px solid #e8e8e8;
     padding-bottom: 10px;
-    margin: 20px 0 20px;
+    margin: 20px 0;
   }
 
   h4 {
     padding-bottom: 10px;
-    margin: 20px 0 20px;
+    margin: 30px 0 20px;
   }
 
-  .ant-btn-primary:not(.ant-input-search-button) {
+  .ant-btn:not(.ant-input-search-button) {
     margin: 5px 5px;
   }
 `;
@@ -127,8 +127,9 @@ export const Layout = (props) => {
               theme.isDark &&
               <link rel="stylesheet" type="text/css" href="https://ant.design/dark.css"/>
             }
-            <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap"
-                  rel="stylesheet"/>
+            <link
+              href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&family=Montserrat:ital@0;1&display=swap"
+              rel="stylesheet"/>
             <FontLoadedContext.Provider value={layoutState.font400loaded}>
               <ScreenWidthContext.Provider value={layoutState.screenWidth}>
                 <>

@@ -49,11 +49,10 @@ const StyledCheckbox = styled(Checkbox)`
   }
 
   &.correct {
-    color: green;
+    color: ${(props) => `${props.theme.color.brand.primary}`};
 
     .ant-checkbox-checked .ant-checkbox-inner {
-      background-color: green;
-      border-color: green;
+      background-color: ${(props) => `${props.theme.color.brand.primary}`};
     }
   }
 
@@ -62,7 +61,7 @@ const StyledCheckbox = styled(Checkbox)`
   }
 
   &.answer > span:nth-child(2) {
-    border-bottom: ${(props) => `2px solid ${props.theme.color.brand.primary}`};
+      //border-bottom: ${(props) => `2px solid ${props.theme.color.brand.primary}`};
   }
 `;
 

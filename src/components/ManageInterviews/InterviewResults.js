@@ -16,7 +16,7 @@ const StyledScore = styled.span`
 `;
 const StyledRank = styled.span`
   &.rank_1 {
-    color: #9f9e2c;
+    color: #d7d608;
     font-weight: bold;
     font-size: 20px;
   }
@@ -92,7 +92,7 @@ const columns = [
     render: (action, { id }) => (
       <span>
         <Link to={`/manageInterviews/${action.interview.id}/${id}`}>
-          <FormattedMessage defaultMessage="Result"/>
+          <FormattedMessage defaultMessage="See Result"/>
         </Link>
       </span>
     )

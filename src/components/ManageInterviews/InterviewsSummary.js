@@ -44,7 +44,10 @@ const InterviewsSummary = ({
   const [loading, setLoading] = useState(true);
   const isOwner = user?.sub === userId;
   useEffect(() => {
-    getInterviews({ owner: true })
+    getInterviews({
+      userId,
+      owner: true
+    })
       .then(({ results: myIvs }) => {
         setMyInterviews(myIvs);
         setLoading(false);

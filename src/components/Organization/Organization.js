@@ -172,33 +172,28 @@ const Organization = () => {
               <UploadImage name="companyPhoto"/>
               <FormItem
                 name="name"
-                label={intl.formatMessage({ defaultMessage: 'Organization Name' })}
                 required
                 rules={[{
                   required: true,
                   message: intl.formatMessage({ defaultMessage: 'Please input your Organization Name.' })
                 }]}
               >
-                <Input/>
+                <Input size="large"
+                       placeholder={intl.formatMessage({ defaultMessage: 'Organization Name' })}/>
               </FormItem>
-              <br/>
-              <Form.Item>
-                <Button type="primary" loading={saving} htmlType="submit">
-                  <FormattedMessage defaultMessage="Update Organization"/>
-                </Button>
-              </Form.Item>
-              <br/>
+              <Button type="primary" loading={saving} htmlType="submit">
+                <FormattedMessage defaultMessage="Update Organization"/>
+              </Button>
             </Form>
 
             <h2><FormattedMessage defaultMessage="Departments"/></h2>
             <Departments/>
 
-            <h2><FormattedMessage defaultMessage="Accounts"/></h2>
-            <h3><FormattedMessage defaultMessage="Invitations"/></h3>
+            <h2><FormattedMessage defaultMessage="Invitations"/></h2>
 
             <Invitations invitations={organization.userInvitations} orgId={organization.id}/>
 
-            <h3><FormattedMessage defaultMessage="Members"/></h3>
+            <h2><FormattedMessage defaultMessage="Members"/></h2>
             <UserList users={organization.users}/>
 
             {/* <h2>Interviews</h2> */}

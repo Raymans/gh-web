@@ -17,11 +17,16 @@ import { useAuth0 } from '@auth0/auth0-react';
 import useLayout from '../../hooks/useLayout';
 
 const StyledAlignSpan = styled.span`
-    display: flex;
-    align-items: center;
-    font-weight: bold;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
 `;
 
+const StyledMenu = styled.div`
+  .ant-menu {
+    font-size: 16px;
+  }
+`;
 const Menu = (props) => {
   const {
     isLoading,
@@ -230,7 +235,7 @@ const Menu = (props) => {
     </AntMenu>
   );
   return (
-    <>
+    <StyledMenu>
       {layout.screenWidth < 700
       && (
         <>
@@ -253,7 +258,7 @@ const Menu = (props) => {
 
       {layout.screenWidth >= 700
       && antdMenu}
-    </>
+    </StyledMenu>
   );
 };
 

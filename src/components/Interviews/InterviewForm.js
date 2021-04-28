@@ -318,7 +318,7 @@ const InterviewForm = ({ id }) => {
                 </FormItem>
               </StyledVisibilityDiv>
               <FormItem
-                label="Title"
+                label={intl.formatMessage({ defaultMessage: 'Title' })}
                 name="title"
                 rules={[{
                   required: true,
