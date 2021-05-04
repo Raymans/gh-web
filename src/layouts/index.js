@@ -42,7 +42,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 30px 0 20px;
   }
 
-  .ant-btn:not(.ant-input-search-button) {
+  .ant-btn-primary:not(.ant-input-search-button) {
     margin: 5px 5px;
   }
 `;

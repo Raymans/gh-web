@@ -14,6 +14,26 @@ import useApi from '../../hooks/useApi';
 const StyledSearchFilter = styled.div`
   text-align: end;
   flex: auto;
+
+  .ant-input-search {
+    width: 300px;
+  }
+
+  @media (max-width: 700px) {
+    .ant-input-search {
+      width: 100% !important;
+      margin-bottom: 10px;
+    }
+  }
+`;
+const StyledSearchBar = styled.div`
+  display: flex;
+
+
+  .ant-input-search {
+    width: 300px;
+    margin-left: auto;
+  }
 `;
 
 const StyledSelected = styled.div`
@@ -95,10 +115,9 @@ const QuestionList = (props) => {
               label: <FormattedMessage defaultMessage="List Questions"/>,
               path: '/questions'
             }]}/>
-            <Headline>
-              <span><FormattedMessage defaultMessage="Questions"/> </span>
+            <Headline title={<FormattedMessage defaultMessage="Questions"/>}>
               {isAuthenticated &&
-              <Link to="/questions/create"><FormattedMessage defaultMessage="Create"/></Link>}
+              <Link to="/questions/create"><FormattedMessage defaultMessage="Create Your Question"/></Link>}
             </Headline>
           </>
         )
@@ -110,7 +129,6 @@ const QuestionList = (props) => {
             <Input.Search
               placeholder={intl.formatMessage({ defaultMessage: 'search question' })}
               onSearch={onSearch}
-              style={{ width: 200 }}
             />
           </StyledSearchFilter>
           <CardList

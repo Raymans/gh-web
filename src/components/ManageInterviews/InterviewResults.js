@@ -76,6 +76,7 @@ const columns = [
   {
     title: <FormattedMessage defaultMessage="Complete Date"/>,
     dataIndex: 'interviewEndDate',
+    responsive: ['md'],
     render: (endDate) => {
       if (!endDate) {
         return '';

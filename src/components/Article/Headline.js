@@ -34,6 +34,10 @@ const StyledHeaderSpan = styled.span`
   margin: 0 10px;
 `;
 
+const StyledSubHeader = styled.div`
+  line-height: 1;
+  margin-left: 29px;
+`;
 const Headline = (props) => {
   const intl = useIntl();
   const {
@@ -48,7 +52,7 @@ const Headline = (props) => {
             <a onClick={() => navigate(-1)}><SwapLeftOutlined/></a>
           </Tooltip>
           {title && <StyledHeaderSpan>{title}</StyledHeaderSpan>}
-          {children}
+          <StyledSubHeader>{children}</StyledSubHeader>
         </H1>
       </section>
     </header>

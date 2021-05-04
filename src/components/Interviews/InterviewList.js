@@ -12,10 +12,26 @@ import CustomBreadcrumb from '../CustomBreadcrumb';
 import { StoreContext } from '../../context/ContextProvider';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
+import styled from 'styled-components';
 
 const { Search } = Input;
 const { Content } = Layout;
 
+const StyledSearchBar = styled.div`
+  display: flex;
+  @media (max-width: 700px) {
+    flex-direction: column;
+    .ant-select, .ant-input-search {
+      width: 100% !important;
+      margin-bottom: 10px;
+    }
+  }
+
+  .ant-input-search {
+    width: 300px;
+    margin-left: auto
+  }
+`;
 const InterviewList = () => {
   const intl = useIntl();
   const { isAuthenticated } = useAuth0();
@@ -81,7 +97,8 @@ const InterviewList = () => {
       }]}/>
       <Headline title={intl.formatMessage({ defaultMessage: 'List Interviews' })}>
         {isAuthenticated &&
-        <Link to="/interviews/create"><FormattedMessage defaultMessage="Create"/></Link>}
+        <Link to="/interviews/create"><FormattedMessage
+          defaultMessage="Create Your Interview"/></Link>}
       </Headline>
       {/* <GatsbyLink to={'/interviews/1/test'}>Test interview 1</GatsbyLink> */}
       <div className="form">
@@ -90,18 +107,16 @@ const InterviewList = () => {
             {isAuthenticated && <FilterSider onChange={handleTabChange}
                                              defaultOpenKeys={searchedInterviewCriteria.owner ? 'mine' : 'explore'}/>}
             <Content>
-              <Specialization onSelect={handleSpecSelect}
-                              selected={searchedInterviewCriteria.specialization}/>
+              <StyledSearchBar>
+                <Specialization onSelect={handleSpecSelect}
+                                selected={searchedInterviewCriteria.specialization}/>
+                <Search
+                  placeholder={intl.formatMessage({ defaultMessage: 'search interview' })}
+                  onSearch={handleSearch}
+                  defaultValue={searchedInterviewCriteria.keyword}
+                />
+              </StyledSearchBar>
 
-              <Search
-                placeholder={intl.formatMessage({ defaultMessage: 'search interview' })}
-                onSearch={handleSearch}
-                style={{
-                  width: 200,
-                  float: 'right'
-                }}
-                defaultValue={searchedInterviewCriteria.keyword}
-              />
               <CardList
                 loading={loading}
                 hasMore={!!next}

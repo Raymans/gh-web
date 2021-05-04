@@ -37,6 +37,7 @@ const InverviewActionsRow = ({
         size="small"
         shape="circle"
         icon={<EditOutlined/>}
+        style={{ marginRight: '3px' }}
         onClick={() => {
           navigate(`/interviews/${id}/edit`);
         }}

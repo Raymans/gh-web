@@ -9,28 +9,6 @@ import Seo from '../Seo';
 import AuthorBy from '../AuthorBy';
 import Moment from 'react-moment';
 
-const columns = [
-  {
-    title: 'Title',
-    dataIndex: 'title',
-    width: 150
-  },
-  {
-    title: 'Status',
-    dataIndex: 'status',
-    width: 150,
-    render: (text) => (
-      <span>
-        <Badge status="success"/>
-        {text}
-      </span>
-    )
-  },
-  {
-    title: 'Complete Date',
-    dataIndex: 'completeDate'
-  }
-];
 
 const InterviewsSummary = ({
   userId,

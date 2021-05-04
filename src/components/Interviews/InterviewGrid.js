@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {
-  Button,
-  Descriptions,
-  Divider,
-  Form,
-  Input,
-  List,
-  message,
-  Modal,
-  Space,
-  Spin,
-  Tag
-} from 'antd';
+import { Button, Descriptions, Divider, Form, Input, List, message, Modal, Spin, Tag } from 'antd';
 import { LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import Search from 'antd/es/input/Search';
@@ -36,8 +24,8 @@ const StyleReSendRow = styled.div`
 const StyledListItem = styled(List.Item)`
   .ant-list-item-extra{
     position: absolute;
-    float: left;
     right: 25px;
+    top: 16px;
   }
 `;
 
@@ -76,9 +64,10 @@ const InterviewGrid = (props) => {
   const [deleted, setDeleted] = useState(false);
   let updateActions = [];
   updateActions = [
-    <Space key="actionBlockId">
+    <>
       <Button
         icon={<ShareAltOutlined/>}
+        style={{ marginRight: '3px' }}
         onClick={() => {
           setIsShareModalVisible(true);
           getInterviewSessions({ interviewId: id })
@@ -100,7 +89,7 @@ const InterviewGrid = (props) => {
         )
       }
 
-    </Space>];
+    </>];
 
   const handleResendEmail = (value) => {
     sendings[value] = true;
@@ -161,7 +150,7 @@ const InterviewGrid = (props) => {
               ]}
             >
               <div style={{ display: 'flex' }}>
-                <Input placeholder={intl.formatMessage({ defaultMessage: 'Email' })}
+                <Input placeholder={intl.formatMessage({ defaultMessage: 'Email' })} size="small"
                        value={shareLink}/>
                 <CopyToClipboard
                   text={shareLink}
@@ -196,7 +185,7 @@ const InterviewGrid = (props) => {
                     onClick={handleResendEmail.bind(this, sharedEmail)}
                     loading={sendings[sharedEmail]}
                   >
-                    ReSend
+                    <FormattedMessage defaultMessage="ReSend"/>
                   </Button>
                 </StyleReSendRow>
               ))}
