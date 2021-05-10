@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Avatar, Form, message, Upload } from 'antd';
@@ -31,13 +31,13 @@ function beforeUpload(file) {
 
 const UploadImage = ({
   name,
-  label
+  label,
+  imageUrl
 }) => {
   const [uploadImage, setUploadingImage] = useState({
     loading: false,
-    imageUrl: 'https://avatars0.githubusercontent.com/u/5819635?s=400&u=28fed09b4c20e36c8dfa58063d3dedfa93bee04c&v=4'
+    imageUrl
   });
-
   const normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
@@ -55,15 +55,13 @@ const UploadImage = ({
     }
     if (info.file.status === 'done') {
       // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (imageUrl) => setUploadingImage({
-        imageUrl,
-        loading: false
-      }));
+      getBase64(info.file.originFileObj, (imageUrl) => {
+        setUploadingImage({
+          imageUrl,
+          loading: false
+        });
+      });
     }
-    getBase64(info.file.originFileObj, (imageUrl) => setUploadingImage({
-      imageUrl,
-      loading: false
-    }));
   };
   const uploadButton = (
     <div>
@@ -71,18 +69,26 @@ const UploadImage = ({
       <div className="ant-upload-text">Upload</div>
     </div>
   );
+
+  useEffect(() => {
+    setUploadingImage({
+      imageUrl,
+      loading: false
+    });
+  }, [imageUrl]);
   return (
     <Form.Item
-      name="avatar"
+      name={name}
       label={label}
       valuePropName="originFileObj"
       // getValueFromEvent={normFile}
     >
       <Upload
-        name="avatar"
+        name={name}
         showUploadList={false}
         beforeUpload={beforeUpload}
         onChange={handleChange}
+        accept="image/png, image/jpeg"
       >
         <div>
           {uploadImage.imageUrl
@@ -98,7 +104,12 @@ const UploadImage = ({
   );
 };
 UploadImage.propTypes = {
+  label: PropTypes.string,
   name: PropTypes.string.isRequired
 };
 
 export default UploadImage;
+
+UploadImage.defaultProps = {
+  name: 'avatar'
+};

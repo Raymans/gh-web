@@ -111,7 +111,7 @@ const QuestionGrid = (props) => {
                     {
                       showAuthor
                       && (
-                        <AuthorBy author={clientUser.nickname} avatarSrc={clientUser.avatar}/>
+                        <AuthorBy author={clientUser.name} avatarSrc={clientUser.avatar}/>
                       )
                     }
                   </Descriptions.Item>

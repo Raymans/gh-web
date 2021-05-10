@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Descriptions, Divider, Form, Input, List, message, Modal, Spin, Tag } from 'antd';
+import {
+  Badge,
+  Button,
+  Descriptions,
+  Divider,
+  Form,
+  Input,
+  List,
+  message,
+  Modal,
+  Spin,
+  Tag
+} from 'antd';
 import { LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import Search from 'antd/es/input/Search';
@@ -11,18 +23,20 @@ import AuthorBy from '../AuthorBy';
 import useApi from '../../hooks/useApi';
 import InverviewActionsRow from './InterviewActionsRow';
 import { useForm } from 'antd/lib/form/Form';
+import Moment from 'react-moment';
 
 const StyleReSendRow = styled.div`
   display: flex;
   align-items: center;
   border-bottom: #e0e5e6 1px solid;
   margin-bottom: 11px;
+
   button {
     margin-left: auto;
   }
 `;
 const StyledListItem = styled(List.Item)`
-  .ant-list-item-extra{
+  .ant-list-item-extra {
     position: absolute;
     right: 25px;
     top: 16px;
@@ -35,6 +49,11 @@ const StyledVisibilityTag = styled(Tag)`
   background-color: ${(props) => (props.theme.isDark ? 'darkslategray !important' : undefined)};
 `;
 
+const StyledDescription = styled.div`
+  font-size: 16px;
+  margin: 10px 0;
+`;
+
 const InterviewGrid = (props) => {
   const {
     id,
@@ -45,7 +64,8 @@ const InterviewGrid = (props) => {
     clientUser = {},
     visibility,
     likeCount,
-    liked
+    liked,
+    lastModifiedDate
   } = props;
   const {
     createInterviewSession,
@@ -207,9 +227,20 @@ const InterviewGrid = (props) => {
                     label={intl.formatMessage({ defaultMessage: 'Specialization' })}>{specializationName}</Descriptions.Item>
                   <Descriptions.Item
                     label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{jobTitle}</Descriptions.Item>
-                  <Descriptions.Item span={2}>{description}</Descriptions.Item>
+                  <Descriptions.Item label={<FormattedMessage defaultMessage="Status"/>}>
+                    <Badge
+                      status="processing"
+                      text={<FormattedMessage defaultMessage="Recruiting"/>}
+                    />
+                  </Descriptions.Item>
+                  <Descriptions.Item
+                    label={<FormattedMessage defaultMessage="Updated on"/>}>
+                    <Moment date={lastModifiedDate} format="lll"/>
+                  </Descriptions.Item>
+                  <Descriptions.Item
+                    span={2}><StyledDescription>{description}</StyledDescription></Descriptions.Item>
                   <Descriptions.Item span={2}>
-                    <AuthorBy author={clientUser.nickname} avatarSrc={clientUser.avatar}/>
+                    <AuthorBy author={clientUser.name} avatarSrc={clientUser.avatar}/>
                   </Descriptions.Item>
                   <Descriptions.Item span={2}>
                     <InterviewLike

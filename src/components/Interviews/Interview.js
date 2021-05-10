@@ -202,7 +202,7 @@ const Interview = ({
                   span={2}
                 >
                   <AuthorBy
-                    author={interview.clientUser.nickname}
+                    author={interview.clientUser.name}
                     avatarSrc={interview.clientUser.avatar}
                   />
                 </Descriptions.Item>

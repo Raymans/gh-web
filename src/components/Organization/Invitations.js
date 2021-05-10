@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { message, Space, Table } from 'antd';
+import { message, Space, Table, Tag } from 'antd';
 import React, { useContext } from 'react';
 import ConfirmModal from './ConfirmModal';
 import useApi from '../../hooks/useApi';
@@ -14,22 +14,35 @@ const Invitations = ({
   orgId
 }) => {
   const intl = useIntl();
-  const { unInviteUserFromOrganization } = useApi();
-  const { refreshUserOrg } = useContext(StoreContext);
+  const {
+    inviteUserToOrganization,
+    unInviteUserFromOrganization
+  } = useApi();
+  const {
+    refreshUserOrg,
+    userProfile
+  } = useContext(StoreContext);
+  const isOwner = userProfile?.accountPrivilege === 'OWNER';
 
-  const invite = () => {
+  const invite = (email) => {
     message.loading({
-      content: 'Sending Invite email....',
+      content: <FormattedMessage defaultMessage={'Sending Invite email....'}/>,
       key: 'invite',
       duration: 4
     });
-    setTimeout(() => {
-      message.success({
-        content: 'Invitation has sent to Raymans!',
-        key: 'invite',
-        duration: 4
+
+    inviteUserToOrganization({
+      email,
+      organizationId: orgId
+    })
+      .then(() => {
+        message.success({
+          content: <FormattedMessage defaultMessage="Invitation has sent to {sentEmail}!"
+                                     values={{ sentEmail: email }}/>,
+          key: 'invite',
+          duration: 4
+        });
       });
-    }, 1000);
   };
 
   const handleUnInviteUserFromOrg = (invitation) => {
@@ -46,7 +59,9 @@ const Invitations = ({
 
   return (
     <>
-      <InviteUserModal organizationId={orgId}/>
+      {
+        isOwner && <InviteUserModal organizationId={orgId}/>
+      }
       <Table dataSource={invitations} pagination={false} size="small">
         <Column title={<FormattedMessage defaultMessage="Email"/>} dataIndex="email" key="email"/>
         <Column title={<FormattedMessage defaultMessage="Inviter"/>} dataIndex="inviterName"
@@ -57,7 +72,16 @@ const Invitations = ({
           align="right"
           render={(text, record) => (
             <Space key={record.email} size="middle">
-              <a onClick={invite}><FormattedMessage defaultMessage="Resend Invitation"/></a>
+              {
+                record.status === 'DECLINED' &&
+                <Tag color="red"><FormattedMessage defaultMessage="DECLINED"/></Tag>
+              }
+              {
+                record.status === 'INVITED' && isOwner &&
+                <a onClick={() => invite(record.email)}>
+                  <FormattedMessage defaultMessage="Resend Invitation"/></a>
+              }
+              {isOwner &&
               <ConfirmModal
                 title={intl.formatMessage({ defaultMessage: 'UnInvite User' })}
                 onOK={() => handleUnInviteUserFromOrg(record)}
@@ -73,11 +97,11 @@ const Invitations = ({
                 </b>
                 ?
               </ConfirmModal>
+              }
             </Space>
           )}
         />
       </Table>
-
     </>
   );
 };

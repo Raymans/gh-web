@@ -133,6 +133,7 @@ const InterviewList = () => {
                     specialization={item.specialization}
                     likeCount={item.likeCount}
                     liked={item.liked}
+                    lastModifiedDate={item.lastModifiedDate}
                   />
                 )}
               />

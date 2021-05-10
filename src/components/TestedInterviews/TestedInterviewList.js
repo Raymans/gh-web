@@ -43,7 +43,7 @@ const columns = [
     title: 'Complete Date',
     dataIndex: 'interviewEndDate',
     render: (endDate) => (
-      <Moment date={endDate} format="lll"/>
+      endDate && <Moment date={endDate} format="lll"/>
     )
   },
   {
@@ -56,7 +56,7 @@ const columns = [
     }) => (
       <span>
         {
-          status === 'STARTED'
+          status === 'STARTED' || status === 'NOT_STARTED'
           && <Link to={`/interviews/${id}/test`}>Go test</Link>
         }
         {

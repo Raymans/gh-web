@@ -15,6 +15,7 @@ import Icon, {
 } from '@ant-design/icons';
 import { useAuth0 } from '@auth0/auth0-react';
 import useLayout from '../../hooks/useLayout';
+import { StoreContext } from '../../context/ContextProvider';
 
 const StyledAlignSpan = styled.span`
   display: flex;
@@ -29,14 +30,12 @@ const StyledMenu = styled.div`
 `;
 const Menu = (props) => {
   const {
-    isLoading,
     isAuthenticated,
-    error,
-    user,
     loginWithRedirect,
     logout
   } = useAuth0();
 
+  const { userProfile } = useContext(StoreContext);
   const { switchDark } = useContext(ThemeContext);
   const [layout] = useLayout();
   const [menuVisible, setMenuVisible] = useState(false);
@@ -185,8 +184,8 @@ const Menu = (props) => {
                   key={index}
                   title={(
                     <span>
-                      <Avatar src={user.picture} style={{ marginRight: '5px' }}/>
-                      {user.nickname}
+                      <Avatar src={userProfile?.avatar} style={{ marginRight: '5px' }}/>
+                      {userProfile?.name}
                     </span>
                   )}
                 >
@@ -199,7 +198,7 @@ const Menu = (props) => {
                     label: <FormattedMessage defaultMessage="My Interviews"/>
                   })}
                   {renderItem({
-                    to: `/profile/${user.sub}`,
+                    to: `/profile/${userProfile?.id}`,
                     label: <FormattedMessage defaultMessage="Profile"/>
                   })}
                   {renderItem({

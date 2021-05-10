@@ -16,7 +16,7 @@ import styled from 'styled-components';
 import Divider from 'antd/lib/divider';
 import FormItem from 'antd/lib/form/FormItem';
 import TextArea from 'antd/lib/input/TextArea';
-import { FormattedMessage, Link, navigate, useIntl } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import {
   LoadingOutlined,
   MinusCircleOutlined,
@@ -30,6 +30,7 @@ import QuestionForm from '../Questions/QuestionForm';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
+import { globalHistory, useNavigate } from '@reach/router';
 
 const {
   Content
@@ -88,6 +89,7 @@ const InterviewForm = ({ id }) => {
     updateInterview,
     publishInterview
   } = useApi();
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [jobTitle, setJobTitle] = useState('');
@@ -99,6 +101,18 @@ const InterviewForm = ({ id }) => {
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
   const [publishedInterviewId, setPublishedInterviewId] = useState(null);
 
+  useEffect(() => {
+    const historyUnsubscribe = globalHistory.listen((listener) => {
+    });
+    window.onbeforeunload = () => {
+      return form.isFieldsTouched() ? true : undefined;
+    };
+
+    return () => {
+      historyUnsubscribe();
+      window.onbeforeunload = undefined;
+    };
+  }, []);
   useEffect(() => {
     numberOfSection = 0;
 
@@ -146,6 +160,7 @@ const InterviewForm = ({ id }) => {
   };
 
   const afterSaving = (content) => {
+    window.onbeforeunload = undefined;
     message.success({
       content,
       key: interviewMessageKey,
@@ -298,8 +313,10 @@ const InterviewForm = ({ id }) => {
       <Headline title={isEditForm ? 'Interview - edit' : 'Interview - create'}>
         {
           publishedInterviewId
-          && <Link to={`/interviews/${publishedInterviewId}/published`}
-                   target="_blank">Published</Link>
+          &&
+          <a href={location.pathname.replace(`${id}/edit`, `${publishedInterviewId}/published`)}
+             target="_blank">
+            <FormattedMessage defaultMessage="view live version"/></a>
         }
       </Headline>
       <Layout>
@@ -322,7 +339,7 @@ const InterviewForm = ({ id }) => {
                 name="title"
                 rules={[{
                   required: true,
-                  whitespace: true
+                  message: intl.formatMessage({ defaultMessage: 'Please enter interview\'s Title' })
                 }]}
               >
                 <Input/>

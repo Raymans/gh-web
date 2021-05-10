@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { Descriptions, List, Spin } from 'antd';
 import { FormattedMessage, Link } from 'gatsby-plugin-intl';
@@ -5,12 +6,12 @@ import { LoadingOutlined } from '@ant-design/icons';
 import InterviewLike from '../Like/InterviewLike';
 import useApi from '../../hooks/useApi';
 
-const LikedInterviews = () => {
-  const { getInterviews } = useApi();
+const LikedInterviews = ({ userId }) => {
+  const { getInterviewsByUserLiked } = useApi();
   const [likedInterviews, setLikeInterviews] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    getInterviews({ owner: true })
+    getInterviewsByUserLiked({ userId })
       .then(({ results: myIvs }) => {
         setLikeInterviews(myIvs);
         setLoading(false);
@@ -62,6 +63,12 @@ const LikedInterviews = () => {
     </>
   );
 };
-LikedInterviews.propTypes = {};
+LikedInterviews.propTypes = {
+  userId: PropTypes.string.isRequired
+};
 
 export default LikedInterviews;
+
+LikedInterviews.defaultProps = {
+  userId: null
+};

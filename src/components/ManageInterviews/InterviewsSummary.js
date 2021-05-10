@@ -16,12 +16,23 @@ const InterviewsSummary = ({
   breadcrumbs = null,
   isOwnerChangeable = false
 }) => {
-  const { getInterviews } = useApi();
+  const {
+    getInterviews,
+    getInterviewsByUser
+  } = useApi();
   const { user } = useAuth0();
   const [myInterviews, setMyInterviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const isOwner = user?.sub === userId;
   useEffect(() => {
+    if (userId) {
+      getInterviewsByUser({ userId })
+        .then(({ results: myIvs }) => {
+          setMyInterviews(myIvs);
+          setLoading(false);
+        });
+      return;
+    }
     getInterviews({
       userId,
       owner: true
@@ -80,8 +91,8 @@ const InterviewsSummary = ({
                           />
                         </Descriptions.Item>
                         <Descriptions.Item
-                          label={<FormattedMessage defaultMessage="Created Date"/>}>
-                          <Moment date={'2020/01/01'} format="lll"/>
+                          label={<FormattedMessage defaultMessage="Updated on"/>}>
+                          <Moment date={interview.lastModifiedDate} format="lll"/>
                         </Descriptions.Item>
                         <Descriptions.Item
                           span={2}
@@ -93,7 +104,7 @@ const InterviewsSummary = ({
                       {(!userId || !isOwner)
                       && (
                         <AuthorBy
-                          author={interview.clientUser.nickname}
+                          author={interview.clientUser.name}
                           avatarSrc={interview.clientUser.avatar}
                           isOwnerChangeable={isOwnerChangeable}
                         />

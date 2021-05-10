@@ -28,11 +28,11 @@ const Profile = ({ userId }) => {
   return (
     <>
       <CustomBreadcrumb crumbs={[{
-        label: `${profile.nickname}`,
+        label: `${profile.name}`,
         path: location.pathname
       }]}/>
-      <Headline title={<FormattedMessage defaultMessage="Profile - {nickname}"
-                                         values={{ nickname: profile.nickname }}/>}/>
+      <Headline title={<FormattedMessage defaultMessage="Profile - {name}"
+                                         values={{ name: profile.name }}/>}/>
       <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
         <StyledBasicProfileRow align="middle">
           <Col span={8}>
@@ -41,18 +41,21 @@ const Profile = ({ userId }) => {
           <Col span={16}>
             <Descriptions column={1}>
               <Descriptions.Item>
-                {profile.nickname}
+                {`${profile.name} (${profile.nickname})`}
               </Descriptions.Item>
               <Descriptions.Item
                 label={<MailOutlined/>}
               >
                 {profile.email}
               </Descriptions.Item>
-              <Descriptions.Item
-                label={<GithubOutlined/>}>{profile.metadata?.github}</Descriptions.Item>
-              <Descriptions.Item
-                label={<LinkedinOutlined/>}>{profile.metadata?.linkedIn}</Descriptions.Item>
               <Descriptions.Item label="Company">{profile.metadata?.companyName}</Descriptions.Item>
+              <Descriptions.Item
+                label={<GithubOutlined/>}><a href={`https://github.com/${profile.metadata?.github}`}
+                                             target="_blank">{`https://github.com/${profile.metadata?.github}`}</a></Descriptions.Item>
+              <Descriptions.Item
+                label={<LinkedinOutlined/>}><a
+                href={`https://www.linkedin.com/in/${profile.metadata?.linkedIn}`}
+                target="_blank">{`https://www.linkedin.com/in/${profile.metadata?.linkedIn}`}</a></Descriptions.Item>
               <Descriptions.Item>{profile.metadata?.note}</Descriptions.Item>
             </Descriptions>
           </Col>
@@ -60,11 +63,11 @@ const Profile = ({ userId }) => {
       </Spin>
       {/* <MyInterview /> */}
       <h2><FormattedMessage defaultMessage="{name}'s interviews"
-                            values={{ name: profile.nickname }}/></h2>
+                            values={{ name: profile.name }}/></h2>
       <InterviewsSummary userId={userId}/>
-      <LikedInterviews/>
+      <LikedInterviews userId={userId}/>
       <PassInterview/>
-      <Seo subTitle={profile.nickname}/>
+      <Seo subTitle={profile.name}/>
     </>
   );
 };

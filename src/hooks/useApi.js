@@ -75,6 +75,26 @@ export default () => {
     })
       .then((res) => (!res ? {} : res)),
 
+    getInterviewsByUser: ({
+      userId,
+      url = `${config.ghServiceUrl}/api/users/${userId}/ownedInterviews`,
+      ...params
+    }) => request(url, {
+      method: 'GET',
+      params
+    })
+      .then((res) => (!res ? {} : res)),
+
+    getInterviewsByUserLiked: ({
+      userId,
+      url = `${config.ghServiceUrl}/api/users/${userId}/likedInterviews`,
+      ...params
+    }) => request(url, {
+      method: 'GET',
+      params
+    })
+      .then((res) => (!res ? {} : res)),
+
     getInterview: (id) => request(`${config.ghServiceUrl}/api/interviews/${id}`, {
       method: 'GET'
     }),
@@ -219,10 +239,27 @@ export default () => {
       method: 'POST',
       data: { name }
     }),
+    updateOrganizationImage: ({
+      id,
+      file
+    }) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      return request(`${config.ghServiceUrl}/api/organizations/${id}/avatar`, {
+        method: 'POST',
+        data: formData
+      });
+    },
     joinOrganization: ({ organizationId }) => request(`${config.ghServiceUrl}/api/users/me/organization/join`, {
       method: 'POST',
       data: { organizationId }
     }),
+
+    declineOrganization: ({ organizationId }) => request(`${config.ghServiceUrl}/api/users/me/organization/decline`, {
+      method: 'POST',
+      data: { organizationId }
+    }),
+
     leaveOrganization: () => request(`${config.ghServiceUrl}/api/users/me/organization`, {
       method: 'DELETE'
     }),

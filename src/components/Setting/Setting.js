@@ -1,44 +1,61 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Form, Input, Spin } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Checkbox, Form, Input, message, Spin } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { LoadingOutlined } from '@ant-design/icons';
-import { useAuth0 } from '@auth0/auth0-react';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import UploadImage from '../UploadImgae/UploadImage';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
+import { StoreContext } from '../../context/ContextProvider';
 
 const Setting = () => {
   const intl = useIntl();
-  const { user } = useAuth0();
   const {
-    getUserProfile,
-    updateUserProfile
+    updateUserProfile,
+    updateUserAvatar
   } = useApi();
-  const [profile, setProfile] = useState({});
+  const {
+    userProfile,
+    refreshUserProfile
+  } = useContext(StoreContext);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [savingPwd, setSavingPwd] = useState(false);
+  const [savingNotifications, setSavingNotifications] = useState(false);
   const [form] = Form.useForm();
   useEffect(() => {
-    if (!user) {
+    if (!userProfile) {
       return;
     }
-    getUserProfile(user.sub)
-      .then((res) => {
-        form.setFieldsValue({
-          ...res
-        });
-        // setProfile(res);
-        setLoading(false);
-      });
-  }, [user]);
+    form.setFieldsValue({
+      ...userProfile.metadata,
+      ...userProfile
+    });
+    setLoading(false);
+  }, [userProfile]);
 
+  const postSuccess = () => {
+    refreshUserProfile();
+    message.success(intl.formatMessage({ defaultMessage: 'Setting has been updated successfully!' }));
+    setTimeout(() => setSaving(false), 500);
+  };
   const onFinish = (values) => {
-    console.log(values);
-    // setSaving(true);
-    updateUserProfile(values);
+    setSaving(true);
+    if (values.avatar?.file) {
+      updateUserAvatar({ file: values.avatar.file.originFileObj })
+        .then(() => updateUserProfile(values))
+        .then(() => {
+          postSuccess();
+        });
+    } else {
+      updateUserProfile(values)
+        .then(() => {
+          postSuccess();
+        });
+    }
+
   };
 
   return (
@@ -52,24 +69,34 @@ const Setting = () => {
       <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
         <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
           <h2><FormattedMessage defaultMessage="Profile"/></h2>
-          <UploadImage name="avatar"/>
+          <UploadImage name="avatar" imageUrl={userProfile?.avatar}/>
           <FormItem
             name="email"
             label={<FormattedMessage defaultMessage="Email"/>}
-            rules={[{ type: 'email' }]} required>
+            rules={[{
+              required: true,
+              type: 'email'
+            }]} required>
             <Input/>
           </FormItem>
-          <FormItem name="github" label={<FormattedMessage defaultMessage="GitHub username"/>}>
+          <FormItem name="name" label={<FormattedMessage defaultMessage="Name"/>}
+                    rules={[{ required: true }]} required>
             <Input/>
           </FormItem>
-          <FormItem name="linkedIn" label="LinkedIn">
+          <FormItem name="nickname" label={<FormattedMessage defaultMessage="Nickname"/>}>
             <Input/>
           </FormItem>
-          <FormItem name="company" label={<FormattedMessage defaultMessage="Organization"/>}>
+          <FormItem name="companyName" label={<FormattedMessage defaultMessage="Company Name"/>}>
             <Input/>
           </FormItem>
           <FormItem name="note" label={<FormattedMessage defaultMessage="Note"/>}>
             <Input/>
+          </FormItem>
+          <FormItem name="github" label={<FormattedMessage defaultMessage="GitHub Profile"/>}>
+            <Input addonBefore="https://github.com/"/>
+          </FormItem>
+          <FormItem name="linkedIn" label="LinkedIn">
+            <Input addonBefore="https://www.linkedin.com/in/"/>
           </FormItem>
           <br/>
           <Form.Item>
@@ -96,7 +123,7 @@ const Setting = () => {
           </FormItem>
           <br/>
           <Form.Item>
-            <Button type="primary" loading={saving} htmlType="submit">
+            <Button type="primary" loading={savingPwd} htmlType="submit">
               <FormattedMessage defaultMessage="Update Password"/>
             </Button>
           </Form.Item>
@@ -111,7 +138,7 @@ const Setting = () => {
 
           <br/>
           <Form.Item>
-            <Button type="primary" loading={saving} htmlType="submit">
+            <Button type="primary" loading={savingNotifications} htmlType="submit">
               <FormattedMessage defaultMessage="Update Notification"/>
             </Button>
           </Form.Item>
