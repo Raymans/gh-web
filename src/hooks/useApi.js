@@ -228,7 +228,7 @@ export default () => {
       });
     },
 
-    enableOrganization: ({ organizationName }) => request(`${config.ghServiceUrl}/api/users/me/organization`, {
+    enableOrganization: ({ organizationName }) => request(`${config.ghServiceUrl}/api/organizations/me/enable`, {
       method: 'POST',
       data: { organizationName }
     }),
@@ -250,17 +250,15 @@ export default () => {
         data: formData
       });
     },
-    joinOrganization: ({ organizationId }) => request(`${config.ghServiceUrl}/api/users/me/organization/join`, {
-      method: 'POST',
-      data: { organizationId }
+    joinOrganization: ({ organizationId }) => request(`${config.ghServiceUrl}/api/organizations/${organizationId}/join`, {
+      method: 'POST'
     }),
 
-    declineOrganization: ({ organizationId }) => request(`${config.ghServiceUrl}/api/users/me/organization/decline`, {
-      method: 'POST',
-      data: { organizationId }
+    declineOrganization: ({ organizationId }) => request(`${config.ghServiceUrl}/api/organizations/${organizationId}/decline`, {
+      method: 'POST'
     }),
 
-    leaveOrganization: () => request(`${config.ghServiceUrl}/api/users/me/organization`, {
+    leaveOrganization: () => request(`${config.ghServiceUrl}/api/organizations/me/leave`, {
       method: 'DELETE'
     }),
     removeUserFromOrganization: ({
@@ -272,7 +270,7 @@ export default () => {
     getOrganization: ({ organizationId = '' }) => request(`${config.ghServiceUrl}/api/organizations/${organizationId}`, {
       method: 'GET'
     }),
-    getMyOrganization: () => request(`${config.ghServiceUrl}/api/users/me/organization`, {
+    getMyOrganization: () => request(`${config.ghServiceUrl}/api/organizations/me`, {
       method: 'GET'
     }),
     inviteUserToOrganization: ({
