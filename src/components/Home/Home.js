@@ -65,7 +65,7 @@ const Home = (props) => {
   return (
     <>
       <Section className="no-pic">
-        <h1><p><FormattedMessage defaultMessage="Explore Interviews"/></p></h1>
+        <h1><p><FormattedMessage defaultMessage="Explore Assessments"/></p></h1>
         <p><FormattedMessage defaultMessage="Explore and exam REAL Interviews!!"/></p>
         <p><FormattedMessage
           defaultMessage="Hiring company will be noticed when you submit your result!!"/></p>

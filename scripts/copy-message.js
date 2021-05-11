@@ -7,4 +7,11 @@ for (const [key, value] of Object.entries(data)) {
     transferedData[key] = value;
   }
 }
+
+for (const [key, value] of Object.entries(transferedData)) {
+  if (!data.hasOwnProperty(key)) {
+    transferedData[key] = undefined;
+  }
+}
+
 fs.writeFileSync('src/intl/zh-tw.json', JSON.stringify(transferedData, null, 2));

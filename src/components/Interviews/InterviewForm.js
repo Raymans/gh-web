@@ -304,7 +304,7 @@ const InterviewForm = ({ id }) => {
         />
       </Modal>
       <CustomBreadcrumb crumbs={[{
-        label: <FormattedMessage defaultMessage="List Interviews"/>,
+        label: <FormattedMessage defaultMessage="List Assessments"/>,
         path: '/interviews'
       }, {
         label: isEditForm ? 'Interview - edit' : 'Interview - create',

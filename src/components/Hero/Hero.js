@@ -70,7 +70,7 @@ const Hero = (props) => {
       </ParticlesWrapper>
       <HeroSection backgrounds={backgrounds}>
         <h1>
-          <FormattedMessage defaultMessage="Best prepare tools for interviews"/>
+          <FormattedMessage defaultMessage="Best prepare tools for Assessments"/>
         </h1>
         <SubTitle><FormattedMessage
           defaultMessage="Store knowledge as your second brand"/></SubTitle>

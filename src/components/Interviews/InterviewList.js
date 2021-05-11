@@ -92,7 +92,7 @@ const InterviewList = () => {
   return (
     <>
       <CustomBreadcrumb crumbs={[{
-        label: <FormattedMessage defaultMessage="List Interviews"/>,
+        label: <FormattedMessage defaultMessage="List Assessments"/>,
         path: '/interviews'
       }]}/>
       <Headline title={intl.formatMessage({ defaultMessage: 'List Interviews' })}>
@@ -141,7 +141,7 @@ const InterviewList = () => {
           </Layout>
         </div>
       </div>
-      <Seo subTitle="Interviews"/>
+      <Seo subTitle="Assessments"/>
     </>
   );
 };

@@ -61,7 +61,7 @@ const Menu = (props) => {
     },
     {
       to: '/interviews',
-      label: <FormattedMessage defaultMessage="Interviews"/>,
+      label: <FormattedMessage defaultMessage="Assessments"/>,
       icon: <EyeOutlined/>
     },
     {
@@ -191,11 +191,11 @@ const Menu = (props) => {
                 >
                   {renderItem({
                     to: '/testedInterviews',
-                    label: <FormattedMessage defaultMessage="Pass Interviews"/>
+                    label: <FormattedMessage defaultMessage="Pass Assessments"/>
                   })}
                   {renderItem({
                     to: '/manageInterviews',
-                    label: <FormattedMessage defaultMessage="My Interviews"/>
+                    label: <FormattedMessage defaultMessage="My Assessments"/>
                   })}
                   {renderItem({
                     to: `/profile/${userProfile?.id}`,

@@ -20,7 +20,7 @@ const LikedInterviews = ({ userId }) => {
 
   return (
     <>
-      <h2><FormattedMessage defaultMessage="Liked interviews"/></h2>
+      <h2><FormattedMessage defaultMessage="Liked Assessments"/></h2>
       <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
         <List
           itemLayout="horizontal"

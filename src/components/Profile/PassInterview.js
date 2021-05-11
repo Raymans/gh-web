@@ -5,7 +5,7 @@ import { FormattedMessage } from 'gatsby-plugin-intl';
 
 const PassInterview = () => (
   <>
-    <h2 id="passinterview"><FormattedMessage defaultMessage="Passed Interviews"/></h2>
+    <h2 id="passinterview"><FormattedMessage defaultMessage="Passed Assessments"/></h2>
     <TestedInterviewList/>
   </>
 );

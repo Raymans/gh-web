@@ -8,7 +8,7 @@ const StyledBreadcrumb = styled.div`
 `;
 const CustomBreadcrumb = ({
   crumbs = [{
-    label: <FormattedMessage defaultMessage="List Interviews"/>,
+    label: <FormattedMessage defaultMessage="List Assessments"/>,
     path: '/interviews'
   }]
 }) => (

@@ -16,10 +16,10 @@ const TestedInterviews = (props) => {
       <TestedInterviewList
         path="/"
         breadcrumbs={<CustomBreadcrumb crumbs={[{
-          label: <FormattedMessage defaultMessage="Passed Interviews"/>,
+          label: <FormattedMessage defaultMessage="Passed Assessments"/>,
           path: '/testedInterviews'
         }]}/>}
-        headline={<Headline title={intl.formatMessage({ defaultMessage: 'Passed Interviews' })}/>}
+        headline={<Headline title={intl.formatMessage({ defaultMessage: 'Passed Assessments' })}/>}
       />
       <TestedInterview path="/:sessionId"/>
     </Router>

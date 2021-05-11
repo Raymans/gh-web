@@ -133,7 +133,7 @@ const Setting = () => {
           <h2><FormattedMessage defaultMessage="Notification"/></h2>
           <Checkbox>
             <FormattedMessage
-              defaultMessage="Receives email Notification when a new candidate start testing your interviews"/>
+              defaultMessage="Receives email Notification when a new candidate start testing your Assessments"/>
           </Checkbox>
 
           <br/>
