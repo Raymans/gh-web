@@ -2,13 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, Col, Descriptions, Row, Spin } from 'antd';
 import { GithubOutlined, LinkedinOutlined, LoadingOutlined, MailOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
-import PassInterview from './PassInterview';
-import LikedInterviews from '../Interviews/LikedInterviews';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
-import InterviewsSummary from '../ManageInterviews/InterviewsSummary';
 import { FormattedMessage } from 'gatsby-plugin-intl';
 
 const StyledBasicProfileRow = styled(Row)`
@@ -62,11 +59,11 @@ const Profile = ({ userId }) => {
         </StyledBasicProfileRow>
       </Spin>
       {/* <MyInterview /> */}
-      <h2><FormattedMessage defaultMessage="{name}'s interviews"
-                            values={{ name: profile.name }}/></h2>
-      <InterviewsSummary userId={userId}/>
-      <LikedInterviews userId={userId}/>
-      <PassInterview/>
+      {/*<h2><FormattedMessage defaultMessage="{name}'s interviews"*/}
+      {/*                      values={{ name: profile.name }}/></h2>*/}
+      {/*<InterviewsSummary userId={userId}/>*/}
+      {/*<LikedInterviews userId={userId}/>*/}
+      {/*<PassInterview/>*/}
       <Seo subTitle={profile.name}/>
     </>
   );

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'antd';
 import InterviewsSummary from '../ManageInterviews/InterviewsSummary';
+import { FormattedMessage } from 'gatsby-plugin-intl';
 
 const count = 3;
 
@@ -70,7 +71,7 @@ const MyInterview = () => {
   ) : null;
   return (
     <>
-      <h2 id="myinterview">Own Interviews</h2>
+      <h2 id="myinterview"><FormattedMessage defaultMessage="Own Assessments"/></h2>
       <InterviewsSummary/>
     </>
   );

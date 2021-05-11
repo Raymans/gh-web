@@ -9,7 +9,6 @@ import Icon, {
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  QuestionCircleOutlined,
   SettingOutlined,
   UserOutlined
 } from '@ant-design/icons';
@@ -54,16 +53,16 @@ const Menu = (props) => {
       label: <FormattedMessage defaultMessage="Home"/>,
       icon: <HomeOutlined/>
     },
-    {
-      to: '/questions',
-      label: <FormattedMessage defaultMessage="Questions"/>,
-      icon: <QuestionCircleOutlined/>
-    },
-    {
-      to: '/interviews',
-      label: <FormattedMessage defaultMessage="Assessments"/>,
-      icon: <EyeOutlined/>
-    },
+    // {
+    //   to: '/questions',
+    //   label: <FormattedMessage defaultMessage="Questions"/>,
+    //   icon: <QuestionCircleOutlined/>
+    // },
+    // {
+    //   to: '/interviews',
+    //   label: <FormattedMessage defaultMessage="Assessments"/>,
+    //   icon: <EyeOutlined/>
+    // },
     {
       to: '/login',
       label: <FormattedMessage defaultMessage="Login"/>,
@@ -167,7 +166,7 @@ const Menu = (props) => {
   };
   const antdMenu = (
     <AntMenu
-      selectedKeys={[props.path]}
+      selectedKeys={[props.path + location.search]}
       onClick={handleClick}
       mode={layout.screenWidth < 700 ? 'inline' : 'horizontal'}
       style={{
@@ -180,40 +179,57 @@ const Menu = (props) => {
           if (item.to === '/login') {
             if (isAuthenticated) {
               return (
-                <AntMenu.SubMenu
-                  key={index}
-                  title={(
-                    <span>
+                <>
+                  <AntMenu.SubMenu
+                    key={`interview_${index}`}
+                    icon={<EyeOutlined/>}
+                    title={<FormattedMessage defaultMessage="Assessments"/>}
+                  >
+                    {renderItem({
+                      to: '/interviews',
+                      label: <FormattedMessage defaultMessage="Waiting Assessments"/>
+                    })}
+                    {renderItem({
+                      to: '/testedInterviews',
+                      label: <FormattedMessage defaultMessage="Assessed Assessments"/>
+                    })}
+                    {renderItem({
+                      to: '/manageInterviews',
+                      label: <FormattedMessage defaultMessage="My Assessments"/>
+                    })}
+                    {renderItem({
+
+                      to: '/interviews?liked=true',
+                      label: <FormattedMessage defaultMessage="Liked Assessments"/>
+                    })}
+                  </AntMenu.SubMenu>
+                  <AntMenu.SubMenu
+                    key={index}
+                    title={(
+                      <span>
                       <Avatar src={userProfile?.avatar} style={{ marginRight: '5px' }}/>
-                      {userProfile?.name}
+                        {userProfile?.name}
                     </span>
-                  )}
-                >
-                  {renderItem({
-                    to: '/testedInterviews',
-                    label: <FormattedMessage defaultMessage="Pass Assessments"/>
-                  })}
-                  {renderItem({
-                    to: '/manageInterviews',
-                    label: <FormattedMessage defaultMessage="My Assessments"/>
-                  })}
-                  {renderItem({
-                    to: `/profile/${userProfile?.id}`,
-                    label: <FormattedMessage defaultMessage="Profile"/>
-                  })}
-                  {renderItem({
-                    to: '/setting',
-                    label: <FormattedMessage defaultMessage="Setting"/>
-                  })}
-                  {renderItem({
-                    to: '/organization',
-                    label: <FormattedMessage defaultMessage="Organization"/>
-                  })}
-                  <AntMenu.Item onClick={() => logoutWithRedirect()}>
-                    <LogoutOutlined/>
-                    <FormattedMessage defaultMessage="Login out"/>
-                  </AntMenu.Item>
-                </AntMenu.SubMenu>
+                    )}
+                  >
+                    {renderItem({
+                      to: `/profile/${userProfile?.id}`,
+                      label: <FormattedMessage defaultMessage="Profile"/>
+                    })}
+                    {renderItem({
+                      to: '/setting',
+                      label: <FormattedMessage defaultMessage="Setting"/>
+                    })}
+                    {renderItem({
+                      to: '/organization',
+                      label: <FormattedMessage defaultMessage="Organization"/>
+                    })}
+                    <AntMenu.Item onClick={() => logoutWithRedirect()}>
+                      <LogoutOutlined/>
+                      <FormattedMessage defaultMessage="Login out"/>
+                    </AntMenu.Item>
+                  </AntMenu.SubMenu>
+                </>
               );
             }
             return (

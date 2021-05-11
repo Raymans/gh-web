@@ -54,12 +54,21 @@ const StyledDescription = styled.div`
   margin: 10px 0;
 `;
 
+const StyledStatusBar = styled.div`
+  position: absolute;
+  right: 30px;
+  bottom: 19px;
+
+  .ant-badge {
+    margin: 0 10px 0 0;
+  }
+`;
 const InterviewGrid = (props) => {
   const {
     id,
     title,
     description = '',
-    specialization: { name: specializationName },
+    // specialization: { name: specializationName },
     jobTitle,
     clientUser = {},
     visibility,
@@ -108,7 +117,6 @@ const InterviewGrid = (props) => {
           />
         )
       }
-
     </>];
 
   const handleResendEmail = (value) => {
@@ -121,7 +129,7 @@ const InterviewGrid = (props) => {
         }
         sendings[value] = false;
         setSendings({ ...sendings });
-        message.success(intl.formatMessage({ defaultMessage: 'Sent Interview to {interviewee}' }, { interviewee: value }));
+        message.success(intl.formatMessage({ defaultMessage: 'Sent Assessment to {interviewee}' }, { interviewee: value }));
       });
   };
 
@@ -147,7 +155,7 @@ const InterviewGrid = (props) => {
                   ...sendings,
                   sending: false
                 });
-                message.success(intl.formatMessage({ defaultMessage: 'Sent Interview to {interviewee}' }, { interviewee: value }));
+                message.success(intl.formatMessage({ defaultMessage: 'Sent Assessment to {interviewee}' }, { interviewee: value }));
               });
           });
       });
@@ -160,7 +168,7 @@ const InterviewGrid = (props) => {
         && (
           <>
             <Modal
-              title="Share Interview"
+              title="Share Assessment"
               visible={isShareModalVisible}
               onCancel={() => setIsShareModalVisible(false)}
               footer={[
@@ -219,20 +227,15 @@ const InterviewGrid = (props) => {
                 {
                   visibility === 'PRIVATE'
                   &&
-                  <StyledVisibilityTag color="default"><FormattedMessage defaultMessage="private"/></StyledVisibilityTag>
+                  <StyledVisibilityTag color="default"><FormattedMessage
+                    defaultMessage="private"/></StyledVisibilityTag>
                 }
                 <h1><Link to={`/interviews/${id}`}>{title}</Link></h1>
                 <Descriptions column={2}>
-                  <Descriptions.Item
-                    label={intl.formatMessage({ defaultMessage: 'Specialization' })}>{specializationName}</Descriptions.Item>
+                  {/*<Descriptions.Item*/}
+                  {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}>{specializationName}</Descriptions.Item>*/}
                   <Descriptions.Item
                     label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{jobTitle}</Descriptions.Item>
-                  <Descriptions.Item label={<FormattedMessage defaultMessage="Status"/>}>
-                    <Badge
-                      status="processing"
-                      text={<FormattedMessage defaultMessage="Recruiting"/>}
-                    />
-                  </Descriptions.Item>
                   <Descriptions.Item
                     label={<FormattedMessage defaultMessage="Updated on"/>}>
                     <Moment date={lastModifiedDate} format="lll"/>
@@ -248,6 +251,16 @@ const InterviewGrid = (props) => {
                       liked={liked}
                       likeCount={likeCount}
                     />
+                    <StyledStatusBar>
+                      <Badge
+                        status="processing"
+                        text={<FormattedMessage defaultMessage="10 In testing"/>}
+                      />
+                      <Badge
+                        status="success"
+                        text={<FormattedMessage defaultMessage="20 Completed"/>}
+                      />
+                    </StyledStatusBar>
                   </Descriptions.Item>
                 </Descriptions>
               </StyledListItem>

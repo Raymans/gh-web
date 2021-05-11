@@ -145,7 +145,7 @@ const Organization = () => {
       <Result
         status="info"
         title={intl.formatMessage({ defaultMessage: 'Enable your Organization can really give you so many benefits.' })}
-        subTitle={intl.formatMessage({ defaultMessage: 'Bring your organization on the table, manage interview across departments, invites people work with you to boost interview process together!' })}
+        subTitle={intl.formatMessage({ defaultMessage: 'Bring your organization on the table, manage assessment across departments, invites people work with you to boost assessment process together!' })}
         extra={[
           <Button type="primary" key="enableOrg" onClick={OpenEnableOrgModal}>
             <FormattedMessage defaultMessage="Enable your Organization"/>

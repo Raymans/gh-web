@@ -139,10 +139,10 @@ const Home = (props) => {
       <Section>
         <StyledRow type="flex" justify="space-around">
           <Col span={12}>
-            <h1><p><FormattedMessage defaultMessage="Create your interviews"/></p></h1>
-            <p><FormattedMessage defaultMessage="Want to have your own interviews to let everyone see and test it? you can do that
+            <h1><p><FormattedMessage defaultMessage="Create your assessment"/></p></h1>
+            <p><FormattedMessage defaultMessage="Want to have your own assessments to let everyone see and test it? you can do that
               easily to build up your own questions for later use or share it"/></p>
-            <p><FormattedMessage defaultMessage="Keep your interview privately so you can share and decide who can see/test your
+            <p><FormattedMessage defaultMessage="Keep your assessment privately so you can share and decide who can see/test your
               interview"/></p>
           </Col>
           <Col span={12}>
@@ -157,7 +157,7 @@ const Home = (props) => {
           </Col>
           <Col span={12}>
             <h1><p><FormattedMessage defaultMessage="Review candidate's results."/></p></h1>
-            <p><FormattedMessage defaultMessage="You can easily see who tests your interview and review summary of each result in a
+            <p><FormattedMessage defaultMessage="You can easily see who tests your assessment and review summary of each result in a
               very clear view."/></p>
           </Col>
         </StyledRow>

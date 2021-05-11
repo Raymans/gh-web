@@ -109,7 +109,7 @@ const InterviewSession = ({
   };
   const handleSubmitInterviewSession = () => {
     Modal.confirm({
-      title: intl.formatMessage({ defaultMessage: 'Submit your interview result?' }),
+      title: intl.formatMessage({ defaultMessage: 'Submit your assessment result?' }),
       icon: <ExclamationCircleOutlined/>,
       content: intl.formatMessage({ defaultMessage: 'Once you submit your result, you cannot change it anymore. Are you sure submit it now?' }),
       onOk() {
@@ -141,7 +141,7 @@ const InterviewSession = ({
         && (
           <Result
             status="success"
-            title={intl.formatMessage({ defaultMessage: 'Summit your interview result Successfully!' })}
+            title={intl.formatMessage({ defaultMessage: 'Summit your assessment result Successfully!' })}
             extra={<Link to="/interviews">
               <FormattedMessage
                 defaultMessage="Let's go to Explore more Interview!"/> </Link>}

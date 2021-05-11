@@ -39,11 +39,11 @@ const LikedInterviews = ({ userId }) => {
                 description={(
                   <>
                     <Descriptions column={2}>
-                      <Descriptions.Item
-                        label={<FormattedMessage defaultMessage="Specialization"/>}
-                      >
-                        {interview.specialization.name}
-                      </Descriptions.Item>
+                      {/*<Descriptions.Item*/}
+                      {/*  label={<FormattedMessage defaultMessage="Specialization"/>}*/}
+                      {/*>*/}
+                      {/*  {interview.specialization.name}*/}
+                      {/*</Descriptions.Item>*/}
                       <Descriptions.Item label={<FormattedMessage
                         defaultMessage="Job Title"/>}>{interview.jobTitle}</Descriptions.Item>
                       <Descriptions.Item

@@ -74,11 +74,11 @@ const InterviewSessionResult = ({
       <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
         <Layout.Content>
           <Descriptions column={2}>
-            <Descriptions.Item
-              label={intl.formatMessage({ defaultMessage: 'Specialization' })}
-            >
-              {interviewSession.interview?.specialization.name}
-            </Descriptions.Item>
+            {/*<Descriptions.Item*/}
+            {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}*/}
+            {/*>*/}
+            {/*  {interviewSession.interview?.specialization.name}*/}
+            {/*</Descriptions.Item>*/}
             <Descriptions.Item
               label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{interviewSession.interview?.jobTitle}</Descriptions.Item>
             <Descriptions.Item

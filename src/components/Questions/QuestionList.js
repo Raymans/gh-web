@@ -117,7 +117,8 @@ const QuestionList = (props) => {
             }]}/>
             <Headline title={<FormattedMessage defaultMessage="Questions"/>}>
               {isAuthenticated &&
-              <Link to="/questions/create"><FormattedMessage defaultMessage="Create Your Question"/></Link>}
+              <Link to="/questions/create"><FormattedMessage
+                defaultMessage="Create Question"/></Link>}
             </Headline>
           </>
         )

@@ -17,10 +17,10 @@ const ManageInterviews = (props) => {
       <InterviewsSummary
         path="/"
         breadcrumbs={<CustomBreadcrumb crumbs={[{
-          label: intl.formatMessage({ defaultMessage: 'Manage Interviews' }),
+          label: intl.formatMessage({ defaultMessage: 'Manage Assessments' }),
           path: '/manageInterviews'
         }]}/>}
-        headline={<Headline title={intl.formatMessage({ defaultMessage: 'Manage Interviews' })}/>}
+        headline={<Headline title={intl.formatMessage({ defaultMessage: 'Manage Assessments' })}/>}
       />
       <InterviewResults path="/:id/"/>
       <InterviewResult path="/:id/:sessionId"/>

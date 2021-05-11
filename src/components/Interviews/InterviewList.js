@@ -5,7 +5,6 @@ import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import { useAuth0 } from '@auth0/auth0-react';
 import FilterSider from '../Sider/FilterSider';
 import Headline from '../Article/Headline';
-import Specialization from '../Specialization';
 import CardList from '../CardList';
 import InterviewGrid from './InterviewGrid';
 import CustomBreadcrumb from '../CustomBreadcrumb';
@@ -95,10 +94,10 @@ const InterviewList = () => {
         label: <FormattedMessage defaultMessage="List Assessments"/>,
         path: '/interviews'
       }]}/>
-      <Headline title={intl.formatMessage({ defaultMessage: 'List Interviews' })}>
+      <Headline title={intl.formatMessage({ defaultMessage: 'List Assessments' })}>
         {isAuthenticated &&
         <Link to="/interviews/create"><FormattedMessage
-          defaultMessage="Create Your Interview"/></Link>}
+          defaultMessage="Create Assessment"/></Link>}
       </Headline>
       {/* <GatsbyLink to={'/interviews/1/test'}>Test interview 1</GatsbyLink> */}
       <div className="form">
@@ -108,10 +107,10 @@ const InterviewList = () => {
                                              defaultOpenKeys={searchedInterviewCriteria.owner ? 'mine' : 'explore'}/>}
             <Content>
               <StyledSearchBar>
-                <Specialization onSelect={handleSpecSelect}
-                                selected={searchedInterviewCriteria.specialization}/>
+                {/*<Specialization onSelect={handleSpecSelect}*/}
+                {/*                selected={searchedInterviewCriteria.specialization}/>*/}
                 <Search
-                  placeholder={intl.formatMessage({ defaultMessage: 'search interview' })}
+                  placeholder={intl.formatMessage({ defaultMessage: 'search assessment' })}
                   onSearch={handleSearch}
                   defaultValue={searchedInterviewCriteria.keyword}
                 />
@@ -130,7 +129,7 @@ const InterviewList = () => {
                     description={item.description}
                     clientUser={item.clientUser}
                     jobTitle={item.jobTitle}
-                    specialization={item.specialization}
+                    // specialization={item.specialization}
                     likeCount={item.likeCount}
                     liked={item.liked}
                     lastModifiedDate={item.lastModifiedDate}

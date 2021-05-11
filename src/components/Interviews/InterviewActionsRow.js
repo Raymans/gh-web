@@ -19,14 +19,14 @@ const InverviewActionsRow = ({
     deleteInterview(id)
       .then(() => {
         onDeleted();
-        message.success(`Interview has been deleted: ${title}`);
+        message.success(`Assessment has been deleted: ${title}`);
       });
   };
 
   return (
     <>
       <Modal
-        title="Delete Interview"
+        title="Delete Assessment"
         visible={isDeleteModalVisible}
         onOk={handleDeleteInterview}
         onCancel={() => setIsDeleteModalVisible(false)}

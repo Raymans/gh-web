@@ -55,7 +55,7 @@ const Interview = ({
     Modal.warning({
       title: 'Times Up',
       icon: <ExclamationCircleOutlined/>,
-      content: 'This interview Result is submitted automatically since you already passed interview time.',
+      content: 'This assessment Result is submitted automatically since you already passed assessment time.',
       onOk() {
         setIsTimeUp(true);
       }
@@ -150,7 +150,7 @@ const Interview = ({
   return (
     <>
       <CustomBreadcrumb crumbs={[{
-        label: <FormattedMessage defaultMessage="List Interviews"/>,
+        label: <FormattedMessage defaultMessage="List Assessments"/>,
         path: '/interviews'
       }, {
         label: interview.title,
@@ -185,11 +185,11 @@ const Interview = ({
                     Hiring
                   </Tag>
                 </Descriptions.Item>
-                <Descriptions.Item
-                  label={intl.formatMessage({ defaultMessage: 'Specialization' })}
-                >
-                  {interview.specialization.name}
-                </Descriptions.Item>
+                {/*<Descriptions.Item*/}
+                {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}*/}
+                {/*>*/}
+                {/*  {interview.specialization.name}*/}
+                {/*</Descriptions.Item>*/}
                 <Descriptions.Item
                   label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{interview.jobTitle}</Descriptions.Item>
                 <Descriptions.Item
@@ -239,30 +239,30 @@ const Interview = ({
                 && (
                   <>
                     <LoginPrompt
-                      title={intl.formatMessage({ defaultMessage: 'Login to Test Interview' })}>
+                      title={intl.formatMessage({ defaultMessage: 'Login to Test Assessment' })}>
                       {(isAuth) => (
                         <Button
                           type="primary"
                           onClick={isAuth ? handleOpenTestPrompt : () => {
                           }}
                         >
-                          <FormattedMessage defaultMessage="Start Testing Interview"/>
+                          <FormattedMessage defaultMessage="Start Testing Assessment"/>
                         </Button>
                       )}
                     </LoginPrompt>
                     <Modal
-                      title="Start Testing Interview"
+                      title="Start Testing Assessment"
                       visible={isTestModalVisible}
                       onOk={startTest}
                       onCancel={() => setIsTestModalVisible(false)}
                     >
-                      <p>Start testing the Interview!!</p>
+                      <p><FormattedMessage defaultMessage="Start testing the assessment!!"/></p>
                       {
                         (interviewSession?.duration > 0 || interview.defaultDuration > 0)
                         &&
                         <p>
                           <FormattedMessage
-                            defaultMessage="You will have {duration} minutes complete the interview."
+                            defaultMessage="You will have {duration} minutes complete the assessment."
                             values={{ duration: interviewSession?.duration || interview.defaultDuration }}/>
                         </p>
                       }

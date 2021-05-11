@@ -6,7 +6,6 @@ import {
   Layout,
   message,
   Modal,
-  Select,
   Spin,
   Switch,
   Tooltip
@@ -193,7 +192,7 @@ const InterviewForm = ({ id }) => {
       })
         .then(publish)
         .then(() => {
-          afterSaving(isPublishAction ? 'Interview Published.' : 'Interview Saved.');
+          afterSaving(isPublishAction ? 'Assessment Published.' : 'Assessment Saved.');
         })
         .catch((error) => {
           message.error({
@@ -207,7 +206,7 @@ const InterviewForm = ({ id }) => {
       createInterview(values)
         .then(publish)
         .then((data) => {
-          afterSaving(isPublishAction ? 'Interview Published.' : 'Interview Created.');
+          afterSaving(isPublishAction ? 'Assessment Published.' : 'Assessment Created.');
           navigate(`/interviews/${data.id}/edit`);
         });
     }
@@ -307,10 +306,10 @@ const InterviewForm = ({ id }) => {
         label: <FormattedMessage defaultMessage="List Assessments"/>,
         path: '/interviews'
       }, {
-        label: isEditForm ? 'Interview - edit' : 'Interview - create',
+        label: isEditForm ? 'Assessment - edit' : 'Assessment - create',
         path: location.pathname
       }]}/>
-      <Headline title={isEditForm ? 'Interview - edit' : 'Interview - create'}>
+      <Headline title={isEditForm ? 'Assessment - edit' : 'Assessment - create'}>
         {
           publishedInterviewId
           &&
@@ -344,27 +343,27 @@ const InterviewForm = ({ id }) => {
               >
                 <Input/>
               </FormItem>
-              <FormItem
-                label={intl.formatMessage({ defaultMessage: 'Specialization' })}
-                name="specializationId"
-                rules={[{
-                  required: true,
-                  message: intl.formatMessage({ defaultMessage: 'Please choose a Specialization' })
-                }]}
-              >
-                <Select
-                  showSearch
-                  style={{ width: 200 }}
-                  placeholder={intl.formatMessage({ defaultMessage: 'Select a Specialization' })}
-                  optionFilterProp="children"
-                  filterOption={(input, option) => option.children.toLowerCase()
-                    .indexOf(input.toLowerCase()) >= 0}
-                >
-                  {specializations.map((spec) => (
-                    <Select.Option key={spec.id} value={spec.id}>{spec.name}</Select.Option>
-                  ))}
-                </Select>
-              </FormItem>
+              {/*<FormItem*/}
+              {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}*/}
+              {/*  name="specializationId"*/}
+              {/*  rules={[{*/}
+              {/*    required: true,*/}
+              {/*    message: intl.formatMessage({ defaultMessage: 'Please choose a Specialization' })*/}
+              {/*  }]}*/}
+              {/*>*/}
+              {/*  <Select*/}
+              {/*    showSearch*/}
+              {/*    style={{ width: 200 }}*/}
+              {/*    placeholder={intl.formatMessage({ defaultMessage: 'Select a Specialization' })}*/}
+              {/*    optionFilterProp="children"*/}
+              {/*    filterOption={(input, option) => option.children.toLowerCase()*/}
+              {/*      .indexOf(input.toLowerCase()) >= 0}*/}
+              {/*  >*/}
+              {/*    {specializations.map((spec) => (*/}
+              {/*      <Select.Option key={spec.id} value={spec.id}>{spec.name}</Select.Option>*/}
+              {/*    ))}*/}
+              {/*  </Select>*/}
+              {/*</FormItem>*/}
               <FormItem
                 label={intl.formatMessage({ defaultMessage: 'Job Title' })}
                 name="jobTitle"
@@ -389,12 +388,12 @@ const InterviewForm = ({ id }) => {
                 name="description"
                 rules={[{
                   required: true,
-                  message: intl.formatMessage({ defaultMessage: 'Interview description' }),
+                  message: intl.formatMessage({ defaultMessage: 'Assessment description' }),
                   whitespace: true
                 }]}
               >
                 <TextArea
-                  placeholder={intl.formatMessage({ defaultMessage: 'Interview description' })}
+                  placeholder={intl.formatMessage({ defaultMessage: 'Assessment description' })}
                   autoSize={{
                     minRows: 4
                   }}
@@ -518,7 +517,7 @@ const InterviewForm = ({ id }) => {
           </Spin>
         </Content>
       </Layout>
-      <Seo subTitle={isEditForm ? 'Interview - Edit' : 'Interview - Create'}/>
+      <Seo subTitle={isEditForm ? 'Assessment - Edit' : 'Assessment - Create'}/>
     </>
   );
 };
