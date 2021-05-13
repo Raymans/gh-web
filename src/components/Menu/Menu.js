@@ -52,11 +52,12 @@ const Menu = (props) => {
     //   label: <FormattedMessage defaultMessage="Questions"/>,
     //   icon: <QuestionCircleOutlined/>
     // },
-    // {
-    //   to: '/interviews',
-    //   label: <FormattedMessage defaultMessage="Assessments"/>,
-    //   icon: <EyeOutlined/>
-    // },
+    {
+      to: '/interviews',
+      label: <FormattedMessage defaultMessage="Assessments"/>,
+      icon: <EyeOutlined/>,
+      hideAfterAuth: true
+    },
     {
       to: '/login',
       label: <FormattedMessage defaultMessage="Login"/>,
@@ -188,7 +189,7 @@ const Menu = (props) => {
                       label: <FormattedMessage defaultMessage="My Assessments"/>
                     })}
                     {renderItem({
-                      to: '/interviews?liked=true',
+                      to: '/interviews?tab=liked',
                       label: <FormattedMessage defaultMessage="Liked Assessments"/>
                     })}
                     {renderItem({
@@ -235,6 +236,9 @@ const Menu = (props) => {
                 {item.label}
               </AntMenu.Item>
             );
+          }
+          if(item.hideAfterAuth && isAuthenticated){
+            return;
           }
           if (!item.needAuth) {
             if (item.subMenu) {

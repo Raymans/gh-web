@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import useApi from '../hooks/useApi';
+import queryString from 'query-string';
 
 export const StoreContext = React.createContext({});
 
@@ -14,7 +15,7 @@ const StoreProvider = ({ children }) => {
     specialization: '',
     keyword: '',
     pageSize: 10,
-    owner: false
+    tab: 'explore'
   });
 
   const {
@@ -40,6 +41,10 @@ const StoreProvider = ({ children }) => {
       refreshUserProfile();
     }
   }, [user]);
+
+  useEffect(()=> {
+    setSearchedInterviewCriteria({ ...searchedInterviewCriteria, ...queryString.parse(location.search) });
+  }, []);
 
   return (
     <StoreContext.Provider value={{

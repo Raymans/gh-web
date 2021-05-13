@@ -34,12 +34,16 @@ const StyledSearchBar = styled.div`
 const InterviewList = () => {
   const intl = useIntl();
   const { isAuthenticated } = useAuth0();
-  const { getInterviews } = useApi();
+  const {
+    getInterviews,
+    getInterviewsByUserLiked
+  } = useApi();
   const {
     interviews,
     setInterviews,
     searchedInterviewCriteria,
-    setSearchedInterviewCriteria
+    setSearchedInterviewCriteria,
+    userProfile
   } = useContext(StoreContext);
   // const [interviews, setInterviews] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -50,7 +54,11 @@ const InterviewList = () => {
     url
   } = {}) => {
     setLoading(showLoading);
-    return getInterviews({ url, ...searchedInterviewCriteria })
+    const getInterviewAPI = searchedInterviewCriteria.tab === 'liked' ? getInterviewsByUserLiked : getInterviews;
+    return getInterviewAPI({
+      url,
+      userId: userProfile?.id, ...searchedInterviewCriteria
+    })
       .then((res) => {
         setInterviews(isAppend ? interviews.concat(res.results) : res.results);
         setNext(res.next);
@@ -75,7 +83,8 @@ const InterviewList = () => {
   const handleTabChange = ({ target }) => {
     setSearchedInterviewCriteria({
       ...searchedInterviewCriteria,
-      owner: target.value === 'mine'
+      owner: target.value === 'mine',
+      tab: target.value
     });
   };
 
@@ -87,7 +96,7 @@ const InterviewList = () => {
 
   useEffect(() => {
     searchInterviews();
-  }, [searchedInterviewCriteria.keyword, searchedInterviewCriteria.specialization, searchedInterviewCriteria.owner]);
+  }, [searchedInterviewCriteria.keyword, searchedInterviewCriteria.tab]);
   return (
     <>
       <CustomBreadcrumb crumbs={[{
@@ -104,7 +113,7 @@ const InterviewList = () => {
         <div>
           <Layout>
             {isAuthenticated && <FilterSider onChange={handleTabChange}
-                                             defaultOpenKeys={searchedInterviewCriteria.owner ? 'mine' : 'explore'}/>}
+                                             defaultOpenKeys={searchedInterviewCriteria.tab}/>}
             <Content>
               <StyledSearchBar>
                 {/*<Specialization onSelect={handleSpecSelect}*/}

@@ -14,6 +14,7 @@ import Invitations from './Invitations';
 import ConfirmModal from './ConfirmModal';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 import { useAuth0 } from '@auth0/auth0-react';
+import LoginNeededWrapper from '../Auth/LoginNeededWrapper';
 
 const Organization = () => {
   const intl = useIntl();
@@ -155,22 +156,6 @@ const Organization = () => {
     </>
   );
 
-  const LoginNeeded = (
-    <>
-      <Result
-        status="info"
-        title={intl.formatMessage({ defaultMessage: 'Login to see your organization info.' })}
-        subTitle={intl.formatMessage({ defaultMessage: 'Anyone invite you for joining their Organization? No Problem! login to review the details right now.' })}
-        extra={[
-          <Button type="primary" key="enableOrg"
-                  onClick={() => loginWithRedirect(location.pathname)}>
-            <FormattedMessage defaultMessage="Login here"/>
-          </Button>
-        ]}
-      />
-    </>
-  );
-
   useEffect(() => {
     form.setFieldsValue({ name: organization?.name });
   }, [organization]);
@@ -185,84 +170,86 @@ const Organization = () => {
       <Headline title={<FormattedMessage defaultMessage="Organization - {orgName}"
                                          values={{ orgName: organization?.name }}/>}/>
       <Spin spinning={isLoading} indicator={<LoadingOutlined spin/>}>
-        {
-          !isLoading && !isAuthenticated && LoginNeeded
-        }
-
-        {(isAuthenticated && !userProfile?.organization && userProfile?.invitations.length > 0) && JoinConfirm}
-        {(isAuthenticated && !userProfile?.organization && userProfile?.invitations.length === 0) && EnableOrganization}
-        {organization
-        && (
-          <>
-            {!isOwner
-            && (
-              <ConfirmModal
-                style={{
-                  position: 'absolute',
-                  right: '30px',
-                  zIndex: 999
-                }}
-                openButtonTitle={intl.formatMessage({ defaultMessage: 'Leave Organization' })}
-                title={intl.formatMessage({ defaultMessage: 'Leave Organization' })}
-                onOK={handleLeaveOrg}
-                successMessage={intl.formatMessage({ defaultMessage: 'Leave success' })}
-                submitButtonTitle={intl.formatMessage({ defaultMessage: 'Leave' })}
-                danger
-              >
-                <p>
-                  <FormattedMessage defaultMessage="Are you sure to Leave?"/>
-                  <br/>
-                  <FormattedMessage
-                    defaultMessage="All interviews and questions you created for the Organization will be allocated to Organization's Owner."/>
-                </p>
-              </ConfirmModal>
-            )}
-            {
-              isOwner &&
-              <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
-                <UploadImage name="companyPhoto" imageUrl={organization.avatar}/>
-                <FormItem
-                  name="name"
-                  required
-                  rules={[{
-                    required: true,
-                    message: intl.formatMessage({ defaultMessage: 'Please input your Organization Name.' })
-                  }]}
+        <LoginNeededWrapper
+          title={<FormattedMessage defaultMessage="Login to see your organization info."/>}
+          subTitle={<FormattedMessage
+            defaultMessage="Anyone invite you for joining their Organization? No Problem! login to review the details right now."/>}
+        >
+          {(!userProfile?.organization && userProfile?.invitations.length > 0) && JoinConfirm}
+          {(!userProfile?.organization && userProfile?.invitations.length === 0) && EnableOrganization}
+          {organization
+          && (
+            <>
+              {!isOwner
+              && (
+                <ConfirmModal
+                  style={{
+                    position: 'absolute',
+                    right: '30px',
+                    zIndex: 999
+                  }}
+                  openButtonTitle={intl.formatMessage({ defaultMessage: 'Leave Organization' })}
+                  title={intl.formatMessage({ defaultMessage: 'Leave Organization' })}
+                  onOK={handleLeaveOrg}
+                  successMessage={intl.formatMessage({ defaultMessage: 'Leave success' })}
+                  submitButtonTitle={intl.formatMessage({ defaultMessage: 'Leave' })}
+                  danger
                 >
-                  <Input size="large"
-                         placeholder={intl.formatMessage({ defaultMessage: 'Organization Name' })}/>
-                </FormItem>
-                <Button type="primary" loading={saving} htmlType="submit">
-                  <FormattedMessage defaultMessage="Update Organization"/>
-                </Button>
-              </Form>
-            }
+                  <p>
+                    <FormattedMessage defaultMessage="Are you sure to Leave?"/>
+                    <br/>
+                    <FormattedMessage
+                      defaultMessage="All interviews and questions you created for the Organization will be allocated to Organization's Owner."/>
+                  </p>
+                </ConfirmModal>
+              )}
+              {
+                isOwner &&
+                <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
+                  <UploadImage name="companyPhoto" imageUrl={organization.avatar}/>
+                  <FormItem
+                    name="name"
+                    required
+                    rules={[{
+                      required: true,
+                      message: intl.formatMessage({ defaultMessage: 'Please input your Organization Name.' })
+                    }]}
+                  >
+                    <Input size="large"
+                           placeholder={intl.formatMessage({ defaultMessage: 'Organization Name' })}/>
+                  </FormItem>
+                  <Button type="primary" loading={saving} htmlType="submit">
+                    <FormattedMessage defaultMessage="Update Organization"/>
+                  </Button>
+                </Form>
+              }
 
-            <h2><FormattedMessage defaultMessage="Departments"/></h2>
-            <Departments/>
+              <h2><FormattedMessage defaultMessage="Departments"/></h2>
+              <Departments/>
 
-            <h2><FormattedMessage defaultMessage="Invitations"/></h2>
+              <h2><FormattedMessage defaultMessage="Invitations"/></h2>
 
-            <Invitations invitations={organization.userInvitations} orgId={organization.id}/>
+              <Invitations invitations={organization.userInvitations} orgId={organization.id}/>
 
-            <h2><FormattedMessage defaultMessage="Members"/></h2>
-            <UserList users={organization.users}/>
+              <h2><FormattedMessage defaultMessage="Members"/></h2>
+              <UserList users={organization.users}/>
 
-            {/* <h2>Interviews</h2> */}
-            {/* <h3>In Progress</h3> */}
-            {/* <h4>Architecture Team</h4> */}
-            {/* <InterviewsSummary isOwnerChangeable /> */}
-            {/* <h4>UI Experience</h4> */}
-            {/* <InterviewsSummary isOwnerChangeable /> */}
-            {/* <h3>Completed</h3> */}
-            {/* <h4>Architecture Team</h4> */}
-            {/* <InterviewsSummary /> */}
+              {/* <h2>Interviews</h2> */}
+              {/* <h3>In Progress</h3> */}
+              {/* <h4>Architecture Team</h4> */}
+              {/* <InterviewsSummary isOwnerChangeable /> */}
+              {/* <h4>UI Experience</h4> */}
+              {/* <InterviewsSummary isOwnerChangeable /> */}
+              {/* <h3>Completed</h3> */}
+              {/* <h4>Architecture Team</h4> */}
+              {/* <InterviewsSummary /> */}
 
-            {/* <h3>Archived</h3> */}
-            {/* <h4>Architecture Team</h4> */}
-            {/* <InterviewsSummary /> */}
-          </>
-        )}
+              {/* <h3>Archived</h3> */}
+              {/* <h4>Architecture Team</h4> */}
+              {/* <InterviewsSummary /> */}
+            </>
+          )}
+        </LoginNeededWrapper>
       </Spin>
 
       <Seo subTitle={intl.formatMessage({ defaultMessage: 'Organization' })}/>

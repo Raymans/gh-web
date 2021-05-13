@@ -32,6 +32,8 @@ import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import { globalHistory, useNavigate } from '@reach/router';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import LoginNeededWrapper from '../Auth/LoginNeededWrapper';
+import ConfirmModal from '../Organization/ConfirmModal';
 
 const {
   Content
@@ -357,255 +359,282 @@ const InterviewForm = ({ id }) => {
         label: isEditForm ? 'Assessment - edit' : 'Assessment - create',
         path: location.pathname
       }]}/>
-      <Headline title={isEditForm ? 'Assessment - edit' : 'Assessment - create'}>
-        {
-          publishedInterviewId
-          &&
-          <a href={location.pathname.replace(`${id}/edit`, `${publishedInterviewId}/published`)}
-             target="_blank">
-            <FormattedMessage defaultMessage="view live version"/></a>
-        }
-      </Headline>
-      <Layout>
-        {/* <AnchorSilder anchors={anchorSections} /> */}
-        <Content>
-          <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
-            <Form
-              {...inputLayout}
-              onFinish={onFinish}
-              form={form}
-              scrollToFirstError
-            >
-              <StyledVisibilityDiv>
-                <FormItem label="Visibility" name="visibility" valuePropName="checked" noStyle>
-                  <Switch checkedChildren="public" unCheckedChildren="private"/>
-                </FormItem>
-              </StyledVisibilityDiv>
-              <FormItem
-                label={intl.formatMessage({ defaultMessage: 'Title' })}
-                name="title"
-                rules={[{
-                  required: true,
-                  message: intl.formatMessage({ defaultMessage: 'Please enter interview\'s Title' })
-                }]}
+      <LoginNeededWrapper
+        title={<FormattedMessage defaultMessage="'Login to play with Assessments'"/>}
+        subTitle={<FormattedMessage
+          defaultMessage="'Please login to enable abilities to create/edit your Assessments.'"/>}>
+        <Headline title={isEditForm ? 'Assessment - edit' : 'Assessment - create'}>
+          {
+            publishedInterviewId
+            &&
+            <a href={location.pathname.replace(`${id}/edit`, `${publishedInterviewId}/published`)}
+               target="_blank">
+              <FormattedMessage defaultMessage="view live version"/></a>
+          }
+        </Headline>
+        <Layout>
+          {/* <AnchorSilder anchors={anchorSections} /> */}
+          <Content>
+            <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
+              <Form
+                {...inputLayout}
+                onFinish={onFinish}
+                form={form}
+                scrollToFirstError
               >
-                <Input/>
-              </FormItem>
-              <FormItem
-                label={intl.formatMessage({ defaultMessage: 'Specialization' })}
-                name="specializationId"
-                rules={[{
-                  required: true,
-                  message: intl.formatMessage({ defaultMessage: 'Please choose a Specialization' })
-                }]}
-              >
-                <Select
-                  showSearch
-                  style={{ width: 200 }}
-                  placeholder={intl.formatMessage({ defaultMessage: 'Select a Specialization' })}
-                  optionFilterProp="children"
-                  filterOption={(input, option) => option.children.toLowerCase()
-                    .indexOf(input.toLowerCase()) >= 0}
+                <StyledVisibilityDiv>
+                  <FormItem label="Visibility" name="visibility" valuePropName="checked" noStyle>
+                    <Switch checkedChildren="public" unCheckedChildren="private"/>
+                  </FormItem>
+                </StyledVisibilityDiv>
+                <FormItem
+                  label={intl.formatMessage({ defaultMessage: 'Title' })}
+                  name="title"
+                  rules={[{
+                    required: true,
+                    message: intl.formatMessage({ defaultMessage: 'Please enter interview\'s Title' })
+                  }]}
                 >
-                  {specializations.map((spec) => (
-                    <Select.Option key={spec.id} value={spec.id}>{spec.name}</Select.Option>
-                  ))}
-                </Select>
-              </FormItem>
-              <FormItem
-                label={intl.formatMessage({ defaultMessage: 'Job Title' })}
-                name="jobTitle"
-                rules={[{
-                  required: true,
-                  message: intl.formatMessage({ defaultMessage: 'Please enter Job Title' })
-                }]}
-                size="small"
-              >
-                <StyledAutoComplete
-                  value={jobTitle}
-                  options={jobOptions}
-                  style={{
-                    width: 200
-                  }}
-                  onSearch={onJobTitleSearch}
-                  onChange={onJobTitleChange}
-                />
-              </FormItem>
-              <FormItem
-                label={intl.formatMessage({ defaultMessage: 'Description' })}
-                name="description"
-                rules={[{
-                  required: true,
-                  message: intl.formatMessage({ defaultMessage: 'Assessment description' }),
-                  whitespace: true
-                }]}
-              >
-                <TextArea
-                  placeholder={intl.formatMessage({ defaultMessage: 'Assessment description' })}
-                  autoSize={{
-                    minRows: 4
-                  }}
-                />
-              </FormItem>
-              <FormItem
-                label={intl.formatMessage({ defaultMessage: 'Duration' })}
-                name="defaultDuration"
-              >
-                <Input placeholder={intl.formatMessage({ defaultMessage: 'Minutes' })}/>
-              </FormItem>
-              <Form.List name="sections">
-                {(sections, {
-                  add: addSection,
-                  remove: removeSection
-                }) => (
-                  <>
-                    {sections.map((section, sectionIndex) => (
-                      <div key={`section_${section.name}`}>
-                        <h2 id={`section_${section.name}`}>
-                          <Tooltip title="remove Section">
-                            <MinusCircleOutlined style={{
-                              color: 'lightcoral',
-                              padding: '0 10px'
-                            }} onClick={() => {
-                              removeSection(section.name);
-                              numberOfSection--;
-                            }}/>
-                          </Tooltip>
-                          <FormattedMessage defaultMessage="Section"/>
-                          {' '}
-                          <FormItem name={[sectionIndex, 'title']} noStyle>
-                            <Input
-                              style={{ width: 160 }}
-                              onChange={onSectionTitleChange.bind(this, sectionIndex)}
-                            />
-                          </FormItem>
-                          <Tooltip
-                            title={intl.formatMessage({ defaultMessage: 'Organize your questions via Sections like Basic Concept or Design Pattern' })}
-                          >
-                            <StyledQuestionCircleOutlined/>
-                          </Tooltip>
-                        </h2>
-
-                        <DragDropContext onDragEnd={handleReorderQuestions}>
-                          <Droppable droppableId="droppable">
-                            {(provided, snapshot) => (
-                              <div {...provided.droppableProps}
-                                   ref={provided.innerRef}
-                                   style={getListStyle(snapshot.isDraggingOver)}>
-                                <Form.List
-                                  name={[sectionIndex, 'questions']}
-                                >
-                                  {(questions, {
-                                    add: addQuestion,
-                                    remove: removeQuestion,
-                                    move
-                                  }) => {
-                                    moveQuestions = move;
-                                    return (
-                                      <>
-                                        {questions.map((question, questionIndex) => (
-                                          <Draggable key={`question_${questionIndex}`}
-                                                     draggableId={`question_${questionIndex}`}
-                                                     index={questionIndex}
-                                          >
-                                            {(provided, snapshot) => (
-                                              <StyledQuestionSection
-                                                key={question.name}
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                                style={getItemStyle(
-                                                  snapshot.isDragging,
-                                                  provided.draggableProps.style
-                                                )}
-                                              >
-                                                <Tooltip title="remove Question">
-                                                  {console.log(question)}
-                                                  <MinusCircleOutlined style={{
-                                                    color: 'lightcoral',
-                                                    padding: '0 10px'
-                                                  }} onClick={() => {
-                                                    removeQuestion(question.name);
-                                                  }}/>
-                                                </Tooltip>
-                                                <QuestionForm id={`${question.name}`} form={form}/>
-                                              </StyledQuestionSection>
-                                            )}
-                                          </Draggable>
-                                        ))}
-                                        <StyledQuestionSection key={section}
-                                                               style={{
-                                                                 textAlign: 'center',
-                                                                 position: 'absolute',
-                                                                 bottom: 0,
-                                                                 width: '98%'
-                                                               }}>
-                                          <Button
-                                            onClick={() => {
-                                              addQuestion({ possibleAnswers: [{}] });
-                                            }}
-                                          >
-                                            <PlusOutlined/>
-                                            {' '}
-                                            <FormattedMessage defaultMessage="Add a New Question"/>
-                                          </Button>
-                                          <Button
-                                            onClick={onOpenSelectQuestionModal.bind(this, sectionIndex)}
-                                          >
-                                            <PlusOutlined/>
-                                            {' '}
-                                            <FormattedMessage
-                                              defaultMessage="Select an Existed Question"/>
-                                          </Button>
-                                        </StyledQuestionSection>
-                                      </>
-                                    );
-                                  }}
-                                </Form.List>
-                                {provided.placeholder}
-                              </div>
-                            )}
-                          </Droppable>
-                        </DragDropContext>
-
-                      </div>
+                  <Input/>
+                </FormItem>
+                <FormItem
+                  label={intl.formatMessage({ defaultMessage: 'Specialization' })}
+                  name="specializationId"
+                  rules={[{
+                    required: true,
+                    message: intl.formatMessage({ defaultMessage: 'Please choose a Specialization' })
+                  }]}
+                >
+                  <Select
+                    showSearch
+                    style={{ width: 200 }}
+                    placeholder={intl.formatMessage({ defaultMessage: 'Select a Specialization' })}
+                    optionFilterProp="children"
+                    filterOption={(input, option) => option.children.toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0}
+                  >
+                    {specializations.map((spec) => (
+                      <Select.Option key={spec.id} value={spec.id}>{spec.name}</Select.Option>
                     ))}
-                    <Divider/>
-                    <Button
-                      onClick={() => {
-                        addSection({
-                          title: 'default',
-                          questions: [{ possibleAnswers: [{}] }]
-                        });
-                        pushSection(`section_${sections.length}`, 'default');
-                        numberOfSection++;
-                      }}
-                      style={{
-                        width: '100%',
-                        margin: '10px 0'
-                      }}
-                    >
-                      <PlusOutlined/>
-                      {' '}
-                      <FormattedMessage defaultMessage="Add Section"/>
-                    </Button>
-                  </>
-                )}
-              </Form.List>
-              <Button type="link">
-                <Link to="/interviews" replace><FormattedMessage defaultMessage="Back"/></Link>
-              </Button>
-              <Button type="primary" onClick={handleSave}>
-                {isEditForm ? <FormattedMessage defaultMessage="Update"/> :
-                  <FormattedMessage defaultMessage="Create"/>}
-              </Button>
-              <Button type="primary" onClick={handlePublish}>
-                <FormattedMessage defaultMessage="Publish"/>
-              </Button>
-            </Form>
-          </Spin>
-        </Content>
-      </Layout>
+                  </Select>
+                </FormItem>
+                <FormItem
+                  label={intl.formatMessage({ defaultMessage: 'Job Title' })}
+                  name="jobTitle"
+                  rules={[{
+                    required: true,
+                    message: intl.formatMessage({ defaultMessage: 'Please enter Job Title' })
+                  }]}
+                  size="small"
+                >
+                  {/*<StyledAutoComplete*/}
+                  {/*  value={jobTitle}*/}
+                  {/*  options={jobOptions}*/}
+                  {/*  style={{*/}
+                  {/*    width: 200*/}
+                  {/*  }}*/}
+                  {/*  onSearch={onJobTitleSearch}*/}
+                  {/*  onChange={onJobTitleChange}*/}
+                  {/*/>*/}
+                  <Input/>
+                </FormItem>
+                <FormItem
+                  label={intl.formatMessage({ defaultMessage: 'Description' })}
+                  name="description"
+                  rules={[{
+                    required: true,
+                    message: intl.formatMessage({ defaultMessage: 'Assessment description' }),
+                    whitespace: true
+                  }]}
+                >
+                  <TextArea
+                    placeholder={intl.formatMessage({ defaultMessage: 'Assessment description' })}
+                    autoSize={{
+                      minRows: 4
+                    }}
+                  />
+                </FormItem>
+                <FormItem
+                  label={intl.formatMessage({ defaultMessage: 'Duration' })}
+                  name="defaultDuration"
+                >
+                  <Input placeholder={intl.formatMessage({ defaultMessage: 'Minutes' })}/>
+                </FormItem>
+                <Form.List name="sections">
+                  {(sections, {
+                    add: addSection,
+                    remove: removeSection
+                  }) => (
+                    <>
+                      {sections.map((section, sectionIndex) => (
+                        <div key={`section_${section.name}`}>
+                          <h2 id={`section_${section.name}`}>
+
+                            <ConfirmModal
+                              title={<FormattedMessage defaultMessage="Remove Section"/>}
+                              danger
+                              openButtonTitle=""
+                              submitButtonTitle={<FormattedMessage defaultMessage="Remove"/>}
+                              icon={<Tooltip title={<FormattedMessage
+                                defaultMessage="Remove Section"/>}><MinusCircleOutlined/></Tooltip>}
+                              shape={'circle'}
+                              style={{ border: '0px' }}
+                              onOK={() => {
+                                removeSection(section.name);
+                                numberOfSection--;
+                              }}
+                            >
+                              <FormattedMessage
+                                defaultMessage="Are you sure to remove the section?"/>
+                            </ConfirmModal>
+                            <FormattedMessage defaultMessage="Section"/>
+                            {' '}
+                            <FormItem name={[sectionIndex, 'title']} noStyle>
+                              <Input
+                                style={{ width: 160 }}
+                                onChange={onSectionTitleChange.bind(this, sectionIndex)}
+                              />
+                            </FormItem>
+                            <Tooltip
+                              title={intl.formatMessage({ defaultMessage: 'Organize your questions via Sections like Basic Concept or Design Pattern' })}
+                            >
+                              <StyledQuestionCircleOutlined/>
+                            </Tooltip>
+                          </h2>
+
+                          <DragDropContext onDragEnd={handleReorderQuestions}>
+                            <Droppable droppableId="droppable">
+                              {(provided, snapshot) => (
+                                <div {...provided.droppableProps}
+                                     ref={provided.innerRef}
+                                     style={getListStyle(snapshot.isDraggingOver)}>
+                                  <Form.List
+                                    name={[sectionIndex, 'questions']}
+                                  >
+                                    {(questions, {
+                                      add: addQuestion,
+                                      remove: removeQuestion,
+                                      move
+                                    }) => {
+                                      moveQuestions = move;
+                                      return (
+                                        <>
+                                          {questions.map((question, questionIndex) => (
+                                            <Draggable key={`question_${questionIndex}`}
+                                                       draggableId={`question_${questionIndex}`}
+                                                       index={questionIndex}
+                                            >
+                                              {(provided, snapshot) => (
+                                                <StyledQuestionSection
+                                                  key={question.name}
+                                                  ref={provided.innerRef}
+                                                  {...provided.draggableProps}
+                                                  {...provided.dragHandleProps}
+                                                  style={getItemStyle(
+                                                    snapshot.isDragging,
+                                                    provided.draggableProps.style
+                                                  )}
+                                                >
+                                                  <ConfirmModal title={<FormattedMessage
+                                                    defaultMessage="Remove Question"/>}
+                                                                danger
+                                                                openButtonTitle=""
+                                                                submitButtonTitle={<FormattedMessage
+                                                                  defaultMessage="Remove"/>}
+                                                                icon={<Tooltip
+                                                                  title={<FormattedMessage
+                                                                    defaultMessage="Remove Question"/>}><MinusCircleOutlined/></Tooltip>}
+                                                                shape={'circle'}
+                                                                style={{ border: '0px' }}
+                                                                onOK={() => {
+                                                                  removeSection(section.name);
+                                                                  numberOfSection--;
+                                                                }}
+                                                  >
+                                                    <FormattedMessage
+                                                      defaultMessage="Are you sure to remove the question?"/>
+                                                  </ConfirmModal>
+                                                  <QuestionForm id={`${question.name}`}
+                                                                form={form}/>
+                                                </StyledQuestionSection>
+                                              )}
+                                            </Draggable>
+                                          ))}
+                                          <StyledQuestionSection key={section}
+                                                                 style={{
+                                                                   textAlign: 'center',
+                                                                   position: 'absolute',
+                                                                   bottom: 0,
+                                                                   width: '98%'
+                                                                 }}>
+                                            <Button
+                                              onClick={() => {
+                                                addQuestion({ possibleAnswers: [{}] });
+                                              }}
+                                            >
+                                              <PlusOutlined/>
+                                              {' '}
+                                              <FormattedMessage
+                                                defaultMessage="Add a New Question"/>
+                                            </Button>
+                                            <Button
+                                              onClick={onOpenSelectQuestionModal.bind(this, sectionIndex)}
+                                            >
+                                              <PlusOutlined/>
+                                              {' '}
+                                              <FormattedMessage
+                                                defaultMessage="Select an Existed Question"/>
+                                            </Button>
+                                          </StyledQuestionSection>
+                                        </>
+                                      );
+                                    }}
+                                  </Form.List>
+                                  {provided.placeholder}
+                                </div>
+                              )}
+                            </Droppable>
+                          </DragDropContext>
+
+                        </div>
+                      ))}
+                      <Divider/>
+                      <Button
+                        onClick={() => {
+                          addSection({
+                            title: 'default',
+                            questions: [{ possibleAnswers: [{}] }]
+                          });
+                          pushSection(`section_${sections.length}`, 'default');
+                          numberOfSection++;
+                        }}
+                        style={{
+                          width: '100%',
+                          margin: '10px 0'
+                        }}
+                      >
+                        <PlusOutlined/>
+                        {' '}
+                        <FormattedMessage defaultMessage="Add Section"/>
+                      </Button>
+                    </>
+                  )}
+                </Form.List>
+                <Button type="link">
+                  <Link to="/interviews" replace><FormattedMessage defaultMessage="Back"/></Link>
+                </Button>
+                <Button type="primary" onClick={handleSave}>
+                  {isEditForm ? <FormattedMessage defaultMessage="Update"/> :
+                    <FormattedMessage defaultMessage="Create"/>}
+                </Button>
+                <Button type="primary" onClick={handlePublish}>
+                  <FormattedMessage defaultMessage="Publish"/>
+                </Button>
+              </Form>
+            </Spin>
+          </Content>
+        </Layout>
+      </LoginNeededWrapper>
       <Seo subTitle={isEditForm ? 'Assessment - Edit' : 'Assessment - Create'}/>
     </>
   );

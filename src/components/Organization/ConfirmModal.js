@@ -15,7 +15,9 @@ const ConfirmModal = ({
   submitButtonTitle,
   openButtonType,
   style,
-  danger
+  danger,
+  icon,
+  shape
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [okLoading, setOKLoading] = useState(false);
@@ -52,6 +54,8 @@ const ConfirmModal = ({
         onClick={() => handleOpen()}
         style={style}
         danger={danger}
+        icon={icon}
+        shape={shape}
       >
         {openButtonTitle}
       </Button>
@@ -60,7 +64,7 @@ const ConfirmModal = ({
         title={title}
         centered
         footer={[
-          <Button key="back" onClick={handleCancel} type="link">
+          <Button key="back" onClick={handleCancel} type="link" danger={danger}>
             <FormattedMessage defaultMessage="Cancel"/>
           </Button>,
           <Button type="primary" loading={okLoading} onClick={handleOK} danger={danger}>
@@ -87,7 +91,8 @@ ConfirmModal.propTypes = {
   title: PropTypes.string,
   openButtonType: PropTypes.string,
   style: PropTypes.object,
-  danger: PropTypes.bool
+  danger: PropTypes.bool,
+  icon: PropTypes.element
 };
 
 ConfirmModal.defaultProps = {

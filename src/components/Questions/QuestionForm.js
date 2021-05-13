@@ -14,7 +14,7 @@ import {
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage, Link, navigate } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, navigate, useIntl } from 'gatsby-plugin-intl';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
@@ -51,7 +51,7 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin/>;
 
 const QuestionForm = (props) => {
   const [saving, setSaving] = useState(false);
-
+  const intl = useIntl();
   const {
     id,
     form
@@ -77,6 +77,7 @@ const QuestionForm = (props) => {
           autoSize={{
             minRows: 2
           }}
+          placeholder={intl.formatMessage({defaultMessage: 'Question description'})}
         />
       </FormItem>
       <Tabs defaultActiveKey="1">
@@ -229,6 +230,7 @@ const QuestionForm = (props) => {
 };
 
 const QuestionFormItem = (props) => {
+  const intl = useIntl();
   const {
     form,
     id,
@@ -270,7 +272,7 @@ const QuestionFormItem = (props) => {
             noStyle
           >
             <Input
-              placeholder="Please input answer option"
+              placeholder={intl.formatMessage({defaultMessage: 'Please input answer option'})}
               style={{
                 width: '80%',
                 marginRight: 8
