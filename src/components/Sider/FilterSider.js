@@ -16,10 +16,11 @@ const FilterSider = (props) => {
   return (
     <StyledRadioGroup defaultValue={defaultOpenKeys} buttonStyle="solid"
                       onChange={onChange}>
-      <Radio.Button value="explore"><FormattedMessage defaultMessage="Waiting"/></Radio.Button>
+      <Radio.Button value="explore"><FormattedMessage defaultMessage="Explore"/></Radio.Button>
       <Radio.Button value="mine"><FormattedMessage defaultMessage="Mine"/> </Radio.Button>
       <Radio.Button value="liked"><FormattedMessage defaultMessage="Liked"/> </Radio.Button>
       <Radio.Button value="assessed"><FormattedMessage defaultMessage="Assessed"/> </Radio.Button>
+      <Radio.Button value="waiting"><FormattedMessage defaultMessage="Waiting"/></Radio.Button>
     </StyledRadioGroup>
   );
 };

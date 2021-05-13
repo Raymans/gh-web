@@ -6,6 +6,7 @@ import {
   Layout,
   message,
   Modal,
+  Select,
   Spin,
   Switch,
   Tooltip
@@ -30,6 +31,7 @@ import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import { globalHistory, useNavigate } from '@reach/router';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 const {
   Content
@@ -50,6 +52,8 @@ const StyledAutoComplete = styled(AutoComplete)`
 `;
 
 const StyledQuestionSection = styled.div`
+  background-color: white;
+
   :hover {
     border-color: #2f9eba;
   }
@@ -76,6 +80,25 @@ let numberOfSection = 0;
 const interviewMessageKey = 'interviewMessage';
 let selectedQuestions = [];
 let isPublishAction = false;
+
+
+const grid = 8;
+
+const getItemStyle = (isDragging, draggableStyle) => ({
+  userSelect: 'none',
+  padding: grid * 2,
+  margin: `0 0 ${grid}px 0`,
+  background: isDragging ? '#2f9eba' : '',
+  ...draggableStyle
+});
+
+
+const getListStyle = isDraggingOver => ({
+  background: isDraggingOver ? '#c9ecec' : '',
+  padding: grid,
+  paddingBottom: '85px',
+  position: 'relative'
+});
 
 const InterviewForm = ({ id }) => {
   const isEditForm = !!id;
@@ -137,6 +160,16 @@ const InterviewForm = ({ id }) => {
           setPublishedInterviewId(data.publishedInterviewId);
           setLoading(false);
         });
+    } else {
+      const formdata = {
+        sections: [{
+          title: 'default',
+          questions: [{ possibleAnswers: [{}] }]
+        }]
+      };
+      form.setFieldsValue(formdata);
+      pushSection(`section_0`, 'default');
+      numberOfSection++;
     }
   }, []);
 
@@ -162,8 +195,7 @@ const InterviewForm = ({ id }) => {
     window.onbeforeunload = undefined;
     message.success({
       content,
-      key: interviewMessageKey,
-      duration: 3
+      key: interviewMessageKey
     });
     setLoading(false);
   };
@@ -173,11 +205,19 @@ const InterviewForm = ({ id }) => {
       return publishInterview({ id: data.id })
         .then((pi) => {
           setPublishedInterviewId(pi.interview.publishedInterviewId);
+          return data.id;
         });
     }
     return data;
   };
   const onFinish = (values) => {
+    if (isPublishAction) {
+      if (!values.sections[0]?.questions) {
+        message.error(<FormattedMessage
+          defaultMessage="Publish Assessment needs at least one section and one question."/>);
+        return;
+      }
+    }
     beforeSaving();
     values.sections && values.sections.map((section) => (
       section.questions && section.questions.map((question) => (
@@ -207,7 +247,7 @@ const InterviewForm = ({ id }) => {
         .then(publish)
         .then((data) => {
           afterSaving(isPublishAction ? 'Assessment Published.' : 'Assessment Created.');
-          navigate(`/interviews/${data.id}/edit`);
+          navigate(`/interviews/${data}/edit`);
         });
     }
   };
@@ -272,6 +312,14 @@ const InterviewForm = ({ id }) => {
   const handlePublish = () => {
     isPublishAction = true;
     form.submit();
+  };
+
+  let moveQuestions;
+  const handleReorderQuestions = (result) => {
+    if (!result.destination) {
+      return;
+    }
+    moveQuestions(result.source.index, result.destination.index);
   };
   return (
     <>
@@ -343,27 +391,27 @@ const InterviewForm = ({ id }) => {
               >
                 <Input/>
               </FormItem>
-              {/*<FormItem*/}
-              {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}*/}
-              {/*  name="specializationId"*/}
-              {/*  rules={[{*/}
-              {/*    required: true,*/}
-              {/*    message: intl.formatMessage({ defaultMessage: 'Please choose a Specialization' })*/}
-              {/*  }]}*/}
-              {/*>*/}
-              {/*  <Select*/}
-              {/*    showSearch*/}
-              {/*    style={{ width: 200 }}*/}
-              {/*    placeholder={intl.formatMessage({ defaultMessage: 'Select a Specialization' })}*/}
-              {/*    optionFilterProp="children"*/}
-              {/*    filterOption={(input, option) => option.children.toLowerCase()*/}
-              {/*      .indexOf(input.toLowerCase()) >= 0}*/}
-              {/*  >*/}
-              {/*    {specializations.map((spec) => (*/}
-              {/*      <Select.Option key={spec.id} value={spec.id}>{spec.name}</Select.Option>*/}
-              {/*    ))}*/}
-              {/*  </Select>*/}
-              {/*</FormItem>*/}
+              <FormItem
+                label={intl.formatMessage({ defaultMessage: 'Specialization' })}
+                name="specializationId"
+                rules={[{
+                  required: true,
+                  message: intl.formatMessage({ defaultMessage: 'Please choose a Specialization' })
+                }]}
+              >
+                <Select
+                  showSearch
+                  style={{ width: 200 }}
+                  placeholder={intl.formatMessage({ defaultMessage: 'Select a Specialization' })}
+                  optionFilterProp="children"
+                  filterOption={(input, option) => option.children.toLowerCase()
+                    .indexOf(input.toLowerCase()) >= 0}
+                >
+                  {specializations.map((spec) => (
+                    <Select.Option key={spec.id} value={spec.id}>{spec.name}</Select.Option>
+                  ))}
+                </Select>
+              </FormItem>
               <FormItem
                 label={intl.formatMessage({ defaultMessage: 'Job Title' })}
                 name="jobTitle"
@@ -437,57 +485,98 @@ const InterviewForm = ({ id }) => {
                             <StyledQuestionCircleOutlined/>
                           </Tooltip>
                         </h2>
-                        <Form.List name={[sectionIndex, 'questions']}>
-                          {(questions, {
-                            add: addQuestion,
-                            remove: removeQuestion
-                          }) => (
-                            <>
-                              {questions.map((question, quesionIndex) => (
-                                <StyledQuestionSection key={question.name}>
-                                  <Tooltip title="remove Question">
-                                    <MinusCircleOutlined style={{
-                                      color: 'lightcoral',
-                                      padding: '0 10px'
-                                    }} onClick={() => {
-                                      removeQuestion(question.name);
-                                    }}/>
-                                  </Tooltip>
-                                  <QuestionForm id={`${question.name}`} form={form}/>
-                                </StyledQuestionSection>
-                              ))}
-                              <StyledQuestionSection key={section} style={{ textAlign: 'center' }}>
-                                <Button
-                                  onClick={() => {
-                                    addQuestion();
+
+                        <DragDropContext onDragEnd={handleReorderQuestions}>
+                          <Droppable droppableId="droppable">
+                            {(provided, snapshot) => (
+                              <div {...provided.droppableProps}
+                                   ref={provided.innerRef}
+                                   style={getListStyle(snapshot.isDraggingOver)}>
+                                <Form.List
+                                  name={[sectionIndex, 'questions']}
+                                >
+                                  {(questions, {
+                                    add: addQuestion,
+                                    remove: removeQuestion,
+                                    move
+                                  }) => {
+                                    moveQuestions = move;
+                                    return (
+                                      <>
+                                        {questions.map((question, questionIndex) => (
+                                          <Draggable key={`question_${questionIndex}`}
+                                                     draggableId={`question_${questionIndex}`}
+                                                     index={questionIndex}
+                                          >
+                                            {(provided, snapshot) => (
+                                              <StyledQuestionSection
+                                                key={question.name}
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                style={getItemStyle(
+                                                  snapshot.isDragging,
+                                                  provided.draggableProps.style
+                                                )}
+                                              >
+                                                <Tooltip title="remove Question">
+                                                  {console.log(question)}
+                                                  <MinusCircleOutlined style={{
+                                                    color: 'lightcoral',
+                                                    padding: '0 10px'
+                                                  }} onClick={() => {
+                                                    removeQuestion(question.name);
+                                                  }}/>
+                                                </Tooltip>
+                                                <QuestionForm id={`${question.name}`} form={form}/>
+                                              </StyledQuestionSection>
+                                            )}
+                                          </Draggable>
+                                        ))}
+                                        <StyledQuestionSection key={section}
+                                                               style={{
+                                                                 textAlign: 'center',
+                                                                 position: 'absolute',
+                                                                 bottom: 0,
+                                                                 width: '98%'
+                                                               }}>
+                                          <Button
+                                            onClick={() => {
+                                              addQuestion({ possibleAnswers: [{}] });
+                                            }}
+                                          >
+                                            <PlusOutlined/>
+                                            {' '}
+                                            <FormattedMessage defaultMessage="Add a New Question"/>
+                                          </Button>
+                                          <Button
+                                            onClick={onOpenSelectQuestionModal.bind(this, sectionIndex)}
+                                          >
+                                            <PlusOutlined/>
+                                            {' '}
+                                            <FormattedMessage
+                                              defaultMessage="Select an Existed Question"/>
+                                          </Button>
+                                        </StyledQuestionSection>
+                                      </>
+                                    );
                                   }}
-                                >
-                                  <PlusOutlined/>
-                                  {' '}
-                                  <FormattedMessage defaultMessage="Add a New Question"/>
-                                </Button>
-                                <Button
-                                  onClick={onOpenSelectQuestionModal.bind(this, sectionIndex)}
-                                >
-                                  <PlusOutlined/>
-                                  {' '}
-                                  <FormattedMessage defaultMessage="Select an Existed Question"/>
-                                </Button>
-                              </StyledQuestionSection>
-                            </>
-                          )}
-                        </Form.List>
+                                </Form.List>
+                                {provided.placeholder}
+                              </div>
+                            )}
+                          </Droppable>
+                        </DragDropContext>
 
                       </div>
                     ))}
                     <Divider/>
                     <Button
                       onClick={() => {
-                        addSection();
-                        const formdata = form.getFieldValue();
-                        formdata.sections[numberOfSection] = { title: 'default' };
-
-                        form.setFieldsValue(formdata);
+                        addSection({
+                          title: 'default',
+                          questions: [{ possibleAnswers: [{}] }]
+                        });
                         pushSection(`section_${sections.length}`, 'default');
                         numberOfSection++;
                       }}

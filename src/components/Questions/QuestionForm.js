@@ -1,11 +1,12 @@
 import '@ant-design/compatible/assets/index.css';
 
-import { Button, Form, Input, Spin, Switch, Tabs } from 'antd';
+import { Button, Form, Input, Spin, Switch, Tabs, Tooltip } from 'antd';
 import {
   CheckOutlined,
   CheckSquareOutlined,
   CloseOutlined,
   CodeOutlined,
+  FormOutlined,
   LoadingOutlined,
   MinusCircleOutlined,
   PlusOutlined
@@ -13,7 +14,7 @@ import {
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { Link, navigate } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, navigate } from 'gatsby-plugin-intl';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
@@ -61,7 +62,6 @@ const QuestionForm = (props) => {
     getQuestion,
     updateQuestion
   } = useApi();
-
   const formContent = (
     <>
       <FormItem
@@ -83,9 +83,19 @@ const QuestionForm = (props) => {
         <TabPane
           tab={(
             <span>
+              <FormOutlined/>
+              <FormattedMessage defaultMessage="Short-Answer"/>
+            </span>
+          )}
+          key="0"
+        >
+          <FormattedMessage defaultMessage="Ask the question as a Short-Answer type."/>
+        </TabPane>
+        <TabPane
+          tab={(
+            <span>
               <CheckSquareOutlined/>
-              {' '}
-              Multiple Question
+              <FormattedMessage defaultMessage="Multiple Question"/>
             </span>
           )}
           key="1"
@@ -100,12 +110,12 @@ const QuestionForm = (props) => {
           </Form.List>
         </TabPane>
         <TabPane
+          disabled
           tab={(
-            <span>
+            <Tooltip title={<FormattedMessage defaultMessage="Coming soon!"/>}>
               <CodeOutlined/>
-              {' '}
-              Coding
-            </span>
+              <FormattedMessage defaultMessage="Coding"/>
+            </Tooltip>
           )}
           key="2"
         >

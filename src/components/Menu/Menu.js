@@ -5,7 +5,6 @@ import { FormattedMessage, Link } from 'gatsby-plugin-intl';
 import styled, { ThemeContext } from 'styled-components';
 import Icon, {
   EyeOutlined,
-  HomeOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -48,11 +47,6 @@ const Menu = (props) => {
   }));
 
   const items = [
-    {
-      to: '/',
-      label: <FormattedMessage defaultMessage="Home"/>,
-      icon: <HomeOutlined/>
-    },
     // {
     //   to: '/questions',
     //   label: <FormattedMessage defaultMessage="Questions"/>,
@@ -187,20 +181,23 @@ const Menu = (props) => {
                   >
                     {renderItem({
                       to: '/interviews',
-                      label: <FormattedMessage defaultMessage="Waiting Assessments"/>
-                    })}
-                    {renderItem({
-                      to: '/testedInterviews',
-                      label: <FormattedMessage defaultMessage="Assessed Assessments"/>
+                      label: <FormattedMessage defaultMessage="Explore Assessments"/>
                     })}
                     {renderItem({
                       to: '/manageInterviews',
                       label: <FormattedMessage defaultMessage="My Assessments"/>
                     })}
                     {renderItem({
-
                       to: '/interviews?liked=true',
                       label: <FormattedMessage defaultMessage="Liked Assessments"/>
+                    })}
+                    {renderItem({
+                      to: '/interviews?invite',
+                      label: <FormattedMessage defaultMessage="Waiting Assessments"/>
+                    })}
+                    {renderItem({
+                      to: '/testedInterviews',
+                      label: <FormattedMessage defaultMessage="Assessed Assessments"/>
                     })}
                   </AntMenu.SubMenu>
                   <AntMenu.SubMenu
