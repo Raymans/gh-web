@@ -27,7 +27,7 @@ const defaultInterviewSession = {
 };
 
 const StyledQuestionBlock = styled.div`
-  h3 {
+  h4 {
     white-space: pre-wrap;
   }
 
