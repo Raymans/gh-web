@@ -181,11 +181,11 @@ const Menu = (props) => {
                     title={<FormattedMessage defaultMessage="Assessments"/>}
                   >
                     {renderItem({
-                      to: '/interviews',
+                      to: '/interviews?tab=explore',
                       label: <FormattedMessage defaultMessage="Explore Assessments"/>
                     })}
                     {renderItem({
-                      to: '/manageInterviews',
+                      to: '/interviews?tab=mine',
                       label: <FormattedMessage defaultMessage="My Assessments"/>
                     })}
                     {renderItem({
@@ -193,12 +193,16 @@ const Menu = (props) => {
                       label: <FormattedMessage defaultMessage="Liked Assessments"/>
                     })}
                     {renderItem({
-                      to: '/interviews?invite',
-                      label: <FormattedMessage defaultMessage="Waiting Assessments"/>
+                      to: '/interviews?tab=pending',
+                      label: <FormattedMessage defaultMessage="Pending Assessments"/>
                     })}
                     {renderItem({
-                      to: '/testedInterviews',
+                      to: '/testedInterviews?tab=assessed',
                       label: <FormattedMessage defaultMessage="Assessed Assessments"/>
+                    })}
+                    {renderItem({
+                      to: '/interviews/create',
+                      label: <FormattedMessage defaultMessage="Create Assessments"/>
                     })}
                   </AntMenu.SubMenu>
                   <AntMenu.SubMenu
@@ -237,7 +241,7 @@ const Menu = (props) => {
               </AntMenu.Item>
             );
           }
-          if(item.hideAfterAuth && isAuthenticated){
+          if (item.hideAfterAuth && isAuthenticated) {
             return;
           }
           if (!item.needAuth) {

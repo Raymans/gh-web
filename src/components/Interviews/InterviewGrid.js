@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
@@ -74,7 +75,8 @@ const InterviewGrid = (props) => {
     visibility,
     likeCount,
     liked,
-    lastModifiedDate
+    lastModifiedDate,
+    interviewSessions
   } = props;
   const {
     createInterviewSession,
@@ -160,6 +162,11 @@ const InterviewGrid = (props) => {
           });
       });
   };
+
+  let totalGeeks = 0;
+  for (const key in interviewSessions) {
+    totalGeeks += interviewSessions[key]?.length;
+  }
 
   return (
     <>
@@ -252,13 +259,22 @@ const InterviewGrid = (props) => {
                       likeCount={likeCount}
                     />
                     <StyledStatusBar>
-                      <Badge
-                        status="processing"
-                        text={<FormattedMessage defaultMessage="10 In testing"/>}
-                      />
+                      {/*<Badge*/}
+                      {/*  status="processing"*/}
+                      {/*  text={<FormattedMessage defaultMessage="10 In testing"/>}*/}
+                      {/*/>*/}
                       <Badge
                         status="success"
-                        text={<FormattedMessage defaultMessage="20 Completed"/>}
+                        text={
+                          clientUser.id === user?.sub ?
+                            (<Link to={`/manageInterviews/${id}`}
+                                   state={{ interviewName: title }}>
+                              <FormattedMessage defaultMessage="{totalCount} people Assessed"
+                                                values={{ totalCount: totalGeeks }}/>
+                            </Link>) :
+                            <FormattedMessage defaultMessage="{totalCount} people Assessed"
+                                              values={{ totalCount: totalGeeks }}/>
+                        }
                       />
                     </StyledStatusBar>
                   </Descriptions.Item>
@@ -272,6 +288,23 @@ const InterviewGrid = (props) => {
   );
 };
 
-InterviewGrid.propTypes = {};
+InterviewGrid.propTypes = {
+  clientUser: PropTypes.object,
+  description: PropTypes.string,
+  id: PropTypes.any,
+  interviewSessions: PropTypes.array,
+  jobTitle: PropTypes.any,
+  lastModifiedDate: PropTypes.any,
+  likeCount: PropTypes.any,
+  liked: PropTypes.any,
+  title: PropTypes.any,
+  visibility: PropTypes.any
+};
 
 export default InterviewGrid;
+
+InterviewGrid.defaultProps = {
+  clientUser: {},
+  description: '',
+  interviewSessions: []
+};

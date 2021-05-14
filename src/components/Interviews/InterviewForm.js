@@ -6,7 +6,6 @@ import {
   Layout,
   message,
   Modal,
-  Select,
   Spin,
   Switch,
   Tooltip
@@ -34,6 +33,7 @@ import { globalHistory, useNavigate } from '@reach/router';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import LoginNeededWrapper from '../Auth/LoginNeededWrapper';
 import ConfirmModal from '../Organization/ConfirmModal';
+import AnchorSider from '../Sider/AnchorSider';
 
 const {
   Content
@@ -78,7 +78,6 @@ const mockVal = (str, repeat = 1) => ({
 });
 
 let sectionIndexOfAddingQuestion = 0;
-let numberOfSection = 0;
 const interviewMessageKey = 'interviewMessage';
 let selectedQuestions = [];
 let isPublishAction = false;
@@ -102,6 +101,11 @@ const getListStyle = isDraggingOver => ({
   position: 'relative'
 });
 
+const defaultQuestion = {
+  questionType: 'MULTI_CHOICE',
+  possibleAnswers: [{}]
+};
+
 const InterviewForm = ({ id }) => {
   const isEditForm = !!id;
   const intl = useIntl();
@@ -109,7 +113,7 @@ const InterviewForm = ({ id }) => {
     createInterview,
     getInterview,
     getQuestions,
-    getSpecializations,
+    //getSpecializations,
     updateInterview,
     publishInterview
   } = useApi();
@@ -119,7 +123,7 @@ const InterviewForm = ({ id }) => {
   const [jobTitle, setJobTitle] = useState('');
   const [jobOptions, setJobTitleOptions] = useState([]);
   const [anchorSections, setAnchorSections] = useState([]);
-  const [specializations, setSpecializations] = useState([]);
+  //const [specializations, setSpecializations] = useState([]);
   const [isSelectedQuestionVisible, setIsSelectedQuestionVisible] = useState(false);
   const [questionList, setQuestionList] = useState([]);
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
@@ -138,12 +142,10 @@ const InterviewForm = ({ id }) => {
     };
   }, []);
   useEffect(() => {
-    numberOfSection = 0;
-
-    getSpecializations()
-      .then(((data = []) => {
-        setSpecializations(data);
-      }));
+    // getSpecializations()
+    //   .then(((data = []) => {
+    //     setSpecializations(data);
+    //   }));
     if (isEditForm) {
       setLoading(true);
       getInterview(id)
@@ -151,14 +153,18 @@ const InterviewForm = ({ id }) => {
           data.visibility = data.visibility === 'PUBLIC';
           form.setFieldsValue({
             ...data,
-            specializationId: data.specialization.id,
+            // specializationId: data.specialization.id,
             defaultDuration: data.defaultDuration === -1 ? '' : data.defaultDuration
           });
           setAnchorSections(data.sections.map((section, index) => ({
             href: `#section_${index}`,
-            title: section.title
+            title: section.title,
+            subAnchors: section.questions?.map((question, qindex) =>
+              ({
+                href: `#section_${index}_question_${qindex}`,
+                title: `Q ${qindex + 1}`
+              }))
           })));
-          numberOfSection = data.sections.length;
           setPublishedInterviewId(data.publishedInterviewId);
           setLoading(false);
         });
@@ -166,12 +172,11 @@ const InterviewForm = ({ id }) => {
       const formdata = {
         sections: [{
           title: 'default',
-          questions: [{ possibleAnswers: [{}] }]
+          questions: [{ ...defaultQuestion }]
         }]
       };
       form.setFieldsValue(formdata);
       pushSection(`section_0`, 'default');
-      numberOfSection++;
     }
   }, []);
 
@@ -207,7 +212,7 @@ const InterviewForm = ({ id }) => {
       return publishInterview({ id: data.id })
         .then((pi) => {
           setPublishedInterviewId(pi.interview.publishedInterviewId);
-          return data.id;
+          return data;
         });
     }
     return data;
@@ -249,16 +254,64 @@ const InterviewForm = ({ id }) => {
         .then(publish)
         .then((data) => {
           afterSaving(isPublishAction ? 'Assessment Published.' : 'Assessment Created.');
-          navigate(`/interviews/${data}/edit`);
+          navigate(`/interviews/${data.id}/edit`);
         });
     }
   };
   const pushSection = (id, name) => (
     setAnchorSections([...anchorSections, {
       href: `#${id}`,
-      title: name
+      title: name,
+      subAnchors: [{
+        href: `#${id}_question_${0}`,
+        title: 'Q 1'
+      }]
     }])
   );
+  const popSection = (index) => {
+    let removed = [...anchorSections];
+    removed.splice(index, 1);
+    removed = removed.map((section, sindex) => {
+      return {
+        ...section,
+        href: `#section_${sindex}`,
+        subAnchors: section.subAnchors.map((subAnchor, index) => (
+          {
+            ...subAnchor,
+            href: `#section_${sindex}_question_${index}`
+          }
+        ))
+      };
+    });
+    setAnchorSections(removed);
+  };
+
+  const pushQuestion = (index, sectionIndex) => {
+    const updatedSubAnchors = [...anchorSections[sectionIndex].subAnchors, {
+      href: `#section_${sectionIndex}_question_${index}`,
+      title: `Q ${index + 1}`
+    }];
+    const updatedAnchors = [...anchorSections];
+    updatedAnchors[sectionIndex].subAnchors = updatedSubAnchors;
+    //...anchorSections[sectionIndex], subAnchors: subAnchors.
+    setAnchorSections(updatedAnchors);
+  };
+
+  const popQuestion = (index, sectionIndex) => {
+    let removed = [...anchorSections[sectionIndex].subAnchors];
+    removed.splice(index, 1);
+    removed = removed.map((question, qindex) => {
+      return {
+        ...question,
+        title: `Q ${qindex + 1}`,
+        href: `#section_${sectionIndex}_question_${qindex}`
+      };
+    });
+    const updatedAnchors = [...anchorSections];
+    updatedAnchors[sectionIndex].subAnchors = removed;
+    setAnchorSections(updatedAnchors);
+  };
+
   const onSectionTitleChange = (index, e) => {
     anchorSections[index].title = e.target.value;
     setAnchorSections([...anchorSections]);
@@ -279,6 +332,8 @@ const InterviewForm = ({ id }) => {
     if (!formdata.sections[sectionIndexOfAddingQuestion].questions) {
       formdata.sections[sectionIndexOfAddingQuestion].questions = [];
     }
+    selectedQuestions?.map((question, index) => (
+      pushQuestion(formdata.sections[sectionIndexOfAddingQuestion].questions.length + index, sectionIndexOfAddingQuestion)));
     formdata.sections[sectionIndexOfAddingQuestion].questions = [...formdata.sections[sectionIndexOfAddingQuestion].questions, ...selectedQuestions];
     form.setFieldsValue(formdata);
     setSelectedQuestionIds([]);
@@ -360,9 +415,9 @@ const InterviewForm = ({ id }) => {
         path: location.pathname
       }]}/>
       <LoginNeededWrapper
-        title={<FormattedMessage defaultMessage="'Login to play with Assessments'"/>}
+        title={<FormattedMessage defaultMessage="Login to play with Assessments"/>}
         subTitle={<FormattedMessage
-          defaultMessage="'Please login to enable abilities to create/edit your Assessments.'"/>}>
+          defaultMessage="Please login to enable abilities to create/edit your Assessments."/>}>
         <Headline title={isEditForm ? 'Assessment - edit' : 'Assessment - create'}>
           {
             publishedInterviewId
@@ -372,8 +427,8 @@ const InterviewForm = ({ id }) => {
               <FormattedMessage defaultMessage="view live version"/></a>
           }
         </Headline>
-        <Layout>
-          {/* <AnchorSilder anchors={anchorSections} /> */}
+        <Layout style={{ position: 'relative' }}>
+          <AnchorSider anchors={anchorSections}/>
           <Content>
             <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
               <Form
@@ -397,27 +452,27 @@ const InterviewForm = ({ id }) => {
                 >
                   <Input/>
                 </FormItem>
-                <FormItem
-                  label={intl.formatMessage({ defaultMessage: 'Specialization' })}
-                  name="specializationId"
-                  rules={[{
-                    required: true,
-                    message: intl.formatMessage({ defaultMessage: 'Please choose a Specialization' })
-                  }]}
-                >
-                  <Select
-                    showSearch
-                    style={{ width: 200 }}
-                    placeholder={intl.formatMessage({ defaultMessage: 'Select a Specialization' })}
-                    optionFilterProp="children"
-                    filterOption={(input, option) => option.children.toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0}
-                  >
-                    {specializations.map((spec) => (
-                      <Select.Option key={spec.id} value={spec.id}>{spec.name}</Select.Option>
-                    ))}
-                  </Select>
-                </FormItem>
+                {/*<FormItem*/}
+                {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}*/}
+                {/*  name="specializationId"*/}
+                {/*  rules={[{*/}
+                {/*    required: true,*/}
+                {/*    message: intl.formatMessage({ defaultMessage: 'Please choose a Specialization' })*/}
+                {/*  }]}*/}
+                {/*>*/}
+                {/*  <Select*/}
+                {/*    showSearch*/}
+                {/*    style={{ width: 200 }}*/}
+                {/*    placeholder={intl.formatMessage({ defaultMessage: 'Select a Specialization' })}*/}
+                {/*    optionFilterProp="children"*/}
+                {/*    filterOption={(input, option) => option.children.toLowerCase()*/}
+                {/*      .indexOf(input.toLowerCase()) >= 0}*/}
+                {/*  >*/}
+                {/*    {specializations.map((spec) => (*/}
+                {/*      <Select.Option key={spec.id} value={spec.id}>{spec.name}</Select.Option>*/}
+                {/*    ))}*/}
+                {/*  </Select>*/}
+                {/*</FormItem>*/}
                 <FormItem
                   label={intl.formatMessage({ defaultMessage: 'Job Title' })}
                   name="jobTitle"
@@ -469,24 +524,26 @@ const InterviewForm = ({ id }) => {
                       {sections.map((section, sectionIndex) => (
                         <div key={`section_${section.name}`}>
                           <h2 id={`section_${section.name}`}>
-
-                            <ConfirmModal
-                              title={<FormattedMessage defaultMessage="Remove Section"/>}
-                              danger
-                              openButtonTitle=""
-                              submitButtonTitle={<FormattedMessage defaultMessage="Remove"/>}
-                              icon={<Tooltip title={<FormattedMessage
-                                defaultMessage="Remove Section"/>}><MinusCircleOutlined/></Tooltip>}
-                              shape={'circle'}
-                              style={{ border: '0px' }}
-                              onOK={() => {
-                                removeSection(section.name);
-                                numberOfSection--;
-                              }}
-                            >
-                              <FormattedMessage
-                                defaultMessage="Are you sure to remove the section?"/>
-                            </ConfirmModal>
+                            {
+                              sections.length > 1 &&
+                              <ConfirmModal
+                                title={<FormattedMessage defaultMessage="Remove Section"/>}
+                                danger
+                                openButtonTitle=""
+                                submitButtonTitle={<FormattedMessage defaultMessage="Remove"/>}
+                                icon={<Tooltip title={<FormattedMessage
+                                  defaultMessage="Remove Section"/>}><MinusCircleOutlined/></Tooltip>}
+                                shape={'circle'}
+                                style={{ border: '0px' }}
+                                onOK={() => {
+                                  removeSection(section.name);
+                                  popSection(sectionIndex);
+                                }}
+                              >
+                                <FormattedMessage
+                                  defaultMessage="Are you sure to remove the section?"/>
+                              </ConfirmModal>
+                            }
                             <FormattedMessage defaultMessage="Section"/>
                             {' '}
                             <FormItem name={[sectionIndex, 'title']} noStyle>
@@ -535,26 +592,33 @@ const InterviewForm = ({ id }) => {
                                                     provided.draggableProps.style
                                                   )}
                                                 >
-                                                  <ConfirmModal title={<FormattedMessage
-                                                    defaultMessage="Remove Question"/>}
-                                                                danger
-                                                                openButtonTitle=""
-                                                                submitButtonTitle={<FormattedMessage
-                                                                  defaultMessage="Remove"/>}
-                                                                icon={<Tooltip
-                                                                  title={<FormattedMessage
-                                                                    defaultMessage="Remove Question"/>}><MinusCircleOutlined/></Tooltip>}
-                                                                shape={'circle'}
-                                                                style={{ border: '0px' }}
-                                                                onOK={() => {
-                                                                  removeSection(section.name);
-                                                                  numberOfSection--;
-                                                                }}
-                                                  >
-                                                    <FormattedMessage
-                                                      defaultMessage="Are you sure to remove the question?"/>
-                                                  </ConfirmModal>
-                                                  <QuestionForm id={`${question.name}`}
+                                                  {
+                                                    questions.length > 1 &&
+                                                    <ConfirmModal title={<FormattedMessage
+                                                      defaultMessage="Remove Question"/>}
+                                                                  danger
+                                                                  openButtonTitle=""
+                                                                  submitButtonTitle={
+                                                                    <FormattedMessage
+                                                                      defaultMessage="Remove"/>}
+                                                                  icon={<Tooltip
+                                                                    title={<FormattedMessage
+                                                                      defaultMessage="Remove Question"/>}><MinusCircleOutlined/></Tooltip>}
+                                                                  shape={'circle'}
+                                                                  style={{ border: '0px' }}
+                                                                  onOK={() => {
+                                                                    removeQuestion(question.name);
+                                                                    popQuestion(questionIndex, sectionIndex);
+                                                                  }}
+                                                    >
+                                                      <FormattedMessage
+                                                        defaultMessage="Are you sure to remove the question?"/>
+                                                    </ConfirmModal>
+                                                  }
+                                                  <span
+                                                    id={`section_${sectionIndex}_question_${question.name}`}>{`Q ${question.name + 1}`}</span>
+                                                  <QuestionForm id={question.name}
+                                                                sectionId={sectionIndex}
                                                                 form={form}/>
                                                 </StyledQuestionSection>
                                               )}
@@ -569,7 +633,8 @@ const InterviewForm = ({ id }) => {
                                                                  }}>
                                             <Button
                                               onClick={() => {
-                                                addQuestion({ possibleAnswers: [{}] });
+                                                addQuestion({ ...defaultQuestion });
+                                                pushQuestion(questions.length, sectionIndex);
                                               }}
                                             >
                                               <PlusOutlined/>
@@ -603,10 +668,9 @@ const InterviewForm = ({ id }) => {
                         onClick={() => {
                           addSection({
                             title: 'default',
-                            questions: [{ possibleAnswers: [{}] }]
+                            questions: [{ ...defaultQuestion }]
                           });
                           pushSection(`section_${sections.length}`, 'default');
-                          numberOfSection++;
                         }}
                         style={{
                           width: '100%',

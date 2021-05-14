@@ -52,6 +52,17 @@ let filters = {
   pageSize: 10
 };
 
+const filterOptions = [
+  {
+    value: 'explore',
+    message: <FormattedMessage defaultMessage="Explore"/>
+  },
+  {
+    value: 'mine',
+    message: <FormattedMessage defaultMessage="Mine"/>
+  }
+];
+
 const QuestionList = (props) => {
   const intl = useIntl();
   const { isAuthenticated } = useAuth0();
@@ -124,7 +135,7 @@ const QuestionList = (props) => {
         )
       }
       <Layout>
-        {isAuthenticated && <FilterSider onChange={handleChange}/>}
+        {isAuthenticated && <FilterSider onChange={handleChange} options={filterOptions}/>}
         <Layout.Content>
           <StyledSearchFilter>
             <Input.Search

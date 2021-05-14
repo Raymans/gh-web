@@ -162,7 +162,7 @@ const Interview = ({
         && <Link to={`/interviews/${interview.id}/edit`}>Edit</Link>}
       </Headline>
       <Layout>
-        {/*<AnchorSilder />*/}
+        {/*<AnchorSider />*/}
         <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
           {!loading && (
             <Layout.Content>

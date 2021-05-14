@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { Radio } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
-import { FormattedMessage } from 'gatsby-plugin-intl';
 
 const StyledRadioGroup = styled(Radio.Group)`
   text-align: center;
@@ -11,16 +10,17 @@ const StyledRadioGroup = styled(Radio.Group)`
 const FilterSider = (props) => {
   const {
     onChange,
-    defaultOpenKeys
+    defaultOpenKeys,
+    options
   } = props;
   return (
-    <StyledRadioGroup defaultValue={defaultOpenKeys} buttonStyle="solid"
+    <StyledRadioGroup value={defaultOpenKeys} buttonStyle="solid"
                       onChange={onChange}>
-      <Radio.Button value="explore"><FormattedMessage defaultMessage="Explore"/></Radio.Button>
-      <Radio.Button value="mine"><FormattedMessage defaultMessage="Mine"/> </Radio.Button>
-      <Radio.Button value="liked"><FormattedMessage defaultMessage="Liked"/> </Radio.Button>
-      <Radio.Button value="assessed"><FormattedMessage defaultMessage="Assessed"/> </Radio.Button>
-      <Radio.Button value="waiting"><FormattedMessage defaultMessage="Waiting"/></Radio.Button>
+      {
+        options.map((option) => (
+          <Radio.Button value={option.value}>{option.message}</Radio.Button>
+        ))
+      }
     </StyledRadioGroup>
   );
 };
@@ -28,9 +28,11 @@ export default FilterSider;
 
 FilterSider.propTypes = {
   onChange: PropTypes.func,
-  defaultOpenKeys: PropTypes.string
+  defaultOpenKeys: PropTypes.string,
+  options: PropTypes.array
 };
 
 FilterSider.defaultProps = {
-  defaultOpenKeys: 'explore'
+  defaultOpenKeys: 'explore',
+  options: []
 };

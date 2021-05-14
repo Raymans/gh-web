@@ -12,6 +12,7 @@ import { StoreContext } from '../../context/ContextProvider';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import styled from 'styled-components';
+import queryString from 'query-string';
 
 const { Search } = Input;
 const { Content } = Layout;
@@ -31,6 +32,27 @@ const StyledSearchBar = styled.div`
     margin-left: auto
   }
 `;
+
+const filterOptions = [
+  {
+    value: 'explore',
+    message: <FormattedMessage defaultMessage="Explore"/>
+  },
+  {
+    value: 'mine',
+    message: <FormattedMessage defaultMessage="Mine"/>
+  },
+  {
+    value: 'liked',
+    message: <FormattedMessage defaultMessage="Liked"/>
+  },
+  // {value: 'assessed', message: <FormattedMessage defaultMessage="Assessed"/>},
+  {
+    value: 'pending',
+    message: <FormattedMessage defaultMessage="Pending assess"/>
+  }
+];
+
 const InterviewList = () => {
   const intl = useIntl();
   const { isAuthenticated } = useAuth0();
@@ -94,6 +116,14 @@ const InterviewList = () => {
     url: next
   });
 
+  const { tab } = queryString.parse(location.search);
+  useEffect(() => {
+    setSearchedInterviewCriteria({
+      ...searchedInterviewCriteria,
+      tab: tab ?? 'explore'
+    });
+  }, [tab]);
+
   useEffect(() => {
     searchInterviews();
   }, [searchedInterviewCriteria.keyword, searchedInterviewCriteria.tab]);
@@ -112,8 +142,12 @@ const InterviewList = () => {
       <div className="form">
         <div>
           <Layout>
-            {isAuthenticated && <FilterSider onChange={handleTabChange}
-                                             defaultOpenKeys={searchedInterviewCriteria.tab}/>}
+            {isAuthenticated && searchedInterviewCriteria.tab &&
+            <FilterSider onChange={handleTabChange}
+                         defaultOpenKeys={searchedInterviewCriteria.tab}
+                         options={filterOptions}
+            />
+            }
             <Content>
               <StyledSearchBar>
                 {/*<Specialization onSelect={handleSpecSelect}*/}
@@ -142,6 +176,7 @@ const InterviewList = () => {
                     likeCount={item.likeCount}
                     liked={item.liked}
                     lastModifiedDate={item.lastModifiedDate}
+                    interviewSessions={item.interviewSessions}
                   />
                 )}
               />

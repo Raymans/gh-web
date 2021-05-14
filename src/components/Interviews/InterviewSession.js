@@ -186,7 +186,7 @@ const InterviewSession = ({
                                   }
                                 </StyledQuestionH2>
                                 <StyledQuestionBlock>
-                                  <h3>{question.question}</h3>
+                                  <h4>{question.question}</h4>
                                   <Checkbox.Group
                                     name={questionId}
                                     {...valueProps}
@@ -220,7 +220,8 @@ const InterviewSession = ({
             }
             {
               !preview
-              && <Button type="primary" onClick={handleSubmitInterviewSession}>Submit</Button>
+              && <Button type="primary" onClick={handleSubmitInterviewSession}><FormattedMessage
+                defaultMessage="Submit"/></Button>
             }
           </>
         )

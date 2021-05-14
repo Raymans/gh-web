@@ -3,7 +3,6 @@ import React from 'react';
 
 import { graphql } from 'gatsby';
 import Article from '../components/Article';
-import Questions from '../components/Questions';
 
 const QuestionsPage = (props) => {
   const {
@@ -17,7 +16,7 @@ const QuestionsPage = (props) => {
   return (
     <>
       <Article>
-        <Questions/>
+        {/*<Questions/>*/}
       </Article>
     </>
   );

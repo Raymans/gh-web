@@ -70,7 +70,7 @@ const InterviewSessionResult = ({
   };
   return (
     <Layout>
-      {/*<AnchorSilder/>*/}
+      {/*<AnchorSider/>*/}
       <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
         <Layout.Content>
           <Descriptions column={2}>

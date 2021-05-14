@@ -54,6 +54,7 @@ const QuestionForm = (props) => {
   const intl = useIntl();
   const {
     id,
+    sectionId,
     form
   } = props;
 
@@ -62,6 +63,7 @@ const QuestionForm = (props) => {
     getQuestion,
     updateQuestion
   } = useApi();
+  const questionType = form.getFieldsValue().sections?.[sectionId].questions?.[id].questionType ?? 'MULTI_CHOICE';
   const formContent = (
     <>
       <FormItem
@@ -77,10 +79,14 @@ const QuestionForm = (props) => {
           autoSize={{
             minRows: 2
           }}
-          placeholder={intl.formatMessage({defaultMessage: 'Question description'})}
+          placeholder={intl.formatMessage({ defaultMessage: 'Question description' })}
         />
       </FormItem>
-      <Tabs defaultActiveKey="1">
+      <Tabs activeKey={questionType} onChange={(key) => {
+        const formData = form.getFieldValue();
+        formData.sections[sectionId].questions[id].questionType = key;
+        form.setFieldsValue(formData);
+      }}>
         <TabPane
           tab={(
             <span>
@@ -88,7 +94,7 @@ const QuestionForm = (props) => {
               <FormattedMessage defaultMessage="Short-Answer"/>
             </span>
           )}
-          key="0"
+          key="SHORT_ANSWER"
         >
           <FormattedMessage defaultMessage="Ask the question as a Short-Answer type."/>
         </TabPane>
@@ -99,7 +105,7 @@ const QuestionForm = (props) => {
               <FormattedMessage defaultMessage="Multiple Question"/>
             </span>
           )}
-          key="1"
+          key="MULTI_CHOICE"
         >
           <Form.List name={form ? [id, 'possibleAnswers'] : 'possibleAnswers'}>
             {(fields, {
@@ -272,7 +278,7 @@ const QuestionFormItem = (props) => {
             noStyle
           >
             <Input
-              placeholder={intl.formatMessage({defaultMessage: 'Please input answer option'})}
+              placeholder={intl.formatMessage({ defaultMessage: 'Please input answer option' })}
               style={{
                 width: '80%',
                 marginRight: 8
