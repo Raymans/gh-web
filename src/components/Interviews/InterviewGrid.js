@@ -12,7 +12,8 @@ import {
   message,
   Modal,
   Spin,
-  Tag
+  Tag,
+  Tooltip
 } from 'antd';
 import { LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
@@ -234,8 +235,11 @@ const InterviewGrid = (props) => {
                 {
                   visibility === 'PRIVATE'
                   &&
-                  <StyledVisibilityTag color="default"><FormattedMessage
-                    defaultMessage="private"/></StyledVisibilityTag>
+                  <Tooltip
+                    title={<FormattedMessage defaultMessage="Only you can see this interview"/>}>
+                    <StyledVisibilityTag color="default"><FormattedMessage
+                      defaultMessage="private"/></StyledVisibilityTag>
+                  </Tooltip>
                 }
                 <h1><Link to={`/interviews/${id}`}>{title}</Link></h1>
                 <Descriptions column={2}>

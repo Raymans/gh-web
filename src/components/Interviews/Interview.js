@@ -1,11 +1,6 @@
-import { Badge, Button, Col, Descriptions, Layout, Modal, Row, Spin, Statistic, Tag } from 'antd';
+import { Badge, Button, Col, Descriptions, Layout, Modal, Row, Spin, Statistic } from 'antd';
 import React, { useEffect, useState } from 'react';
-import {
-  ExclamationCircleOutlined,
-  FireOutlined,
-  LoadingOutlined,
-  UserOutlined
-} from '@ant-design/icons';
+import { ExclamationCircleOutlined, LoadingOutlined, UserOutlined } from '@ant-design/icons';
 import Countdown from 'antd/lib/statistic/Countdown';
 import styled from 'styled-components';
 import moment from 'moment';
@@ -18,9 +13,15 @@ import AuthorBy from '../AuthorBy';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
+import Moment from 'react-moment';
 
 const StyledInterviewGeekStatus = styled.div`
   margin: 30px 0 20px;
+`;
+
+const StyledDescription = styled.div`
+  font-size: 16px;
+  margin: 10px 0;
 `;
 
 const Interview = ({
@@ -178,13 +179,6 @@ const Interview = ({
                 )
               }
               <Descriptions column={2}>
-                <Descriptions.Item
-                  span={2}
-                >
-                  <Tag icon={<FireOutlined style={{ color: 'red' }}/>}>
-                    Hiring
-                  </Tag>
-                </Descriptions.Item>
                 {/*<Descriptions.Item*/}
                 {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}*/}
                 {/*>*/}
@@ -193,10 +187,14 @@ const Interview = ({
                 <Descriptions.Item
                   label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{interview.jobTitle}</Descriptions.Item>
                 <Descriptions.Item
+                  label={<FormattedMessage defaultMessage="Updated on"/>}>
+                  <Moment date={interview.lastModifiedDate} format="lll"/>
+                </Descriptions.Item>
+                <Descriptions.Item
                   span={2}
                   style={{ whiteSpace: 'pre-line' }}
                 >
-                  {interview.description}
+                  <StyledDescription>{interview.description}</StyledDescription>
                 </Descriptions.Item>
                 <Descriptions.Item
                   span={2}

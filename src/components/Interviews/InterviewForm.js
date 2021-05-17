@@ -106,6 +106,8 @@ const defaultQuestion = {
   possibleAnswers: [{}]
 };
 
+const defaultSectionTitle = 'default section';
+
 const InterviewForm = ({ id }) => {
   const isEditForm = !!id;
   const intl = useIntl();
@@ -171,12 +173,12 @@ const InterviewForm = ({ id }) => {
     } else {
       const formdata = {
         sections: [{
-          title: 'default',
+          title: defaultSectionTitle,
           questions: [{ ...defaultQuestion }]
         }]
       };
       form.setFieldsValue(formdata);
-      pushSection(`section_0`, 'default');
+      pushSection(`section_0`, defaultSectionTitle);
     }
   }, []);
 
@@ -667,10 +669,10 @@ const InterviewForm = ({ id }) => {
                       <Button
                         onClick={() => {
                           addSection({
-                            title: 'default',
+                            title: defaultSectionTitle,
                             questions: [{ ...defaultQuestion }]
                           });
-                          pushSection(`section_${sections.length}`, 'default');
+                          pushSection(`section_${sections.length}`, defaultSectionTitle);
                         }}
                         style={{
                           width: '100%',

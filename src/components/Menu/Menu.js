@@ -161,7 +161,7 @@ const Menu = (props) => {
   };
   const antdMenu = (
     <AntMenu
-      selectedKeys={[props.path + location.search]}
+      selectedKeys={[props.path + location?.search]}
       onClick={handleClick}
       mode={layout.screenWidth < 700 ? 'inline' : 'horizontal'}
       style={{

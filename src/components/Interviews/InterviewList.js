@@ -116,7 +116,7 @@ const InterviewList = () => {
     url: next
   });
 
-  const { tab } = queryString.parse(location.search);
+  const { tab } = queryString.parse(location?.search);
   useEffect(() => {
     setSearchedInterviewCriteria({
       ...searchedInterviewCriteria,
