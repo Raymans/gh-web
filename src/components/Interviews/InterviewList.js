@@ -53,7 +53,7 @@ const filterOptions = [
   }
 ];
 
-const InterviewList = () => {
+const InterviewList = ({location}) => {
   const intl = useIntl();
   const { isAuthenticated } = useAuth0();
   const {
