@@ -13,6 +13,7 @@ import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import styled from 'styled-components';
 import queryString from 'query-string';
+import { navigate } from 'gatsby-link';
 
 const { Search } = Input;
 const { Content } = Layout;
@@ -53,7 +54,7 @@ const filterOptions = [
   }
 ];
 
-const InterviewList = ({location}) => {
+const InterviewList = ({ location }) => {
   const intl = useIntl();
   const { isAuthenticated } = useAuth0();
   const {
@@ -79,7 +80,8 @@ const InterviewList = ({location}) => {
     const getInterviewAPI = searchedInterviewCriteria.tab === 'liked' ? getInterviewsByUserLiked : getInterviews;
     return getInterviewAPI({
       url,
-      userId: userProfile?.id, ...searchedInterviewCriteria
+      userId: userProfile?.id, ...searchedInterviewCriteria,
+      owner: searchedInterviewCriteria.tab === 'mine'
     })
       .then((res) => {
         setInterviews(isAppend ? interviews.concat(res.results) : res.results);
@@ -103,6 +105,11 @@ const InterviewList = ({location}) => {
   };
 
   const handleTabChange = ({ target }) => {
+    const qs = queryString.parse(location.search);
+    navigate(`${location.pathname}?${queryString.stringify({
+      ...qs,
+      tab: target.value
+    })}`, { replace: true });
     setSearchedInterviewCriteria({
       ...searchedInterviewCriteria,
       owner: target.value === 'mine',
@@ -120,6 +127,7 @@ const InterviewList = ({location}) => {
   useEffect(() => {
     setSearchedInterviewCriteria({
       ...searchedInterviewCriteria,
+      owner: tab === 'mine',
       tab: tab ?? 'explore'
     });
   }, [tab]);
@@ -146,6 +154,7 @@ const InterviewList = ({location}) => {
             <FilterSider onChange={handleTabChange}
                          defaultOpenKeys={searchedInterviewCriteria.tab}
                          options={filterOptions}
+                         disabled={loading}
             />
             }
             <Content>

@@ -228,6 +228,19 @@ export default () => {
       });
     },
 
+    updatePassword: ({
+      oldPassword,
+      newPassword
+    }) => {
+      return request(`${config.ghServiceUrl}/api/users/me/password`, {
+        method: 'POST',
+        data: {
+          oldPassword,
+          newPassword
+        }
+      });
+    },
+
     enableOrganization: ({ organizationName }) => request(`${config.ghServiceUrl}/api/organizations/me/enable`, {
       method: 'POST',
       data: { organizationName }

@@ -117,6 +117,9 @@ const InterviewResults = ({
         iss.sort((isa, isb) => isb.score - isa.score);
         setMyInterviewsSessions(iss);
         setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
       });
   }, []);
   return (

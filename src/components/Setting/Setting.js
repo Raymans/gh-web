@@ -14,7 +14,8 @@ const Setting = () => {
   const intl = useIntl();
   const {
     updateUserProfile,
-    updateUserAvatar
+    updateUserAvatar,
+    updatePassword
   } = useApi();
   const {
     userProfile,
@@ -25,6 +26,7 @@ const Setting = () => {
   const [savingPwd, setSavingPwd] = useState(false);
   const [savingNotifications, setSavingNotifications] = useState(false);
   const [form] = Form.useForm();
+  const [passwordForm] = Form.useForm();
   useEffect(() => {
     if (!userProfile) {
       return;
@@ -55,7 +57,20 @@ const Setting = () => {
           postSuccess();
         });
     }
+  };
 
+  const onPasswordFinish = (values) => {
+    setSavingPwd(true);
+    updatePassword(values)
+      .then(() => {
+        message.success(intl.formatMessage({ defaultMessage: 'Password has been updated successfully!' }));
+        setSavingPwd(false);
+        passwordForm.resetFields();
+      })
+      .catch(() => {
+        message.error(intl.formatMessage({ defaultMessage: 'Old Password is not matched.' }));
+        setSavingPwd(false);
+      });
   };
 
   return (
@@ -106,20 +121,55 @@ const Setting = () => {
           </Form.Item>
           <br/>
         </Form>
-        <Form layout="vertical" onFinish={onFinish} scrollToFirstError>
+        <Form layout="vertical" onFinish={onPasswordFinish} scrollToFirstError form={passwordForm}>
           <h2><FormattedMessage defaultMessage="Password"/></h2>
           <FormItem name="oldPassword"
                     label={intl.formatMessage({ defaultMessage: 'Old password' })}
-                    rules={[{ required: true }]}>
-            <Input defaultValue=""/>
+                    rules={[{
+                      required: true,
+                      message: intl.formatMessage({ defaultMessage: 'Please input your old password!' })
+                    }]}
+          >
+            <Input.Password/>
           </FormItem>
           <FormItem name="newPassword"
-                    label={intl.formatMessage({ defaultMessage: 'New password' })} required>
-            <Input defaultValue=""/>
+                    label={intl.formatMessage({ defaultMessage: 'New password' })} required
+                    rules={[{
+                      required: true,
+                      message: intl.formatMessage({ defaultMessage: 'Please input your password!' })
+                    }, ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || value.length > 7) {
+                          return Promise.resolve();
+                        }
+
+                        return Promise.reject(new Error(
+                          intl.formatMessage({
+                            defaultMessage: 'Password is too short (minimum is 8 characters).'
+                          })
+                        ));
+                      }
+                    })]}
+          >
+            <Input.Password/>
           </FormItem>
           <FormItem name="confirmPassword"
-                    label={intl.formatMessage({ defaultMessage: 'Confirm new password' })} required>
-            <Input defaultValue=""/>
+                    label={intl.formatMessage({ defaultMessage: 'Confirm new password' })} required
+                    dependencies={['newPassword']}
+                    rules={[{
+                      required: true,
+                      message: intl.formatMessage({ defaultMessage: 'Please confirm your password!' })
+                    },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (!value || getFieldValue('newPassword') === value) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject(new Error(intl.formatMessage({ defaultMessage: 'The two passwords that you entered do not match!' })));
+                        }
+                      })]}
+          >
+            <Input.Password/>
           </FormItem>
           <br/>
           <Form.Item>

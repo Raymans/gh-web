@@ -108,13 +108,14 @@ const InterviewSessionResult = ({
                       const { answerStats } = interviewSession.answerAttemptSections[section.id];
                       sectionScore = Math.round(answerStats.MULTI_CHOICE.correct / answerStats.MULTI_CHOICE.questionTotal * 100);
                     }
-                    sectionScoreDiff = sectionScore - averageScore.sectionsAverageScore[index]?.averageSectionScore * 100;
+                    const averageSectionScore = Math.round(averageScore.sectionsAverageScore[index]?.averageSectionScore * 100 ?? 0);
+                    sectionScoreDiff = sectionScore - averageSectionScore;
                     return (
                       <Col key={section.id} justify="center" style={{ textAlign: 'center' }}>
                         <Tooltip
                           title={<FormattedMessage
                             defaultMessage="Compares to average score: {averageSectionScore}"
-                            values={{ averageSectionScore: averageScore.sectionsAverageScore[index]?.averageSectionScore * 100 }}/>}>
+                            values={{ averageSectionScore: averageSectionScore }}/>}>
                           <Statistic
                             value={sectionScoreDiff}
                             valueStyle={{ color: sectionScoreDiff === 0 ? '#276dba' : (sectionScoreDiff > 0 ? '#138651' : 'red') }}
@@ -126,7 +127,7 @@ const InterviewSessionResult = ({
                             percent={sectionScore}
                             width={70}
                             format={(score) => score}
-                            status={sectionScore < averageScore.sectionsAverageScore[index]?.averageSectionScore * 100 ? 'exception' : ''}
+                            status={sectionScore < averageSectionScore ? 'exception' : ''}
                           />
                           <div>{section.title}</div>
                         </Tooltip>

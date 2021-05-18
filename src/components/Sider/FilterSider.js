@@ -11,11 +11,12 @@ const FilterSider = (props) => {
   const {
     onChange,
     defaultOpenKeys,
-    options
+    options,
+    disabled
   } = props;
   return (
     <StyledRadioGroup value={defaultOpenKeys} buttonStyle="solid"
-                      onChange={onChange}>
+                      onChange={onChange} disabled={disabled}>
       {
         options.map((option) => (
           <Radio.Button value={option.value}>{option.message}</Radio.Button>
@@ -29,10 +30,12 @@ export default FilterSider;
 FilterSider.propTypes = {
   onChange: PropTypes.func,
   defaultOpenKeys: PropTypes.string,
-  options: PropTypes.array
+  options: PropTypes.array,
+  disabled: PropTypes.bool
 };
 
 FilterSider.defaultProps = {
   defaultOpenKeys: 'explore',
-  options: []
+  options: [],
+  disabled: false
 };
