@@ -197,7 +197,7 @@ const Menu = (props) => {
                       label: <FormattedMessage defaultMessage="Pending Assessments"/>
                     })}
                     {renderItem({
-                      to: '/testedInterviews?tab=assessed',
+                      to: '/testedInterviews',
                       label: <FormattedMessage defaultMessage="Assessed Assessments"/>
                     })}
                     {renderItem({

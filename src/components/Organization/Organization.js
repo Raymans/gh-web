@@ -33,7 +33,8 @@ const Organization = () => {
     removeUserFromOrganization,
     updateOrganization,
     updateOrganizationImage,
-    declineOrganization
+    declineOrganization,
+    changeOrganizationOwner
   } = useApi();
   const [newOrgName, setNewOrgName] = useState('');
   const [saving, setSaving] = useState(false);
@@ -49,7 +50,8 @@ const Organization = () => {
       const switchedOwner = switchOwnerForm.getFieldValue('switchedOwner');
       return switchOwnerForm.validateFields()
         .then(() => {
-          console.log('call switch Owner api' + switchedOwner);
+          return changeOrganizationOwner({ clientUserId: switchedOwner })
+            .then(() => refreshUserProfile());
         })
         .catch(() => {
           return Promise.reject();
@@ -205,6 +207,7 @@ const Organization = () => {
                 title={intl.formatMessage({ defaultMessage: 'Leave Organization' })}
                 onBeforeSubmit={handleSwitchOwner}
                 onOK={handleLeaveOrg}
+                onCancel={() => switchOwnerForm.resetFields()}
                 successMessage={intl.formatMessage({ defaultMessage: 'Leave success' })}
                 submitButtonTitle={intl.formatMessage({ defaultMessage: 'Leave' })}
                 danger
@@ -267,6 +270,35 @@ const Organization = () => {
               <Invitations invitations={organization.userInvitations} orgId={organization.id}/>
 
               <h2><FormattedMessage defaultMessage="Members"/></h2>
+              {
+                isOwner &&
+                <ConfirmModal
+                  openButtonTitle={intl.formatMessage({ defaultMessage: 'Change Organization Owner' })}
+                  title={intl.formatMessage({ defaultMessage: 'Change Organization Owner' })}
+                  onOK={handleSwitchOwner}
+                  onCancel={() => switchOwnerForm.resetFields()}
+                  successMessage={intl.formatMessage({ defaultMessage: 'Change Organization Owner success.' })}
+                  submitButtonTitle={intl.formatMessage({ defaultMessage: 'Change' })}
+                >
+                  <FormattedMessage
+                    defaultMessage="Once you change the ownership you will not allow to update information of organization.  {br}{br}Please select a member to change Organization Owner."
+                    values={{
+                      orgName: organization.name,
+                      br: <br/>
+                    }}/>
+                  <Form form={switchOwnerForm}>
+                    <Form.Item name="switchedOwner" rules={[{
+                      required: true,
+                      message: intl.formatMessage({ defaultMessage: 'Please select a member to switch Owner' })
+                    }]}>
+                      <UserSelect users={organization.users} onSelect={onSelectUser}
+                                  filteredIds={[userProfile.id]}/>
+                    </Form.Item>
+                  </Form>
+
+                </ConfirmModal>
+              }
+
               <UserList users={organization.users}/>
 
               {/* <h2>Interviews</h2> */}

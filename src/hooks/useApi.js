@@ -300,6 +300,14 @@ export default () => {
       method: 'DELETE',
       data: { email }
     }),
+
+
+    changeOrganizationOwner: ({
+      clientUserId
+    }) => request(`${config.ghServiceUrl}/api/organizations/me/owner`, {
+      method: 'POST',
+      data: { clientUserId }
+    }),
     createDepartment: ({ departmentName }) => request(`${config.ghServiceUrl}/api/departments`, {
       method: 'POST',
       data: { departmentName }
