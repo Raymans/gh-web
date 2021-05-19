@@ -229,9 +229,13 @@ const InterviewForm = ({ id }) => {
     }
     beforeSaving();
     values.sections && values.sections.map((section) => (
-      section.questions && section.questions.map((question) => (
-        question.possibleAnswers = transformSwitchValue(question.possibleAnswers)
-      ))
+      section.questions && section.questions.map((question) => {
+        if (question.questionType === 'MULTI_CHOICE') {
+          question.possibleAnswers = transformSwitchValue(question.possibleAnswers);
+        } else if (question.questionType === 'SHORT_ANSWER') {
+          question.possibleAnswers = [];
+        }
+      })
     ));
     values.visibility = !values.visibility || values.visibility === 'PRIVATE' ? 'PRIVATE' : 'PUBLIC';
     if (isEditForm) {

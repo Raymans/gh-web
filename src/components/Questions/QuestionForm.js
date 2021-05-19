@@ -84,7 +84,11 @@ const QuestionForm = (props) => {
       </FormItem>
       <Tabs activeKey={questionType} onChange={(key) => {
         const formData = form.getFieldValue();
-        formData.sections[sectionId].questions[id].questionType = key;
+        const question = formData.sections[sectionId].questions[id];
+        question.questionType = key;
+        if (key === 'MULTI_CHOICE' && question.possibleAnswers.length === 0) {
+          question.possibleAnswers = [{}];
+        }
         form.setFieldsValue(formData);
       }}>
         <TabPane
@@ -107,6 +111,7 @@ const QuestionForm = (props) => {
           )}
           key="MULTI_CHOICE"
         >
+          {questionType === 'MULTI_CHOICE' &&
           <Form.List name={form ? [id, 'possibleAnswers'] : 'possibleAnswers'}>
             {(fields, {
               add,
@@ -115,6 +120,7 @@ const QuestionForm = (props) => {
               <QuestionFormItem form={form} id={id} fields={fields} add={add} remove={remove}/>
             )}
           </Form.List>
+          }
         </TabPane>
         <TabPane
           disabled

@@ -36,7 +36,9 @@ const ConfirmModal = ({
         message.success(successMessage);
       })
       .catch((response) => {
-        message.error(response.data.message);
+        if (response?.data) {
+          message.error(response.data.message);
+        }
         setOKLoading(false);
       });
   };

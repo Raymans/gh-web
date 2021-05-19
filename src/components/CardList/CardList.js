@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { Button, List, Spin } from 'antd';
+import { Button, Empty, List, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
@@ -56,6 +56,7 @@ const CardList = (props) => {
         dataSource={dataSource}
         loadMore={loadMore}
         renderItem={renderItem}
+        locale={{ emptyText: <Empty description={false}/> }}
       />
     </Spin>
   );

@@ -15,13 +15,12 @@ import ConfirmModal from './ConfirmModal';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 import { useAuth0 } from '@auth0/auth0-react';
 import LoginNeededWrapper from '../Auth/LoginNeededWrapper';
+import UserSelect from '../User';
 
 const Organization = () => {
   const intl = useIntl();
   const {
-    isLoading,
-    isAuthenticated,
-    loginWithRedirect
+    isLoading
   } = useAuth0();
   const {
     userProfile,
@@ -41,16 +40,28 @@ const Organization = () => {
   const [joining, setJoining] = useState(false);
   const [declining, setDeclining] = useState(false);
   const [form] = Form.useForm();
+  const [switchOwnerForm] = Form.useForm();
 
   const isOwner = userProfile?.accountPrivilege === 'OWNER';
 
+  const handleSwitchOwner = () => {
+    if (organization.users.length > 1) {
+      const switchedOwner = switchOwnerForm.getFieldValue('switchedOwner');
+      return switchOwnerForm.validateFields()
+        .then(() => {
+          console.log('call switch Owner api' + switchedOwner);
+        })
+        .catch(() => {
+          return Promise.reject();
+        });
+    }
+  };
   const handleLeaveOrg = () => {
     removeUserFromOrganization({
       userId: userProfile?.id,
       organizationId: organization?.id
     })
       .then(() => refreshUserProfile());
-    //   });
   };
 
   const postSuccess = () => {
@@ -156,6 +167,10 @@ const Organization = () => {
     </>
   );
 
+  const onSelectUser = (userId) => {
+    switchOwnerForm.setFieldsValue({ switchedOwner: userId });
+  };
+
   useEffect(() => {
     form.setFieldsValue({ name: organization?.name });
   }, [organization]);
@@ -180,29 +195,49 @@ const Organization = () => {
           {organization
           && (
             <>
-              {!isOwner
-              && (
-                <ConfirmModal
-                  style={{
-                    position: 'absolute',
-                    right: '30px',
-                    zIndex: 999
-                  }}
-                  openButtonTitle={intl.formatMessage({ defaultMessage: 'Leave Organization' })}
-                  title={intl.formatMessage({ defaultMessage: 'Leave Organization' })}
-                  onOK={handleLeaveOrg}
-                  successMessage={intl.formatMessage({ defaultMessage: 'Leave success' })}
-                  submitButtonTitle={intl.formatMessage({ defaultMessage: 'Leave' })}
-                  danger
-                >
-                  <p>
-                    <FormattedMessage defaultMessage="Are you sure to Leave?"/>
-                    <br/>
-                    <FormattedMessage
-                      defaultMessage="All interviews and questions you created for the Organization will be allocated to Organization's Owner."/>
-                  </p>
-                </ConfirmModal>
-              )}
+              <ConfirmModal
+                style={{
+                  position: 'absolute',
+                  right: '30px',
+                  zIndex: 999
+                }}
+                openButtonTitle={intl.formatMessage({ defaultMessage: 'Leave Organization' })}
+                title={intl.formatMessage({ defaultMessage: 'Leave Organization' })}
+                onBeforeSubmit={handleSwitchOwner}
+                onOK={handleLeaveOrg}
+                successMessage={intl.formatMessage({ defaultMessage: 'Leave success' })}
+                submitButtonTitle={intl.formatMessage({ defaultMessage: 'Leave' })}
+                danger
+              >
+                <p>
+                  <FormattedMessage defaultMessage="Are you sure to Leave?"/>
+                  <br/>
+                  {
+                    isOwner && organization.users.length > 1 ?
+                      <>
+                        <FormattedMessage
+                          defaultMessage="You are the Owner, before leaving {orgName} you need to switch owner to others."
+                          values={{ orgName: organization.name }}/>
+                        <Form form={switchOwnerForm}>
+                          <Form.Item name="switchedOwner" rules={[{
+                            required: true,
+                            message: intl.formatMessage({ defaultMessage: 'Please select a member to switch Owner' })
+                          }]}>
+                            <UserSelect users={organization.users} onSelect={onSelectUser}
+                                        filteredIds={[userProfile.id]}/>
+                          </Form.Item>
+                        </Form>
+
+                        <FormattedMessage
+                          defaultMessage="All interviews and questions you created for the Organization will be allocated to Organization's Owner."/>
+                      </>
+                      :
+                      <FormattedMessage
+                        defaultMessage="All interviews and questions you created for the Organization will be allocated to Organization's Owner."/>
+
+                  }
+                </p>
+              </ConfirmModal>
               {
                 isOwner &&
                 <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>

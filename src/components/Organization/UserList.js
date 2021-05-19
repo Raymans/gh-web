@@ -1,10 +1,15 @@
 import PropTypes from 'prop-types';
-import { Cascader, message, Space, Table, Tag } from 'antd';
+import { Avatar, Cascader, message, Space, Table, Tag } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import useApi from '../../hooks/useApi';
 import ConfirmModal from './ConfirmModal';
 import { StoreContext } from '../../context/ContextProvider';
 import { FormattedMessage } from 'gatsby-plugin-intl';
+import styled from 'styled-components';
+
+const StyledAvatar = styled(Avatar)`
+  margin: 0 5px;
+`;
 
 const { Column } = Table;
 const UserList = ({ users }) => {
@@ -74,6 +79,11 @@ const UserList = ({ users }) => {
         <Column title={<FormattedMessage defaultMessage="Name"/>} dataIndex="name" key="name"
                 render={(text, record) => (
                   <>
+                    <StyledAvatar
+                      src={record.avatar}
+                    >
+                      {record.name}
+                    </StyledAvatar>
                     {text} &nbsp;
                     {
                       record.accountPrivilege === 'OWNER' &&
