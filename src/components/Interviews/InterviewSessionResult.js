@@ -91,8 +91,7 @@ const InterviewSessionResult = ({
               span={2}
             >
               <AuthorBy
-                author={interviewSession.interview?.clientUser.email}
-                avatarSrc={interviewSession.interview?.clientUser.avatar}
+                clientUser={interviewSession.interview?.clientUser}
               />
             </Descriptions.Item>
           </Descriptions>

@@ -104,8 +104,7 @@ const InterviewsSummary = ({
                       {(!userId || !isOwner)
                       && (
                         <AuthorBy
-                          author={interview.clientUser.name}
-                          avatarSrc={interview.clientUser.avatar}
+                          clientUser={interview.clientUser}
                           isOwnerChangeable={isOwnerChangeable}
                         />
                       )}

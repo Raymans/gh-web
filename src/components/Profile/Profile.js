@@ -25,7 +25,7 @@ const Profile = ({ userId }) => {
   return (
     <>
       <CustomBreadcrumb crumbs={[{
-        label: `${profile.name}`,
+        label: profile.name ?? '',
         path: location.pathname
       }]}/>
       <Headline title={<FormattedMessage defaultMessage="Profile - {name}"

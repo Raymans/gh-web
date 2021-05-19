@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { AutoComplete, Avatar, Button, Input, Modal } from 'antd';
-import { FormattedMessage } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link } from 'gatsby-plugin-intl';
 
 const StyledAvatar = styled(Avatar)`
   margin: 0 5px;
@@ -39,8 +39,7 @@ const searchResult = (query) => new Array(getRandomInt(5))
   });
 
 const AuthorBy = ({
-  avatarSrc,
-  author,
+  clientUser,
   isOwnerChangeable
 }) => {
   const [options, setOptions] = useState([]);
@@ -55,31 +54,28 @@ const AuthorBy = ({
 
   const [changeOwnerVisible, setChangeOwnerVisible] = useState(false);
   const handleCancel = () => setChangeOwnerVisible(false);
-  const handelChangeOwner = () => {
+  const handleChangeOwner = () => {
     alert('changed');
     setChangeOwnerVisible(false);
   };
   return (
     <>
-      by
-      {' '}
-      <StyledAvatar
-        src={avatarSrc}
-      >
-        {author}
-      </StyledAvatar>
-      <span>
-        {author}
-        {' '}
-        {isOwnerChangeable && (
-          <Button onClick={() => {
-            setChangeOwnerVisible(true);
-          }}
-          >
-            Change Owner
-          </Button>
-        )}
-      </span>
+      <FormattedMessage defaultMessage="by {avatar} {author} " values={{
+        avatar: <StyledAvatar
+          src={clientUser.avatar}
+        >
+          {clientUser.name}
+        </StyledAvatar>,
+        author: <Link to={`/profile/${clientUser.id}`}>{clientUser.name} </Link>
+      }}/>
+      {isOwnerChangeable && (
+        <Button onClick={() => {
+          setChangeOwnerVisible(true);
+        }}
+        >
+          <FormattedMessage defaultMessage="Change Owner"/>
+        </Button>
+      )}
       <Modal
         visible={changeOwnerVisible}
         title="Change Owner"
@@ -87,7 +83,7 @@ const AuthorBy = ({
           <Button key="back" onClick={handleCancel}>
             <FormattedMessage defaultMessage="Cancel"/>
           </Button>,
-          <Button key="submit" type="primary" onClick={handelChangeOwner}>
+          <Button key="submit" type="primary" onClick={handleChangeOwner}>
             <FormattedMessage defaultMessage="Change Owner"/>
           </Button>
         ]}
@@ -109,13 +105,13 @@ const AuthorBy = ({
   );
 };
 AuthorBy.propTypes = {
-  author: PropTypes.string.isRequired,
-  avatarSrc: PropTypes.string.isRequired,
+  clientUser: PropTypes.object,
   isOwnerChangeable: PropTypes.bool
 };
 
 export default AuthorBy;
 
 AuthorBy.defaultProps = {
+  clientUser: {},
   isOwnerChangeable: false
 };

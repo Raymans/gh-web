@@ -254,7 +254,7 @@ const InterviewGrid = (props) => {
                   <Descriptions.Item
                     span={2}><StyledDescription>{description}</StyledDescription></Descriptions.Item>
                   <Descriptions.Item span={2}>
-                    <AuthorBy author={clientUser.name} avatarSrc={clientUser.avatar}/>
+                    <AuthorBy clientUser={clientUser} />
                   </Descriptions.Item>
                   <Descriptions.Item span={2}>
                     <InterviewLike

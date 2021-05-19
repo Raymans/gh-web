@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Checkbox, Modal, Result, Tabs } from 'antd';
+import { Button, Checkbox, Input, Modal, Result, Tabs } from 'antd';
 import styled from 'styled-components';
 import {
   CheckCircleTwoTone,
@@ -187,26 +187,33 @@ const InterviewSession = ({
                                 </StyledQuestionH2>
                                 <StyledQuestionBlock>
                                   <h4>{question.question}</h4>
-                                  <Checkbox.Group
-                                    name={questionId}
-                                    {...valueProps}
-                                    defaultValue={answerAttemptQuestionIds}
-                                    onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId)}
-                                  >
-                                    {possibleAnswers.map((possibleAnswer) => {
-                                      const correctOption = correctAnswers.includes(possibleAnswer.answerId);
-                                      const answered = answerAttemptQuestionIds.includes(possibleAnswer.answerId);
-                                      return (
-                                        <StyledCheckbox
-                                          key={possibleAnswer.answerId}
-                                          value={possibleAnswer.answerId}
-                                          className={preview && viewResult && isOwner && (correctOption ? ' answer ' : '') + ((correctOption && answered) ? 'correct' : (!correctOption && !answered) || 'wrong')}
-                                        >
-                                          {possibleAnswer.answer}
-                                        </StyledCheckbox>
-                                      );
-                                    })}
-                                  </Checkbox.Group>
+                                  {
+                                    question.questionType === 'MULTI_CHOICE' &&
+                                    <Checkbox.Group
+                                      name={questionId}
+                                      {...valueProps}
+                                      defaultValue={answerAttemptQuestionIds}
+                                      onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId)}
+                                    >
+                                      {possibleAnswers.map((possibleAnswer) => {
+                                        const correctOption = correctAnswers.includes(possibleAnswer.answerId);
+                                        const answered = answerAttemptQuestionIds.includes(possibleAnswer.answerId);
+                                        return (
+                                          <StyledCheckbox
+                                            key={possibleAnswer.answerId}
+                                            value={possibleAnswer.answerId}
+                                            className={preview && viewResult && isOwner && (correctOption ? ' answer ' : '') + ((correctOption && answered) ? 'correct' : (!correctOption && !answered) || 'wrong')}
+                                          >
+                                            {possibleAnswer.answer}
+                                          </StyledCheckbox>
+                                        );
+                                      })}
+                                    </Checkbox.Group>
+                                  }
+                                  {
+                                    question.questionType === 'SHORT_ANSWER' &&
+                                    <Input />
+                                  }
                                 </StyledQuestionBlock>
                               </div>
                             );
