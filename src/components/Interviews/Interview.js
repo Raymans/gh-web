@@ -214,7 +214,7 @@ const Interview = ({
                         <Statistic
                           title={<Badge status="processing"
                                         text={intl.formatMessage({ defaultMessage: 'In Testing' })}/>}
-                          value={11}
+                          value={(interview.interviewSessions?.STARTED?.length ?? 0) + (interview.interviewSessions?.NOT_STARTED?.length ?? 0)}
                           prefix={<UserOutlined/>}
                           suffix=" geeks"
                         />
@@ -223,7 +223,7 @@ const Interview = ({
                         <Statistic
                           title={<Badge status="success"
                                         text={intl.formatMessage({ defaultMessage: 'Completed' })}/>}
-                          value={93}
+                          value={interview.interviewSessions?.ENDED?.length ?? 0}
                           prefix={<UserOutlined/>}
                           suffix=" geeks"
                         />
