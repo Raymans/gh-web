@@ -196,7 +196,7 @@ module.exports = {
       options: {
         path: `${__dirname}/src/intl`,
         languages: ['en', 'zh-tw'],
-        defaultLanguage: 'en'
+        defaultLanguage: 'zh-tw'
       }
     },
     {

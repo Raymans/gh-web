@@ -10,7 +10,7 @@
     "build": "gatsby build",
     "develop": "gatsby develop --host 127.0.0.1 --port 8010",
     "devhost": "gatsby develop --host 192.168.0.112",
-    "develop:message": "npm run make-message && rm -r .cache && npm run develop",
+    "develop:message": "npm run message && rm -r .cache && npm run develop",
     "format": "prettier --write 'src/**/*.js'",
     "lint-errors": "eslint src/**/*.{js,jsx} --quiet",
     "lint": "eslint src/**/*.{js,jsx}",
@@ -22,7 +22,7 @@
     "clean": "rm -r .cache public",
     "clean-all": "rm -r .cache public node_modules",
     "extract": "formatjs extract",
-    "make-message": "npm run extract -- \"src/**/**/*.js*\" --out-file src/intl/en.json --format simple && npm run copymessage",
+    "message": "npm run extract -- \"src/**/**/*.js*\" --out-file src/intl/en.json --format simple && npm run copymessage",
     "compile": "formatjs compile",
     "copymessage": "node scripts/copy-message.js"
   },

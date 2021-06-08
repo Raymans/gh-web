@@ -5,7 +5,7 @@ import VisibilitySensor from 'react-visibility-sensor';
 import { FontLoadedContext, ScreenWidthContext } from '../../layouts';
 import config from '../../../content/meta/config';
 import Menu from '../Menu';
-import avatar from '../../images/png/logo.png';
+import avatar from '../../images/svg-icons/logo_01.svg';
 import styled from 'styled-components';
 
 const StyledHeader = styled.header`
@@ -81,8 +81,6 @@ const Logo = styled.div`
   transition: all 0.5s;
   flex-shrink: 0;
   border: none;
-  height: 60px;
-  width: 60px;
 
   img {
     width: 100%;

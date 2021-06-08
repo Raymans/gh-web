@@ -7,7 +7,7 @@ const StyledArticle = styled.article`
       max-width: 1024px;
     }
     margin: 0 auto;
-    padding: ${(props) => `calc(${props.theme.space.default} * 2 + 30px) ${props.theme.space.default} calc(${props.theme.space.default} * 2)`};
+    padding: ${(props) => `calc(${props.theme.space.default} * 2 + 60px) ${props.theme.space.default} calc(${props.theme.space.default} * 2)`};
   `;
 
 const Article = (props) => {
