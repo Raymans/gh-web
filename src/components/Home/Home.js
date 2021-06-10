@@ -30,7 +30,7 @@ const Section = styled.section`
 
     p {
       text-align: center;
-      font-size: 26px;
+      font-size: 40px;
     }
   }
 
@@ -66,7 +66,7 @@ const StyledRow = styled(Row)`
 const ImageSection = styled.section`
   height: 100%;
   width: 100%;
-  background-image: url(${(props)=> props.image});
+  background-image: url(${(props) => props.image});
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -74,18 +74,20 @@ const ImageSection = styled.section`
 `;
 
 const IconImage = styled.img`
-  width: 235px;
-  height: 156px;
-  border-radius: 55%;
+  width: 300px;
+  height: 235px;
+  border-radius: 50%;
 
   &.big {
     width: 500px;
     height: 300px;
     border-radius: 9%;
   }
+
   @media (max-width: 768px) {
     &.big {
       width: 100%;
+    }
   }
 `;
 
@@ -100,7 +102,6 @@ const FeatureList = styled.ul`
   }
 `;
 
-
 const IconDescription = ({
   icon,
   title,
@@ -109,7 +110,7 @@ const IconDescription = ({
 }) =>
   <Col style={{
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: 10
   }}>
     {/*<FontAwesomeIcon icon={icon} size="7x"/>*/}
     <IconImage src={icon} alt="Analysis" className={className}/>
@@ -138,7 +139,8 @@ const Home = (props) => {
     <>
       <Section className="no-pic">
         <h1><p><FormattedMessage
-          defaultMessage="GeekHub can help in many cases such as Technical Interviews, English learning, Study Group"/>
+          defaultMessage="GeekHub can help in many cases such as Technical Interviews, English learning, Study Group"
+          values={{ br: <br/> }}/>
         </p></h1>
         <h2><p><FormattedMessage defaultMessage="GeekHub Templates"/></p></h2>
         <StyledRow type="flex" justify="space-around">
@@ -216,10 +218,10 @@ const Home = (props) => {
       <Section>
         <StyledRow type="flex" justify="space-around">
           <Col span={16}>
-            <ImageSection position="left"  image={ShareAssessmentExample}/>
+            <ImageSection position="left" image={ShareAssessmentExample}/>
           </Col>
           <Col span={8}>
-            <h1><p><FormattedMessage defaultMessage="Share Assessment with Candidate"/></p></h1>
+            <h1><p><FormattedMessage defaultMessage="Share Assessment"/></p></h1>
             <p><FormattedMessage
               defaultMessage="Easily to share with anyone you want who assess your Assessments,
               or shares Assessment link directly to them via social media. You decide who can assess your Assessments"/>
@@ -236,7 +238,7 @@ const Home = (props) => {
       <Section>
         <StyledRow type="flex" justify="space-around">
           <Col span={8}>
-            <h1><p><FormattedMessage defaultMessage="Review candidate's results."/></p></h1>
+            <h1><p><FormattedMessage defaultMessage="Analysis Assessment Result"/></p></h1>
             <p><FormattedMessage defaultMessage="You can easily see who tests your assessment and review summary of each result in a
               very clear view."/></p>
             <FeatureList>
@@ -258,86 +260,35 @@ const Home = (props) => {
         </StyledRow>
       </Section>
       <Section className="no-pic">
-        <h1><p><FormattedMessage defaultMessage="Top engineering roles come to you"/></p></h1>
-        <p><FormattedMessage defaultMessage="450+ top tech companies hire for their best engineering teams from GeekHub. Teams reach
-          out to you so you will never miss those hot opportunities!"/></p>
+        <h1><p><FormattedMessage defaultMessage="Get Started right now!"/></p></h1>
+        <p><FormattedMessage
+          defaultMessage="Visit our GeekHub Template to do your first assessment, get you idea about how speedy to create an first Assessment by yourself."/>
+        </p>
         <StyledRow type="flex" justify="space-around">
-          <div style={{ maxWidth: '1000px' }}>
-            <img
-              className=" lazyloaded"
-              data-src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/adobe-301888a5fa8af639f440f58c91bbc034083406d44a9ef03b4cc54f08d43a1310.svg"
-              alt="adobe logo"
-              src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/adobe-301888a5fa8af639f440f58c91bbc034083406d44a9ef03b4cc54f08d43a1310.svg"
-            />
-            <img
-              className=" lazyloaded"
-              data-src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/robinhood-07aec12173646d32c5f77431d8760a46b274453ade1c73dd7a1d1f080a97afe8.svg"
-              alt="robinhood logo"
-              src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/robinhood-07aec12173646d32c5f77431d8760a46b274453ade1c73dd7a1d1f080a97afe8.svg"
-            />
-            <img
-              className=" lazyloaded"
-              data-src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/adobe-301888a5fa8af639f440f58c91bbc034083406d44a9ef03b4cc54f08d43a1310.svg"
-              alt="adobe logo"
-              src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/adobe-301888a5fa8af639f440f58c91bbc034083406d44a9ef03b4cc54f08d43a1310.svg"
-            />
-            <img
-              className=" lazyloaded"
-              data-src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/robinhood-07aec12173646d32c5f77431d8760a46b274453ade1c73dd7a1d1f080a97afe8.svg"
-              alt="robinhood logo"
-              src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/robinhood-07aec12173646d32c5f77431d8760a46b274453ade1c73dd7a1d1f080a97afe8.svg"
-            />
-            <img
-              className=" lazyloaded"
-              data-src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/adobe-301888a5fa8af639f440f58c91bbc034083406d44a9ef03b4cc54f08d43a1310.svg"
-              alt="adobe logo"
-              src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/adobe-301888a5fa8af639f440f58c91bbc034083406d44a9ef03b4cc54f08d43a1310.svg"
-            />
-            <img
-              className=" lazyloaded"
-              data-src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/robinhood-07aec12173646d32c5f77431d8760a46b274453ade1c73dd7a1d1f080a97afe8.svg"
-              alt="robinhood logo"
-              src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/robinhood-07aec12173646d32c5f77431d8760a46b274453ade1c73dd7a1d1f080a97afe8.svg"
-            />
-            <img
-              className=" lazyloaded"
-              data-src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/adobe-301888a5fa8af639f440f58c91bbc034083406d44a9ef03b4cc54f08d43a1310.svg"
-              alt="adobe logo"
-              src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/adobe-301888a5fa8af639f440f58c91bbc034083406d44a9ef03b4cc54f08d43a1310.svg"
-            />
-            <img
-              className=" lazyloaded"
-              data-src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/robinhood-07aec12173646d32c5f77431d8760a46b274453ade1c73dd7a1d1f080a97afe8.svg"
-              alt="robinhood logo"
-              src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/robinhood-07aec12173646d32c5f77431d8760a46b274453ade1c73dd7a1d1f080a97afe8.svg"
-            />
-            <img
-              className=" lazyloaded"
-              data-src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/adobe-301888a5fa8af639f440f58c91bbc034083406d44a9ef03b4cc54f08d43a1310.svg"
-              alt="adobe logo"
-              src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/adobe-301888a5fa8af639f440f58c91bbc034083406d44a9ef03b4cc54f08d43a1310.svg"
-            />
-            <img
-              className=" lazyloaded"
-              data-src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/robinhood-07aec12173646d32c5f77431d8760a46b274453ade1c73dd7a1d1f080a97afe8.svg"
-              alt="robinhood logo"
-              src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/robinhood-07aec12173646d32c5f77431d8760a46b274453ade1c73dd7a1d1f080a97afe8.svg"
-            />
-            <img
-              className=" lazyloaded"
-              data-src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/adobe-301888a5fa8af639f440f58c91bbc034083406d44a9ef03b4cc54f08d43a1310.svg"
-              alt="adobe logo"
-              src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/adobe-301888a5fa8af639f440f58c91bbc034083406d44a9ef03b4cc54f08d43a1310.svg"
-            />
-            <img
-              className=" lazyloaded"
-              data-src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/robinhood-07aec12173646d32c5f77431d8760a46b274453ade1c73dd7a1d1f080a97afe8.svg"
-              alt="robinhood logo"
-              src="https://dvokhk8ohqhd8.cloudfront.net/assets/company_logos/robinhood-07aec12173646d32c5f77431d8760a46b274453ade1c73dd7a1d1f080a97afe8.svg"
-            />
-          </div>
+          <Col span={24} style={{ textAlign: 'center' }}>
+            <h2><FormattedMessage defaultMessage="Choose a GeekHub Assessment to start."/></h2>
+            <FeatureList>
+              <FeatureListItem><FormattedMessage
+                defaultMessage="JavaScript Assessment"/></FeatureListItem>
+              <FeatureListItem><FormattedMessage
+                defaultMessage="Java Assessment"/></FeatureListItem>
+              <FeatureListItem><FormattedMessage
+                defaultMessage="React Assessment"/></FeatureListItem>
+            </FeatureList>
+          </Col>
         </StyledRow>
       </Section>
+      {/*<Section className="no-pic">*/}
+      {/*  <h1><p><FormattedMessage defaultMessage="Top engineering roles come to you"/></p></h1>*/}
+      {/*  <p><FormattedMessage defaultMessage="450+ top tech companies hire for their best engineering teams from GeekHub. Teams reach*/}
+      {/*    out to you so you will never miss those hot opportunities!"/></p>*/}
+      {/*  <StyledRow type="flex" justify="space-around">*/}
+      {/*    <TopCompany />*/}
+      {/*  </StyledRow>*/}
+      {/*</Section>*/}
+      {/*<Section className="no-pic">*/}
+      {/*  <PlanAndPrice/>*/}
+      {/*</Section>*/}
     </>
   );
 };

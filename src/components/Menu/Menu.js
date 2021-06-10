@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Affix, Avatar, Button, Drawer, Menu as AntMenu } from 'antd';
-import { FormattedMessage, Link } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import styled, { ThemeContext } from 'styled-components';
 import Icon, {
   EyeOutlined,
@@ -32,6 +32,7 @@ const Menu = (props) => {
     loginWithRedirect,
     logout
   } = useAuth0();
+  const { locale } = useIntl();
 
   const { userProfile } = useContext(StoreContext);
   const { switchDark } = useContext(ThemeContext);
@@ -156,7 +157,8 @@ const Menu = (props) => {
     await loginWithRedirect({
       appState: {
         targetUrl: '/'
-      }
+      },
+      ui_locales: locale === 'zh-tw' ? 'zh-TW' : locale
     });
   };
   const antdMenu = (

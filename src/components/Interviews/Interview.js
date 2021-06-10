@@ -1,4 +1,4 @@
-import { Badge, Button, Col, Descriptions, Layout, Modal, Row, Spin, Statistic } from 'antd';
+import { Badge, Button, Col, Descriptions, Layout, Modal, Row, Spin, Statistic, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { ExclamationCircleOutlined, LoadingOutlined, UserOutlined } from '@ant-design/icons';
 import Countdown from 'antd/lib/statistic/Countdown';
@@ -159,7 +159,7 @@ const Interview = ({
       }]}
       />
       <Headline title={interview.title}>
-        {user?.sub && interview.clientUser.id === user?.sub
+        {!publishedId && user?.sub && interview.clientUser.id === user?.sub
         && <Link to={`/interviews/${interview.id}/edit`}>Edit</Link>}
       </Headline>
       <Layout>
@@ -184,6 +184,19 @@ const Interview = ({
                 {/*>*/}
                 {/*  {interview.specialization.name}*/}
                 {/*</Descriptions.Item>*/}
+
+                <Descriptions.Item
+                  span={2}
+                >
+                  {isOwner && interview.visibility === 'PRIVATE' &&
+                  <Tag color="default"><FormattedMessage defaultMessage="private"/></Tag>
+                  }
+                  {publishedId &&
+                  <Tag color="default"><FormattedMessage defaultMessage="Published Version"/></Tag>
+                  }
+
+                </Descriptions.Item>
+
                 <Descriptions.Item
                   label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{interview.jobTitle}</Descriptions.Item>
                 <Descriptions.Item

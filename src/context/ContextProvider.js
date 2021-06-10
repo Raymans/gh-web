@@ -16,11 +16,11 @@ const StoreProvider = ({ children }) => {
     pageSize: 10,
     tab: null
   });
-
+  const [departments, setDepartments] = useState([]);
   const {
     getMyProfile,
     getMyOrganization,
-    getOrganization
+    getDepartments
   } = useApi();
 
   const refreshUserProfile = () => getMyProfile(user.sub)
@@ -35,11 +35,21 @@ const StoreProvider = ({ children }) => {
     getMyOrganization()
       .then((data) => setOrganization(data));
   };
+
+  const refreshDepartments = () => getDepartments()
+    .then((data) => {
+      setDepartments(data.results);
+    });
+
   useEffect(() => {
     if (user) {
       refreshUserProfile();
     }
   }, [user]);
+
+  useEffect(() => {
+    refreshDepartments();
+  }, []);
 
   return (
     <StoreContext.Provider value={{
@@ -53,7 +63,9 @@ const StoreProvider = ({ children }) => {
       refreshUserProfile,
       organization,
       setOrganization,
-      refreshUserOrg
+      refreshUserOrg,
+      departments,
+      refreshDepartments
     }}
     >
       {children}

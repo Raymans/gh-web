@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { graphql } from 'gatsby';
-import { Router } from '@reach/router';
+import { Router, useMatch } from '@reach/router';
 import Article from '../components/Article';
 import Profile from '../components/Profile';
 
@@ -14,14 +14,13 @@ const ProfilePage = (props) => {
       }
     }
   } = props;
-
+  const matchDefault = useMatch('/profile/*') ? '/profile' : '/:locale/profile';
   return (
     <>
       <Article>
-        <Router basepath="/profile">
+        <Router basepath={matchDefault}>
           <Profile path="/:userId"/>
         </Router>
-
       </Article>
     </>
   );

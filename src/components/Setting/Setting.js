@@ -121,64 +121,69 @@ const Setting = () => {
           </Form.Item>
           <br/>
         </Form>
-        <Form layout="vertical" onFinish={onPasswordFinish} scrollToFirstError form={passwordForm}>
-          <h2><FormattedMessage defaultMessage="Password"/></h2>
-          <FormItem name="oldPassword"
-                    label={intl.formatMessage({ defaultMessage: 'Old password' })}
-                    rules={[{
-                      required: true,
-                      message: intl.formatMessage({ defaultMessage: 'Please input your old password!' })
-                    }]}
-          >
-            <Input.Password/>
-          </FormItem>
-          <FormItem name="newPassword"
-                    label={intl.formatMessage({ defaultMessage: 'New password' })} required
-                    rules={[{
-                      required: true,
-                      message: intl.formatMessage({ defaultMessage: 'Please input your password!' })
-                    }, ({ getFieldValue }) => ({
-                      validator(_, value) {
-                        if (!value || value.length > 7) {
-                          return Promise.resolve();
-                        }
-
-                        return Promise.reject(new Error(
-                          intl.formatMessage({
-                            defaultMessage: 'Password is too short (minimum is 8 characters).'
-                          })
-                        ));
-                      }
-                    })]}
-          >
-            <Input.Password/>
-          </FormItem>
-          <FormItem name="confirmPassword"
-                    label={intl.formatMessage({ defaultMessage: 'Confirm new password' })} required
-                    dependencies={['newPassword']}
-                    rules={[{
-                      required: true,
-                      message: intl.formatMessage({ defaultMessage: 'Please confirm your password!' })
-                    },
-                      ({ getFieldValue }) => ({
+        {
+          userProfile?.id.indexOf('auth0|') !== -1 &&
+          <Form layout="vertical" onFinish={onPasswordFinish} scrollToFirstError
+                form={passwordForm}>
+            <h2><FormattedMessage defaultMessage="Password"/></h2>
+            <FormItem name="oldPassword"
+                      label={intl.formatMessage({ defaultMessage: 'Old password' })}
+                      rules={[{
+                        required: true,
+                        message: intl.formatMessage({ defaultMessage: 'Please input your old password!' })
+                      }]}
+            >
+              <Input.Password/>
+            </FormItem>
+            <FormItem name="newPassword"
+                      label={intl.formatMessage({ defaultMessage: 'New password' })} required
+                      rules={[{
+                        required: true,
+                        message: intl.formatMessage({ defaultMessage: 'Please input your password!' })
+                      }, ({ getFieldValue }) => ({
                         validator(_, value) {
-                          if (!value || getFieldValue('newPassword') === value) {
+                          if (!value || value.length > 7) {
                             return Promise.resolve();
                           }
-                          return Promise.reject(new Error(intl.formatMessage({ defaultMessage: 'The two passwords that you entered do not match!' })));
+
+                          return Promise.reject(new Error(
+                            intl.formatMessage({
+                              defaultMessage: 'Password is too short (minimum is 8 characters).'
+                            })
+                          ));
                         }
                       })]}
-          >
-            <Input.Password/>
-          </FormItem>
-          <br/>
-          <Form.Item>
-            <Button type="primary" loading={savingPwd} htmlType="submit">
-              <FormattedMessage defaultMessage="Update Password"/>
-            </Button>
-          </Form.Item>
-          <br/>
-        </Form>
+            >
+              <Input.Password/>
+            </FormItem>
+            <FormItem name="confirmPassword"
+                      label={intl.formatMessage({ defaultMessage: 'Confirm new password' })}
+                      required
+                      dependencies={['newPassword']}
+                      rules={[{
+                        required: true,
+                        message: intl.formatMessage({ defaultMessage: 'Please confirm your password!' })
+                      },
+                        ({ getFieldValue }) => ({
+                          validator(_, value) {
+                            if (!value || getFieldValue('newPassword') === value) {
+                              return Promise.resolve();
+                            }
+                            return Promise.reject(new Error(intl.formatMessage({ defaultMessage: 'The two passwords that you entered do not match!' })));
+                          }
+                        })]}
+            >
+              <Input.Password/>
+            </FormItem>
+            <br/>
+            <Form.Item>
+              <Button type="primary" loading={savingPwd} htmlType="submit">
+                <FormattedMessage defaultMessage="Update Password"/>
+              </Button>
+            </Form.Item>
+            <br/>
+          </Form>
+        }
         <Form layout="vertical" onFinish={onFinish} scrollToFirstError>
           <h2><FormattedMessage defaultMessage="Notification"/></h2>
           <Checkbox>

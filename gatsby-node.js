@@ -134,6 +134,20 @@ exports.onCreatePage = async ({
     // Update the page.
     createPage(page);
   }
+  if (page.path.match(/^\/zh-tw\/profile/)) {
+    // set client-only path pattern
+    page.matchPath = '/zh-tw/profile/*';
+
+    // Update the page.
+    createPage(page);
+  }
+  if (page.path.match(/^\/en\/profile/)) {
+    // set client-only path pattern
+    page.matchPath = '/en/profile/*';
+
+    // Update the page.
+    createPage(page);
+  }
   if (page.path.match(/^\/profile/)) {
     // set client-only path pattern
     page.matchPath = '/profile/*';

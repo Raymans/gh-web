@@ -1,5 +1,5 @@
 import { Form, Input, message, Table } from 'antd';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import FormItem from 'antd/lib/form/FormItem';
 import useApi from '../../hooks/useApi';
 import ConfirmModal from './ConfirmModal';
@@ -30,55 +30,54 @@ const DeptForm = ({ form }) => {
 const Departments = () => {
   const intl = useIntl();
   const [deptForm] = Form.useForm();
-  const [departments, setDepartments] = useState([]);
-  const { userProfile } = useContext(StoreContext);
   const {
-    getDepartments,
+    userProfile,
+    departments,
+    refreshDepartments
+  } = useContext(StoreContext);
+  const {
     createDepartment,
     deleteDepartment,
     updateDepartment
   } = useApi();
 
-  const retrieveDepts = () => getDepartments()
-    .then((data) => {
-      setDepartments(data.results);
-    });
-
   const handleBeforeSubmit = async () => {
     await deptForm.validateFields();
   };
   const handleNewDepartment = () => {
-    createDepartment({
+    return createDepartment({
       departmentName: deptForm.getFieldsValue().departmentName
     })
-      .then(retrieveDepts)
+      .then(refreshDepartments)
       .then(() => deptForm.resetFields())
       .catch(() => {
         message.error(intl.formatMessage({ defaultMessage: 'Create department fail, seems like the department is already existed.' }));
-        throw new Error('Create department fail, seems like the department is already existed.');
+        return Promise.reject();
       });
   };
 
   const handleEditDepartment = (dept) => {
-    updateDepartment({
+    return updateDepartment({
       departmentId: dept.id,
       departmentName: deptForm.getFieldsValue().departmentName
     })
-      .then(retrieveDepts)
+      .then(refreshDepartments)
       .then(() => deptForm.resetFields())
       .catch(() => {
         message.error(intl.formatMessage({ defaultMessage: 'Update department fail, seems like the department is already existed.' }));
-        throw new Error('Update department fail, seems like the department is already existed.');
+        return Promise.reject();
       });
   };
 
   const handleDeleteDept = (dept) => {
-    deleteDepartment({ departmentId: dept.id })
-      .then(() => retrieveDepts());
+    return deleteDepartment({ departmentId: dept.id })
+      .then(() => refreshDepartments())
+      .catch(() => {
+        message.error(intl.formatMessage({ defaultMessage: 'Delete department fail, seems like Users exist in this department.' }));
+        return Promise.reject();
+      });
   };
-  useEffect(() => {
-    retrieveDepts();
-  }, []);
+
   return (
     <>
       {

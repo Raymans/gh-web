@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Avatar, Cascader, message, Space, Table, Tag } from 'antd';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import useApi from '../../hooks/useApi';
 import ConfirmModal from './ConfirmModal';
 import { StoreContext } from '../../context/ContextProvider';
@@ -12,23 +12,30 @@ const StyledAvatar = styled(Avatar)`
 `;
 
 const { Column } = Table;
+
+const convertDepts = (departments) => {
+  return departments.length === 0 ? [] : departments.map((dept) => ({
+    value: dept.id,
+    label: dept.name
+  }));
+};
 const UserList = ({ users }) => {
   const {
     removeUserFromOrganization,
-    getDepartments,
     assignUserToDepartment
   } = useApi();
   const {
     refreshUserOrg,
-    userProfile
+    userProfile,
+    organization,
+    departments
   } = useContext(StoreContext);
-  const [departments, setDepartments] = useState([]);
 
   const isOwner = userProfile?.accountPrivilege === 'OWNER';
 
   const handleRemoveUserFromOrg = (user) => removeUserFromOrganization({
     userId: user.id,
-    organizationId: user.orgId
+    organizationId: organization.id
   })
     .catch((error) => {
       message.error(error.data.message);
@@ -47,18 +54,18 @@ const UserList = ({ users }) => {
   };
   const renderDept = (val, user) => (
     <span>
-      {val?.name}
+      {departments?.length > 0 && departments.find((d) => d.id === val?.id)?.name}
       {
         isOwner &&
         <>
           &nbsp;
           (
           <Cascader
-            options={departments}
+            options={convertDepts(departments)}
             onChange={(selectedDept) => handleChangeDept(user, selectedDept[0])}
             defaultValue={[user.department?.id]}
           >
-            <a href="#">Change</a>
+            <a href="#"><FormattedMessage defaultMessage="Change"/></a>
           </Cascader>
           )
         </>
@@ -66,13 +73,6 @@ const UserList = ({ users }) => {
 
     </span>
   );
-  useEffect(() => {
-    getDepartments()
-      .then(({ results = [] }) => setDepartments(results.length === 0 ? [] : results.map((dept) => ({
-        value: dept.id,
-        label: dept.name
-      }))));
-  }, []);
   return (
     <>
       <Table dataSource={users} pagination={false} size="small">
@@ -113,14 +113,11 @@ const UserList = ({ users }) => {
                 >
                   <p>
                     <FormattedMessage
-                      defaultMessage="Are you sure to remove {removedUser} from {orgName}" values={{
-                      removedUser: record.name,
-                      orgName: record.orgId
-                    }}/>
-                    <b>
-                      {record.name}
-                    </b>
-                    ?
+                      defaultMessage="Are you sure to remove {removedUser} from {orgName}?"
+                      values={{
+                        removedUser: record.name,
+                        orgName: organization.name
+                      }}/>
                   </p>
                 </ConfirmModal>
               </Space>

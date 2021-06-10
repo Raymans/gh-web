@@ -12,7 +12,7 @@ const H1 = styled.h1`
   margin: 20px auto 20px;
   border-bottom: 1px solid #e8e8e8;
   padding-bottom: 10px;
-  font-size: ${(props) => props.theme.font.size.xxl};
+  font-size: 40px;
   animation-name: headlineEntry;
   animation-duration: ${(props) => props.theme.time.duration.long};
   @media (min-width: 768px) {
@@ -35,8 +35,14 @@ const StyledHeaderSpan = styled.span`
 `;
 
 const StyledSubHeader = styled.div`
+  text-align: right;
   line-height: 1;
-  margin-left: 29px;
+  margin-right: 29px;
+  min-height: 36px;
+
+  div {
+    float: left;
+  }
 `;
 const Headline = (props) => {
   const intl = useIntl();
@@ -48,11 +54,15 @@ const Headline = (props) => {
     <header>
       <section>
         <H1>
-          <Tooltip title={intl.formatMessage({ defaultMessage: 'Go back' })}>
-            <a onClick={() => navigate(-1)}><SwapLeftOutlined/></a>
-          </Tooltip>
-          {title && <StyledHeaderSpan>{title}</StyledHeaderSpan>}
-          <StyledSubHeader>{children}</StyledSubHeader>
+
+          {/*{title && <StyledHeaderSpan>{title}</StyledHeaderSpan>}*/}
+          <StyledSubHeader>
+            <div>
+              <Tooltip title={intl.formatMessage({ defaultMessage: 'Go back' })}>
+                <a onClick={() => navigate(-1)}><SwapLeftOutlined/></a>
+              </Tooltip>
+            </div>
+            {children}</StyledSubHeader>
         </H1>
       </section>
     </header>

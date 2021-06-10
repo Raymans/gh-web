@@ -133,7 +133,7 @@ const InterviewResults = ({
       }]}
       />
       <Headline title={intl.formatMessage({ defaultMessage: 'Manage Interviews' })}>
-        <Link to={`/interviews/${id}`}>{location.state?.interviewName}</Link>
+        <Link to={`/interviews/${id}`}><FormattedMessage defaultMessage={'See Assessment detail'}/></Link>
       </Headline>
       <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
         <Table
