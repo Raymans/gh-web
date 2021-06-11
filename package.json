@@ -10,7 +10,7 @@
     "build": "gatsby build",
     "develop": "gatsby develop --host 127.0.0.1 --port 8010",
     "devhost": "gatsby develop --host 192.168.0.112",
-    "develop:message": "npm run message && rm -r .cache && npm run develop",
+    "develop:clean": "rm -r .cache && npm run develop",
     "format": "prettier --write 'src/**/*.js'",
     "lint-errors": "eslint src/**/*.{js,jsx} --quiet",
     "lint": "eslint src/**/*.{js,jsx}",

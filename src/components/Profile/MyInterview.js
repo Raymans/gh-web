@@ -66,7 +66,7 @@ const MyInterview = () => {
         lineHeight: '32px'
       }}
     >
-      <Button onClick={onLoadMore}>loading more</Button>
+      <Button onClick={onLoadMore}><FormattedMessage defaultMessage="loading more"/></Button>
     </div>
   ) : null;
   return (

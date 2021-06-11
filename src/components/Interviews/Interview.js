@@ -160,7 +160,8 @@ const Interview = ({
       />
       <Headline title={interview.title}>
         {!publishedId && user?.sub && interview.clientUser.id === user?.sub
-        && <Link to={`/interviews/${interview.id}/edit`}>Edit</Link>}
+        && <Link to={`/interviews/${interview.id}/edit`}>
+          <FormattedMessage defaultMessage="Edit"/></Link>}
       </Headline>
       <Layout>
         {/*<AnchorSider />*/}
@@ -228,7 +229,7 @@ const Interview = ({
                                         text={intl.formatMessage({ defaultMessage: 'In Testing' })}/>}
                           value={(interview.interviewSessions?.STARTED?.length ?? 0) + (interview.interviewSessions?.NOT_STARTED?.length ?? 0)}
                           prefix={<UserOutlined/>}
-                          suffix=" geeks"
+                          suffix={intl.formatMessage({ defaultMessage: ' People' })}
                         />
                       </Col>
                       <Col span={12}>
@@ -237,7 +238,7 @@ const Interview = ({
                                         text={intl.formatMessage({ defaultMessage: 'Completed' })}/>}
                           value={interview.interviewSessions?.ENDED?.length ?? 0}
                           prefix={<UserOutlined/>}
-                          suffix=" geeks"
+                          suffix={intl.formatMessage({ defaultMessage: ' People' })}
                         />
                       </Col>
                     </Row>

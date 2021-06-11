@@ -195,7 +195,7 @@ const InterviewForm = ({ id }) => {
   const beforeSaving = () => {
     setLoading(true);
     message.loading({
-      content: 'Saving',
+      content: intl.formatMessage({ defaultMessage: 'Saving' }),
       key: interviewMessageKey
     });
   };
@@ -245,7 +245,7 @@ const InterviewForm = ({ id }) => {
       })
         .then(publish)
         .then(() => {
-          afterSaving(isPublishAction ? 'Assessment Published.' : 'Assessment Saved.');
+          afterSaving(isPublishAction ? intl.formatMessage({ defaultMessage: 'Assessment Published.' }) : intl.formatMessage({ defaultMessage: 'Assessment Saved.' }));
         })
         .catch((error) => {
           message.error({
@@ -259,7 +259,7 @@ const InterviewForm = ({ id }) => {
       createInterview(values)
         .then(publish)
         .then((data) => {
-          afterSaving(isPublishAction ? 'Assessment Published.' : 'Assessment Created.');
+          afterSaving(isPublishAction ? intl.formatMessage({ defaultMessage: 'Assessment Published.' }) : intl.formatMessage({ defaultMessage: 'Assessment Created.' }));
           navigate(`/interviews/${data.id}/edit`);
         });
     }
@@ -388,21 +388,21 @@ const InterviewForm = ({ id }) => {
     <>
       <Modal
         visible={isSelectedQuestionVisible}
-        title="Select Questions"
+        title={intl.formatMessage({ defaultMessage: 'Select Questions' })}
         onCancel={handleCloseSelectQuestionsModal}
         footer={[
           <Button
             key="back"
             onClick={handleCloseSelectQuestionsModal}
           >
-            Close
+            <FormattedMessage defaultMessage="Close"/>
           </Button>,
           <Button
             key="submit"
             type="primary"
             onClick={onSelectQuestions}
           >
-            Select
+            <FormattedMessage defaultMessage="Select"/>
           </Button>
         ]}
       >
@@ -417,14 +417,15 @@ const InterviewForm = ({ id }) => {
         label: <FormattedMessage defaultMessage="List Assessments"/>,
         path: '/interviews'
       }, {
-        label: isEditForm ? 'Assessment - edit' : 'Assessment - create',
+        label: isEditForm ? intl.formatMessage({ defaultMessage: 'Edit Assessment' }) : intl.formatMessage({ defaultMessage: 'Create Assessment' }),
         path: location.pathname
       }]}/>
       <LoginNeededWrapper
         title={<FormattedMessage defaultMessage="Login to play with Assessments"/>}
         subTitle={<FormattedMessage
           defaultMessage="Please login to enable abilities to create/edit your Assessments."/>}>
-        <Headline title={isEditForm ? 'Assessment - edit' : 'Assessment - create'}>
+        <Headline
+          title={isEditForm ? intl.formatMessage({ defaultMessage: 'Edit Assessment' }) : intl.formatMessage({ defaultMessage: 'Create Assessment' })}>
           {
             publishedInterviewId
             &&
@@ -445,7 +446,8 @@ const InterviewForm = ({ id }) => {
               >
                 <StyledVisibilityDiv>
                   <FormItem label="Visibility" name="visibility" valuePropName="checked" noStyle>
-                    <Switch checkedChildren="public" unCheckedChildren="private"/>
+                    <Switch checkedChildren={intl.formatMessage({ defaultMessage: 'Public' })}
+                            unCheckedChildren={intl.formatMessage({ defaultMessage: 'Private' })}/>
                   </FormItem>
                 </StyledVisibilityDiv>
                 <FormItem
@@ -705,7 +707,8 @@ const InterviewForm = ({ id }) => {
           </Content>
         </Layout>
       </LoginNeededWrapper>
-      <Seo subTitle={isEditForm ? 'Assessment - Edit' : 'Assessment - Create'}/>
+      <Seo
+        subTitle={isEditForm ? intl.formatMessage({ defaultMessage: 'Edit Assessment' }) : intl.formatMessage({ defaultMessage: 'Create Assessment' })}/>
     </>
   );
 };

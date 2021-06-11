@@ -176,7 +176,7 @@ const InterviewGrid = (props) => {
         && (
           <>
             <Modal
-              title="Share Assessment"
+              title={intl.formatMessage({ defaultMessage: 'Share Assessment' })}
               visible={isShareModalVisible}
               onCancel={() => setIsShareModalVisible(false)}
               footer={[
@@ -192,10 +192,10 @@ const InterviewGrid = (props) => {
                   text={shareLink}
                   onCopy={() => message.info(intl.formatMessage({ defaultMessage: 'Copied.' }))}
                 >
-                  <Button>Copy</Button>
+                  <Button><FormattedMessage defaultMessage="Copy"/></Button>
                 </CopyToClipboard>
               </div>
-              <Divider orientation="left">Or</Divider>
+              <Divider orientation="left"><FormattedMessage defaultMessage="Or"/></Divider>
               <Form form={sharedForm}>
                 <Form.Item
                   name="email"
@@ -254,7 +254,7 @@ const InterviewGrid = (props) => {
                   <Descriptions.Item
                     span={2}><StyledDescription>{description}</StyledDescription></Descriptions.Item>
                   <Descriptions.Item span={2}>
-                    <AuthorBy clientUser={clientUser} />
+                    <AuthorBy clientUser={clientUser}/>
                   </Descriptions.Item>
                   <Descriptions.Item span={2}>
                     <InterviewLike

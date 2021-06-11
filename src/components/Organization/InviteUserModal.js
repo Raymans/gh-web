@@ -5,6 +5,7 @@ import React, { useContext } from 'react';
 import useApi from '../../hooks/useApi';
 import ConfirmModal from './ConfirmModal';
 import { StoreContext } from '../../context/ContextProvider';
+import { useIntl } from 'gatsby-plugin-intl';
 
 const InviteUserModal = ({
   organizationId = null
@@ -14,6 +15,7 @@ const InviteUserModal = ({
   const {
     inviteUserToOrganization
   } = useApi();
+  const intl = useIntl();
 
   const clearForm = async () => {
     await addUserForm.resetFields();
@@ -32,21 +34,21 @@ const InviteUserModal = ({
 
   return (
     <ConfirmModal
-      title="Invite User to the Organization!"
+      title={intl.formatMessage({ defaultMessage: 'Invite User to the Organization!' })}
       onBeforeSubmit={handleBeforeSubmit}
       onOK={handelAddUserSubmit}
       onCancel={clearForm}
-      openButtonTitle="Invite User"
-      successMessage="Invitation sent!"
+      openButtonTitle={intl.formatMessage({ defaultMessage: 'Invite User' })}
+      successMessage={intl.formatMessage({ defaultMessage: 'Invitation sent!' })}
     >
       <Form layout="vertical" scrollToFirstError form={addUserForm}>
         <FormItem
           name="email"
-          label="Email"
+          label={intl.formatMessage({ defaultMessage: 'Email' })}
           required
           rules={[{
             required: true,
-            message: 'Please input email format.',
+            message: intl.formatMessage({ defaultMessage: 'Please input email format.' }),
             type: 'email'
           }]}
         >

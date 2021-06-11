@@ -26,7 +26,10 @@ const StyledFooter = styled.footer`
 `;
 
 const Footer = (props) => {
-  const { locale } = useIntl();
+  const {
+    locale,
+    formatMessage
+  } = useIntl();
   const {
     switchDark,
     isDark
@@ -60,8 +63,8 @@ const Footer = (props) => {
               <li>
                 <span><FormattedMessage defaultMessage="Theme:"/> </span>
                 <Switch
-                  checkedChildren="light"
-                  unCheckedChildren="dark"
+                  checkedChildren={formatMessage({ defaultMessage: 'light' })}
+                  unCheckedChildren={formatMessage({ defaultMessage: 'dark' })}
                   defaultChecked={!isDark}
                   onChange={changeTheme}
                   size="medium"

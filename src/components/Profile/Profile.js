@@ -6,7 +6,7 @@ import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
-import { FormattedMessage } from 'gatsby-plugin-intl';
+import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 
 const StyledBasicProfileRow = styled(Row)`
   padding-bottom: 50px;
@@ -15,6 +15,7 @@ const Profile = ({ userId }) => {
   const { getUserProfile } = useApi();
   const [profile, setProfile] = useState({ nickname: '' });
   const [loading, setLoading] = useState(true);
+  const intl = useIntl();
   useEffect(() => {
     getUserProfile(userId)
       .then((res) => {
@@ -50,7 +51,7 @@ const Profile = ({ userId }) => {
                       {profile.email}
                     </Descriptions.Item>
                     <Descriptions.Item
-                      label="Company">{profile.metadata?.companyName}</Descriptions.Item>
+                      label={intl.formatMessage({ defaultMessage: 'Company' })}>{profile.metadata?.companyName}</Descriptions.Item>
                     <Descriptions.Item
                       label={<GithubOutlined/>}>
                       {

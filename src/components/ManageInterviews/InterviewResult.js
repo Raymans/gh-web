@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useIntl } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import { useAuth0 } from '@auth0/auth0-react';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
@@ -32,11 +32,15 @@ const InterviewResult = ({ sessionId }) => {
         {
           isOwner
           && (
-            <Link
-              to={`/profile/${interviewSession.candidateUser.id}`}
-            >
-              {interviewSession.candidateUser.name}
-            </Link>
+            <>
+              <span style={{ fontSize: '0.4em' }}><FormattedMessage
+                defaultMessage="Tester:"/></span>
+              <Link
+                to={`/profile/${interviewSession.candidateUser.id}`}
+              >
+                {interviewSession.candidateUser.name}
+              </Link>
+            </>
           )
         }
       </Headline>

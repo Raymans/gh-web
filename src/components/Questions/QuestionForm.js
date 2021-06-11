@@ -67,11 +67,11 @@ const QuestionForm = (props) => {
   const formContent = (
     <>
       <FormItem
-        label="Description"
+        label={intl.formatMessage({ defaultMessage: 'Description' })}
         name={form ? [id, 'question'] : 'question'}
         rules={[{
           required: true,
-          message: 'Please enter description.',
+          message: intl.formatMessage({ defaultMessage: 'Please enter description.' }),
           whitespace: true
         }]}
       >
@@ -308,8 +308,7 @@ const QuestionFormItem = (props) => {
         }}
       >
         <PlusOutlined/>
-        {' '}
-        Add Answer
+        <FormattedMessage defaultMessage="Add Answer"/>
       </Button>
     </div>
   );

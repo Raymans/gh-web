@@ -3,14 +3,17 @@ import React, { useState } from 'react';
 import { Button, Empty, List, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+import { FormattedMessage } from 'gatsby-plugin-intl';
 
 const StyledList = styled(List)`
   padding-top: 20px;
-  .ant-list-item-meta-title{
+
+  .ant-list-item-meta-title {
     margin: 18px 0;
     font-size: 24px;
   }
-  .ant-list-item{
+
+  .ant-list-item {
     padding: 22px 0 0 22px;
     margin: 22px 0;
     border: 1px solid #e8e8e8 !important;
@@ -45,7 +48,8 @@ const CardList = (props) => {
         lineHeight: '32px'
       }}
     >
-      <Button onClick={handleLoadMore} loading={loadingMore}>loading more</Button>
+      <Button onClick={handleLoadMore} loading={loadingMore}><FormattedMessage
+        defaultMessage="loading more"/></Button>
     </div>
   ) : null;
   return (

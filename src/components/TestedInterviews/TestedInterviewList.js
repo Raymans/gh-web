@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Badge, Spin, Table } from 'antd';
-import { Link, useIntl } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import Moment from 'react-moment';
 import { LoadingOutlined } from '@ant-design/icons';
 import useApi from '../../hooks/useApi';
@@ -30,11 +30,11 @@ const columns = [
       <span>
         {
           status === 'STARTED'
-          && <Badge status="processing" text="In Testing"/>
+          && <Badge status="processing" text={<FormattedMessage defaultMessage="In Testing"/>}/>
         }
         {
           status === 'ENDED'
-          && <Badge status="success" text="Completed"/>
+          && <Badge status="success" text={<FormattedMessage defaultMessage="Completed"/>}/>
         }
       </span>
     )
@@ -57,11 +57,11 @@ const columns = [
       <span>
         {
           status === 'STARTED' || status === 'NOT_STARTED'
-          && <Link to={`/interviews/${id}/test`}>Go test</Link>
+          && <Link to={`/interviews/${id}/test`}><FormattedMessage defaultMessage="Go test"/></Link>
         }
         {
           status === 'ENDED'
-          && <Link to={`/testedInterviews/${id}`}>Result</Link>
+          && <Link to={`/testedInterviews/${id}`}><FormattedMessage defaultMessage="Result"/></Link>
         }
       </span>
     )

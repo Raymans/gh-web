@@ -1,8 +1,9 @@
-import { Button, message, Modal } from 'antd';
+import { Button, message } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { navigate } from 'gatsby-plugin-intl';
-import React, { useState } from 'react';
+import { FormattedMessage, navigate, useIntl } from 'gatsby-plugin-intl';
+import React from 'react';
 import useApi from '../../hooks/useApi';
+import ConfirmModal from '../Organization/ConfirmModal';
 
 const InverviewActionsRow = ({
   id,
@@ -12,8 +13,8 @@ const InverviewActionsRow = ({
   onDeleted = () => {
   }
 }) => {
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const { deleteInterview } = useApi();
+  const intl = useIntl();
   const handleDeleteInterview = () => {
     onDeleting();
     deleteInterview(id)
@@ -25,16 +26,7 @@ const InverviewActionsRow = ({
 
   return (
     <>
-      <Modal
-        title="Delete Assessment"
-        visible={isDeleteModalVisible}
-        onOk={handleDeleteInterview}
-        onCancel={() => setIsDeleteModalVisible(false)}
-      >
-        <p>{`Are you sure to delete the interview: ${title}?`}</p>
-      </Modal>
       <Button
-        size="small"
         shape="circle"
         icon={<EditOutlined/>}
         style={{ marginRight: '3px' }}
@@ -42,13 +34,18 @@ const InverviewActionsRow = ({
           navigate(`/interviews/${id}/edit`);
         }}
       />
-      <Button
-        size="small"
+      <ConfirmModal
+        title={intl.formatMessage({ defaultMessage: 'Delete Assessment' })}
+        onOk={handleDeleteInterview}
+        icon={<DeleteOutlined/>}
         danger
         shape="circle"
-        icon={<DeleteOutlined/>}
-        onClick={() => setIsDeleteModalVisible(true)}
-      />
+        size="small"
+        openButtonTitle=""
+      >
+        <p><FormattedMessage defaultMessage="Are you sure to delete the interview: {title}?"
+                             values={{ title }}/></p>
+      </ConfirmModal>
     </>
   );
 };
