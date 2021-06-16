@@ -5,7 +5,7 @@ import {
   Input,
   Layout,
   message,
-  Modal,
+  Modal, Select,
   Spin,
   Switch,
   Tooltip
@@ -34,6 +34,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import LoginNeededWrapper from '../Auth/LoginNeededWrapper';
 import ConfirmModal from '../Organization/ConfirmModal';
 import AnchorSider from '../Sider/AnchorSider';
+import { Option } from 'antd/lib/mentions';
 
 const {
   Content
@@ -521,7 +522,15 @@ const InterviewForm = ({ id }) => {
                   label={intl.formatMessage({ defaultMessage: 'Duration' })}
                   name="defaultDuration"
                 >
-                  <Input placeholder={intl.formatMessage({ defaultMessage: 'Minutes' })}/>
+                  <Select
+                    placeholder="Select a Duration"
+                    allowClear
+                  >
+                    <Option value={30}><FormattedMessage defaultMessage="{minutes} Minutes" values={{minutes: 30}}/> </Option>
+                    <Option value={60}><FormattedMessage defaultMessage="{minutes} Minutes" values={{minutes: 60}}/></Option>
+                    <Option value={90}><FormattedMessage defaultMessage="{minutes} Minutes" values={{minutes: 90}}/></Option>
+                    <Option value={120}><FormattedMessage defaultMessage="{minutes} Minutes" values={{minutes: 120}}/></Option>
+                  </Select>
                 </FormItem>
                 <Form.List name="sections">
                   {(sections, {
