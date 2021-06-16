@@ -5,7 +5,8 @@ import {
   Input,
   Layout,
   message,
-  Modal, Select,
+  Modal,
+  Select,
   Spin,
   Switch,
   Tooltip
@@ -523,13 +524,17 @@ const InterviewForm = ({ id }) => {
                   name="defaultDuration"
                 >
                   <Select
-                    placeholder="Select a Duration"
+                    placeholder={intl.formatMessage({ defaultMessage: 'Please select assess duration' })}
                     allowClear
                   >
-                    <Option value={30}><FormattedMessage defaultMessage="{minutes} Minutes" values={{minutes: 30}}/> </Option>
-                    <Option value={60}><FormattedMessage defaultMessage="{minutes} Minutes" values={{minutes: 60}}/></Option>
-                    <Option value={90}><FormattedMessage defaultMessage="{minutes} Minutes" values={{minutes: 90}}/></Option>
-                    <Option value={120}><FormattedMessage defaultMessage="{minutes} Minutes" values={{minutes: 120}}/></Option>
+                    <Option value={30}><FormattedMessage defaultMessage="{minutes} Minutes"
+                                                         values={{ minutes: 30 }}/> </Option>
+                    <Option value={60}><FormattedMessage defaultMessage="{minutes} Minutes"
+                                                         values={{ minutes: 60 }}/></Option>
+                    <Option value={90}><FormattedMessage defaultMessage="{minutes} Minutes"
+                                                         values={{ minutes: 90 }}/></Option>
+                    <Option value={120}><FormattedMessage defaultMessage="{minutes} Minutes"
+                                                          values={{ minutes: 120 }}/></Option>
                   </Select>
                 </FormItem>
                 <Form.List name="sections">

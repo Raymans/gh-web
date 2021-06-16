@@ -15,6 +15,7 @@ import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import Moment from 'react-moment';
 import InterviewActionsRow from './InterviewActionsRow';
+import ShareInterview from './ShareInterview';
 
 const StyledInterviewGeekStatus = styled.div`
   margin: 30px 0 20px;
@@ -160,6 +161,9 @@ const Interview = ({
       }]}
       />
       <Headline title={interview.title}>
+        {
+          !publishedId && !loading && <ShareInterview id={interview.id}/>
+        }
         {!publishedId && user?.sub && interview.clientUser.id === user?.sub
         &&
         <InterviewActionsRow
