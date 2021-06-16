@@ -16,6 +16,19 @@ import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 import { useAuth0 } from '@auth0/auth0-react';
 import LoginNeededWrapper from '../Auth/LoginNeededWrapper';
 import UserSelect from '../User';
+import AnchorSider from '../Sider/AnchorSider';
+
+
+const anchors = [{
+  href: '#departments',
+  title: <FormattedMessage defaultMessage="Departments"/>
+}, {
+  href: '#invitations',
+  title: <FormattedMessage defaultMessage="Invitations"/>
+}, {
+  href: '#members',
+  title: <FormattedMessage defaultMessage="Members"/>
+}];
 
 const Organization = () => {
   const intl = useIntl();
@@ -241,6 +254,7 @@ const Organization = () => {
                   }
                 </p>
               </ConfirmModal>
+              <AnchorSider anchors={anchors}/>
               {
                 isOwner &&
                 <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
@@ -262,14 +276,14 @@ const Organization = () => {
                 </Form>
               }
 
-              <h2><FormattedMessage defaultMessage="Departments"/></h2>
+              <h2 id="departments"><FormattedMessage defaultMessage="Departments"/></h2>
               <Departments/>
 
-              <h2><FormattedMessage defaultMessage="Invitations"/></h2>
+              <h2 id="invitations"><FormattedMessage defaultMessage="Invitations"/></h2>
 
               <Invitations invitations={organization.userInvitations} orgId={organization.id}/>
 
-              <h2><FormattedMessage defaultMessage="Members"/></h2>
+              <h2 id="members"><FormattedMessage defaultMessage="Members"/></h2>
               {
                 isOwner &&
                 <ConfirmModal

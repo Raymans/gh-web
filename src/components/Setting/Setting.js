@@ -9,6 +9,18 @@ import Seo from '../Seo';
 import UploadImage from '../UploadImgae/UploadImage';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 import { StoreContext } from '../../context/ContextProvider';
+import AnchorSider from '../Sider/AnchorSider';
+
+const anchors = [{
+  href: '#profile',
+  title: <FormattedMessage defaultMessage="Profile"/>
+}, {
+  href: '#password',
+  title: <FormattedMessage defaultMessage="Password"/>
+}, {
+  href: '#notification',
+  title: <FormattedMessage defaultMessage="Notification"/>
+}];
 
 const Setting = () => {
   const intl = useIntl();
@@ -82,8 +94,9 @@ const Setting = () => {
       />
       <Headline title={intl.formatMessage({ defaultMessage: 'Setting' })}/>
       <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
+        <AnchorSider anchors={anchors}/>
         <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
-          <h2><FormattedMessage defaultMessage="Profile"/></h2>
+          <h2 id="profile"><FormattedMessage defaultMessage="Profile"/></h2>
           <UploadImage name="avatar" imageUrl={userProfile?.avatar}/>
           <FormItem
             name="email"
@@ -125,7 +138,7 @@ const Setting = () => {
           userProfile?.id.indexOf('auth0|') !== -1 &&
           <Form layout="vertical" onFinish={onPasswordFinish} scrollToFirstError
                 form={passwordForm}>
-            <h2><FormattedMessage defaultMessage="Password"/></h2>
+            <h2 id="password"><FormattedMessage defaultMessage="Password"/></h2>
             <FormItem name="oldPassword"
                       label={intl.formatMessage({ defaultMessage: 'Old password' })}
                       rules={[{
@@ -185,7 +198,7 @@ const Setting = () => {
           </Form>
         }
         <Form layout="vertical" onFinish={onFinish} scrollToFirstError>
-          <h2><FormattedMessage defaultMessage="Notification"/></h2>
+          <h2 id="notification"><FormattedMessage defaultMessage="Notification"/></h2>
           <Checkbox>
             <FormattedMessage
               defaultMessage="Receives email Notification when a new candidate start testing your Assessments"/>

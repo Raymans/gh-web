@@ -1,13 +1,13 @@
-import { Button, message } from 'antd';
+import { Button } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { FormattedMessage, navigate, useIntl } from 'gatsby-plugin-intl';
 import React from 'react';
 import useApi from '../../hooks/useApi';
 import ConfirmModal from '../Organization/ConfirmModal';
 
-const InverviewActionsRow = ({
+const InterviewActionsRow = ({
   id,
-  title,
+  interviewTitle,
   onDeleting = () => {
   },
   onDeleted = () => {
@@ -20,7 +20,6 @@ const InverviewActionsRow = ({
     deleteInterview(id)
       .then(() => {
         onDeleted();
-        message.success(`Assessment has been deleted: ${title}`);
       });
   };
 
@@ -36,18 +35,21 @@ const InverviewActionsRow = ({
       />
       <ConfirmModal
         title={intl.formatMessage({ defaultMessage: 'Delete Assessment' })}
-        onOk={handleDeleteInterview}
+        onOK={handleDeleteInterview}
         icon={<DeleteOutlined/>}
         danger
         shape="circle"
         size="small"
         openButtonTitle=""
+        successMessage={intl.formatMessage({
+          defaultMessage: 'Assessment has been deleted: {interviewTitle}'
+        }, { interviewTitle })}
       >
         <p><FormattedMessage defaultMessage="Are you sure to delete the interview: {title}?"
-                             values={{ title }}/></p>
+                             values={{ title: interviewTitle }}/></p>
       </ConfirmModal>
     </>
   );
 };
 
-export default InverviewActionsRow;
+export default InterviewActionsRow;

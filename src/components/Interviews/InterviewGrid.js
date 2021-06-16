@@ -23,7 +23,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import InterviewLike from '../Like/InterviewLike';
 import AuthorBy from '../AuthorBy';
 import useApi from '../../hooks/useApi';
-import InverviewActionsRow from './InterviewActionsRow';
+import InterviewActionsRow from './InterviewActionsRow';
 import { useForm } from 'antd/lib/form/Form';
 import Moment from 'react-moment';
 
@@ -94,6 +94,7 @@ const InterviewGrid = (props) => {
   const [isShareModalVisible, setIsShareModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deleted, setDeleted] = useState(false);
+  const isOwner = clientUser.id === user?.sub;
   let updateActions = [];
   updateActions = [
     <>
@@ -110,11 +111,11 @@ const InterviewGrid = (props) => {
         }}
       />
       {
-        clientUser.id === user?.sub
+        isOwner
         && (
-          <InverviewActionsRow
+          <InterviewActionsRow
             id={id}
-            title={title}
+            interviewTitle={title}
             onDeleting={() => setSaving(true)}
             onDeleted={() => setDeleted(true)}
           />

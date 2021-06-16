@@ -5,7 +5,7 @@ import Countdown from 'antd/lib/statistic/Countdown';
 import styled from 'styled-components';
 import moment from 'moment';
 import { useAuth0 } from '@auth0/auth0-react';
-import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
+import { FormattedMessage, navigate, useIntl } from 'gatsby-plugin-intl';
 import Headline from '../Article/Headline';
 import InterviewSession from './InterviewSession';
 import LoginPrompt from '../Login/LoginPrompt';
@@ -14,6 +14,7 @@ import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import Moment from 'react-moment';
+import InterviewActionsRow from './InterviewActionsRow';
 
 const StyledInterviewGeekStatus = styled.div`
   margin: 30px 0 20px;
@@ -160,8 +161,13 @@ const Interview = ({
       />
       <Headline title={interview.title}>
         {!publishedId && user?.sub && interview.clientUser.id === user?.sub
-        && <Link to={`/interviews/${interview.id}/edit`}>
-          <FormattedMessage defaultMessage="Edit"/></Link>}
+        &&
+        <InterviewActionsRow
+          id={id}
+          interviewTitle={interview.title}
+          onDeleted={() => navigate('/interviews')}
+        />
+        }
       </Headline>
       <Layout>
         {/*<AnchorSider />*/}
