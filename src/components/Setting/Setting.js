@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Checkbox, Form, Input, message, Spin } from 'antd';
+import { Button, Form, Input, message, Spin } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { LoadingOutlined } from '@ant-design/icons';
 import Headline from '../Article/Headline';
@@ -10,17 +10,6 @@ import UploadImage from '../UploadImgae/UploadImage';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 import { StoreContext } from '../../context/ContextProvider';
 import AnchorSider from '../Sider/AnchorSider';
-
-const anchors = [{
-  href: '#profile',
-  title: <FormattedMessage defaultMessage="Profile"/>
-}, {
-  href: '#password',
-  title: <FormattedMessage defaultMessage="Password"/>
-}, {
-  href: '#notification',
-  title: <FormattedMessage defaultMessage="Notification"/>
-}];
 
 const Setting = () => {
   const intl = useIntl();
@@ -36,7 +25,6 @@ const Setting = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [savingPwd, setSavingPwd] = useState(false);
-  const [savingNotifications, setSavingNotifications] = useState(false);
   const [form] = Form.useForm();
   const [passwordForm] = Form.useForm();
   useEffect(() => {
@@ -94,7 +82,13 @@ const Setting = () => {
       />
       <Headline title={intl.formatMessage({ defaultMessage: 'Setting' })}/>
       <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
-        <AnchorSider anchors={anchors}/>
+        <AnchorSider anchors={[{
+          href: '#profile',
+          title: <FormattedMessage defaultMessage="Profile"/>
+        }, !userProfile?.isSocialMedia && {
+          href: '#password',
+          title: <FormattedMessage defaultMessage="Password"/>
+        }]}/>
         <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
           <h2 id="profile"><FormattedMessage defaultMessage="Profile"/></h2>
           <UploadImage name="avatar" imageUrl={userProfile?.avatar}/>
@@ -135,7 +129,7 @@ const Setting = () => {
           <br/>
         </Form>
         {
-          userProfile?.id.indexOf('auth0|') !== -1 &&
+          !userProfile?.isSocialMedia &&
           <Form layout="vertical" onFinish={onPasswordFinish} scrollToFirstError
                 form={passwordForm}>
             <h2 id="password"><FormattedMessage defaultMessage="Password"/></h2>
@@ -197,21 +191,6 @@ const Setting = () => {
             <br/>
           </Form>
         }
-        <Form layout="vertical" onFinish={onFinish} scrollToFirstError>
-          <h2 id="notification"><FormattedMessage defaultMessage="Notification"/></h2>
-          <Checkbox>
-            <FormattedMessage
-              defaultMessage="Receives email Notification when a new candidate start testing your Assessments"/>
-          </Checkbox>
-
-          <br/>
-          <Form.Item>
-            <Button type="primary" loading={savingNotifications} htmlType="submit">
-              <FormattedMessage defaultMessage="Update Notification"/>
-            </Button>
-          </Form.Item>
-          <br/>
-        </Form>
       </Spin>
       <Seo subTitle={intl.formatMessage({ defaultMessage: 'Setting' })}/>
     </>

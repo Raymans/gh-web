@@ -7,6 +7,7 @@ import Search from 'antd/es/input/Search';
 import useApi from '../../hooks/useApi';
 import { useForm } from 'antd/lib/form/Form';
 import styled from 'styled-components';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const StyleReSendRow = styled.div`
   display: flex;
@@ -25,27 +26,15 @@ const ShareInterview = ({ id }) => {
     sendInterviewSessionToCandidate,
     createInterviewSession
   } = useApi();
+  const {
+    isAuthenticated
+  } = useAuth0();
   const shareLink = `https://geekhub.tw/interviews/${id}`;
   const [sharedForm] = useForm();
   const [sending, setSending] = useState({ sending: false });
   const [sharedEmails, setSharedEmails] = useState([]);
-  const [loadingSharedEmails, setLoadingSharedEmails] = useState(true);
   const [isShareModalVisible, setIsShareModalVisible] = useState(false);
   const intl = useIntl();
-
-  const handleResendEmail = (value) => {
-    sending[value] = true;
-    setSending({ ...sending });
-    sendInterviewSessionToCandidate({ id })
-      .then(() => {
-        if (!sharedEmails.includes(value)) {
-          setSharedEmails([...sharedEmails, value]);
-        }
-        sending[value] = false;
-        setSending({ ...sending });
-        message.success(intl.formatMessage({ defaultMessage: 'Sent Assessment to {interviewee}' }, { interviewee: value }));
-      });
-  };
 
   const handleShareEmail = (value) => {
     sharedForm.validateFields()
@@ -82,11 +71,6 @@ const ShareInterview = ({ id }) => {
         style={{ marginRight: '3px' }}
         onClick={() => {
           setIsShareModalVisible(true);
-          getInterviewSessions({ interviewId: id })
-            .then(({ results = [] }) => {
-              setSharedEmails(results.map((interviewSession) => interviewSession.userEmail));
-              setLoadingSharedEmails(false);
-            });
         }}
       />
       <Modal
@@ -109,36 +93,29 @@ const ShareInterview = ({ id }) => {
             <Button><FormattedMessage defaultMessage="Copy"/></Button>
           </CopyToClipboard>
         </div>
-        <Divider orientation="left"><FormattedMessage defaultMessage="Or"/></Divider>
-        <Form form={sharedForm}>
-          <Form.Item
-            name="email"
-            rules={[{
-              required: true,
-              message: <FormattedMessage defaultMessage="Please input email format."/>,
-              type: 'email'
-            }]}>
-            <Search
-              name="email"
-              placeholder={intl.formatMessage({ defaultMessage: 'Email' })}
-              enterButton={intl.formatMessage({ defaultMessage: 'Send' })}
-              loading={sending.sending}
-              onSearch={handleShareEmail}
-            />
-          </Form.Item>
-        </Form>
-
-        {!loadingSharedEmails && sharedEmails.map((sharedEmail) => (
-          <StyleReSendRow key={sharedEmail}>
-            <span>{sharedEmail}</span>
-            <Button
-              onClick={handleResendEmail.bind(this, sharedEmail)}
-              loading={sending[sharedEmail]}
-            >
-              <FormattedMessage defaultMessage="ReSend"/>
-            </Button>
-          </StyleReSendRow>
-        ))}
+        {
+          isAuthenticated &&
+          <>
+            <Divider orientation="left"><FormattedMessage defaultMessage="Or"/></Divider>
+            <Form form={sharedForm}>
+              <Form.Item
+                name="email"
+                rules={[{
+                  required: true,
+                  message: <FormattedMessage defaultMessage="Please input email format."/>,
+                  type: 'email'
+                }]}>
+                <Search
+                  name="email"
+                  placeholder={intl.formatMessage({ defaultMessage: 'Email' })}
+                  enterButton={intl.formatMessage({ defaultMessage: 'Send' })}
+                  loading={sending.sending}
+                  onSearch={handleShareEmail}
+                />
+              </Form.Item>
+            </Form>
+          </>
+        }
       </Modal>
     </>
   );

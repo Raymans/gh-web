@@ -25,7 +25,10 @@ const StoreProvider = ({ children }) => {
 
   const refreshUserProfile = () => getMyProfile(user.sub)
     .then((data) => {
-      setUserProfile(data);
+      setUserProfile({
+        ...data,
+        isSocialMedia: data?.id.indexOf('auth0|') === -1
+      });
       return data.organization ? getMyOrganization() : null;
     })
     .then((data) => setOrganization(data))

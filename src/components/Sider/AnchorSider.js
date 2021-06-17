@@ -20,6 +20,7 @@ const AnchorSider = (props) => {
       <Anchor offsetTop={60}>
         {
           anchors.map((anchor) => (
+            anchor &&
             <Anchor.Link key={anchor.href} href={anchor.href} title={anchor.title}>
               {anchor.subAnchors?.map((sub) => (
                 <Anchor.Link key={sub.href} href={sub.href} title={sub.title}/>
