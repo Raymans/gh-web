@@ -47,7 +47,8 @@ const Organization = () => {
     updateOrganization,
     updateOrganizationImage,
     declineOrganization,
-    changeOrganizationOwner
+    changeOrganizationOwner,
+    leaveOrganization
   } = useApi();
   const [newOrgName, setNewOrgName] = useState('');
   const [saving, setSaving] = useState(false);
@@ -59,7 +60,7 @@ const Organization = () => {
   const isOwner = userProfile?.accountPrivilege === 'OWNER';
 
   const handleSwitchOwner = () => {
-    if (organization.users.length > 1) {
+    if (isOwner && organization.users.length > 1) {
       const switchedOwner = switchOwnerForm.getFieldValue('switchedOwner');
       return switchOwnerForm.validateFields()
         .then(() => {
@@ -70,12 +71,10 @@ const Organization = () => {
           return Promise.reject();
         });
     }
+    return Promise.resolve();
   };
   const handleLeaveOrg = () => {
-    removeUserFromOrganization({
-      userId: userProfile?.id,
-      organizationId: organization?.id
-    })
+    leaveOrganization()
       .then(() => refreshUserProfile());
   };
 

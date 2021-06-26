@@ -429,12 +429,22 @@ const InterviewForm = ({ id }) => {
         <Headline
           title={isEditForm ? intl.formatMessage({ defaultMessage: 'Edit Assessment' }) : intl.formatMessage({ defaultMessage: 'Create Assessment' })}>
           {
-            publishedInterviewId
-            &&
-            <a href={location.pathname.replace(`${id}/edit`, `${publishedInterviewId}/published`)}
-               target="_blank">
-              <FormattedMessage defaultMessage="view live version"/></a>
+            isEditForm &&
+            <>
+              <a href={location.pathname.replace(`${id}/edit`, `${id}`)}
+                 target="_blank">
+                <FormattedMessage defaultMessage="view latest Assessment"/></a>
+              {
+                publishedInterviewId
+                &&
+                <a
+                  href={location.pathname.replace(`${id}/edit`, `${publishedInterviewId}/published`)}
+                  target="_blank">
+                  <FormattedMessage defaultMessage="view live version"/></a>
+              }
+            </>
           }
+
         </Headline>
         <Layout style={{ position: 'relative' }}>
           <AnchorSider anchors={anchorSections}/>
@@ -707,7 +717,8 @@ const InterviewForm = ({ id }) => {
                   )}
                 </Form.List>
                 <Button type="link">
-                  <Link to="/interviews" replace><FormattedMessage defaultMessage="Back"/></Link>
+                  <Link to="/interviews" replace><FormattedMessage
+                    defaultMessage="Back to List"/></Link>
                 </Button>
                 <Button type="primary" onClick={handleSave}>
                   {isEditForm ? <FormattedMessage defaultMessage="Update"/> :

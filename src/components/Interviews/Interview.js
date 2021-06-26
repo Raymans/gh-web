@@ -54,6 +54,8 @@ const Interview = ({
   });
   const [interviewSession, setInterviewSession] = useState(null);
   const isOwner = user?.sub === interview.clientUser.id;
+  const isViewPublished = publishedId !== '';
+
   const handleTimesUp = () => {
     Modal.warning({
       title: 'Times Up',
@@ -84,7 +86,7 @@ const Interview = ({
   };
 
   useEffect(() => {
-    if (publishedId) {
+    if (isViewPublished) {
       getPublishedInterview(publishedId)
         .then((pi) => {
           setInterview(pi.interview);
@@ -162,15 +164,29 @@ const Interview = ({
       />
       <Headline title={interview.title}>
         {
-          !publishedId && !loading && <ShareInterview id={interview.id}/>
-        }
-        {!publishedId && user?.sub && interview.clientUser.id === user?.sub
-        &&
-        <InterviewActionsRow
-          id={id}
-          interviewTitle={interview.title}
-          onDeleted={() => navigate('/interviews')}
-        />
+          !isViewPublished &&
+          <>
+            {
+              !loading && <ShareInterview id={interview.id}/>
+            }
+            {
+              !loading && isOwner
+              &&
+              <InterviewActionsRow
+                id={id}
+                interviewTitle={interview.title}
+                onDeleted={() => navigate('/interviews')}
+              />
+            }
+            {
+              isOwner && interview.publishedInterviewId
+              &&
+              <a
+                href={location.pathname.replace(`${id}`, `${interview.publishedInterviewId}/published`)}
+                target="_blank">
+                <FormattedMessage defaultMessage="view live version"/></a>
+            }
+          </>
         }
       </Headline>
       <Layout>
@@ -202,10 +218,9 @@ const Interview = ({
                   {isOwner && interview.visibility === 'PRIVATE' &&
                   <Tag color="default"><FormattedMessage defaultMessage="private"/></Tag>
                   }
-                  {publishedId &&
+                  {isViewPublished &&
                   <Tag color="default"><FormattedMessage defaultMessage="Published Version"/></Tag>
                   }
-
                 </Descriptions.Item>
 
                 <Descriptions.Item
