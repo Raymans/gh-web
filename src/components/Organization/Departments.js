@@ -88,7 +88,7 @@ const Departments = () => {
           title={intl.formatMessage({ defaultMessage: 'New Department' })}
           onBeforeSubmit={handleBeforeSubmit}
           onOK={handleNewDepartment}
-          onOpen={() => deptForm.setFieldsValue({ departmentName: '' })}
+          onOpen={async () => deptForm.setFieldsValue({ departmentName: '' })}
         >
           <DeptForm form={deptForm}/>
         </ConfirmModal>
@@ -107,7 +107,7 @@ const Departments = () => {
                   title={intl.formatMessage({ defaultMessage: 'Edit Department' })}
                   onBeforeSubmit={handleBeforeSubmit}
                   onOK={() => handleEditDepartment(record)}
-                  onOpen={() => deptForm.setFieldsValue({ departmentName: record.name })}
+                  onOpen={async () => deptForm.setFieldsValue({ departmentName: record.name })}
                   openButtonType="link"
                 >
                   <DeptForm form={deptForm} name={record.name}/>

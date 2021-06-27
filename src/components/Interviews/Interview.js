@@ -1,4 +1,4 @@
-import { Badge, Button, Col, Descriptions, Layout, Modal, Row, Spin, Statistic, Tag } from 'antd';
+import { Badge, Col, Descriptions, Layout, Modal, Row, Spin, Statistic, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { ExclamationCircleOutlined, LoadingOutlined, UserOutlined } from '@ant-design/icons';
 import Countdown from 'antd/lib/statistic/Countdown';
@@ -16,6 +16,7 @@ import Seo from '../Seo';
 import Moment from 'react-moment';
 import InterviewActionsRow from './InterviewActionsRow';
 import ShareInterview from './ShareInterview';
+import ConfirmModal from '../Organization/ConfirmModal';
 
 const StyledInterviewGeekStatus = styled.div`
   margin: 30px 0 20px;
@@ -47,7 +48,6 @@ const Interview = ({
   const [deadline, setDeadline] = useState(0);
   const [isTimeUp, setIsTimeUp] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [isTestModalVisible, setIsTestModalVisible] = useState(false);
   const [interview, setInterview] = useState({
     specialization: { name: '' },
     clientUser: { email: '' }
@@ -123,7 +123,6 @@ const Interview = ({
   }, []);
 
   const startTest = () => {
-    setIsTestModalVisible(false);
     if (sessionId) {
       startInterviewSession(sessionId)
         .then((interviewS) => {
@@ -146,10 +145,6 @@ const Interview = ({
 
   const handleEndInterviewSession = () => {
     setIsTesting(false);
-  };
-
-  const handleOpenTestPrompt = () => {
-    setIsTestModalVisible(true);
   };
 
   return (
@@ -277,32 +272,27 @@ const Interview = ({
                     <LoginPrompt
                       title={intl.formatMessage({ defaultMessage: 'Login to Test Assessment' })}>
                       {(isAuth) => (
-                        <Button
-                          type="primary"
-                          onClick={isAuth ? handleOpenTestPrompt : () => {
-                          }}
+                        <ConfirmModal
+                          title={intl.formatMessage({ defaultMessage: 'Test the assessment' })}
+                          onOK={startTest}
+                          onOpen={() => isAuth ? Promise.resolve() : Promise.reject()}
+                          openButtonTitle={intl.formatMessage({ defaultMessage: 'Start Testing Assessment' })}
+                          openButtonType={'primary'}
+                          successMessage={intl.formatMessage({ defaultMessage: 'Testing the assessment' })}
                         >
-                          <FormattedMessage defaultMessage="Start Testing Assessment"/>
-                        </Button>
+                          <p><FormattedMessage defaultMessage="Start testing the assessment!!"/></p>
+                          {
+                            (interviewSession?.duration > 0 || interview.defaultDuration > 0)
+                            &&
+                            <p>
+                              <FormattedMessage
+                                defaultMessage="You will have {duration} minutes complete the assessment."
+                                values={{ duration: interviewSession?.duration || interview.defaultDuration }}/>
+                            </p>
+                          }
+                        </ConfirmModal>
                       )}
                     </LoginPrompt>
-                    <Modal
-                      title="Start Testing Assessment"
-                      visible={isTestModalVisible}
-                      onOk={startTest}
-                      onCancel={() => setIsTestModalVisible(false)}
-                    >
-                      <p><FormattedMessage defaultMessage="Start testing the assessment!!"/></p>
-                      {
-                        (interviewSession?.duration > 0 || interview.defaultDuration > 0)
-                        &&
-                        <p>
-                          <FormattedMessage
-                            defaultMessage="You will have {duration} minutes complete the assessment."
-                            values={{ duration: interviewSession?.duration || interview.defaultDuration }}/>
-                        </p>
-                      }
-                    </Modal>
                   </>
                 )
               }

@@ -22,9 +22,13 @@ const ConfirmModal = ({
   const [modalVisible, setModalVisible] = useState(false);
   const [okLoading, setOKLoading] = useState(false);
   const handleOpen = () => {
-    onOpen();
-    setOKLoading(false);
-    setModalVisible(true);
+    return onOpen()
+      .then(() => {
+        setOKLoading(false);
+        setModalVisible(true);
+      })
+      .catch(() => {
+      });
   };
   const handleOK = () => {
     setOKLoading(true);

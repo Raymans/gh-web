@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Form, Input, message, Modal, Result, Spin } from 'antd';
+import { Button, Form, Input, message, Result, Spin } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { LoadingOutlined } from '@ant-design/icons';
 import Headline from '../Article/Headline';
@@ -50,12 +50,12 @@ const Organization = () => {
     changeOrganizationOwner,
     leaveOrganization
   } = useApi();
-  const [newOrgName, setNewOrgName] = useState('');
   const [saving, setSaving] = useState(false);
   const [joining, setJoining] = useState(false);
   const [declining, setDeclining] = useState(false);
   const [form] = Form.useForm();
   const [switchOwnerForm] = Form.useForm();
+  const [enableForm] = Form.useForm();
 
   const isOwner = userProfile?.accountPrivilege === 'OWNER';
 
@@ -125,20 +125,14 @@ const Organization = () => {
       });
   };
   const handleEnableOrg = () => {
-    enableOrganization({ organizationName: newOrgName })
-      .then(refreshUserProfile());
-  };
-  const OpenEnableOrgModal = () => {
-    Modal.info({
-      title: intl.formatMessage({ defaultMessage: 'Enable your Organization' }),
-      content: <Input
-        placeholder={intl.formatMessage({ defaultMessage: 'Organization Name' })}
-        onChange={(e) => {
-          setNewOrgName(e.target.value);
-        }}
-      />,
-      onOk: handleEnableOrg
-    });
+    return enableForm.validateFields()
+      .then(() =>
+        enableOrganization({ organizationName: enableForm.getFieldValue('name') })
+      )
+      .then(() =>
+        refreshUserProfile()
+      )
+      .catch(() => Promise.reject());
   };
 
   const JoinConfirm = (
@@ -173,9 +167,27 @@ const Organization = () => {
         title={intl.formatMessage({ defaultMessage: 'Enable your Organization can really give you so many benefits.' })}
         subTitle={intl.formatMessage({ defaultMessage: 'Bring your organization on the table, manage assessment across departments, invites people work with you to boost assessment process together!' })}
         extra={[
-          <Button type="primary" key="enableOrg" onClick={OpenEnableOrgModal}>
-            <FormattedMessage defaultMessage="Enable your Organization"/>
-          </Button>
+          <ConfirmModal
+            openButtonTitle={intl.formatMessage({ defaultMessage: 'Enable your Organization' })}
+            title={intl.formatMessage({ defaultMessage: 'Enable your Organization' })}
+            submitButtonTitle={intl.formatMessage({ defaultMessage: 'Enable' })}
+            onOK={handleEnableOrg}
+            openButtonType="primary"
+          >
+            <Form form={enableForm}>
+              <FormItem
+                name="name"
+                required
+                rules={[{
+                  required: true,
+                  message: intl.formatMessage({ defaultMessage: 'Please input your Organization Name.' })
+                }]}
+              >
+                <Input size="large"
+                       placeholder={intl.formatMessage({ defaultMessage: 'Organization Name' })}/>
+              </FormItem>
+            </Form>
+          </ConfirmModal>
         ]}
       />
     </>

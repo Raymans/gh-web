@@ -451,7 +451,7 @@ const InterviewForm = ({ id }) => {
           <Content>
             <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
               <Form
-                {...inputLayout}
+                layout={'vertical'}
                 onFinish={onFinish}
                 form={form}
                 scrollToFirstError
@@ -545,6 +545,26 @@ const InterviewForm = ({ id }) => {
                                                          values={{ minutes: 90 }}/></Option>
                     <Option value={120}><FormattedMessage defaultMessage="{minutes} Minutes"
                                                           values={{ minutes: 120 }}/></Option>
+                  </Select>
+                </FormItem>
+                <FormItem
+                  label={
+                    <>
+                      <FormattedMessage defaultMessage={'Show Answer Immediately:'}/>
+                      <Tooltip
+                        title={intl.formatMessage({ defaultMessage: 'choose yes if you want your candidate can see answers right after submitting.' })}
+                      >
+                        <StyledQuestionCircleOutlined/>
+                      </Tooltip>
+                    </>
+                  }
+                  name="releaseResult"
+                >
+                  <Select
+                    defaultValue="NO"
+                  >
+                    <Option value="YES"><FormattedMessage defaultMessage="YES"/></Option>
+                    <Option value="NO"><FormattedMessage defaultMessage="NO"/> </Option>
                   </Select>
                 </FormItem>
                 <Form.List name="sections">

@@ -2,6 +2,7 @@ import { Button, Modal } from 'antd';
 import React, { useState } from 'react';
 import { useLocation } from '@reach/router';
 import { useAuth0 } from '@auth0/auth0-react';
+import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 
 
 const LoginPrompt = ({
@@ -13,6 +14,7 @@ const LoginPrompt = ({
     loginWithRedirect
   } = useAuth0();
   const location = useLocation();
+  const intl = useIntl();
   const [isLoginPrompt, setIsLoginPrompt] = useState(false);
   const handleLoginPrompt = () => {
     if (!isAuthenticated) {
@@ -22,16 +24,16 @@ const LoginPrompt = ({
   return (
     <>
       <Modal
-        title={title || 'Login to continue'}
+        title={title || intl.formatMessage({ defaultMessage: 'Login to continue' })}
         visible={isLoginPrompt}
         onCancel={() => setIsLoginPrompt(false)}
         footer={[
           <Button key="submit" type="primary" onClick={() => loginWithRedirect(location.pathname)}>
-            Login
+            <FormattedMessage defaultMessage={'Login'}/>
           </Button>
         ]}
       >
-        <p>You have to Login to continue!</p>
+        <p><FormattedMessage defaultMessage={'You have to Login to continue!'}/></p>
       </Modal>
       <span onClick={handleLoginPrompt}>
         {children(isAuthenticated)}
