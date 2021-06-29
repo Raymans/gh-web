@@ -80,8 +80,10 @@ const InterviewList = ({ location }) => {
     const getInterviewAPI = searchedInterviewCriteria.tab === 'liked' ? getInterviewsByUserLiked : getInterviews;
     return getInterviewAPI({
       url,
-      userId: userProfile?.id, ...searchedInterviewCriteria,
-      owner: searchedInterviewCriteria.tab === 'mine'
+      userId: userProfile?.id,
+      ...searchedInterviewCriteria,
+      owner: searchedInterviewCriteria.tab === 'mine',
+      invited: searchedInterviewCriteria.tab === 'pending'
     })
       .then((res) => {
         setInterviews(isAppend ? interviews.concat(res.results) : res.results);

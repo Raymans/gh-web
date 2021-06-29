@@ -58,9 +58,9 @@ const Interview = ({
 
   const handleTimesUp = () => {
     Modal.warning({
-      title: 'Times Up',
+      title: intl.formatMessage({ defaultMessage: 'Times Up' }),
       icon: <ExclamationCircleOutlined/>,
-      content: 'This assessment Result is submitted automatically since you already passed assessment time.',
+      content: intl.formatMessage({ defaultMessage: 'This assessment Result is submitted automatically since you already passed assessment time.' }),
       onOk() {
         setIsTimeUp(true);
       }
