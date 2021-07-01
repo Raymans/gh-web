@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true;
 
 const errorMsg = 'Oops! Something went wrong, please try again later. ';
 
-function checkStatus(error) {
+function checkStatus(error, request) {
   const { response } = error;
   if (!response) {
     message.error({
@@ -23,24 +23,19 @@ function checkStatus(error) {
   if (response.status === 404) {
     navigate('/404');
   }
-  // navigate('404');
+  if(response.status === 401){
+    return request();
+  }
   return Promise.reject(response);
 }
 
-/**
- * Requests a URL, returning a promise.
- *
- * @param  {string} url       The URL we want to request
- * @param  {object} [options] The options we want to pass to "fetch"
- * @return {object}           An object containing either "data" or "err"
- */
 export default function request(getAccessTokenSilently) {
-  return async (url, options) => {
+  const _request = async (url, options, ignoreCache = false) => {
     const defaultOptions = {
       withCredentials: true
     };
     try {
-      const token = await getAccessTokenSilently();
+      const token = await getAccessTokenSilently({ignoreCache});
       options = {
         ...options,
         headers: {
@@ -88,6 +83,7 @@ export default function request(getAccessTokenSilently) {
         return response;
       })
       .then(({ data }) => (!data ? {} : data))
-      .catch(checkStatus);
+      .catch((e)=> checkStatus(e, _request.bind(this, url, options, true)));
   };
+  return _request;
 }

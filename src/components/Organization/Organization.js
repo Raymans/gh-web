@@ -73,10 +73,9 @@ const Organization = () => {
     }
     return Promise.resolve();
   };
-  const handleLeaveOrg = () => {
+  const handleLeaveOrg = () =>
     leaveOrganization()
       .then(() => refreshUserProfile());
-  };
 
   const postSuccess = () => {
     message.success(intl.formatMessage({ defaultMessage: 'Organization has been updated successfully!' }));
