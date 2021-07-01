@@ -97,18 +97,30 @@ const Interview = ({
     if (sessionId) {
       getInterviewSession(sessionId)
         .then((interviewS) => {
-          if (interviewS.interviewStartDate) {
-            setInterview(interviewS.interview);
-            startInterviewS(interviewS);
+          const is = { ...interviewS,
+            interview: {
+              ...interviewS.interview,
+              interviewSessions: interviewS.groupedInterviewSessions
+            }
+          };
+          if (is.interviewStartDate) {
+            setInterview(is.interview);
+            startInterviewS(is);
             return;
           }
           setLoading(false);
-          setInterview(interviewS.interview);
+          setInterview(is.interview);
         });
       return;
     }
     getCurrentInterviewSession({ id })
-      .then((is) => {
+      .then((interviewS) => {
+        const is = { ...interviewS,
+          interview: {
+            ...interviewS.interview,
+            interviewSessions: interviewS.groupedInterviewSessions
+          }
+        };
         setLoading(false);
         setInterview(is.interview);
         startInterviewS(is);

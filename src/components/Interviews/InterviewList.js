@@ -135,6 +135,9 @@ const InterviewList = ({ location }) => {
   }, [tab]);
 
   useEffect(() => {
+    if(!searchedInterviewCriteria.tab){
+      return;
+    }
     searchInterviews();
   }, [searchedInterviewCriteria.keyword, searchedInterviewCriteria.tab]);
   return (
