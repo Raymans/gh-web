@@ -123,7 +123,7 @@ const Setting = () => {
           <br/>
           <Form.Item>
             <Button type="primary" loading={saving} htmlType="submit">
-              <FormattedMessage defaultMessage="Update Profile"/>
+              <span><FormattedMessage defaultMessage="Update Profile"/></span>
             </Button>
           </Form.Item>
           <br/>
@@ -185,7 +185,7 @@ const Setting = () => {
             <br/>
             <Form.Item>
               <Button type="primary" loading={savingPwd} htmlType="submit">
-                <FormattedMessage defaultMessage="Update Password"/>
+                <span><FormattedMessage defaultMessage="Update Password"/></span>
               </Button>
             </Form.Item>
             <br/>

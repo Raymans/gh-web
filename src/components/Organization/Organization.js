@@ -281,7 +281,7 @@ const Organization = () => {
                            placeholder={intl.formatMessage({ defaultMessage: 'Organization Name' })}/>
                   </FormItem>
                   <Button type="primary" loading={saving} htmlType="submit">
-                    <FormattedMessage defaultMessage="Update Organization"/>
+                    <span><FormattedMessage defaultMessage="Update Organization"/></span>
                   </Button>
                 </Form>
               }
