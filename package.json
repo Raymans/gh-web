@@ -36,6 +36,7 @@
     "@fortawesome/react-fontawesome": "0.1.8",
     "@mdx-js/mdx": "^1.5.9",
     "@mdx-js/react": "^1.5.9",
+    "@rehooks/local-storage": "^2.4.0",
     "@svgr/webpack": "^5.1.0",
     "antd": "^4.16.6",
     "auth0-js": "^9.12.2",

@@ -116,7 +116,7 @@ const InterviewSession = ({
         return submitInterviewSession(id)
           .then(() => {
             setIsSubmitted(true);
-            onEndInterviewSession();
+            onEndInterviewSession(id);
           });
       },
       onCancel() {
@@ -129,7 +129,7 @@ const InterviewSession = ({
       submitInterviewSession(id)
         .then(() => {
           setIsSubmitted(true);
-          onEndInterviewSession();
+          onEndInterviewSession(id);
         });
     }
   }, [endSession]);
@@ -212,7 +212,7 @@ const InterviewSession = ({
                                   }
                                   {
                                     question.questionType === 'SHORT_ANSWER' &&
-                                    <Input />
+                                    <Input/>
                                   }
                                 </StyledQuestionBlock>
                               </div>

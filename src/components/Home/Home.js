@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-import { Col, Row } from 'antd';
+import { Button, Col, Row } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled, { useTheme } from 'styled-components';
-import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
+import { FormattedMessage, navigate, useIntl } from 'gatsby-plugin-intl';
 import PropTypes from 'prop-types';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import AnalysisImg from '../../images/Analysis.jpg';
@@ -267,6 +267,9 @@ const Home = (props) => {
         <StyledRow type="flex" justify="space-around">
           <Col span={24} style={{ textAlign: 'center' }}>
             <h2><FormattedMessage defaultMessage="Choose a GeekHub Assessment to start."/></h2>
+            <Button type={'primary'} onClick={() => navigate('/get-started')}>
+              <FormattedMessage defaultMessage={'Get Started'}/>
+            </Button>
             <FeatureList>
               <FeatureListItem><FormattedMessage
                 defaultMessage="JavaScript Assessment"/></FeatureListItem>

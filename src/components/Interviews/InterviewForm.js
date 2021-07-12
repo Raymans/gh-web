@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import {
   AutoComplete,
   Button,
@@ -36,6 +37,7 @@ import LoginNeededWrapper from '../Auth/LoginNeededWrapper';
 import ConfirmModal from '../Organization/ConfirmModal';
 import AnchorSider from '../Sider/AnchorSider';
 import { Option } from 'antd/lib/mentions';
+import useGetStarted from '../../hooks/useGetStarted';
 
 const {
   Content
@@ -110,7 +112,10 @@ const defaultQuestion = {
 
 const defaultSectionTitle = 'default section';
 
-const InterviewForm = ({ id }) => {
+const InterviewForm = ({
+  id,
+  onPublished
+}) => {
   const isEditForm = !!id;
   const intl = useIntl();
   const {
@@ -121,6 +126,7 @@ const InterviewForm = ({ id }) => {
     updateInterview,
     publishInterview
   } = useApi();
+  const { isGetStarted } = useGetStarted();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -216,6 +222,7 @@ const InterviewForm = ({ id }) => {
       return publishInterview({ id: data.id })
         .then((pi) => {
           setPublishedInterviewId(pi.interview.publishedInterviewId);
+          onPublished(data);
           return data;
         });
     }
@@ -425,7 +432,9 @@ const InterviewForm = ({ id }) => {
       <LoginNeededWrapper
         title={<FormattedMessage defaultMessage="Login to play with Assessments"/>}
         subTitle={<FormattedMessage
-          defaultMessage="Please login to enable abilities to create/edit your Assessments."/>}>
+          defaultMessage="Please login to enable abilities to create/edit your Assessments."/>}
+        isLoginNeeded={!isGetStarted}
+      >
         <Headline
           title={isEditForm ? intl.formatMessage({ defaultMessage: 'Edit Assessment' }) : intl.formatMessage({ defaultMessage: 'Create Assessment' })}>
           {
@@ -740,10 +749,28 @@ const InterviewForm = ({ id }) => {
                   <Link to="/interviews" replace><FormattedMessage
                     defaultMessage="Back to List"/></Link>
                 </Button>
-                <Button type="primary" onClick={handleSave}>
-                  {isEditForm ? <FormattedMessage defaultMessage="Update"/> :
-                    <FormattedMessage defaultMessage="Create"/>}
-                </Button>
+                {/*wrap tooltip if it's getStarted mode*/}
+                {
+                  (() => {
+                    const _button = (
+                      <Button type="primary" onClick={handleSave} disabled={isGetStarted}>
+                        {isEditForm ? <FormattedMessage defaultMessage="Update"/> :
+                          <FormattedMessage defaultMessage="Create"/>}
+                      </Button>
+                    );
+                    if (isGetStarted) {
+                      return (
+                        <Tooltip
+                          title={intl.formatMessage({ defaultMessage: 'cannot do this in Get Started' })}
+                          popupVisible={isGetStarted}
+                        >
+                          {_button}
+                        </Tooltip>
+                      );
+                    }
+                    return _button;
+                  })()
+                }
                 <Button type="primary" onClick={handlePublish}>
                   <FormattedMessage defaultMessage="Publish"/>
                 </Button>
@@ -759,3 +786,13 @@ const InterviewForm = ({ id }) => {
 };
 
 export default InterviewForm;
+
+InterviewForm.propTypes = {
+  id: PropTypes.any,
+  onPublished: PropTypes.func
+};
+
+InterviewForm.defaultProps = {
+  onPublished: () => {
+  }
+};

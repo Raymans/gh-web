@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Affix, Avatar, Button, Drawer, Menu as AntMenu } from 'antd';
-import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, navigate, useIntl } from 'gatsby-plugin-intl';
 import styled, { ThemeContext } from 'styled-components';
 import Icon, {
   EyeOutlined,
@@ -13,7 +13,7 @@ import Icon, {
 } from '@ant-design/icons';
 import { useAuth0 } from '@auth0/auth0-react';
 import useLayout from '../../hooks/useLayout';
-import { StoreContext } from '../../context/ContextProvider';
+import useStore from '../../hooks/useStore';
 
 const StyledAlignSpan = styled.span`
   display: flex;
@@ -22,6 +22,8 @@ const StyledAlignSpan = styled.span`
 `;
 
 const StyledMenu = styled.div`
+  display: flex;
+
   .ant-menu {
     font-size: 16px;
   }
@@ -34,7 +36,8 @@ const Menu = (props) => {
   } = useAuth0();
   const { locale } = useIntl();
 
-  const { userProfile } = useContext(StoreContext);
+  const { userProfile } = useStore();
+  //const { userProfile } = useContext(StoreContext);
   const { switchDark } = useContext(ThemeContext);
   const [layout] = useLayout();
   const [menuVisible, setMenuVisible] = useState(false);
@@ -279,7 +282,18 @@ const Menu = (props) => {
       )}
 
       {layout.screenWidth >= 700
-      && antdMenu}
+      &&
+      <>
+        {
+          !isAuthenticated &&
+          <span>
+            <Button type={'primary'} onClick={() => navigate('/get-started')}>
+              <FormattedMessage defaultMessage={'Get Started'}/>
+            </Button>
+          </span>
+        }
+        <span>{antdMenu}</span></>
+      }
     </StyledMenu>
   );
 };

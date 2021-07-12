@@ -1,15 +1,31 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import request1 from '../utils/request';
-import config from '../../content/meta/config';
+import config, { guest } from '../../content/meta/config';
+import useGetStarted from './useGetStarted';
+
 
 export default () => {
   const { getAccessTokenSilently } = useAuth0();
-  const request = request1(getAccessTokenSilently);
+  const { tokens } = useGetStarted();
+  const request = request1(getAccessTokenSilently, tokens || {
+    accessToken: '',
+    userKey: ''
+  });
 
   return {
     getUser: (params) => request(`${config.ghServiceUrl}/api/users`, {
       method: 'GET',
       data: params
+    }),
+    getGuestUserToken: () => request(`${config.ghServiceUrl}/api/tokens`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        username: guest.email,
+        password: guest.password
+      }
     }),
     getQuestions: ({
       url = `${config.ghServiceUrl}/api/questions`,

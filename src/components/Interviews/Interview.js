@@ -17,6 +17,7 @@ import Moment from 'react-moment';
 import InterviewActionsRow from './InterviewActionsRow';
 import ShareInterview from './ShareInterview';
 import ConfirmModal from '../Organization/ConfirmModal';
+import { guest } from '../../../content/meta/config';
 
 const StyledInterviewGeekStatus = styled.div`
   margin: 30px 0 20px;
@@ -30,7 +31,10 @@ const StyledDescription = styled.div`
 const Interview = ({
   id,
   sessionId = '',
-  publishedId = ''
+  publishedId = '',
+  isGetStarted = false,
+  onSubmit = () => {
+  }
 }) => {
   const {
     user
@@ -97,7 +101,8 @@ const Interview = ({
     if (sessionId) {
       getInterviewSession(sessionId)
         .then((interviewS) => {
-          const is = { ...interviewS,
+          const is = {
+            ...interviewS,
             interview: {
               ...interviewS.interview,
               interviewSessions: interviewS.groupedInterviewSessions
@@ -115,7 +120,8 @@ const Interview = ({
     }
     getCurrentInterviewSession({ id })
       .then((interviewS) => {
-        const is = { ...interviewS,
+        const is = {
+          ...interviewS,
           interview: {
             ...interviewS.interview,
             interviewSessions: interviewS.groupedInterviewSessions
@@ -144,8 +150,8 @@ const Interview = ({
     }
     createInterviewSession({
       id,
-      email: user?.email,
-      name: user?.email.split('@')[0]
+      email: user?.email ?? guest.email,
+      name: user?.email.split('@')[0] ?? guest.name
     })
       .then(({ id: createdSessionId }) => {
         startInterviewSession(createdSessionId)
@@ -155,8 +161,9 @@ const Interview = ({
       });
   };
 
-  const handleEndInterviewSession = () => {
+  const handleEndInterviewSession = (id) => {
     setIsTesting(false);
+    onSubmit(id);
   };
 
   return (
@@ -282,7 +289,9 @@ const Interview = ({
                 && (
                   <>
                     <LoginPrompt
-                      title={intl.formatMessage({ defaultMessage: 'Login to Test Assessment' })}>
+                      title={intl.formatMessage({ defaultMessage: 'Login to Test Assessment' })}
+                      isLoginNeeded={!isGetStarted}
+                    >
                       {(isAuth) => (
                         <ConfirmModal
                           title={intl.formatMessage({ defaultMessage: 'Test the assessment' })}

@@ -8,6 +8,7 @@ import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
+import useGetStarted from '../../hooks/useGetStarted';
 
 const StyledScore = styled.span`
   color: cadetblue;
@@ -32,9 +33,11 @@ const StyledRank = styled.span`
     font-weight: bold;
     font-size: 14px;
   }
-
 `;
-const columns = [
+
+
+const buildColumns = (isGetStarted = false, setStep = () => {
+}) => [
   {
     dataIndex: 'rank',
     render: (rank, interviewSession, index) =>
@@ -91,7 +94,13 @@ const columns = [
     key: 'action',
     width: 150,
     render: (action, { id }) => (
-      <span>
+      isGetStarted ?
+        <span>
+        <Link to={`/get-started`} onClick={() => setStep(3)}>
+          <FormattedMessage defaultMessage="See Result"/>
+        </Link>
+      </span> :
+        <span>
         <Link to={`/manageInterviews/${action.interview.id}/${id}`}>
           <FormattedMessage defaultMessage="See Result"/>
         </Link>
@@ -108,6 +117,10 @@ const InterviewResults = ({
   const intl = useIntl();
   const [myInterviewsSessions, setMyInterviewsSessions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const {
+    isGetStarted,
+    setStep
+  } = useGetStarted();
   useEffect(() => {
     getInterviewSessions({
       interviewId: id,
@@ -128,8 +141,8 @@ const InterviewResults = ({
         label: intl.formatMessage({ defaultMessage: 'Manage Interviews' }),
         path: '/manageInterviews'
       }, {
-        label: location.state?.interviewName,
-        path: location.pathname
+        label: location?.state?.interviewName,
+        path: location?.pathname
       }]}
       />
       <Headline title={intl.formatMessage({ defaultMessage: 'Manage Interviews' })}>
@@ -139,12 +152,12 @@ const InterviewResults = ({
         <Table
           rowKey={(interviewSession) => interviewSession.id}
           showHeader={false}
-          columns={columns}
+          columns={buildColumns(isGetStarted, setStep)}
           dataSource={myInterviewsSessions}
           pagination={false}
         />
       </Spin>
-      <Seo subTitle={location.state?.interviewName}/>
+      <Seo subTitle={location?.state?.interviewName}/>
     </>
   );
 };

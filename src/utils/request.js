@@ -23,26 +23,40 @@ function checkStatus(error, request) {
   if (response.status === 404) {
     navigate('/404');
   }
-  if(response.status === 401){
+  if (response.status === 401) {
     return request();
   }
   return Promise.reject(response);
 }
 
-export default function request(getAccessTokenSilently) {
+export default function request(getAccessTokenSilently, tokens = {
+  accessToken: '',
+  userKey: ''
+}) {
   const _request = async (url, options, ignoreCache = false) => {
     const defaultOptions = {
       withCredentials: true
     };
     try {
-      const token = await getAccessTokenSilently({ignoreCache});
+      const token = await getAccessTokenSilently({ ignoreCache });
       options = {
         ...options,
         headers: {
+          ...options.headers,
           Authorization: `Bearer ${token}`
         }
       };
     } catch {
+      if (tokens.accessToken) {
+        options = {
+          ...options,
+          headers: {
+            ...options.headers,
+            Authorization: `Bearer ${tokens.accessToken}`,
+            'x-user-key': tokens.userKey
+          }
+        };
+      }
     }
     const newOptions = { ...defaultOptions, ...options };
     if (
@@ -83,7 +97,7 @@ export default function request(getAccessTokenSilently) {
         return response;
       })
       .then(({ data }) => (!data ? {} : data))
-      .catch((e)=> checkStatus(e, _request.bind(this, url, options, true)));
+      .catch((e) => checkStatus(e, _request.bind(this, url, options, true)));
   };
   return _request;
 }

@@ -17,8 +17,16 @@ module.exports = {
   manifestBackgroundColor: 'white',
   manifestThemeColor: '#666',
   manifestDisplay: 'standalone',
-  authorSocialLinks: [{ name: 'github', url: 'https://github.com/raymans' }],
+  authorSocialLinks: [{
+    name: 'github',
+    url: 'https://github.com/raymans'
+  }],
   ghServiceUrl: 'https://api.geekhub.tw',
+  guest: {
+    email: 'guest@geekhub.tw',
+    password: 'guest123',
+    name: 'Guest'
+  }
   // ghServiceUrl: 'http://192.168.2.244:8080',
   // ghServiceUrl: 'http://gh-stack-ecs-apploadbalancer-55277355.ap-northeast-1.elb.amazonaws.com'
 };

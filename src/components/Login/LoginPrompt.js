@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Button, Modal } from 'antd';
 import React, { useState } from 'react';
 import { useLocation } from '@reach/router';
@@ -7,7 +8,8 @@ import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 
 const LoginPrompt = ({
   children,
-  title
+  title,
+  isLoginNeeded
 }) => {
   const {
     isAuthenticated,
@@ -16,8 +18,9 @@ const LoginPrompt = ({
   const location = useLocation();
   const intl = useIntl();
   const [isLoginPrompt, setIsLoginPrompt] = useState(false);
+  const isLoginBypass = !isLoginNeeded || isAuthenticated;
   const handleLoginPrompt = () => {
-    if (!isAuthenticated) {
+    if (!isLoginBypass) {
       setIsLoginPrompt(true);
     }
   };
@@ -36,9 +39,19 @@ const LoginPrompt = ({
         <p><FormattedMessage defaultMessage={'You have to Login to continue!'}/></p>
       </Modal>
       <span onClick={handleLoginPrompt}>
-        {children(isAuthenticated)}
+        {children(isLoginBypass)}
       </span>
     </>
   );
 };
 export default LoginPrompt;
+
+LoginPrompt.propTypes = {
+  children: PropTypes.any,
+  isLoginNeeded: PropTypes.bool,
+  title: PropTypes.any
+};
+
+LoginPrompt.defaultProps = {
+  isLoginNeeded: true
+};
