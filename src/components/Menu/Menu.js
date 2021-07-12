@@ -32,7 +32,8 @@ const Menu = (props) => {
   const {
     isAuthenticated,
     loginWithRedirect,
-    logout
+    logout,
+    isLoading,
   } = useAuth0();
   const { locale } = useIntl();
 
@@ -261,7 +262,7 @@ const Menu = (props) => {
   );
   return (
     <StyledMenu>
-      {layout.screenWidth < 700
+      {layout.screenWidth < 700 && !isLoading
       && (
         <>
           <Affix offsetTop={20}>
@@ -281,7 +282,7 @@ const Menu = (props) => {
         </>
       )}
 
-      {layout.screenWidth >= 700
+      {layout.screenWidth >= 700 && !isLoading
       &&
       <>
         {
