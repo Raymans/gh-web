@@ -32,7 +32,7 @@ function checkStatus(error, request) {
 export default function request(getAccessTokenSilently, tokens = {
   accessToken: '',
   userKey: ''
-}) {
+}, clearGSTokens) {
   const _request = async (url, options, ignoreCache = false) => {
     const defaultOptions = {
       withCredentials: true
@@ -47,7 +47,11 @@ export default function request(getAccessTokenSilently, tokens = {
         }
       };
     } catch {
-      if (tokens.accessToken) {
+      if (ignoreCache) {
+        clearGSTokens();
+        return Promise.reject('token expired!');
+      }
+      if (tokens?.accessToken) {
         options = {
           ...options,
           headers: {

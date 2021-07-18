@@ -84,7 +84,7 @@ const InterviewSessionResult = ({
               label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{interviewSession.interview?.jobTitle}</Descriptions.Item>
             <Descriptions.Item
               label={<FormattedMessage defaultMessage="Updated on"/>}>
-              <Moment date={interviewSession.interview?.lastModifiedDate} format="lll"/>
+              <Moment date={interviewSession.interview?.lastModifiedDate} format="ll"/>
             </Descriptions.Item>
             <Descriptions.Item
               span={2}

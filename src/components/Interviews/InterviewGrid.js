@@ -108,7 +108,7 @@ const InterviewGrid = (props) => {
                     label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{jobTitle}</Descriptions.Item>
                   <Descriptions.Item
                     label={<FormattedMessage defaultMessage="Updated on"/>}>
-                    <Moment date={lastModifiedDate} format="lll"/>
+                    <Moment date={lastModifiedDate} format="ll"/>
                   </Descriptions.Item>
                   <Descriptions.Item
                     span={2}><StyledDescription>{description}</StyledDescription></Descriptions.Item>

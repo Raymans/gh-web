@@ -60,14 +60,16 @@ const AuthorBy = ({
   };
   return (
     <>
-      <FormattedMessage defaultMessage="by {avatar} {author} " values={{
-        avatar: <StyledAvatar
-          src={clientUser.avatar}
-        >
-          {clientUser.name}
-        </StyledAvatar>,
-        author: <Link to={`/profile/${clientUser.id}`}>{clientUser.name} </Link>
-      }}/>
+      <div>
+        <FormattedMessage defaultMessage="by {avatar} {author} " values={{
+          avatar: <StyledAvatar
+            src={clientUser.avatar}
+          >
+            {clientUser.name}
+          </StyledAvatar>,
+          author: <Link to={`/profile/${clientUser.id}`}>{clientUser.name} </Link>
+        }}/>
+      </div>
       {isOwnerChangeable && (
         <Button onClick={() => {
           setChangeOwnerVisible(true);

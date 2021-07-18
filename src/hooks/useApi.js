@@ -2,31 +2,36 @@ import { useAuth0 } from '@auth0/auth0-react';
 import request1 from '../utils/request';
 import config, { guest } from '../../content/meta/config';
 import useGetStarted from './useGetStarted';
+import axios from 'axios';
+import qs from 'qs';
 
-
+export const getGuestUserToken = () => axios(`${config.ghServiceUrl}/api/tokens`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  },
+  data: qs.stringify({
+    username: guest.email,
+    password: guest.password
+  })
+})
+  .then(({ data }) => data)
+  .catch(() => console.error('Cannot get Guest Token'));
 export default () => {
   const { getAccessTokenSilently } = useAuth0();
-  const { tokens } = useGetStarted();
-  const request = request1(getAccessTokenSilently, tokens || {
-    accessToken: '',
-    userKey: ''
-  });
+  const {
+    isGetStarted,
+    gsTokens,
+    clearGSTokens
+  } = useGetStarted();
+  const request = request1(getAccessTokenSilently, isGetStarted && gsTokens, clearGSTokens);
 
   return {
     getUser: (params) => request(`${config.ghServiceUrl}/api/users`, {
       method: 'GET',
       data: params
     }),
-    getGuestUserToken: () => request(`${config.ghServiceUrl}/api/tokens`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      data: {
-        username: guest.email,
-        password: guest.password
-      }
-    }),
+    getGuestUserToken,
     getQuestions: ({
       url = `${config.ghServiceUrl}/api/questions`,
       ...params

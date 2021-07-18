@@ -32,10 +32,14 @@ const StyledQuestionBlock = styled.div`
   }
 
   margin: 24px;
+
+  .ant-checkbox-group {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const StyledCheckbox = styled(Checkbox)`
-  display: block !important;
   margin-left: 0 !important;
   padding: 4px;
 

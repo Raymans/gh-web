@@ -19,7 +19,7 @@ const useGetStarted = () => {
   const [assessmentId, setAssessmentId, removeAssessmentId] = _useLocalStorage('gs-assessment-id');
   const [assessmentSessionId, setAssessmentSessionId, removeAssessmentSessionId] = _useLocalStorage('gs-assessment-session-id');
   return {
-    tokens,
+    gsTokens: tokens,
     isTokenValid: !!tokens,
     setTokens: (tokens) => {
       try {
@@ -60,7 +60,14 @@ const useGetStarted = () => {
       }
     },
     removeAssessmentSessionId,
-    isGetStarted: location?.pathname === '/get-started'
+    isGetStarted: location?.pathname === '/get-started',
+    clearGSTokens: () => {
+      setStep(0);
+      removeTokens();
+      removeAssessmentId();
+      removeAssessmentSessionId();
+
+    }
   };
 };
 

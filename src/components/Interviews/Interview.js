@@ -241,7 +241,7 @@ const Interview = ({
                   label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{interview.jobTitle}</Descriptions.Item>
                 <Descriptions.Item
                   label={<FormattedMessage defaultMessage="Updated on"/>}>
-                  <Moment date={interview.lastModifiedDate} format="lll"/>
+                  <Moment date={interview.lastModifiedDate} format="ll"/>
                 </Descriptions.Item>
                 <Descriptions.Item
                   span={2}

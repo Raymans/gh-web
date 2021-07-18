@@ -23,6 +23,7 @@ const GetStartedPage = (props) => {
   } = props;
   const {
     isTokenValid,
+    gsTokens,
     setTokens,
     step,
     setStep,
@@ -40,11 +41,11 @@ const GetStartedPage = (props) => {
       return;
     }
     getGuestUserToken()
-      .then((tokens) => {
+      .then((gsTokens) => {
         setLoading(false);
-        setTokens(tokens);
+        setTokens(gsTokens);
       });
-  }, []);
+  }, [gsTokens]);
 
   return (
     <>

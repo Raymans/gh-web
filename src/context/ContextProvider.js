@@ -51,7 +51,9 @@ const StoreProvider = ({ children }) => {
   }, [user]);
 
   useEffect(() => {
-    refreshDepartments();
+    if (user) {
+      refreshDepartments();
+    }
   }, []);
 
   return (
