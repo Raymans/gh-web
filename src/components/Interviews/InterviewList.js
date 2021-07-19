@@ -66,9 +66,9 @@ const InterviewList = ({ location }) => {
     setInterviews,
     searchedInterviewCriteria,
     setSearchedInterviewCriteria,
-    userProfile
+    userId,
+    isLoading,
   } = useContext(StoreContext);
-  // const [interviews, setInterviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState();
   const searchInterviews = ({
@@ -80,7 +80,7 @@ const InterviewList = ({ location }) => {
     const getInterviewAPI = searchedInterviewCriteria.tab === 'liked' ? getInterviewsByUserLiked : getInterviews;
     return getInterviewAPI({
       url,
-      userId: userProfile?.id,
+      userId: userId,
       ...searchedInterviewCriteria,
       owner: searchedInterviewCriteria.tab === 'mine',
       invited: searchedInterviewCriteria.tab === 'pending'
@@ -112,11 +112,6 @@ const InterviewList = ({ location }) => {
       ...qs,
       tab: target.value
     })}`, { replace: true });
-    setSearchedInterviewCriteria({
-      ...searchedInterviewCriteria,
-      owner: target.value === 'mine',
-      tab: target.value
-    });
   };
 
   const handleLoadMore = () => searchInterviews({
@@ -125,8 +120,14 @@ const InterviewList = ({ location }) => {
     url: next
   });
 
-  const { tab } = queryString.parse(location?.search);
+  const { tab = 'explore' } = queryString.parse(location?.search);
+
+  // TODO double run this hook, maybe remount by upper component.
+  // Reproduce by: enter detail page and back to interviews via menu.
   useEffect(() => {
+    if(searchedInterviewCriteria.tab === tab){
+      return;
+    }
     setSearchedInterviewCriteria({
       ...searchedInterviewCriteria,
       owner: tab === 'mine',
@@ -135,11 +136,17 @@ const InterviewList = ({ location }) => {
   }, [tab]);
 
   useEffect(() => {
+    if(isLoading){
+      return;
+    }
     if(!searchedInterviewCriteria.tab){
       return;
     }
+    if(searchedInterviewCriteria.tab !== tab){
+      return;
+    }
     searchInterviews();
-  }, [searchedInterviewCriteria.keyword, searchedInterviewCriteria.tab]);
+  }, [ isLoading, searchedInterviewCriteria.tab]);
   return (
     <>
       <CustomBreadcrumb crumbs={[{

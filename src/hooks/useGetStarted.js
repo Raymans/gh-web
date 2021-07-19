@@ -60,13 +60,12 @@ const useGetStarted = () => {
       }
     },
     removeAssessmentSessionId,
-    isGetStarted: location?.pathname === '/get-started',
+    isGetStarted: isBrowser && location?.pathname === '/get-started',
     clearGSTokens: () => {
       setStep(0);
       removeTokens();
       removeAssessmentId();
       removeAssessmentSessionId();
-
     }
   };
 };

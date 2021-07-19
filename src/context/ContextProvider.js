@@ -5,7 +5,10 @@ import useApi from '../hooks/useApi';
 export const StoreContext = React.createContext({});
 
 const StoreProvider = ({ children }) => {
-  const { user } = useAuth0();
+  const {
+    user,
+    isLoading
+  } = useAuth0();
   const [userProfile, setUserProfile] = useState(null);
   const [organization, setOrganization] = useState(null);
   const [interviews, setInterviews] = useState([]);
@@ -70,7 +73,9 @@ const StoreProvider = ({ children }) => {
       setOrganization,
       refreshUserOrg,
       departments,
-      refreshDepartments
+      refreshDepartments,
+      isLoading,
+      userId: user?.sub,
     }}
     >
       {children}
