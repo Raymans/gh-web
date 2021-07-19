@@ -14,6 +14,7 @@ import Icon, {
 import { useAuth0 } from '@auth0/auth0-react';
 import useLayout from '../../hooks/useLayout';
 import useStore from '../../hooks/useStore';
+import useGetStarted from '../../hooks/useGetStarted';
 
 const StyledAlignSpan = styled.span`
   display: flex;
@@ -33,7 +34,7 @@ const Menu = (props) => {
     isAuthenticated,
     loginWithRedirect,
     logout,
-    isLoading,
+    isLoading
   } = useAuth0();
   const { locale } = useIntl();
 
@@ -42,6 +43,7 @@ const Menu = (props) => {
   const { switchDark } = useContext(ThemeContext);
   const [layout] = useLayout();
   const [menuVisible, setMenuVisible] = useState(false);
+  const { step } = useGetStarted();
 
   const pages = props.pages.map((page) => ({
     to: page.node.fields.slug,
@@ -289,8 +291,12 @@ const Menu = (props) => {
           !isAuthenticated &&
           <span>
             <Button type={'primary'} onClick={() => navigate('/get-started')}>
-              <FormattedMessage defaultMessage={'Get Started'}/>
-            </Button>
+            {
+              step === 0 ?
+                <FormattedMessage defaultMessage={'Get Started'}/> :
+                <FormattedMessage defaultMessage={'Continue Get Started'}/>
+            }
+          </Button>
           </span>
         }
         <span>{antdMenu}</span></>

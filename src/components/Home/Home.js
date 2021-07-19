@@ -16,6 +16,7 @@ import TechniqueAssessmentImg from '../../images/TechniqueAssessment.jpg';
 import CreateAssessmentExample from '../../images/CreateAssessmentExample.png';
 import ShareAssessmentExample from '../../images/ShareAssessmentExample.png';
 import ReviewAssessmentExample from '../../images/ReviewAssessmentExample.png';
+import useGetStarted from '../../hooks/useGetStarted';
 
 const Section = styled.section`
   :nth-child(even) {
@@ -135,6 +136,7 @@ const Home = (props) => {
   const { backgrounds } = props;
   const intl = useIntl();
   const theme = useTheme();
+  const { step } = useGetStarted();
   return (
     <>
       <Section className="no-pic">
@@ -268,7 +270,11 @@ const Home = (props) => {
           <Col span={24} style={{ textAlign: 'center' }}>
             <h2><FormattedMessage defaultMessage="Choose a GeekHub Assessment to start."/></h2>
             <Button type={'primary'} onClick={() => navigate('/get-started')}>
-              <FormattedMessage defaultMessage={'Get Started'}/>
+              {
+                step === 0 ?
+                  <FormattedMessage defaultMessage={'Get Started'}/> :
+                  <FormattedMessage defaultMessage={'Continue Get Started'}/>
+              }
             </Button>
             <FeatureList>
               <FeatureListItem><FormattedMessage

@@ -1,7 +1,7 @@
 import Interview from '../Interviews/Interview';
 import React from 'react';
-import { Alert } from 'antd';
-import { navigate } from 'gatsby-plugin-intl';
+import { FormattedMessage, navigate, useIntl } from 'gatsby-plugin-intl';
+import GetStartedInformationBox from './GetStartedInformationBox';
 
 const Assessment = ({
   id,
@@ -9,6 +9,7 @@ const Assessment = ({
   setAssessmentSessionId,
   setStep
 }) => {
+  const intl = useIntl();
   const handleSubmit = (sid) => {
     setStep(2);
     setAssessmentSessionId(sid);
@@ -16,21 +17,17 @@ const Assessment = ({
   };
   return (
     <>
-      <Alert
-        message="Get started - Create Assessment"
-        description={
-          <ul>
-            <ui>
-              Learn how to create your own assessments
-            </ui>
-            <ui>
-              Learn how to create your own assessments1
-            </ui>
-          </ul>
-        }
-        type="info"
-        showIcon
-      />
+      <GetStartedInformationBox
+        title={intl.formatMessage({ defaultMessage: 'Get started - Preview and assess an Assessment' })}>
+        <FormattedMessage
+          defaultMessage={'Here is assessment page other can see if you publish your assessments.'}/>
+        <br/>
+        <FormattedMessage
+          defaultMessage={'Normally you won\'t be able to test your own assessments, but here is an example to simulate a user see your assessment and do test '}/>
+        <br/>
+        <FormattedMessage
+          defaultMessage={'Let\'s PRESS test button to initialize an assessment session.'}/>
+      </GetStartedInformationBox>
       <Interview id={id} sessionId={sid} isGetStarted onSubmit={handleSubmit}/>
     </>
   );

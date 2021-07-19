@@ -22,6 +22,10 @@ const StyledHeader = styled.header`
   padding: 0 150px;
   z-index: 100;
 
+  @media (max-width: 1024px) {
+    padding: 0;
+  }
+
   @media (max-width: 768px) {
     padding: 0 30px;
   }

@@ -1,29 +1,24 @@
 import React from 'react';
 import InterviewResults from '../ManageInterviews/InterviewResults';
-import { Alert } from 'antd';
+import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
+import GetStartedInformationBox from './GetStartedInformationBox';
 
 const ViewAssessmentResults = ({
-  assessmentId,
-  setStep
+  assessmentId
 }) => {
-
+  const intl = useIntl();
   return (
     <>
-      <Alert
-        message="Get started - Create Assessment"
-        description={
-          <ul>
-            <ui>
-              Learn how to create your own assessments
-            </ui>
-            <ui>
-              Learn how to create your own assessments1
-            </ui>
-          </ul>
-        }
-        type="info"
-        showIcon
-      />
+      <GetStartedInformationBox
+        title={intl.formatMessage({ defaultMessage: 'Get started - Review Assessment Results' })}>
+        <FormattedMessage defaultMessage={'Here is summary status of your assessment '}/>
+        <br/>
+        <FormattedMessage
+          defaultMessage={'Once a candidate submitted an assessment, you will receive an email and see results immediately.'}/>
+        <br/>
+        <FormattedMessage defaultMessage={'Choose one and see more details.'}/>
+        <br/>
+      </GetStartedInformationBox>
       <InterviewResults id={assessmentId}/>
     </>
   );

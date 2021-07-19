@@ -12,6 +12,7 @@ import { Spin } from 'antd';
 import useGetStarted from '../hooks/useGetStarted';
 import ViewAssessmentResults from '../components/GetStarted/ViewAssessmentResults';
 import ViewAssessmentResult from '../components/GetStarted/ViewAssessmentResult';
+import GetStartedCompleted from '../components/GetStarted/GetStartedCompleted';
 
 const GetStartedPage = (props) => {
   const {
@@ -70,6 +71,10 @@ const GetStartedPage = (props) => {
             step === 3 &&
             <ViewAssessmentResult id={assessmentId} sid={assessmentSessionId} setStep={setStep}/>
 
+          }
+          {
+            step === 4 &&
+            <GetStartedCompleted/>
           }
         </Spin>
       </Article>
