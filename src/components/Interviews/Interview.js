@@ -266,7 +266,7 @@ const Interview = ({
                         <Statistic
                           title={<Badge status="processing"
                                         text={intl.formatMessage({ defaultMessage: 'In Testing' })}/>}
-                          value={(interview.interviewSessions?.STARTED?.length ?? 0) + (interview.interviewSessions?.NOT_STARTED?.length ?? 0)}
+                          value={(interview.groupedInterviewSessions?.STARTED?.length ?? 0) + (interview.groupedInterviewSessions?.NOT_STARTED?.length ?? 0)}
                           prefix={<UserOutlined/>}
                           suffix={intl.formatMessage({ defaultMessage: ' People' })}
                         />
@@ -275,7 +275,7 @@ const Interview = ({
                         <Statistic
                           title={<Badge status="success"
                                         text={intl.formatMessage({ defaultMessage: 'Completed' })}/>}
-                          value={interview.interviewSessions?.ENDED?.length ?? 0}
+                          value={interview.groupedInterviewSessions?.ENDED?.length ?? 0}
                           prefix={<UserOutlined/>}
                           suffix={intl.formatMessage({ defaultMessage: ' People' })}
                         />
@@ -300,6 +300,7 @@ const Interview = ({
                           openButtonTitle={intl.formatMessage({ defaultMessage: 'Start Testing Assessment' })}
                           openButtonType={'primary'}
                           successMessage={intl.formatMessage({ defaultMessage: 'Testing the assessment' })}
+                          submitButtonTitle={intl.formatMessage({ defaultMessage: 'Start' })}
                         >
                           <p><FormattedMessage defaultMessage="Start testing the assessment!!"/></p>
                           {

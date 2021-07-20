@@ -177,13 +177,29 @@ export default () => {
       id,
       sectionId,
       questionSnapshotId,
-      answerId = []
+      answerId = null,
+      answer = null
     }) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}/answers`, {
       method: 'POST',
       data: {
         sectionId,
         questionSnapshotId,
-        answerId
+        answerId,
+        answer
+      }
+    }),
+
+    markQuestionToInterviewSession: ({
+      id,
+      sectionId,
+      questionSnapshotId,
+      correct
+    }) => request(`${config.ghServiceUrl}/api/interviewSessions/${id}/markQuestion`, {
+      method: 'POST',
+      data: {
+        sectionId,
+        questionSnapshotId,
+        correct
       }
     }),
 

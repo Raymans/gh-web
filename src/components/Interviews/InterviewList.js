@@ -197,7 +197,7 @@ const InterviewList = ({ location }) => {
                     likeCount={item.likeCount}
                     liked={item.liked}
                     lastModifiedDate={item.lastModifiedDate}
-                    interviewSessions={item.interviewSessions}
+                    interviewSessions={item.groupedInterviewSessions}
                   />
                 )}
               />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Checkbox, Input, Modal, Result, Tabs } from 'antd';
+import { Checkbox, Input, Modal, Result, Switch, Tabs, Tooltip } from 'antd';
 import styled from 'styled-components';
 import {
   CheckCircleTwoTone,
@@ -72,10 +72,12 @@ const StyledCheckbox = styled(Checkbox)`
 const StyledQuestionH2 = styled.h2`
   display: flex;
 
-  span {
+  > span, button {
     margin-left: auto;
   }
 `;
+
+const { TextArea } = Input;
 const InterviewSession = ({
   interviewSession: {
     id,
@@ -94,21 +96,27 @@ const InterviewSession = ({
   } = useAuth0();
   const {
     addAnswerToInterviewSession,
+    markQuestionToInterviewSession,
     submitInterviewSession
   } = useApi();
   const intl = useIntl();
   const isOwner = user?.sub === interview.clientUser.id;
   const [isSubmitted, setIsSubmitted] = useState(!!interviewEndDate);
-  const handleSubmitQuestionAttempt = (sectionId, questionId, values) => {
+  const handleSubmitQuestionAttempt = (sectionId, questionId, type, values) => {
     if (preview) {
       return;
     }
-
+    let answer = {};
+    if (type === 'SHORT_ANSWER') {
+      answer = { answer: values.target.value };
+    } else if (type === 'MULTI_CHOICE') {
+      answer = { answerId: values };
+    }
     addAnswerToInterviewSession({
       id,
       sectionId,
       questionSnapshotId: questionId,
-      answerId: values
+      ...answer
     });
   };
   const handleSubmitInterviewSession = () => {
@@ -127,6 +135,15 @@ const InterviewSession = ({
       }
     });
   };
+
+  const handleMarkQuestion = (sectionId, questionId, correct) => {
+    markQuestionToInterviewSession({
+      id,
+      sectionId,
+      questionSnapshotId: questionId,
+      correct
+    });
+  }
 
   useEffect(() => {
     if (endSession) {
@@ -176,17 +193,33 @@ const InterviewSession = ({
                           }, questionIndex) => {
                             const correctAnswers = possibleAnswers.filter((possibleAnswer) => possibleAnswer.correctAnswer)
                               .map((possibleAnswer) => possibleAnswer.answerId);
-                            const answerAttemptQuestionIds = !answerAttemptSections || !answerAttemptSections[sectionId] || !answerAttemptSections[sectionId].answerAttempts[questionId] ? [] : answerAttemptSections[sectionId].answerAttempts[questionId].answerIds;
-                            const valueProps = !viewResult && isOwner ? { value: correctAnswers } : isSubmitted && (answerAttemptQuestionIds.length > 0 ? { value: answerAttemptQuestionIds } : { value: [] });
-                            const correct = isOwner ? answerAttemptQuestionIds.length > 0 && answerAttemptQuestionIds.every((v) => correctAnswers.includes(v)) : answerAttemptSections[sectionId]?.answerAttempts[questionId]?.correct;
+                            const isNoAnswerAttemptForQuestion = !answerAttemptSections || !answerAttemptSections[sectionId] || !answerAttemptSections[sectionId].answerAttempts[questionId];
+                            const answerAttemptQuestionIds = isNoAnswerAttemptForQuestion ? [] : answerAttemptSections[sectionId].answerAttempts[questionId].answerIds;
+                            const answerAttemptQuestion = isNoAnswerAttemptForQuestion ? [] : answerAttemptSections[sectionId].answerAttempts[questionId].answer;
+                            const valueProps = !viewResult && isOwner ? { value: correctAnswers } : isSubmitted && (answerAttemptQuestionIds?.length > 0 ? { value: answerAttemptQuestionIds } : { value: [] });
+                            const isCorrect = isOwner ? answerAttemptSections[sectionId]?.answerAttempts[questionId]?.correct || (answerAttemptQuestionIds?.length === correctAnswers?.length) && answerAttemptQuestionIds?.every((v) => correctAnswers.includes(v)) : answerAttemptSections[sectionId]?.answerAttempts[questionId]?.correct;
                             return (
                               <div key={questionId}>
                                 <StyledQuestionH2>
                                   {`Q${questionIndex + 1}`}
                                   {
-                                    preview && viewResult && (isOwner ? correctAnswers?.length > 0 : true) && (correct
-                                      ? <CheckCircleTwoTone/>
-                                      : <CloseCircleTwoTone twoToneColor="red"/>)
+                                    (() => {
+                                        if (preview && viewResult && isOwner && question.questionType !== 'MULTI_CHOICE') {
+                                          return (
+                                            <Tooltip
+                                              title={intl.formatMessage({ defaultMessage: 'Mark whether it is correct answer' })}>
+                                              <Switch
+                                                checkedChildren={<CheckCircleTwoTone/>}
+                                                unCheckedChildren={<CloseCircleTwoTone twoToneColor="red"/>}
+                                                defaultChecked={isCorrect}
+                                                onChange={(value)=> handleMarkQuestion(sectionId, questionId, value)}
+                                              /></Tooltip>);
+                                        }
+                                        return preview && viewResult && (isOwner ? correctAnswers?.length > 0 : true) && (isCorrect
+                                          ? <CheckCircleTwoTone/>
+                                          : <CloseCircleTwoTone twoToneColor="red"/>);
+                                      }
+                                    )()
                                   }
                                 </StyledQuestionH2>
                                 <StyledQuestionBlock>
@@ -197,11 +230,11 @@ const InterviewSession = ({
                                       name={questionId}
                                       {...valueProps}
                                       defaultValue={answerAttemptQuestionIds}
-                                      onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId)}
+                                      onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
                                     >
                                       {possibleAnswers.map((possibleAnswer) => {
                                         const correctOption = correctAnswers.includes(possibleAnswer.answerId);
-                                        const answered = answerAttemptQuestionIds.includes(possibleAnswer.answerId);
+                                        const answered = answerAttemptQuestionIds?.includes(possibleAnswer.answerId);
                                         return (
                                           <StyledCheckbox
                                             key={possibleAnswer.answerId}
@@ -216,7 +249,14 @@ const InterviewSession = ({
                                   }
                                   {
                                     question.questionType === 'SHORT_ANSWER' &&
-                                    <Input/>
+                                    <TextArea
+                                      autoSize={{
+                                        minRows: 4
+                                      }}
+                                      //onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
+                                      onBlur={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
+                                      defaultValue={answerAttemptQuestion}
+                                    />
                                   }
                                 </StyledQuestionBlock>
                               </div>
