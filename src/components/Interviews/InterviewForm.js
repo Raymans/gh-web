@@ -430,7 +430,7 @@ const InterviewForm = ({
         path: location.pathname
       }]}/>
       <LoginNeededWrapper
-        title={<FormattedMessage defaultMessage="Login to play with Assessments"/>}
+        title={<FormattedMessage defaultMessage="Login to manage Assessments"/>}
         subTitle={<FormattedMessage
           defaultMessage="Please login to enable abilities to create/edit your Assessments."/>}
         isLoginNeeded={!isGetStarted}

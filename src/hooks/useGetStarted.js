@@ -60,7 +60,7 @@ const useGetStarted = () => {
       }
     },
     removeAssessmentSessionId,
-    isGetStarted: isBrowser && location?.pathname === '/get-started',
+    isGetStarted: isBrowser && location?.pathname.indexOf('/get-started') !== -1,
     clearGSTokens: () => {
       setStep(0);
       removeTokens();

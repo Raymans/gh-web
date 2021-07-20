@@ -137,17 +137,24 @@ const InterviewResults = ({
   }, []);
   return (
     <>
-      <CustomBreadcrumb crumbs={[{
-        label: intl.formatMessage({ defaultMessage: 'Manage Interviews' }),
-        path: '/manageInterviews'
-      }, {
-        label: location?.state?.interviewName,
-        path: location?.pathname
-      }]}
-      />
-      <Headline title={intl.formatMessage({ defaultMessage: 'Manage Interviews' })}>
-        <Link to={`/interviews/${id}`}><FormattedMessage defaultMessage={'See Assessment detail'}/></Link>
-      </Headline>
+      {
+        !isGetStarted &&
+        <>
+          <CustomBreadcrumb crumbs={[{
+            label: <FormattedMessage defaultMessage="List Assessments"/>,
+            path: '/interviews'
+          }, {
+            label: location?.state?.interviewName,
+            path: location?.pathname
+          }]}
+          />
+          <Headline title={intl.formatMessage({ defaultMessage: 'Manage Interviews' })}>
+            <Link to={`/interviews/${id}`}><FormattedMessage
+              defaultMessage={'See Assessment detail'}/></Link>
+          </Headline>
+        </>
+      }
+
       <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
         <Table
           rowKey={(interviewSession) => interviewSession.id}

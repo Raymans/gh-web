@@ -258,7 +258,7 @@ const Interview = ({
                 </Descriptions.Item>
               </Descriptions>
               {
-                !isTesting
+                !isTesting && !isViewPublished
                 && (
                   <StyledInterviewGeekStatus>
                     <Row gutter={16}>
