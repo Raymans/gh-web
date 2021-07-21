@@ -38,7 +38,10 @@ const Menu = (props) => {
   } = useAuth0();
   const { locale } = useIntl();
 
-  const { userProfile } = useStore();
+  const {
+    userProfile,
+    organization
+  } = useStore();
   //const { userProfile } = useContext(StoreContext);
   const { switchDark } = useContext(ThemeContext);
   const [layout] = useLayout();
@@ -211,6 +214,10 @@ const Menu = (props) => {
                     {renderItem({
                       to: '/interviews/create',
                       label: <FormattedMessage defaultMessage="Create Assessments"/>
+                    })}
+                    {organization && renderItem({
+                      to: '/interviews?tab=org',
+                      label: <FormattedMessage defaultMessage="Organization Assessments"/>
                     })}
                   </AntMenu.SubMenu>
                   <AntMenu.SubMenu

@@ -37,29 +37,33 @@ export default function request(getAccessTokenSilently, tokens = {
     const defaultOptions = {
       withCredentials: true
     };
-    try {
-      const token = await getAccessTokenSilently({ ignoreCache });
-      options = {
-        ...options,
-        headers: {
-          ...options.headers,
-          Authorization: `Bearer ${token}`
-        }
-      };
-    } catch {
+    if (tokens?.accessToken) {
       if (ignoreCache) {
         clearGSTokens();
         return Promise.reject('token expired!');
       }
-      if (tokens?.accessToken) {
+      options = {
+        ...options,
+        headers: {
+          ...options.headers,
+          Authorization: `Bearer ${tokens.accessToken}`,
+          'x-user-key': tokens.userKey
+        }
+      };
+    } else {
+      try {
+        const token = await getAccessTokenSilently({ ignoreCache });
         options = {
           ...options,
           headers: {
             ...options.headers,
-            Authorization: `Bearer ${tokens.accessToken}`,
-            'x-user-key': tokens.userKey
+            Authorization: `Bearer ${token}`
           }
         };
+      } catch {
+        if (ignoreCache) {
+          return Promise.reject('token expired! Cannot renew token.');
+        }
       }
     }
     const newOptions = { ...defaultOptions, ...options };

@@ -68,6 +68,7 @@ const InterviewList = ({ location }) => {
     setSearchedInterviewCriteria,
     userId,
     isLoading,
+    organization
   } = useContext(StoreContext);
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState();
@@ -83,7 +84,8 @@ const InterviewList = ({ location }) => {
       userId: userId,
       ...searchedInterviewCriteria,
       owner: searchedInterviewCriteria.tab === 'mine',
-      invited: searchedInterviewCriteria.tab === 'pending'
+      invited: searchedInterviewCriteria.tab === 'pending',
+      organization: searchedInterviewCriteria.tab === 'org'
     })
       .then((res) => {
         setInterviews(isAppend ? interviews.concat(res.results) : res.results);
@@ -125,7 +127,7 @@ const InterviewList = ({ location }) => {
   // TODO double run this hook, maybe remount by upper component.
   // Reproduce by: enter detail page and back to interviews via menu.
   useEffect(() => {
-    if(searchedInterviewCriteria.tab === tab){
+    if (searchedInterviewCriteria.tab === tab) {
       return;
     }
     setSearchedInterviewCriteria({
@@ -136,17 +138,17 @@ const InterviewList = ({ location }) => {
   }, [tab]);
 
   useEffect(() => {
-    if(isLoading){
+    if (isLoading) {
       return;
     }
-    if(!searchedInterviewCriteria.tab){
+    if (!searchedInterviewCriteria.tab) {
       return;
     }
-    if(searchedInterviewCriteria.tab !== tab){
+    if (searchedInterviewCriteria.tab !== tab) {
       return;
     }
     searchInterviews();
-  }, [ isLoading, searchedInterviewCriteria.tab]);
+  }, [isLoading, searchedInterviewCriteria.tab, searchedInterviewCriteria.keyword]);
   return (
     <>
       <CustomBreadcrumb crumbs={[{
@@ -162,10 +164,13 @@ const InterviewList = ({ location }) => {
       <div className="form">
         <div>
           <Layout>
-            {isAuthenticated && searchedInterviewCriteria.tab &&
+            {!isLoading && isAuthenticated && searchedInterviewCriteria.tab &&
             <FilterSider onChange={handleTabChange}
                          defaultOpenKeys={searchedInterviewCriteria.tab}
-                         options={filterOptions}
+                         options={organization ? [...filterOptions, {
+                           value: 'org',
+                           message: <FormattedMessage defaultMessage="Organization"/>
+                         }] : filterOptions}
                          disabled={loading}
             />
             }

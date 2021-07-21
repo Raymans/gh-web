@@ -25,10 +25,15 @@ const defaultInterviewSession = {
 };
 
 const StyledQuestionBlock = styled.div`
-  h4 {
+  div {
     white-space: pre-wrap;
+    flex-grow: 10;
+    flex-basis: 50%;
   }
 
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
   margin: 24px;
 
   .ant-checkbox-group {
@@ -218,41 +223,43 @@ const InterviewSession = ({
                                     }
                                   </StyledQuestionH2>
                                   <StyledQuestionBlock>
-                                    <h4>{question.question}</h4>
-                                    {
-                                      question.questionType === 'MULTI_CHOICE' &&
-                                      <Checkbox.Group
-                                        name={questionId}
-                                        {...valueProps}
-                                        defaultValue={answerAttemptQuestionIds}
-                                        onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
-                                      >
-                                        {possibleAnswers.map((possibleAnswer) => {
-                                          const correctOption = correctAnswers.includes(possibleAnswer.answerId);
-                                          const answered = answerAttemptQuestionIds?.includes(possibleAnswer.answerId);
-                                          return (
-                                            <StyledCheckbox
-                                              key={possibleAnswer.answerId}
-                                              value={possibleAnswer.answerId}
-                                              className={preview && viewResult && isOwner && (correctOption ? ' answer ' : '') + ((correctOption && answered) ? 'correct' : (!correctOption && !answered) || 'wrong')}
-                                            >
-                                              {possibleAnswer.answer}
-                                            </StyledCheckbox>
-                                          );
-                                        })}
-                                      </Checkbox.Group>
-                                    }
-                                    {
-                                      question.questionType === 'SHORT_ANSWER' &&
-                                      <TextArea
-                                        autoSize={{
-                                          minRows: 4
-                                        }}
-                                        //onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
-                                        onBlur={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
-                                        defaultValue={answerAttemptQuestion}
-                                      />
-                                    }
+                                    <div>{question.question}</div>
+                                    <div>
+                                      {
+                                        question.questionType === 'MULTI_CHOICE' &&
+                                        <Checkbox.Group
+                                          name={questionId}
+                                          {...valueProps}
+                                          defaultValue={answerAttemptQuestionIds}
+                                          onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
+                                        >
+                                          {possibleAnswers.map((possibleAnswer) => {
+                                            const correctOption = correctAnswers.includes(possibleAnswer.answerId);
+                                            const answered = answerAttemptQuestionIds?.includes(possibleAnswer.answerId);
+                                            return (
+                                              <StyledCheckbox
+                                                key={possibleAnswer.answerId}
+                                                value={possibleAnswer.answerId}
+                                                className={preview && viewResult && isOwner && (correctOption ? ' answer ' : '') + ((correctOption && answered) ? 'correct' : (!correctOption && !answered) || 'wrong')}
+                                              >
+                                                {possibleAnswer.answer}
+                                              </StyledCheckbox>
+                                            );
+                                          })}
+                                        </Checkbox.Group>
+                                      }
+                                      {
+                                        question.questionType === 'SHORT_ANSWER' &&
+                                        <TextArea
+                                          autoSize={{
+                                            minRows: 4
+                                          }}
+                                          //onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
+                                          onBlur={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
+                                          defaultValue={answerAttemptQuestion}
+                                        />
+                                      }
+                                    </div>
                                   </StyledQuestionBlock>
                                 </div>
                               );
