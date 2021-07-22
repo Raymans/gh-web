@@ -14,7 +14,7 @@ const columns = [
   },
   {
     title: 'Score',
-    dataIndex: 'score',
+    dataIndex: 'totalScore',
     render: (score, { interviewEndDate }) => {
       if (!interviewEndDate) {
         return '';
@@ -56,7 +56,7 @@ const columns = [
     }) => (
       <span>
         {
-          status === 'STARTED' || status === 'NOT_STARTED'
+          (status === 'STARTED' || status === 'NOT_STARTED')
           && <Link to={`/interviews/${id}/test`}><FormattedMessage defaultMessage="Go test"/></Link>
         }
         {

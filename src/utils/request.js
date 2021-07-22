@@ -1,7 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
 import { message } from 'antd';
-import { navigate } from 'gatsby-plugin-intl';
 
 axios.defaults.withCredentials = true;
 
@@ -21,7 +20,12 @@ function checkStatus(error, request) {
     return response.data.message;
   }
   if (response.status === 404) {
-    navigate('/404');
+    message.error({
+      content: errorMsg,
+      duration: 5,
+      top: 50
+    });
+    //navigate('/404');
   }
   if (response.status === 401) {
     return request();

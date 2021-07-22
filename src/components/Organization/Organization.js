@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Form, Input, message, Result, Spin } from 'antd';
+import { Avatar, Button, Form, Input, message, Result, Spin } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import { LoadingOutlined } from '@ant-design/icons';
 import Headline from '../Article/Headline';
@@ -109,7 +109,7 @@ const Organization = () => {
 
   const handleJoinOrg = () => {
     setJoining(true);
-    joinOrganization({ organizationId: userProfile.invitations[0].inviterId })
+    joinOrganization({ organizationId: userProfile.invitations[0].inviterOrganizationId })
       .then(() => refreshUserProfile())
       .then(() => setJoining(false));
   };
@@ -117,7 +117,7 @@ const Organization = () => {
   const handleDecline = () => {
     setDeclining(true);
     declineOrganization({
-      organizationId: userProfile.invitations[0].inviterId
+      organizationId: userProfile.invitations[0].inviterOrganizationId
     })
       .then(() => {
         refreshUserProfile();
@@ -266,24 +266,33 @@ const Organization = () => {
               </ConfirmModal>
               <AnchorSider anchors={anchors}/>
               {
-                isOwner &&
-                <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
-                  <UploadImage name="companyPhoto" imageUrl={organization.avatar}/>
-                  <FormItem
-                    name="name"
-                    required
-                    rules={[{
-                      required: true,
-                      message: intl.formatMessage({ defaultMessage: 'Please input your Organization Name.' })
-                    }]}
-                  >
-                    <Input size="large"
-                           placeholder={intl.formatMessage({ defaultMessage: 'Organization Name' })}/>
-                  </FormItem>
-                  <Button type="primary" loading={saving} htmlType="submit">
-                    <span><FormattedMessage defaultMessage="Update Organization"/></span>
-                  </Button>
-                </Form>
+                isOwner ?
+                  <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
+                    <UploadImage name="companyPhoto" imageUrl={organization.avatar}/>
+                    <FormItem
+                      name="name"
+                      required
+                      rules={[{
+                        required: true,
+                        message: intl.formatMessage({ defaultMessage: 'Please input your Organization Name.' })
+                      }]}
+                    >
+                      <Input size="large"
+                             placeholder={intl.formatMessage({ defaultMessage: 'Organization Name' })}/>
+                    </FormItem>
+                    <Button type="primary" loading={saving} htmlType="submit">
+                      <span><FormattedMessage defaultMessage="Update Organization"/></span>
+                    </Button>
+                  </Form> :
+                  <>
+                    <div style={{
+                      fontSize: '30px',
+                      padding: '10px'
+                    }}>
+                      {`${organization.name}`}
+                    </div>
+                    <Avatar size={150} src={organization.avatar}/>
+                  </>
               }
 
               <h2 id="departments"><FormattedMessage defaultMessage="Departments"/></h2>

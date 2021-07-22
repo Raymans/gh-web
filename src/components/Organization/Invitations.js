@@ -6,6 +6,7 @@ import useApi from '../../hooks/useApi';
 import { StoreContext } from '../../context/ContextProvider';
 import InviteUserModal from './InviteUserModal';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
+import StyledTable from '../StyledComponent/StyledTable';
 
 const { Column } = Table;
 
@@ -62,7 +63,7 @@ const Invitations = ({
       {
         isOwner && <InviteUserModal organizationId={orgId}/>
       }
-      <Table dataSource={invitations} pagination={false} size="small">
+      <StyledTable dataSource={invitations} pagination={false} size="small">
         <Column title={<FormattedMessage defaultMessage="Email"/>} dataIndex="email" key="email"/>
         <Column title={<FormattedMessage defaultMessage="Inviter"/>} dataIndex="inviterName"
                 key="inviterName"/>
@@ -101,7 +102,7 @@ const Invitations = ({
             </Space>
           )}
         />
-      </Table>
+      </StyledTable>
     </>
   );
 };

@@ -5,6 +5,7 @@ import useApi from '../../hooks/useApi';
 import ConfirmModal from './ConfirmModal';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 import { StoreContext } from '../../context/ContextProvider';
+import StyledTable from '../StyledComponent/StyledTable';
 
 const { Column } = Table;
 
@@ -93,7 +94,7 @@ const Departments = () => {
           <DeptForm form={deptForm}/>
         </ConfirmModal>
       }
-      <Table dataSource={departments} pagination={false} size="small">
+      <StyledTable dataSource={departments} pagination={false} size="small">
         <Column title={intl.formatMessage({ defaultMessage: 'Name' })} dataIndex="name" key="name"/>
         {
           userProfile?.accountPrivilege === 'OWNER' &&
@@ -126,7 +127,7 @@ const Departments = () => {
             )}
           />
         }
-      </Table>
+      </StyledTable>
     </>
   );
 };

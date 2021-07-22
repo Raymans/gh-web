@@ -6,6 +6,7 @@ import ConfirmModal from './ConfirmModal';
 import { StoreContext } from '../../context/ContextProvider';
 import { FormattedMessage } from 'gatsby-plugin-intl';
 import styled from 'styled-components';
+import StyledTable from '../StyledComponent/StyledTable';
 
 const StyledAvatar = styled(Avatar)`
   margin: 0 5px;
@@ -75,7 +76,7 @@ const UserList = ({ users }) => {
   );
   return (
     <>
-      <Table dataSource={users} pagination={false} size="small">
+      <StyledTable dataSource={users} pagination={false} size="small">
         <Column title={<FormattedMessage defaultMessage="Name"/>} dataIndex="name" key="name"
                 render={(text, record) => (
                   <>
@@ -124,7 +125,7 @@ const UserList = ({ users }) => {
             ) : (<></>))}
           />
         }
-      </Table>
+      </StyledTable>
     </>
   );
 };
