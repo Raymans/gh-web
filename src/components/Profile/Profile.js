@@ -9,7 +9,13 @@ import Seo from '../Seo';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 
 const StyledBasicProfileRow = styled(Row)`
-  padding-bottom: 50px;
+  padding: 50px;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    align-items: baseline;
+  }
+
 `;
 const Profile = ({ userId }) => {
   const { getUserProfile } = useApi();
@@ -42,7 +48,7 @@ const Profile = ({ userId }) => {
                 </Col>
                 <Col span={16}>
                   <Descriptions column={1}>
-                    <Descriptions.Item>
+                    <Descriptions.Item contentStyle={{ fontSize: '30px' }}>
                       {`${profile.name} (${profile.nickname})`}
                     </Descriptions.Item>
                     <Descriptions.Item

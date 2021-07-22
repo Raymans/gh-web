@@ -105,7 +105,7 @@ const Interview = ({
             ...interviewS,
             interview: {
               ...interviewS.interview,
-              interviewSessions: interviewS.groupedInterviewSessions
+              groupedInterviewSessions: interviewS.groupedInterviewSessions
             }
           };
           if (is.interviewStartDate) {
@@ -124,7 +124,7 @@ const Interview = ({
           ...interviewS,
           interview: {
             ...interviewS.interview,
-            interviewSessions: interviewS.groupedInterviewSessions
+            groupedInterviewSessions: interviewS.groupedInterviewSessions
           }
         };
         setLoading(false);
