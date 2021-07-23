@@ -140,12 +140,13 @@ const Home = (props) => {
   return (
     <>
       <Section className="no-pic">
-        <h1><p><FormattedMessage
-          defaultMessage="GeekHub can help in many cases such as Technical Interviews, English learning, Study Group"
-          values={{ br: <br/> }}/>
-        </p></h1>
+        <h1 data-aos="fade-in">
+          <p><FormattedMessage
+            defaultMessage="GeekHub can help in many cases such as Technical Interviews, English learning, Study Group"
+            values={{ br: <br/> }}/>
+          </p></h1>
         <h2><p><FormattedMessage defaultMessage="GeekHub Templates"/></p></h2>
-        <StyledRow type="flex" justify="space-around">
+        <StyledRow type="flex" justify="space-around" data-aos="zoom-in">
           <IconDescription icon={TechniqueAssessmentImg}
                            className="big"
                            title={intl.formatMessage({ defaultMessage: 'Technical Interviews' })}
@@ -174,7 +175,7 @@ const Home = (props) => {
           />
         </StyledRow>
       </Section>
-      <Section className="no-pic">
+      <Section className="no-pic" data-aos="fade-in">
         <h1><p><FormattedMessage defaultMessage="Most Speedy Assessments manage tools"/></p></h1>
         <StyledRow type="flex" justify="space-around">
           <IconDescription icon={CreateAssessmentImg}
@@ -193,7 +194,7 @@ const Home = (props) => {
       </Section>
       <Section>
         <StyledRow type="flex">
-          <Col span={8}>
+          <Col span={8} data-aos="fade-up-right">
             <h1><p><FormattedMessage defaultMessage="Create your assessment"/></p></h1>
             <p><FormattedMessage defaultMessage="Want to have your own assessments to let everyone see and test it? you can do that
               easily to build up your own questions for later use or share it"/></p>
@@ -212,17 +213,17 @@ const Home = (props) => {
                 defaultMessage="Support Multiple question types, Short Answer, Multiple Answers, and coding question coming soon!"/></FeatureListItem>
             </FeatureList>
           </Col>
-          <Col span={16}>
+          <Col span={16} data-aos="fade-in">
             <ImageSection position="right" image={CreateAssessmentExample}/>
           </Col>
         </StyledRow>
       </Section>
       <Section>
         <StyledRow type="flex" justify="space-around">
-          <Col span={16}>
+          <Col span={16} data-aos="fade-in">
             <ImageSection position="left" image={ShareAssessmentExample}/>
           </Col>
-          <Col span={8}>
+          <Col span={8} data-aos="fade-up-left">
             <h1><p><FormattedMessage defaultMessage="Share Assessment"/></p></h1>
             <p><FormattedMessage
               defaultMessage="Easily to share with anyone you want who assess your Assessments,
@@ -239,7 +240,7 @@ const Home = (props) => {
       </Section>
       <Section>
         <StyledRow type="flex" justify="space-around">
-          <Col span={8}>
+          <Col span={8} data-aos="fade-up-left">
             <h1><p><FormattedMessage defaultMessage="Analysis Assessment Result"/></p></h1>
             <p><FormattedMessage defaultMessage="You can easily see who tests your assessment and review summary of each result in a
               very clear view."/></p>
@@ -256,18 +257,18 @@ const Home = (props) => {
                 defaultMessage="Support Multiple question types, Short Answer, Multiple Answers, and coding question coming soon!"/></FeatureListItem>
             </FeatureList>
           </Col>
-          <Col span={16}>
+          <Col span={16} data-aos="fade-in">
             <ImageSection position="right" image={ReviewAssessmentExample}/>
           </Col>
         </StyledRow>
       </Section>
       <Section className="no-pic">
-        <h1><p><FormattedMessage defaultMessage="Get Started right now!"/></p></h1>
-        <p><FormattedMessage
-          defaultMessage="Visit our GeekHub Template to do your first assessment, get you idea about how speedy to create an first Assessment by yourself."/>
-        </p>
-        <StyledRow type="flex" justify="space-around">
+        <StyledRow type="flex" justify="space-around" data-aos="zoom-in">
           <Col span={24} style={{ textAlign: 'center' }}>
+            <h1><p><FormattedMessage defaultMessage="Get Started right now!"/></p></h1>
+            <p><FormattedMessage
+              defaultMessage="Visit our GeekHub Template to do your first assessment, get you idea about how speedy to create an first Assessment by yourself."/>
+            </p>
             <h2><FormattedMessage defaultMessage="Choose a GeekHub Assessment to start."/></h2>
             <Button type={'primary'} onClick={() => navigate('/get-started')}>
               {

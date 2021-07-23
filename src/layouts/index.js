@@ -13,6 +13,8 @@ import { useIntl } from 'gatsby-plugin-intl';
 import 'moment/locale/zh-tw';
 import Moment from 'react-moment';
 import { message } from 'antd';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
   require('cookieconsent');
@@ -85,6 +87,7 @@ export const Layout = (props) => {
     });
   }, []);
 
+  AOS.init();
   useEffect(() => {
     Moment.globalLocale = locale;
   }, [locale]);
