@@ -12,6 +12,7 @@ import Seo from '../components/Seo';
 import { useIntl } from 'gatsby-plugin-intl';
 import 'moment/locale/zh-tw';
 import Moment from 'react-moment';
+import { message } from 'antd';
 
 if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
   require('cookieconsent');
@@ -76,6 +77,11 @@ export const Layout = (props) => {
         'message': 'GeekHub uses cookies to ensure you get the best experience on our website.',
         'href': 'https://geekhub.tw/privacy'
       }
+    });
+
+    message.config({
+      top: 50,
+      duration: 5
     });
   }, []);
 

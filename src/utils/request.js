@@ -11,19 +11,15 @@ function checkStatus(error, request) {
   if (!response) {
     message.error({
       content: errorMsg,
-      duration: 5,
-      top: 50
     });
     return;
   }
   if (response.status >= 200 && response.status < 300) {
     return response.data.message;
   }
-  if (response.status === 404) {
+  if (response.status === 404 || response.status === 500) {
     message.error({
-      content: errorMsg,
-      duration: 5,
-      top: 50
+      content: errorMsg
     });
     //navigate('/404');
   }

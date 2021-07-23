@@ -109,10 +109,10 @@ export default () => {
     getInterviewsByUserLiked: ({
       userId,
       url = `${config.ghServiceUrl}/api/users/${userId}/likedInterviews`,
-      ...params
+      keyword
     }) => request(url, {
       method: 'GET',
-      params
+      params: { keyword: keyword || null }
     })
       .then((res) => (!res ? {} : res)),
 
