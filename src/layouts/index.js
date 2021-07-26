@@ -86,10 +86,9 @@ export const Layout = (props) => {
       duration: 5
     });
   }, []);
-
-  aos.init?.();
   useEffect(() => {
     Moment.globalLocale = locale;
+    aos.init?.();
   }, [locale]);
 
   return (
