@@ -240,7 +240,7 @@ const Home = (props) => {
       </Section>
       <Section>
         <StyledRow type="flex" justify="space-around">
-          <Col span={8} data-aos="fade-up-left">
+          <Col span={8} data-aos="fade-up-right">
             <h1><p><FormattedMessage defaultMessage="Analysis Assessment Result"/></p></h1>
             <p><FormattedMessage defaultMessage="You can easily see who tests your assessment and review summary of each result in a
               very clear view."/></p>
