@@ -185,7 +185,7 @@ const Menu = (props) => {
           if (item.to === '/login') {
             if (isAuthenticated) {
               return (
-                <>
+                <React.Fragment key={item.to}>
                   <AntMenu.SubMenu
                     key={`interview_${index}`}
                     icon={<EyeOutlined/>}
@@ -246,7 +246,7 @@ const Menu = (props) => {
                       <FormattedMessage defaultMessage="Login out"/>
                     </AntMenu.Item>
                   </AntMenu.SubMenu>
-                </>
+                </React.Fragment>
               );
             }
             return (
