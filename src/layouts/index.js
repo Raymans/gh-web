@@ -131,16 +131,13 @@ export const Layout = (props) => {
 
         return (
           <ThemeProvider theme={theme}>
-            {
-              theme.isDark &&
-              <link rel="stylesheet" type="text/css" href="https://ant.design/dark.css"/>
-            }
-            <link
-              href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&family=Montserrat:ital@0;1&display=swap"
-              rel="stylesheet"/>
             <FontLoadedContext.Provider value={layoutState.font400loaded}>
               <ScreenWidthContext.Provider value={layoutState.screenWidth}>
                 <>
+                  {
+                    theme.isDark &&
+                    <link rel="stylesheet" type="text/css" href="https://ant.design/dark.css"/>
+                  }
                   <GlobalStyle/>
                   <Seo/>
                   <Header path={location.pathname} pages={pages}/>
@@ -152,9 +149,9 @@ export const Layout = (props) => {
           </ThemeProvider>
         );
       }}
-    />
-  );
-};
+        />
+        );
+      };
 
 Layout.propTypes = {
   children: PropTypes.object.isRequired,

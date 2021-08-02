@@ -104,10 +104,12 @@
     "react-obfuscate": "^3.6.6",
     "react-particles-js": "^2.7.1",
     "react-share": "^4.0.1",
+    "react-typography": "^0.16.20",
     "react-visibility-sensor": "^5.1.1",
     "styled-components": "^5.0.1",
     "tinycolor2": "^1.4.1",
     "typeface-open-sans": "^0.0.75",
+    "typography": "^0.16.21",
     "yaml-loader": "^0.5.0"
   },
   "devDependencies": {

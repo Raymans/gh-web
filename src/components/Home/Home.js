@@ -43,7 +43,11 @@ const Section = styled.section`
 
   p {
     font-size: 16px;
-    text-align: left;
+    margin: 0 auto;
+    text-align: start;
+    width: 73%;
+    line-height: 35px;
+    letter-spacing: 2px;
   }
 
   &.no-pic p {
@@ -100,6 +104,7 @@ const FeatureList = styled.ul`
   li {
     list-style-type: none;
     margin: 5px 0;
+    letter-spacing: 1px;
   }
 `;
 
@@ -194,7 +199,7 @@ const Home = (props) => {
       </Section>
       <Section>
         <StyledRow type="flex">
-          <Col span={8} data-aos="fade-up-right">
+          <Col span={12} data-aos="fade-up-right">
             <h1><p><FormattedMessage defaultMessage="Create your assessment"/></p></h1>
             <p><FormattedMessage defaultMessage="Want to have your own assessments to let everyone see and test it? you can do that
               easily to build up your own questions for later use or share it"/></p>
@@ -213,17 +218,17 @@ const Home = (props) => {
                 defaultMessage="Support Multiple question types, Short Answer, Multiple Answers, and coding question coming soon!"/></FeatureListItem>
             </FeatureList>
           </Col>
-          <Col span={16} data-aos="fade-in">
+          <Col span={12} data-aos="fade-in">
             <ImageSection position="right" image={CreateAssessmentExample}/>
           </Col>
         </StyledRow>
       </Section>
       <Section>
         <StyledRow type="flex" justify="space-around">
-          <Col span={16} data-aos="fade-in">
+          <Col span={12} data-aos="fade-in">
             <ImageSection position="left" image={ShareAssessmentExample}/>
           </Col>
-          <Col span={8} data-aos="fade-up-left">
+          <Col span={12} data-aos="fade-up-left">
             <h1><p><FormattedMessage defaultMessage="Share Assessment"/></p></h1>
             <p><FormattedMessage
               defaultMessage="Easily to share with anyone you want who assess your Assessments,
@@ -240,7 +245,7 @@ const Home = (props) => {
       </Section>
       <Section>
         <StyledRow type="flex" justify="space-around">
-          <Col span={8} data-aos="fade-up-right">
+          <Col span={12} data-aos="fade-up-right">
             <h1><p><FormattedMessage defaultMessage="Analysis Assessment Result"/></p></h1>
             <p><FormattedMessage defaultMessage="You can easily see who tests your assessment and review summary of each result in a
               very clear view."/></p>
@@ -257,7 +262,7 @@ const Home = (props) => {
                 defaultMessage="Support Multiple question types, Short Answer, Multiple Answers, and coding question coming soon!"/></FeatureListItem>
             </FeatureList>
           </Col>
-          <Col span={16} data-aos="fade-in">
+          <Col span={12} data-aos="fade-in">
             <ImageSection position="right" image={ReviewAssessmentExample}/>
           </Col>
         </StyledRow>
