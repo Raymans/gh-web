@@ -33,22 +33,21 @@ const HeroSection = styled.section`
     background-image: url(${(props) => props.backgrounds.tablet});
     h1 {
       max-width: 90%;
-      font-size: ${(props) => `calc(${props.theme.hero.h1.size} * 1.3)`};
+      font-size: ${(props) => `calc(${props.theme.hero.h1.size} * 1.1)`};
     }
   }
   @media (min-width: 1024px) {
     background-image: url(${(props) => props.backgrounds.desktop});
     h1 {
       max-width: 80%;
-      font-size: ${(props) => `calc(${props.theme.hero.h1.size} * 1.5)`};
+      font-size: ${(props) => `calc(${props.theme.hero.h1.size} * 1.2)`};
     }
   }
 `;
 
-const SubTitle = styled.div`
+const SubTitle = styled.h2`
   color: #ffffff;
-  font-weight: 400;
-  font-size: x-large;
+  border: 0;
 `;
 
 const ParticlesWrapper = styled.div`
@@ -73,9 +72,11 @@ const Hero = (props) => {
           <FormattedMessage defaultMessage="Best prepare tools for Assessments"/>
         </h1>
         <SubTitle><FormattedMessage
-          defaultMessage="Store knowledge as your second brand"/></SubTitle>
-        <SubTitle><FormattedMessage
-          defaultMessage="Practice anonymously with engineers who have worked at great company"/></SubTitle>
+          defaultMessage="Store knowledge as your second brand"/>
+          <br/>
+          <FormattedMessage
+            defaultMessage="Practice anonymously with engineers who have worked at great company"/>
+        </SubTitle>
       </HeroSection>
     </>
   );

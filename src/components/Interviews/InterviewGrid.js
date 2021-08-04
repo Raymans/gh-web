@@ -11,6 +11,11 @@ import InterviewActionsRow from './InterviewActionsRow';
 import Moment from 'react-moment';
 import ShareInterview from './ShareInterview';
 
+const H1 = styled.h1`
+  font-size: 30px;
+  letter-spacing: 1px;
+  font-weight: 400;
+`;
 const StyledListItem = styled(List.Item)`
   .ant-list-item-extra {
     position: absolute;
@@ -26,8 +31,9 @@ const StyledVisibilityTag = styled(Tag)`
 `;
 
 const StyledDescription = styled.div`
-  font-size: 16px;
   margin: 10px 0;
+  font-size: 20px;
+  letter-spacing: 1px;
 `;
 
 const StyledStatusBar = styled.div`
@@ -100,7 +106,7 @@ const InterviewGrid = (props) => {
                       defaultMessage="private"/></StyledVisibilityTag>
                   </Tooltip>
                 }
-                <h1><Link to={`/interviews/${id}`}>{title}</Link></h1>
+                <H1><Link to={`/interviews/${id}`}>{title}</Link></H1>
                 <Descriptions column={2}>
                   {/*<Descriptions.Item*/}
                   {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}>{specializationName}</Descriptions.Item>*/}

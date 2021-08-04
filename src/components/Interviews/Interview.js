@@ -24,7 +24,7 @@ const StyledInterviewGeekStatus = styled.div`
 `;
 
 const StyledDescription = styled.div`
-  font-size: 16px;
+  font-size: 20px;
   margin: 10px 0;
 `;
 

@@ -29,12 +29,15 @@ const Main = styled.main`
 `;
 
 const GlobalStyle = createGlobalStyle`
+  body{
+    letter-spacing: 1.5px;
+  }
   h1, h2, h3, h4, h5, h6 {
     color: inherit;
+    letter-spacing: 8px;
   }
 
   h2, h3 {
-    font-weight: bold;
     border-bottom: 1px solid #e8e8e8;
     padding-bottom: 10px;
     margin: 20px 0;
@@ -47,6 +50,10 @@ const GlobalStyle = createGlobalStyle`
 
   .ant-btn-primary:not(.ant-input-search-button) {
     margin: 5px 5px;
+  }
+
+  p, li {
+    letter-spacing: 1.5px;
   }
 `;
 export const Layout = (props) => {
@@ -149,9 +156,9 @@ export const Layout = (props) => {
           </ThemeProvider>
         );
       }}
-        />
-        );
-      };
+    />
+  );
+};
 
 Layout.propTypes = {
   children: PropTypes.object.isRequired,

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 const StyledLayoutSider = styled(Layout.Sider)`
   position: absolute !important;
-  left: -160px;
+  left: -200px;
   min-width: 160px !important;
   width: 160px !important;
 `;

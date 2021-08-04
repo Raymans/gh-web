@@ -12,6 +12,7 @@ const StyledFooter = styled.footer`
   color: ${(props) => props.theme.color.neutral.gray.g};
   padding-top: 0;
   padding-bottom: 20px;
+  border-top: 2px solid #0f7d9f8a;
 
   ul {
     list-style: none;
