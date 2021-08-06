@@ -28,9 +28,9 @@ const Section = styled.section`
 
   h1 {
     font-weight: 500;
-    padding: 50px 0 10px;
     font-size: 36px;
     text-align: center;
+    width: 100%;
   }
 
   h2 {
@@ -53,14 +53,36 @@ const StyledSectionBlack = styled(Section)`
 
 const StyledLeftH2 = styled.h2`
   text-align: left !important;
+  margin-top: 0 !important;
 `;
 
 const StyledRow = styled(Row)`
-  padding: 50px 0;
+  padding: 70px 0;
   justify-content: center;
 
   div {
-    padding: 0 90px;
+    padding: 0 30px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    div {
+      max-width: 100%;
+    }
+  }
+`;
+
+const StyledImagesRow = styled(Row)`
+  padding: 70px 0;
+  justify-content: center;
+
+  div {
+    padding: 0 50px;
+    max-width: 430px;
+  }
+
+  div.template {
+    max-width: 100%;
   }
 
   @media (max-width: 768px) {
@@ -121,7 +143,7 @@ const IconDescription = ({
   <Col style={{
     textAlign: 'center',
     marginTop: 10
-  }}>
+  }} className={className}>
     {/*<FontAwesomeIcon icon={icon} size="7x"/>*/}
     <h3 style={{ paddingTop: '10px' }}>{title}</h3>
     <IconImage src={icon} alt="Analysis" className={className}/>
@@ -149,77 +171,105 @@ const Home = (props) => {
   return (
     <>
       <Section className="no-pic">
-        <h1 data-aos="fade-in">
-          <FormattedMessage
-            defaultMessage="GeekHub can help in many cases such as Technical Interviews, English learning, Study Group"
-            values={{ br: <br/> }}/>
-        </h1>
-        <StyledRow type="flex" justify="space-around" data-aos="zoom-in">
-          <h2><FormattedMessage defaultMessage="GeekHub Templates"/></h2>
+        <StyledImagesRow type="flex" justify="space-around">
+          <h1>
+            <FormattedMessage
+              id="home.template.title"
+              defaultMessage="Our tool is perfectly suited for conducting technical interviews, online learning assessments and popup quiz"
+            />
+          </h1>
+          <h2><FormattedMessage id="home.template.title2" defaultMessage="GeekHub Templates"/></h2>
           <IconDescription icon={TechniqueAssessmentImg}
-                           className="big"
+                           className="big template"
                            title={intl.formatMessage({ defaultMessage: 'Technical Interviews' })}
                            description={
                              <FeatureList>
                                <FeatureListItem><FormattedMessage
-                                 defaultMessage="JavaScript Assessment"/></FeatureListItem>
+                                 id="home.template.fundamentals"
+                                 defaultMessage="Programming language fundamentals"/></FeatureListItem>
                                <FeatureListItem><FormattedMessage
-                                 defaultMessage="Java Assessment"/></FeatureListItem>
+                                 id="home.template.problem.solving"
+                                 defaultMessage="Problem solving"/></FeatureListItem>
                                <FeatureListItem><FormattedMessage
-                                 defaultMessage="React Assessment"/></FeatureListItem>
+                                 id="home.template.design.patterns"
+                                 defaultMessage="Design patterns"/></FeatureListItem>
                              </FeatureList>
                            }
           />
           <IconDescription icon={EnglishAssessmentImg}
-                           className="big"
-                           title={intl.formatMessage({ defaultMessage: 'English Assessment' })}
+                           className="big template"
+                           title={intl.formatMessage({
+                             defaultMessage: 'Online Assessment',
+                             id: 'home.template.online'
+                           })}
                            description={
                              <FeatureList>
                                <FeatureListItem><FormattedMessage
-                                 defaultMessage="Basic English Assessment"/></FeatureListItem>
+                                 id="home.template.language.learning"
+                                 defaultMessage="Language learning"/></FeatureListItem>
                                <FeatureListItem><FormattedMessage
-                                 defaultMessage="Grammar Assessment"/></FeatureListItem>
+                                 id="home.template.tutoring"
+                                 defaultMessage="Tutoring"/></FeatureListItem>
                              </FeatureList>
                            }
           />
-        </StyledRow>
+        </StyledImagesRow>
       </Section>
-      <Section className="no-pic" data-aos="fade-in">
-        <h1><FormattedMessage defaultMessage="Most Speedy Assessments manage tools"/></h1>
-        <StyledRow type="flex" justify="space-around">
+      <Section className="no-pic" data-aos="zoom-in">
+        <StyledImagesRow type="flex" justify="space-around">
+          <h1><FormattedMessage id="home.easy.steps"
+                                defaultMessage="Easy Steps to Online Assessment"/></h1>
           <IconDescription icon={CreateAssessmentImg}
-                           title={intl.formatMessage({ defaultMessage: 'Create Assessment' })}
-                           description={intl.formatMessage({ defaultMessage: 'Easy and speedy creating a your own Assessment.' })}
+                           title={intl.formatMessage({ defaultMessage: 'Create Assessment', id: 'home.easy.steps.create.title' })}
+                           description={intl.formatMessage({
+                             defaultMessage: 'Instantly with our intuitive UI',
+                             id: 'home.easy.steps.create.desc'
+                           })}
           />
           <IconDescription icon={ShareAssessmentImg}
-                           title={intl.formatMessage({ defaultMessage: 'Share Assessment' })}
-                           description={intl.formatMessage({ defaultMessage: 'Easy Share with any people to assess your Assessment ' })}
+                           title={intl.formatMessage({
+                             defaultMessage: 'Share Assessment',
+                             id: 'home.easy.steps.share.title'
+                           })}
+                           description={intl.formatMessage({
+                             defaultMessage: 'With your candidate with a click of a button',
+                             id: 'home.easy.steps.share.desc'
+                           })}
           />
           <IconDescription icon={AnalysisImg}
-                           title={intl.formatMessage({ defaultMessage: 'Analysis Assessment Result' })}
-                           description={intl.formatMessage({ defaultMessage: 'Analysis each Assessment Result into a clear view' })}
+                           title={intl.formatMessage({
+                             defaultMessage: 'Analyze Result',
+                             id: 'home.easy.steps.analyze.title'
+                           })}
+                           description={intl.formatMessage({
+                             defaultMessage: 'Assess candidate\'s result and visual comparison across the board.',
+                             id: 'home.easy.steps.analyze.desc'
+                           })}
           />
-        </StyledRow>
+        </StyledImagesRow>
       </Section>
       <Section>
         <StyledRow type="flex">
           <Col span={12} data-aos="fade-up-right">
-            <StyledLeftH2><FormattedMessage defaultMessage="Create your assessment"/></StyledLeftH2>
-            <p><FormattedMessage defaultMessage="Want to have your own assessments to let everyone see and test it? you can do that
-              easily to build up your own questions for later use or share it"/></p>
-            <p><FormattedMessage defaultMessage="Keep your assessment privately so you can share and decide who can see/test your
-              interview"/></p>
+            <StyledLeftH2><FormattedMessage id="home.create.title"
+                                            defaultMessage="Create"/></StyledLeftH2>
+            <p><FormattedMessage
+              id="home.create.desc"
+              defaultMessage="Start organizing your assessment with defined sections and questions. Compose your questions and answers with our easy-to-use User Interface. We also support a range of assessment options, including:"/>
+            </p>
             <FeatureList>
               <FeatureListItem><FormattedMessage
-                defaultMessage="Makes your Assessment as Public, Everyone can see and assess it"/></FeatureListItem>
+                id="home.create.item.1"
+                defaultMessage="Assessment visibility to control who can see your assessment"/></FeatureListItem>
               <FeatureListItem><FormattedMessage
-                defaultMessage="Put your Assessment as Private, Only you can decide who can view and assess"/></FeatureListItem>
+                id="home.create.item.2"
+                defaultMessage="Time bound assessment"/></FeatureListItem>
               <FeatureListItem><FormattedMessage
-                defaultMessage="Time Count down"/></FeatureListItem>
+                id="home.create.item.3"
+                defaultMessage="Group your questions by sections"/></FeatureListItem>
               <FeatureListItem><FormattedMessage
-                defaultMessage="Multiple Section Support, help you design grouping your questions"/></FeatureListItem>
-              <FeatureListItem><FormattedMessage
-                defaultMessage="Support Multiple question types, Short Answer, Multiple Answers, and coding question coming soon!"/></FeatureListItem>
+                id="home.create.item.4"
+                defaultMessage="Support various question types"/></FeatureListItem>
             </FeatureList>
           </Col>
           <Col span={12} data-aos="fade-in">
@@ -233,15 +283,18 @@ const Home = (props) => {
             <ImageSection position="left" image={ShareAssessmentExample}/>
           </Col>
           <Col span={12} data-aos="fade-up-left">
-            <StyledLeftH2><FormattedMessage defaultMessage="Share Assessment"/></StyledLeftH2>
+            <StyledLeftH2><FormattedMessage id="home.share.title"
+                                            defaultMessage="Share"/></StyledLeftH2>
             <p><FormattedMessage
-              defaultMessage="Easily to share with anyone you want who assess your Assessments,
-              or shares Assessment link directly to them via social media. You decide who can assess your Assessments"/>
+              id="home.share.desc"
+              defaultMessage="Publish and share your assessment with anyone via email invitation or direct URL."/>
             </p>
             <FeatureList>
               <FeatureListItem><FormattedMessage
+                id="home.share.item.1"
                 defaultMessage="Invite candidate to assess via Email Notification"/></FeatureListItem>
               <FeatureListItem><FormattedMessage
+                id="home.share.item.2"
                 defaultMessage="Give your candidate Assessment Link or reach them via LinkIn/Facebook any Social Media you used"/></FeatureListItem>
             </FeatureList>
           </Col>
@@ -251,19 +304,14 @@ const Home = (props) => {
         <StyledRow type="flex" justify="space-around">
           <Col span={12} data-aos="fade-up-right">
             <StyledLeftH2><FormattedMessage
-              defaultMessage="Analysis Assessment Result"/></StyledLeftH2>
-            <p><FormattedMessage defaultMessage="You can easily see who tests your assessment and review summary of each result in a
-              very clear view."/></p>
+              id="home.analyze.title"
+              defaultMessage="Analyze"/></StyledLeftH2>
+            <p><FormattedMessage id="home.analyze.desc"
+                                 defaultMessage="Visualize assessment results and make informed decisions"/>
+            </p>
             <FeatureList>
               <FeatureListItem><FormattedMessage
-                defaultMessage="Makes your Assessment as Public, Everyone can see and assess it"/></FeatureListItem>
-              <FeatureListItem><FormattedMessage
-                defaultMessage="Put your Assessment as Private, Only you can decide who can view and assess"/></FeatureListItem>
-              <FeatureListItem><FormattedMessage
-                defaultMessage="Time Count down"/></FeatureListItem>
-              <FeatureListItem><FormattedMessage
-                defaultMessage="Multiple Section Support, help you design grouping your questions"/></FeatureListItem>
-              <FeatureListItem><FormattedMessage
+                id="home.analyze.item.1"
                 defaultMessage="Support Multiple question types, Short Answer, Multiple Answers, and coding question coming soon!"/></FeatureListItem>
             </FeatureList>
           </Col>
@@ -275,25 +323,36 @@ const Home = (props) => {
       <StyledSectionBlack className="no-pic">
         <StyledRow type="flex" justify="space-around" data-aos="zoom-in">
           <Col span={24} style={{ textAlign: 'center' }}>
-            <h2><FormattedMessage defaultMessage="Get Started right now!"/></h2>
+            <h2><FormattedMessage id="home.getstarted.title" defaultMessage="Get Started for Free"/>
+            </h2>
             <p><FormattedMessage
-              defaultMessage="Visit our GeekHub Template to do your first assessment, get you idea about how speedy to create an first Assessment by yourself."/>
+              id="home.getstarted.desc"
+              defaultMessage="Click on Get Started to experience the entire online assessment lifecycle without needing to create an account."/>
             </p>
-            <h3><FormattedMessage defaultMessage="Choose a GeekHub Assessment to start."/></h3>
             <Button type={'primary'} onClick={() => navigate('/get-started')}>
               {
                 step === 0 ?
-                  <FormattedMessage defaultMessage={'Get Started'}/> :
-                  <FormattedMessage defaultMessage={'Continue Get Started'}/>
+                  <FormattedMessage id="home.getstarted.button" defaultMessage={'Get Started'}/> :
+                  <FormattedMessage id="home.getstarted.continue"
+                                    defaultMessage={'Continue Get Started'}/>
               }
             </Button>
             <FeatureList>
               <FeatureListItem><FormattedMessage
-                defaultMessage="JavaScript Assessment"/></FeatureListItem>
+                id="home.template.fundamentals"
+                defaultMessage="Programming language fundamentals"/></FeatureListItem>
               <FeatureListItem><FormattedMessage
-                defaultMessage="Java Assessment"/></FeatureListItem>
+                id="home.template.problem.solving"
+                defaultMessage="Problem solving"/></FeatureListItem>
               <FeatureListItem><FormattedMessage
-                defaultMessage="React Assessment"/></FeatureListItem>
+                id="home.template.design.patterns"
+                defaultMessage="Design patterns"/></FeatureListItem>
+              <FeatureListItem><FormattedMessage
+                id="home.template.language.learning"
+                defaultMessage="Language learning"/></FeatureListItem>
+              <FeatureListItem><FormattedMessage
+                id="home.template.tutoring"
+                defaultMessage="Tutoring"/></FeatureListItem>
             </FeatureList>
           </Col>
         </StyledRow>

@@ -14,4 +14,12 @@ for (const [key, value] of Object.entries(transferedData)) {
   }
 }
 
-fs.writeFileSync('src/intl/zh-tw.json', JSON.stringify(transferedData, null, 2));
+const sortedTransferedData = Object.keys(transferedData).sort().reduce(
+  (obj, key) => {
+    obj[key] = transferedData[key];
+    return obj;
+  },
+  {}
+);
+
+fs.writeFileSync('src/intl/zh-tw.json', JSON.stringify(sortedTransferedData, null, 2));

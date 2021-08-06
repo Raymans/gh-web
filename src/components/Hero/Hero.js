@@ -39,7 +39,7 @@ const HeroSection = styled.section`
   @media (min-width: 1024px) {
     background-image: url(${(props) => props.backgrounds.desktop});
     h1 {
-      max-width: 80%;
+      max-width: 85%;
       font-size: ${(props) => `calc(${props.theme.hero.h1.size} * 1.2)`};
     }
   }
@@ -69,12 +69,16 @@ const Hero = (props) => {
       </ParticlesWrapper>
       <HeroSection backgrounds={backgrounds}>
         <h1>
-          <FormattedMessage defaultMessage="Best prepare tools for Assessments"/>
+          <FormattedMessage
+            id="home.landing.title"
+            defaultMessage="Best Tool for Online Assessment"/>
         </h1>
         <SubTitle><FormattedMessage
+          id="home.landing.title2"
           defaultMessage="Store knowledge as your second brand"/>
           <br/>
           <FormattedMessage
+            id="home.landing.title3"
             defaultMessage="Practice anonymously with engineers who have worked at great company"/>
         </SubTitle>
       </HeroSection>
