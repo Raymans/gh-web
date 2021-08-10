@@ -105,6 +105,7 @@ const InterviewSession = ({
     const intl = useIntl();
     const { isGetStarted } = useGetStarted();
     const isOwner = isGetStarted || user?.sub === interview.clientUser.id;
+    const isAnswersVisible = isOwner || interview.releaseResult === 'YES';
     const [isSubmitted, setIsSubmitted] = useState(!!interviewEndDate);
     const handleSubmitQuestionAttempt = (sectionId, questionId, type, values) => {
       if (preview) {
@@ -198,7 +199,7 @@ const InterviewSession = ({
                                     {`Q${questionIndex + 1}`}
                                     {
                                       (() => {
-                                          if (!preview || !viewResult) {
+                                          if (!preview || !viewResult || !isAnswersVisible) {
                                             return;
                                           }
                                           const isCorrect = isOwner ? answerAttemptSections?.[sectionId]?.answerAttempts[questionId]?.correct ||
@@ -240,7 +241,7 @@ const InterviewSession = ({
                                               <StyledCheckbox
                                                 key={possibleAnswer.answerId}
                                                 value={possibleAnswer.answerId}
-                                                className={preview && viewResult && isOwner && (correctOption ? ' answer ' : '') + ((correctOption && answered) ? 'correct' : (!correctOption && !answered) || 'wrong')}
+                                                className={preview && viewResult && isAnswersVisible && (correctOption ? ' answer ' : '') + ((correctOption && answered) ? 'correct' : (!correctOption && !answered) || 'wrong')}
                                               >
                                                 {possibleAnswer.answer}
                                               </StyledCheckbox>

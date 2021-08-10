@@ -47,6 +47,7 @@ const InterviewSessionResult = ({
   const [averageScore, setAverageScore] = useState({ sectionsAverageScore: [{ averageSectionScore: 0 }] });
   const [calculating, setCalculating] = useState(false);
   const [loading, setLoading] = useState(true);
+  const isAnswerVisible = isOwner || interviewSession.interview?.releaseResult === 'YES';
   useEffect(() => {
     getInterviewSession(sessionId)
       .then((interviewS) => {
@@ -101,7 +102,7 @@ const InterviewSessionResult = ({
             </Descriptions.Item>
           </Descriptions>
           {
-            !loading && interviewSession.status === 'ENDED' && interviewSession.answerAttemptSections
+            !loading && interviewSession.status === 'ENDED' && interviewSession.answerAttemptSections && isAnswerVisible
             && (
               <StyledScoresRow gutter={[16, 32]}>
                 {
