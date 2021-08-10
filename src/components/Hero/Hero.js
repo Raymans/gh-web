@@ -48,6 +48,7 @@ const HeroSection = styled.section`
 const SubTitle = styled.h2`
   color: #ffffff;
   border: 0;
+  text-align: center;
 `;
 
 const ParticlesWrapper = styled.div`

@@ -4,10 +4,18 @@ import { Affix, Avatar, Button, Drawer, Menu as AntMenu } from 'antd';
 import { FormattedMessage, Link, navigate, useIntl } from 'gatsby-plugin-intl';
 import styled, { ThemeContext } from 'styled-components';
 import Icon, {
+  ApartmentOutlined,
+  CaretRightOutlined,
+  ClockCircleOutlined,
   EyeOutlined,
+  GroupOutlined,
+  LikeOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  PlusOutlined,
+  ProfileOutlined,
+  SearchOutlined,
   SettingOutlined,
   UserOutlined
 } from '@ant-design/icons';
@@ -64,14 +72,12 @@ const Menu = (props) => {
     // },
     {
       to: '/interviews',
-      label: <FormattedMessage defaultMessage="Assessments"/>,
-      icon: <EyeOutlined/>,
+      label: <><EyeOutlined/> <FormattedMessage defaultMessage="Assessments"/></>,
       hideAfterAuth: true
     },
     {
       to: '/login',
-      label: <FormattedMessage defaultMessage="Login"/>,
-      icon: <UserOutlined/>,
+      label: <><UserOutlined/> <FormattedMessage defaultMessage="Login"/></>,
       needAuth: true
     }
   ];
@@ -86,7 +92,6 @@ const Menu = (props) => {
         to={item.to}
         data-slug={item.to}
       >
-        {item.icon}
         {item.label}
       </Link>
     </AntMenu.Item>
@@ -116,7 +121,6 @@ const Menu = (props) => {
               }}
               theme="outlined"
             />
-            {subItem.icon}
             {subItem.label}
           </Link>
         </AntMenu.Item>
@@ -188,36 +192,42 @@ const Menu = (props) => {
                 <React.Fragment key={item.to}>
                   <AntMenu.SubMenu
                     key={`interview_${index}`}
-                    icon={<EyeOutlined/>}
-                    title={<FormattedMessage defaultMessage="Assessments"/>}
+                    title={<><EyeOutlined/> <FormattedMessage defaultMessage="Assessments"/></>}
                   >
                     {renderItem({
                       to: '/interviews?tab=explore',
-                      label: <FormattedMessage defaultMessage="Explore Assessments"/>
+                      label: <><SearchOutlined/> <FormattedMessage
+                        defaultMessage="Explore Assessments"/></>
                     })}
                     {renderItem({
                       to: '/interviews?tab=mine',
-                      label: <FormattedMessage defaultMessage="My Assessments"/>
+                      label: <><UserOutlined/> <FormattedMessage
+                        defaultMessage="My Assessments"/></>
                     })}
                     {renderItem({
                       to: '/interviews?tab=liked',
-                      label: <FormattedMessage defaultMessage="Liked Assessments"/>
+                      label: <><LikeOutlined/> <FormattedMessage
+                        defaultMessage="Liked Assessments"/></>
                     })}
                     {renderItem({
                       to: '/interviews?tab=pending',
-                      label: <FormattedMessage defaultMessage="Pending Assessments"/>
+                      label: <><CaretRightOutlined/> <FormattedMessage
+                        defaultMessage="Pending Assessments"/></>
                     })}
                     {renderItem({
                       to: '/testedInterviews',
-                      label: <FormattedMessage defaultMessage="Assessed Assessments"/>
+                      label: <><ClockCircleOutlined/> <FormattedMessage
+                        defaultMessage="Assessed Assessments"/></>
                     })}
                     {renderItem({
                       to: '/interviews/create',
-                      label: <FormattedMessage defaultMessage="Create Assessments"/>
+                      label: <><PlusOutlined/> <FormattedMessage
+                        defaultMessage="Create Assessments"/></>
                     })}
                     {organization && renderItem({
                       to: '/interviews?tab=org',
-                      label: <FormattedMessage defaultMessage="Organization Assessments"/>
+                      label: <><GroupOutlined/> <FormattedMessage
+                        defaultMessage="Organization Assessments"/></>
                     })}
                   </AntMenu.SubMenu>
                   <AntMenu.SubMenu
@@ -231,19 +241,19 @@ const Menu = (props) => {
                   >
                     {renderItem({
                       to: `/profile/${userProfile?.id}`,
-                      label: <FormattedMessage defaultMessage="Profile"/>
+                      label: <><ProfileOutlined/> <FormattedMessage defaultMessage="Profile"/></>
                     })}
                     {renderItem({
                       to: '/setting',
-                      label: <FormattedMessage defaultMessage="Setting"/>
+                      label: <><SettingOutlined/> <FormattedMessage defaultMessage="Setting"/></>
                     })}
                     {renderItem({
                       to: '/organization',
-                      label: <FormattedMessage defaultMessage="Organization"/>
+                      label: <><ApartmentOutlined/> <FormattedMessage
+                        defaultMessage="Organization"/></>
                     })}
                     <AntMenu.Item onClick={() => logoutWithRedirect()}>
-                      <LogoutOutlined/>
-                      <FormattedMessage defaultMessage="Login out"/>
+                      <LogoutOutlined/> <FormattedMessage defaultMessage="Login out"/>
                     </AntMenu.Item>
                   </AntMenu.SubMenu>
                 </React.Fragment>
@@ -251,7 +261,6 @@ const Menu = (props) => {
             }
             return (
               <AntMenu.Item key={item.to} onClick={handleLogin}>
-                {item.icon}
                 {item.label}
               </AntMenu.Item>
             );

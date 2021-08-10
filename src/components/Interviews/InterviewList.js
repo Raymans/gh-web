@@ -14,6 +14,7 @@ import Seo from '../Seo';
 import styled from 'styled-components';
 import queryString from 'query-string';
 import { navigate } from 'gatsby-link';
+import { PlusOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 const { Content } = Layout;
@@ -157,7 +158,7 @@ const InterviewList = ({ location }) => {
       }]}/>
       <Headline title={intl.formatMessage({ defaultMessage: 'List Assessments' })}>
         {isAuthenticated &&
-        <Link to="/interviews/create"><FormattedMessage
+        <Link to="/interviews/create"><PlusOutlined/> <FormattedMessage
           defaultMessage="Create Assessment"/></Link>}
       </Headline>
       {/* <GatsbyLink to={'/interviews/1/test'}>Test interview 1</GatsbyLink> */}
