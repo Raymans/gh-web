@@ -96,7 +96,10 @@ const InterviewsSummary = ({
                         </Descriptions.Item>
                         <Descriptions.Item
                           span={2}
-                          style={{ whiteSpace: 'pre-line' }}
+                          style={{
+                            whiteSpace: 'pre-line',
+                            fontSize: '20px'
+                          }}
                         >
                           {interview.description}
                         </Descriptions.Item>

@@ -89,7 +89,10 @@ const InterviewSessionResult = ({
             </Descriptions.Item>
             <Descriptions.Item
               span={2}
-              style={{ whiteSpace: 'pre-line' }}
+              style={{
+                whiteSpace: 'pre-line',
+                fontSize: '20px'
+              }}
             >
               {interviewSession.interview?.description}
             </Descriptions.Item>

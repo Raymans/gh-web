@@ -12,7 +12,7 @@ import Moment from 'react-moment';
 import ShareInterview from './ShareInterview';
 
 const H1 = styled.h1`
-  font-size: 30px;
+  font-size: 26px;
   letter-spacing: 1px;
   font-weight: 400;
 `;
@@ -37,6 +37,7 @@ const StyledDescription = styled.div`
   margin: 10px 0;
   font-size: 20px;
   letter-spacing: 1px;
+  white-space: pre-line;
 `;
 
 const StyledStatusBar = styled.div`

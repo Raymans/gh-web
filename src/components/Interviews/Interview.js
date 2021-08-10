@@ -26,6 +26,7 @@ const StyledInterviewGeekStatus = styled.div`
 const StyledDescription = styled.div`
   font-size: 20px;
   margin: 10px 0;
+  white-space: pre-line;
 `;
 
 const Interview = ({
@@ -245,7 +246,6 @@ const Interview = ({
                 </Descriptions.Item>
                 <Descriptions.Item
                   span={2}
-                  style={{ whiteSpace: 'pre-line' }}
                 >
                   <StyledDescription>{interview.description}</StyledDescription>
                 </Descriptions.Item>
@@ -285,7 +285,7 @@ const Interview = ({
                 )
               }
               {
-                !interviewSession && !isOwner
+                !interviewSession && !isOwner && !!interview.publishedInterviewId
                 && (
                   <>
                     <LoginPrompt
