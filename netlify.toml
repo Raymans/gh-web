@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/interviews/*"
+  to = "/interviews"
+  status = 404
+  force = true
