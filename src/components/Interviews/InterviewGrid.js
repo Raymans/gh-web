@@ -17,11 +17,14 @@ const H1 = styled.h1`
   font-weight: 400;
 `;
 const StyledListItem = styled(List.Item)`
-  .ant-list-item-extra {
-    position: absolute;
-    right: 25px;
-    top: 16px;
-  }
+  box-shadow: 4px 7px 8px 0px hsl(0deg 0% 53% / 6%), 0 11px 15px 1px hsl(0deg 0% 53% / 4%), 0 4px 20px 3px hsl(0deg 0% 53% / 4%);
+}
+
+.ant-list-item-extra {
+  position: absolute;
+  right: 25px;
+  top: 16px;
+}
 `;
 
 const StyledVisibilityTag = styled(Tag)`

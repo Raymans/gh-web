@@ -300,8 +300,9 @@ const Menu = (props) => {
             <Button type={'primary'} onClick={() => navigate('/get-started')}>
             {
               step === 0 ?
-                <FormattedMessage defaultMessage={'Get Started'}/> :
-                <FormattedMessage defaultMessage={'Continue Get Started'}/>
+                <FormattedMessage id="menu.getstarted.start" defaultMessage={'Get Started'}/> :
+                <FormattedMessage id="menu.getstarted.continue"
+                                  defaultMessage={'Continue Get Started'}/>
             }
           </Button>
           </span>

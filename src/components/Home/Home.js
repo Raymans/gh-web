@@ -134,6 +134,10 @@ const FeatureList = styled.ul`
   }
 `;
 
+const SectionDesc = styled.p`
+  font-size: 24px;
+`;
+
 const IconDescription = ({
   icon,
   title,
@@ -220,7 +224,10 @@ const Home = (props) => {
           <h1><FormattedMessage id="home.easy.steps"
                                 defaultMessage="Easy Steps to Online Assessment"/></h1>
           <IconDescription icon={CreateAssessmentImg}
-                           title={intl.formatMessage({ defaultMessage: 'Create Assessment', id: 'home.easy.steps.create.title' })}
+                           title={intl.formatMessage({
+                             defaultMessage: 'Create Assessment',
+                             id: 'home.easy.steps.create.title'
+                           })}
                            description={intl.formatMessage({
                              defaultMessage: 'Instantly with our intuitive UI',
                              id: 'home.easy.steps.create.desc'
@@ -253,10 +260,10 @@ const Home = (props) => {
           <Col span={12} data-aos="fade-up-right">
             <StyledLeftH2><FormattedMessage id="home.create.title"
                                             defaultMessage="Create"/></StyledLeftH2>
-            <p><FormattedMessage
+            <SectionDesc><FormattedMessage
               id="home.create.desc"
               defaultMessage="Start organizing your assessment with defined sections and questions. Compose your questions and answers with our easy-to-use User Interface. We also support a range of assessment options, including:"/>
-            </p>
+            </SectionDesc>
             <FeatureList>
               <FeatureListItem><FormattedMessage
                 id="home.create.item.1"
@@ -285,10 +292,10 @@ const Home = (props) => {
           <Col span={12} data-aos="fade-up-left">
             <StyledLeftH2><FormattedMessage id="home.share.title"
                                             defaultMessage="Share"/></StyledLeftH2>
-            <p><FormattedMessage
+            <SectionDesc><FormattedMessage
               id="home.share.desc"
               defaultMessage="Publish and share your assessment with anyone via email invitation or direct URL."/>
-            </p>
+            </SectionDesc>
             <FeatureList>
               <FeatureListItem><FormattedMessage
                 id="home.share.item.1"
@@ -306,13 +313,25 @@ const Home = (props) => {
             <StyledLeftH2><FormattedMessage
               id="home.analyze.title"
               defaultMessage="Analyze"/></StyledLeftH2>
-            <p><FormattedMessage id="home.analyze.desc"
-                                 defaultMessage="Visualize assessment results and make informed decisions"/>
-            </p>
+            <SectionDesc><FormattedMessage id="home.analyze.desc"
+                                           defaultMessage="Visualize assessment results and make informed decisions"/>
+            </SectionDesc>
             <FeatureList>
-              <FeatureListItem><FormattedMessage
-                id="home.analyze.item.1"
-                defaultMessage="Support Multiple question types, Short Answer, Multiple Answers, and coding question coming soon!"/></FeatureListItem>
+              <FeatureListItem>
+                <FormattedMessage
+                  id="home.analyze.item.1"
+                  defaultMessage="View overall assessment score and at each question level"/>
+              </FeatureListItem>
+              <FeatureListItem>
+                <FormattedMessage
+                  id="home.analyze.item.2"
+                  defaultMessage="View score breakdown by sections"/>
+              </FeatureListItem>
+              <FeatureListItem>
+                <FormattedMessage
+                  id="home.analyze.item.3"
+                  defaultMessage="View assessment benchmark across candidates"/>
+              </FeatureListItem>
             </FeatureList>
           </Col>
           <Col span={12} data-aos="fade-in">

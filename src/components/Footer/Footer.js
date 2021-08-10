@@ -20,7 +20,7 @@ const StyledFooter = styled.footer`
     padding: 10px 0;
 
     li {
-      font-size: ${(props) => props.theme.font.size.s};
+      font-size: 0.8em;
       padding: 4px 0;
     }
   }

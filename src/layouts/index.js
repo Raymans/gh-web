@@ -29,12 +29,12 @@ const Main = styled.main`
 `;
 
 const GlobalStyle = createGlobalStyle`
-  body{
-    letter-spacing: ${(props) => (props.theme.locale === 'en' ? '1px' : '1.5px')};
+  body {
+    hyphens: auto;
   }
+
   h1, h2, h3, h4, h5, h6 {
     color: inherit;
-    letter-spacing: ${(props) => (props.theme.locale === 'en' ? '1px' : '8px;')};
   }
 
   h2, h3 {
@@ -50,10 +50,6 @@ const GlobalStyle = createGlobalStyle`
 
   .ant-btn-primary:not(.ant-input-search-button) {
     margin: 5px 5px;
-  }
-
-  p, li {
-    letter-spacing: 1.5px;
   }
 `;
 export const Layout = (props) => {
