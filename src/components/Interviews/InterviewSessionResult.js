@@ -124,12 +124,16 @@ const InterviewSessionResult = ({
                           title={<FormattedMessage
                             defaultMessage="Compares to average score: {averageSectionScore}"
                             values={{ averageSectionScore: averageSectionScore }}/>}>
-                          <Statistic
-                            value={sectionScoreDiff}
-                            valueStyle={{ color: sectionScoreDiff === 0 ? '#276dba' : (sectionScoreDiff > 0 ? '#138651' : 'red') }}
-                            prefix={sectionScoreDiff === 0 ? '= ' : (sectionScoreDiff > 0
-                              ? <ArrowUpOutlined/> : <ArrowDownOutlined/>)}
-                          />
+                        <Statistic
+                          value={sectionScoreDiff}
+                          valueStyle={{ color: sectionScoreDiff === 0 ? '#276dba' : (sectionScoreDiff > 0 ? '#138651' : 'red') }}
+                          prefix={sectionScoreDiff === 0 ? '= ' : (sectionScoreDiff > 0
+                            ? <ArrowUpOutlined/> : <ArrowDownOutlined/>)}
+                        />
+                        </Tooltip>
+                        <Tooltip
+                          title={section.title}
+                          >
                           <Progress
                             type="circle"
                             percent={sectionScore}
@@ -137,7 +141,7 @@ const InterviewSessionResult = ({
                             format={(score) => score}
                             status={sectionScore < averageSectionScore ? 'exception' : ''}
                           />
-                          <div>{section.title}</div>
+                          {/*<div>{section.title}</div>*/}
                         </Tooltip>
                       </Col>
                     );
@@ -151,7 +155,7 @@ const InterviewSessionResult = ({
                     <Statistic
                       value={averageScore.scoreDiff}
                       valueStyle={{ color: averageScore.scoreDiff === 0 ? '#2f9eba' : (averageScore.scoreDiff > 0 ? '#3f8600' : 'red') }}
-                      prefix={averageScore.scoreDiff === 0 ? '-' : (averageScore.scoreDiff > 0
+                      prefix={averageScore.scoreDiff === 0 ? '= ' : (averageScore.scoreDiff > 0
                         ? <ArrowUpOutlined/> : <ArrowDownOutlined/>)}
                     />
                     <Progress
