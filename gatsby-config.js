@@ -205,6 +205,7 @@ module.exports = {
         color: '#1088ae',
         showSpinner: true
       }
-    }
+    },
+    'gatsby-plugin-netlify'
   ]
 };
