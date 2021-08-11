@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/interviews/*"
   to = "/interviews"
-  status = 404
+  status = 200
   force = true
