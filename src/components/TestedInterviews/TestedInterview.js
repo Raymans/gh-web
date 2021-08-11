@@ -21,7 +21,7 @@ const TestedInterview = ({ sessionId }) => {
   return (
     <>
       <CustomBreadcrumb crumbs={[{
-        label: <FormattedMessage defaultMessage="Tested Interviews"/>,
+        label: <FormattedMessage defaultMessage="Passed Assessments"/>,
         path: '/testedInterviews'
       }, {
         label: interviewSession.interview.title,

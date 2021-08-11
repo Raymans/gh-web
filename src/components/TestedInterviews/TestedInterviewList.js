@@ -96,7 +96,7 @@ const TestedInterviewList = ({
           pagination={false}
         />
       </Spin>
-      <Seo subTitle={intl.formatMessage({ defaultMessage: 'Passed Assessment' })}/>
+      <Seo subTitle={intl.formatMessage({ defaultMessage: 'Passed Assessments' })}/>
     </>
   );
 };
