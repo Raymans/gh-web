@@ -54,7 +54,7 @@ const Menu = (props) => {
   const { switchDark } = useContext(ThemeContext);
   const [layout] = useLayout();
   const [menuVisible, setMenuVisible] = useState(false);
-  const { step } = useGetStarted();
+  const { isGetStarted, step } = useGetStarted();
 
   const pages = props.pages.map((page) => ({
     to: page.node.fields.slug,
@@ -304,7 +304,7 @@ const Menu = (props) => {
       &&
       <>
         {
-          !isAuthenticated &&
+          (!isAuthenticated && !isGetStarted) &&
           <span>
             <Button type={'primary'} onClick={() => navigate('/get-started')}>
             {
