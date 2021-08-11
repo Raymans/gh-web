@@ -38,6 +38,7 @@ import ConfirmModal from '../Organization/ConfirmModal';
 import AnchorSider from '../Sider/AnchorSider';
 import { Option } from 'antd/lib/mentions';
 import useGetStarted from '../../hooks/useGetStarted';
+import useStore from '../../hooks/useStore';
 
 const {
   Content
@@ -127,6 +128,7 @@ const InterviewForm = ({
     publishInterview
   } = useApi();
   const { isGetStarted } = useGetStarted();
+  const { organization } = useStore();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -576,6 +578,36 @@ const InterviewForm = ({
                     <Option value="NO"><FormattedMessage defaultMessage="NO"/> </Option>
                   </Select>
                 </FormItem>
+                {(!!organization || isGetStarted) &&
+                <FormItem
+                  label={
+                    <>
+                      <FormattedMessage id="interview.form.accountType"
+                                        defaultMessage={'Belongs to:'}/>
+                      <Tooltip
+                        title={intl.formatMessage({
+                          id: 'interview.form.accountType.tooltip',
+                          defaultMessage: 'Whether the assessment should belongs to yourself or organization.'
+                        })}
+                      >
+                        <StyledQuestionCircleOutlined/>
+                      </Tooltip>
+                    </>
+                  }
+                  name="accountType"
+                >
+                  <Select
+                    defaultValue="DEFAULT"
+                  >
+                    <Option value="DEFAULT"><FormattedMessage
+                      id="interview.form.accountType.individual"
+                      defaultMessage="Individual"/></Option>
+                    <Option value="CORPO"><FormattedMessage
+                      id="interview.form.accountType.organization" defaultMessage="Organization"/>
+                    </Option>
+                  </Select>
+                </FormItem>
+                }
                 <Form.List name="sections">
                   {(sections, {
                     add: addSection,
