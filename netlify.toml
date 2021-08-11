@@ -1,5 +1,0 @@
-[[redirects]]
-  from = "/interviews/*"
-  to = "/interviews"
-  status = 200
-  force = true
