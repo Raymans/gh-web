@@ -582,11 +582,11 @@ const InterviewForm = ({
                 <FormItem
                   label={
                     <>
-                      <FormattedMessage id="interview.form.accountType"
+                      <FormattedMessage id="interview.form.ownershipType"
                                         defaultMessage={'Belongs to:'}/>
                       <Tooltip
                         title={intl.formatMessage({
-                          id: 'interview.form.accountType.tooltip',
+                          id: 'interview.form.ownershipType.tooltip',
                           defaultMessage: 'Whether the assessment should belongs to yourself or organization.'
                         })}
                       >
@@ -594,16 +594,16 @@ const InterviewForm = ({
                       </Tooltip>
                     </>
                   }
-                  name="accountType"
+                  name="ownershipType"
                 >
                   <Select
                     defaultValue="DEFAULT"
                   >
-                    <Option value="DEFAULT"><FormattedMessage
-                      id="interview.form.accountType.individual"
+                    <Option value="PERSONAL"><FormattedMessage
+                      id="interview.form.ownershipType.individual"
                       defaultMessage="Individual"/></Option>
-                    <Option value="CORPO"><FormattedMessage
-                      id="interview.form.accountType.organization" defaultMessage="Organization"/>
+                    <Option value="DEFAULT"><FormattedMessage
+                      id="interview.form.ownershipType.organization" defaultMessage="Organization"/>
                     </Option>
                   </Select>
                 </FormItem>
