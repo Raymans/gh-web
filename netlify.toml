@@ -1,0 +1,25 @@
+[[redirects]]
+  from = "/en/interviews/*"
+  to = "/en/interviews"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/zh-tw/interviews/*"
+  to = "/en/interviews"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/en/profile/*"
+  to = "/en/profile"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/zh-tw/profile/*"
+  to = "/zh-tw/profile"
+  status = 200
+  force = true
+
+
