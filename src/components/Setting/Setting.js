@@ -92,15 +92,6 @@ const Setting = () => {
         <Form layout="vertical" onFinish={onFinish} scrollToFirstError form={form}>
           <h2 id="profile"><FormattedMessage defaultMessage="Profile"/></h2>
           <UploadImage name="avatar" imageUrl={userProfile?.avatar}/>
-          <FormItem
-            name="email"
-            label={<FormattedMessage defaultMessage="Email"/>}
-            rules={[{
-              required: true,
-              type: 'email'
-            }]} required>
-            <Input/>
-          </FormItem>
           <FormItem name="name" label={<FormattedMessage defaultMessage="Name"/>}
                     rules={[{ required: true }]} required>
             <Input/>

@@ -598,6 +598,7 @@ const InterviewForm = ({
                 >
                   <Select
                     defaultValue="DEFAULT"
+                    disabled={isEditForm}
                   >
                     <Option value="PERSONAL"><FormattedMessage
                       id="interview.form.ownershipType.individual"

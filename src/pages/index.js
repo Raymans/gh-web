@@ -7,8 +7,8 @@ import Home from '../components/Home';
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-  body{
-    letter-spacing: ${(props) => (props.theme.locale === 'en' ? '1px' : '1.5px')};
+  body {
+    letter-spacing: ${(props) => (props.theme.locale === 'en' ? '0px' : '1.5px')};
   }
 `;
 
