@@ -111,7 +111,7 @@
   "OreSxk": "您是所有者，在離開 {orgName} 之前，您需要將所有者切換為其他人。",
   "P0/G/W": "登錄以查看您的組織信息。",
   "PRu4ge": "考生提交後立即顯示試卷結果和答案。",
-  "Q5WMRM": "多問題",
+  "Q5WMRM": "多選題",
   "Q8Qw5B": "描述",
   "QLkzoS": "儲存",
   "QRxipv": "您確定要刪除部門：{name}？",
@@ -236,6 +236,7 @@
   "interview.form.ownershipType.individual": "個人",
   "interview.form.ownershipType.organization": "組織",
   "interview.form.ownershipType.tooltip": "此試卷是屬於個人或組織所擁有，若選擇組織則您組織內的成員都可以查看此試卷",
+  "interview.questions.reorder.tooltip": "調整問題順序",
   "irHXKh": "個人資料-{name}",
   "itPgxd": "個人資料",
   "iuyq8b": "問題描述",
@@ -267,6 +268,7 @@
   "qEvFP5": "{username} 已經從組織中移除.",
   "qMePPG": "註釋",
   "qb+AHl": "管理面試",
+  "question.options.reorder.tooltip": "調整答案選項順序",
   "rCxgPZ": "定價與計畫",
   "raXnok": "確定要離開?",
   "rbrahO": "關閉",
@@ -300,5 +302,5 @@
   "yJTJL/": "添加答案",
   "yf3wDQ": "通過拖放排序您的問題",
   "ykkJo4": "為您的試卷設定試卷測試的時間。",
-  "yr5zsS": "簡答"
+  "yr5zsS": "簡答題"
 }

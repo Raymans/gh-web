@@ -9,7 +9,8 @@ import {
   FormOutlined,
   LoadingOutlined,
   MinusCircleOutlined,
-  PlusOutlined
+  PlusOutlined,
+  RetweetOutlined
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -19,6 +20,7 @@ import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
@@ -31,14 +33,27 @@ if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
   require('codemirror/lib/codemirror.css');
 }
 
-const StyledMinusCircleOutlined = styled(MinusCircleOutlined)`
-  color: #999;
-  transition: all .3s;
-
-  :hover {
-    color: #777;
+const StyledQuestionSection = styled.div`
+  .ant-form-item-explain-error {
+    padding-left: 66px;
   }
 `;
+const StyledActionIconsSection = styled.span`
+  span {
+    margin-left: 10px;
+    color: #999;
+    transition: all .3s;
+
+    :hover {
+      color: ${(props) => props.theme.color.brand.primary};
+    }
+
+    &.anticon-minus-circle:hover {
+      color: red;
+    }
+  }
+`;
+
 const StyledButtonsGroup = styled(FormItem)`
   margin: 30px 0;
 `;
@@ -48,6 +63,19 @@ const inputLayout = {
 };
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin/>;
+
+const getListStyle = isDraggingOver => ({
+  background: isDraggingOver ? '#c9ecec' : '',
+  padding: '1px',
+  position: 'relative'
+});
+
+const getItemStyle = (isDragging, draggableStyle) => ({
+  userSelect: 'none',
+  padding: 4,
+  background: isDragging ? '#2f9eba' : '',
+  ...draggableStyle
+});
 
 const QuestionForm = (props) => {
   const [saving, setSaving] = useState(false);
@@ -115,9 +143,11 @@ const QuestionForm = (props) => {
           <Form.List name={form ? [id, 'possibleAnswers'] : 'possibleAnswers'}>
             {(fields, {
               add,
-              remove
+              remove,
+              move
             }) => (
-              <QuestionFormItem form={form} id={id} fields={fields} add={add} remove={remove}/>
+              <QuestionFormItem form={form} id={id} fields={fields} add={add} remove={remove}
+                                move={move}/>
             )}
           </Form.List>
           }
@@ -248,59 +278,104 @@ const QuestionFormItem = (props) => {
     id,
     fields,
     add,
-    remove
+    remove,
+    move
   } = props;
+
+  const handleReorderOptions = (result) => {
+    if (!result.destination) {
+      return;
+    }
+    move(result.source.index, result.destination.index);
+  };
+
   return (
-    <div>
-      {fields.map((field, index) => (
-        <Form.Item
-          required={false}
-          key={field.key}
-        >
-          <FormItem
-            name={form ? [index, 'correctAnswer'] : [index, 'correctAnswer']}
-            valuePropName="checked"
-            noStyle
-          >
-            <Switch
-              checkedChildren={<CheckOutlined/>}
-              unCheckedChildren={<CloseOutlined/>}
-              style={{
-                float: 'left',
-                margin: '5px'
-              }}
-            />
-          </FormItem>
-          <Form.Item
-            name={form ? [index, 'answer'] : [index, 'answer']}
-            validateTrigger={['onChange', 'onBlur']}
-            rules={[
-              {
-                required: true,
-                whitespace: true,
-                message: 'answer option'
-              }
-            ]}
-            noStyle
-          >
-            <Input
-              placeholder={intl.formatMessage({ defaultMessage: 'Please input answer option' })}
-              style={{
-                width: '80%',
-                marginRight: 8
-              }}
-            />
-          </Form.Item>
-          {fields.length > 1 ? (
-            <StyledMinusCircleOutlined
-              className="dynamic-delete-button"
-              onClick={() => {
-                remove(field.name);
-              }}
-            />
-          ) : null}
-        </Form.Item>
-      ))}
+    <>
+      <DragDropContext onDragEnd={handleReorderOptions}>
+        <Droppable droppableId="options_droppable">
+          {(provided, snapshot) => (
+            <div {...provided.droppableProps}
+                 ref={provided.innerRef}
+                 style={getListStyle(snapshot.isDraggingOver)}>
+              {fields.map((field, index) => (
+                <Draggable key={`option_${index}`}
+                           draggableId={`option_${index}`}
+                           index={index}
+                >
+                  {(provided, snapshot) => (
+                    <StyledQuestionSection
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      style={getItemStyle(
+                        snapshot.isDragging,
+                        provided.draggableProps.style
+                      )}>
+                      <Form.Item
+                        required={false}
+                        key={field.key}
+                      >
+                        <FormItem
+                          name={form ? [index, 'correctAnswer'] : [index, 'correctAnswer']}
+                          valuePropName="checked"
+                          noStyle
+                        >
+                          <Switch
+                            checkedChildren={<CheckOutlined/>}
+                            unCheckedChildren={<CloseOutlined/>}
+                            style={{
+                              float: 'left',
+                              margin: '5px'
+                            }}
+                          />
+                        </FormItem>
+                        <Form.Item
+                          name={form ? [index, 'answer'] : [index, 'answer']}
+                          validateTrigger={['onChange', 'onBlur']}
+                          rules={[
+                            {
+                              required: true,
+                              whitespace: true,
+                              message: intl.formatMessage({ defaultMessage: 'Please input answer option' })
+                            }
+                          ]}
+                          noStyle
+                        >
+                          <Input
+                            placeholder={intl.formatMessage({ defaultMessage: 'Please input answer option' })}
+                            style={{
+                              width: '80%',
+                              marginRight: 8
+                            }}
+                          />
+                        </Form.Item>
+                        {fields.length > 1 ? (
+                          <StyledActionIconsSection>
+                            <MinusCircleOutlined
+                              className="dynamic-delete-button"
+                              onClick={() => {
+                                remove(field.name);
+                              }}
+                            />
+                            <Tooltip
+                              title={intl.formatMessage({
+                                id: 'question.options.reorder.tooltip',
+                                defaultMessage: 'Reorder answer options'
+                              })}>
+                              <RetweetOutlined {...provided.dragHandleProps} />
+                            </Tooltip>
+                          </StyledActionIconsSection>
+                        ) : null}
+                      </Form.Item>
+                    </StyledQuestionSection>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+
       <Button
         size="small"
         onClick={() => {
@@ -310,7 +385,7 @@ const QuestionFormItem = (props) => {
         <PlusOutlined/>
         <FormattedMessage defaultMessage="Add Answer"/>
       </Button>
-    </div>
+    </>
   );
 };
 

@@ -22,7 +22,8 @@ import {
   LoadingOutlined,
   MinusCircleOutlined,
   PlusOutlined,
-  QuestionCircleOutlined
+  QuestionCircleOutlined,
+  RetweetOutlined
 } from '@ant-design/icons';
 import transformSwitchValue from '../../utils/questionHelpers';
 import Headline from '../Article/Headline';
@@ -97,7 +98,6 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   background: isDragging ? '#2f9eba' : '',
   ...draggableStyle
 });
-
 
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? '#c9ecec' : '',
@@ -680,7 +680,6 @@ const InterviewForm = ({
                                                   key={question.name}
                                                   ref={provided.innerRef}
                                                   {...provided.draggableProps}
-                                                  {...provided.dragHandleProps}
                                                   style={getItemStyle(
                                                     snapshot.isDragging,
                                                     provided.draggableProps.style
@@ -688,26 +687,39 @@ const InterviewForm = ({
                                                 >
                                                   {
                                                     questions.length > 1 &&
-                                                    <ConfirmModal title={<FormattedMessage
-                                                      defaultMessage="Remove Question"/>}
-                                                                  danger
-                                                                  openButtonTitle=""
-                                                                  submitButtonTitle={
-                                                                    <FormattedMessage
-                                                                      defaultMessage="Remove"/>}
-                                                                  icon={<Tooltip
-                                                                    title={<FormattedMessage
-                                                                      defaultMessage="Remove Question"/>}><MinusCircleOutlined/></Tooltip>}
-                                                                  shape={'circle'}
-                                                                  style={{ border: '0px' }}
-                                                                  onOK={() => {
-                                                                    removeQuestion(question.name);
-                                                                    popQuestion(questionIndex, sectionIndex);
-                                                                  }}
-                                                    >
-                                                      <FormattedMessage
-                                                        defaultMessage="Are you sure to remove the question?"/>
-                                                    </ConfirmModal>
+                                                    <>
+                                                      <ConfirmModal title={<FormattedMessage
+                                                        defaultMessage="Remove Question"/>}
+                                                                    danger
+                                                                    openButtonTitle=""
+                                                                    submitButtonTitle={
+                                                                      <FormattedMessage
+                                                                        defaultMessage="Remove"/>}
+                                                                    icon={<Tooltip
+                                                                      title={<FormattedMessage
+                                                                        defaultMessage="Remove Question"/>}><MinusCircleOutlined/></Tooltip>}
+                                                                    shape={'circle'}
+                                                                    style={{ border: '0px' }}
+                                                                    onOK={() => {
+                                                                      removeQuestion(question.name);
+                                                                      popQuestion(questionIndex, sectionIndex);
+                                                                    }}
+                                                      >
+                                                        <FormattedMessage
+                                                          defaultMessage="Are you sure to remove the question?"/>
+                                                      </ConfirmModal>
+                                                      <Tooltip
+                                                        title={intl.formatMessage({
+                                                          id: 'interview.questions.reorder.tooltip',
+                                                          defaultMessage: 'Reorder questions in section'
+                                                        })}>
+                                                        <RetweetOutlined {...provided.dragHandleProps}
+                                                                         style={{
+                                                                           float: 'right',
+                                                                           fontSize: '20px'
+                                                                         }}/>
+                                                      </Tooltip>
+                                                    </>
                                                   }
                                                   <span
                                                     id={`section_${sectionIndex}_question_${question.name}`}>{`Q ${question.name + 1}`}</span>
