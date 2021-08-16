@@ -560,16 +560,10 @@ const InterviewForm = ({
                 </FormItem>
                 <FormItem
                   label={
-                    <>
-                      <FormattedMessage defaultMessage={'Show Answer Immediately:'}/>
-                      <Tooltip
-                        title={intl.formatMessage({ defaultMessage: 'choose yes if you want your candidate can see answers right after submitting.' })}
-                      >
-                        <StyledQuestionCircleOutlined/>
-                      </Tooltip>
-                    </>
+                    <FormattedMessage defaultMessage={'Show Answer Immediately:'}/>
                   }
                   name="releaseResult"
+                  tooltip={intl.formatMessage({ defaultMessage: 'choose yes if you want your candidate can see answers right after submitting.' })}
                 >
                   <Select
                     defaultValue="NO"
@@ -581,20 +575,14 @@ const InterviewForm = ({
                 {(!!organization || isGetStarted) &&
                 <FormItem
                   label={
-                    <>
-                      <FormattedMessage id="interview.form.ownershipType"
-                                        defaultMessage={'Belongs to:'}/>
-                      <Tooltip
-                        title={intl.formatMessage({
-                          id: 'interview.form.ownershipType.tooltip',
-                          defaultMessage: 'Whether the assessment should belongs to yourself or organization.'
-                        })}
-                      >
-                        <StyledQuestionCircleOutlined/>
-                      </Tooltip>
-                    </>
+                    <FormattedMessage id="interview.form.ownershipType"
+                                      defaultMessage={'Belongs to:'}/>
                   }
                   name="ownershipType"
+                  tooltip={intl.formatMessage({
+                    id: 'interview.form.ownershipType.tooltip',
+                    defaultMessage: 'Whether the assessment should belongs to yourself or organization.'
+                  })}
                 >
                   <Select
                     defaultValue="DEFAULT"
