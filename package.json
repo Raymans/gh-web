@@ -103,6 +103,7 @@
     "react-moment": "^0.9.7",
     "react-obfuscate": "^3.6.6",
     "react-particles-js": "^2.7.1",
+    "react-quill": "^2.0.0-beta.2",
     "react-share": "^4.0.1",
     "react-typography": "^0.16.20",
     "react-visibility-sensor": "^5.1.1",

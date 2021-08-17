@@ -21,6 +21,7 @@ import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import ReactQuill from 'react-quill';
 
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
@@ -33,6 +34,15 @@ if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
   require('codemirror/lib/codemirror.css');
 }
 
+
+const StyledOptionsSectionDiv = styled.div`
+  display: flex;
+
+  > div {
+    width: 80%;
+    height: 100%;
+  }
+`;
 const StyledQuestionSection = styled.div`
   .ant-form-item-explain-error {
     padding-left: 66px;
@@ -103,11 +113,8 @@ const QuestionForm = (props) => {
           whitespace: true
         }]}
       >
-        <TextArea
-          autoSize={{
-            minRows: 2
-          }}
-          placeholder={intl.formatMessage({ defaultMessage: 'Question description' })}
+        <ReactQuill theme="snow"
+                    placeholder={intl.formatMessage({ defaultMessage: 'Question description' })}
         />
       </FormItem>
       <Tabs activeKey={questionType} onChange={(key) => {
@@ -314,57 +321,57 @@ const QuestionFormItem = (props) => {
                         required={false}
                         key={field.key}
                       >
-                        <FormItem
-                          name={form ? [index, 'correctAnswer'] : [index, 'correctAnswer']}
-                          valuePropName="checked"
-                          noStyle
-                        >
-                          <Switch
-                            checkedChildren={<CheckOutlined/>}
-                            unCheckedChildren={<CloseOutlined/>}
-                            style={{
-                              float: 'left',
-                              margin: '5px'
-                            }}
-                          />
-                        </FormItem>
-                        <Form.Item
-                          name={form ? [index, 'answer'] : [index, 'answer']}
-                          validateTrigger={['onChange', 'onBlur']}
-                          rules={[
-                            {
-                              required: true,
-                              whitespace: true,
-                              message: intl.formatMessage({ defaultMessage: 'Please input answer option' })
-                            }
-                          ]}
-                          noStyle
-                        >
-                          <Input
-                            placeholder={intl.formatMessage({ defaultMessage: 'Please input answer option' })}
-                            style={{
-                              width: '80%',
-                              marginRight: 8
-                            }}
-                          />
-                        </Form.Item>
-                        {fields.length > 1 ? (
-                          <StyledActionIconsSection>
-                            <MinusCircleOutlined
-                              className="dynamic-delete-button"
-                              onClick={() => {
-                                remove(field.name);
+                        <StyledOptionsSectionDiv>
+                          <FormItem
+                            name={form ? [index, 'correctAnswer'] : [index, 'correctAnswer']}
+                            valuePropName="checked"
+                            noStyle
+                          >
+                            <Switch
+                              checkedChildren={<CheckOutlined/>}
+                              unCheckedChildren={<CloseOutlined/>}
+                              style={{
+                                margin: '5px'
                               }}
                             />
-                            <Tooltip
-                              title={intl.formatMessage({
-                                id: 'question.options.reorder.tooltip',
-                                defaultMessage: 'Reorder answer options'
-                              })}>
-                              <RetweetOutlined {...provided.dragHandleProps} />
-                            </Tooltip>
-                          </StyledActionIconsSection>
-                        ) : null}
+                          </FormItem>
+                          <Form.Item
+                            name={form ? [index, 'answer'] : [index, 'answer']}
+                            validateTrigger={['onChange', 'onBlur']}
+                            rules={[
+                              {
+                                required: true,
+                                whitespace: true,
+                                message: intl.formatMessage({ defaultMessage: 'Please input answer option' })
+                              }
+                            ]}
+                            noStyle
+                          >
+                            <ReactQuill
+                              theme="snow"
+                              placeholder={intl.formatMessage({ defaultMessage: 'Please input answer option' })}
+                              onFocus={(selection, source, editor) => console.log(123)}
+                              onBlur={(selection, source, editor) => console.debug(selection)}
+                            />
+                          </Form.Item>
+                          {fields.length > 1 ? (
+                            <StyledActionIconsSection>
+                              <MinusCircleOutlined
+                                className="dynamic-delete-button"
+                                onClick={() => {
+                                  remove(field.name);
+                                }}
+                              />
+                              <Tooltip
+                                title={intl.formatMessage({
+                                  id: 'question.options.reorder.tooltip',
+                                  defaultMessage: 'Reorder answer options'
+                                })}>
+                                <RetweetOutlined {...provided.dragHandleProps} />
+                              </Tooltip>
+                            </StyledActionIconsSection>
+                          ) : null}
+                        </StyledOptionsSectionDiv>
                       </Form.Item>
                     </StyledQuestionSection>
                   )}

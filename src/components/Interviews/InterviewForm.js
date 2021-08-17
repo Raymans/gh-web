@@ -16,7 +16,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Divider from 'antd/lib/divider';
 import FormItem from 'antd/lib/form/FormItem';
-import TextArea from 'antd/lib/input/TextArea';
 import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import {
   LoadingOutlined,
@@ -40,6 +39,8 @@ import AnchorSider from '../Sider/AnchorSider';
 import { Option } from 'antd/lib/mentions';
 import useGetStarted from '../../hooks/useGetStarted';
 import useStore from '../../hooks/useStore';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const {
   Content
@@ -533,11 +534,8 @@ const InterviewForm = ({
                     whitespace: true
                   }]}
                 >
-                  <TextArea
-                    placeholder={intl.formatMessage({ defaultMessage: 'Assessment description' })}
-                    autoSize={{
-                      minRows: 4
-                    }}
+                  <ReactQuill theme="snow"
+                              placeholder={intl.formatMessage({ defaultMessage: 'Assessment description' })}
                   />
                 </FormItem>
                 <FormItem

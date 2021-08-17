@@ -247,7 +247,7 @@ const Interview = ({
                 <Descriptions.Item
                   span={2}
                 >
-                  <StyledDescription>{interview.description}</StyledDescription>
+                  <StyledDescription dangerouslySetInnerHTML={{ __html: interview.description }}/>
                 </Descriptions.Item>
                 <Descriptions.Item
                   span={2}
