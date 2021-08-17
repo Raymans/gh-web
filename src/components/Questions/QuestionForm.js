@@ -377,7 +377,6 @@ const QuestionFormItem = (props) => {
       </DragDropContext>
 
       <Button
-        size="small"
         onClick={() => {
           add();
         }}

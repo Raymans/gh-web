@@ -548,6 +548,8 @@ const InterviewForm = ({
                     placeholder={intl.formatMessage({ defaultMessage: 'Please select assess duration' })}
                     allowClear
                   >
+                    <Option value={0}><FormattedMessage defaultMessage="No limit"
+                                                        values={{ minutes: 0 }}/> </Option>
                     <Option value={30}><FormattedMessage defaultMessage="{minutes} Minutes"
                                                          values={{ minutes: 30 }}/> </Option>
                     <Option value={60}><FormattedMessage defaultMessage="{minutes} Minutes"
