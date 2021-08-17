@@ -1,11 +1,11 @@
 import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import { Button, Result } from 'antd';
 import React, { useEffect } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 import useGetStarted from '../../hooks/useGetStarted';
+import useAuth from '../../hooks/useAuth';
 
 const GetStartedCompleted = () => {
-  const { loginWithRedirect } = useAuth0();
+  const { handleLogin } = useAuth();
   const { clearGSTokens } = useGetStarted();
   const intl = useIntl();
   useEffect(() => {
@@ -22,7 +22,7 @@ const GetStartedCompleted = () => {
         <FormattedMessage defaultMessage={'Try Get Started Again'}/>
       </Link>
         <Button type="primary" key="enableOrg"
-                onClick={() => loginWithRedirect(location.pathname)}>
+                onClick={() => handleLogin(location.pathname)}>
           <FormattedMessage defaultMessage="Login here"/>
         </Button></>}
     />

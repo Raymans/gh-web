@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Affix, Avatar, Button, Drawer, Menu as AntMenu } from 'antd';
-import { FormattedMessage, Link, navigate, useIntl } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, navigate } from 'gatsby-plugin-intl';
 import styled, { ThemeContext } from 'styled-components';
 import Icon, {
   ApartmentOutlined,
@@ -23,6 +23,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import useLayout from '../../hooks/useLayout';
 import useStore from '../../hooks/useStore';
 import useGetStarted from '../../hooks/useGetStarted';
+import useAuth from '../../hooks/useAuth';
 
 const StyledAlignSpan = styled.span`
   display: flex;
@@ -40,11 +41,12 @@ const StyledMenu = styled.div`
 const Menu = (props) => {
   const {
     isAuthenticated,
-    loginWithRedirect,
-    logout,
     isLoading
   } = useAuth0();
-  const { locale } = useIntl();
+  const {
+    handleLogin,
+    logoutWithRedirect
+  } = useAuth();
 
   const {
     userProfile,
@@ -165,19 +167,6 @@ const Menu = (props) => {
     setMenuVisible(false);
   };
 
-  const logoutWithRedirect = () => logout({
-    returnTo: `${window.location.origin}/${locale}`
-  });
-
-  const handleLogin = async () => {
-    await loginWithRedirect({
-      redirectUri: `${window.location.origin}/${locale}`,
-      appState: {
-        targetUrl: '/'
-      },
-      ui_locales: locale === 'zh-tw' ? 'zh-TW' : locale
-    });
-  };
   const antdMenu = (
     <AntMenu
       selectedKeys={[props.path + props.location?.search]}

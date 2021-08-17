@@ -2,7 +2,6 @@ import React from 'react';
 import InterviewResult from '../ManageInterviews/InterviewResult';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 import { Button } from 'antd';
-import { useAuth0 } from '@auth0/auth0-react';
 import useGetStarted from '../../hooks/useGetStarted';
 import GetStartedInformationBox from './GetStartedInformationBox';
 
@@ -10,7 +9,6 @@ const ViewAssessmentResult = ({
   id,
   sid
 }) => {
-  const { loginWithRedirect } = useAuth0();
   const intl = useIntl();
   const { setStep } = useGetStarted();
   return (
