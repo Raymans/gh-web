@@ -4,13 +4,6 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import Hero from '../components/Hero';
 import Home from '../components/Home';
-import { createGlobalStyle } from 'styled-components';
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    letter-spacing: ${(props) => (props.theme.locale === 'en' ? '0px' : '1.5px')};
-  }
-`;
 
 class IndexPage extends React.Component {
   render() {
@@ -44,7 +37,6 @@ class IndexPage extends React.Component {
     return (
       <>
         <div>
-          <GlobalStyle/>
           <Hero backgrounds={backgrounds}/>
           <Home backgrounds={backgrounds}/>
         </div>
