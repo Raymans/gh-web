@@ -17,10 +17,16 @@ const ConfirmModal = ({
   style,
   danger,
   icon,
-  shape
+  shape,
+  showDirectly,
+  closable,
+  maskClosable,
+  cancelButtonHidden,
+  okButtonDisabled
 }) => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(showDirectly);
   const [okLoading, setOKLoading] = useState(false);
+
   const handleOpen = () => {
     return onOpen()
       .then(() => {
@@ -53,6 +59,7 @@ const ConfirmModal = ({
     onCancel();
   };
 
+
   return (
     <>
       <Button
@@ -62,6 +69,7 @@ const ConfirmModal = ({
         danger={danger}
         icon={icon}
         shape={shape}
+        hidden={showDirectly}
       >
         {openButtonTitle}
       </Button>
@@ -69,11 +77,16 @@ const ConfirmModal = ({
         visible={modalVisible}
         title={title}
         centered
+        closable={closable}
+        maskClosable={maskClosable}
+        keyboard={maskClosable}
         footer={[
-          <Button key="back" onClick={handleCancel} type="link" danger={danger}>
-            <FormattedMessage defaultMessage="Cancel"/>
+          <Button key="back" onClick={handleCancel} type="link" danger={danger}
+                  hidden={cancelButtonHidden}>
+            <FormattedMessage id="general.button.cancel" defaultMessage="Cancel"/>
           </Button>,
-          <Button type="primary" loading={okLoading} onClick={handleOK} danger={danger}>
+          <Button type="primary" loading={okLoading} onClick={handleOK} danger={danger}
+                  disabled={okButtonDisabled}>
             {submitButtonTitle}
           </Button>
         ]}
@@ -115,6 +128,11 @@ ConfirmModal.defaultProps = {
   onBeforeSubmit: async () => {
   },
   style: {},
-  danger: false
+  danger: false,
+  showDirectly: false,
+  closable: true,
+  maskClosable: true,
+  cancelButtonHidden: false,
+  okButtonDisabled: false
 };
 export default ConfirmModal;
