@@ -573,14 +573,12 @@ const InterviewForm = ({
                   </Select>
                 </FormItem>
                 <FormItem
-                  label={
-                    <FormattedMessage defaultMessage={'Show Answer Immediately:'}/>
-                  }
+                  label={intl.formatMessage({ defaultMessage: 'Show Answer Immediately:' })}
                   name="releaseResult"
                   tooltip={intl.formatMessage({ defaultMessage: 'choose yes if you want your candidate can see answers right after submitting.' })}
                 >
                   <Select
-                    defaultValue="NO"
+                    defaultValue="YES"
                   >
                     <Option value="YES"><FormattedMessage defaultMessage="YES"/></Option>
                     <Option value="NO"><FormattedMessage defaultMessage="NO"/> </Option>
