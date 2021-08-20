@@ -115,9 +115,10 @@ const defaultSectionTitle = 'default section';
 
 const InterviewForm = ({
   id,
-  onPublished
+  onPublished,
+  copy
 }) => {
-  const isEditForm = !!id;
+  const isEditForm = !!id && !copy;
   const intl = useIntl();
   const {
     createInterview,
@@ -141,6 +142,30 @@ const InterviewForm = ({
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
   const [publishedInterviewId, setPublishedInterviewId] = useState(null);
 
+  const populateInterviewById = () => {
+    getInterview(id)
+      .then((data = { sections: [] }) => {
+        data.visibility = data.visibility === 'PUBLIC';
+        form.setFieldsValue({
+          ...data,
+          // specializationId: data.specialization.id,
+          defaultDuration: data.defaultDuration === -1 ? '' : data.defaultDuration
+        });
+        setAnchorSections(data.sections.map((section, index) => ({
+          href: `#section_${index}`,
+          title: section.title,
+          subAnchors: section.questions?.map((question, qindex) =>
+            ({
+              href: `#section_${index}_question_${qindex}`,
+              title: `Q ${qindex + 1}`
+            }))
+        })));
+        if (!copy) {
+          setPublishedInterviewId(data.publishedInterviewId);
+        }
+        setLoading(false);
+      });
+  };
   useEffect(() => {
     const historyUnsubscribe = globalHistory.listen((listener) => {
     });
@@ -153,6 +178,7 @@ const InterviewForm = ({
       window.onbeforeunload = undefined;
     };
   }, []);
+
   useEffect(() => {
     // getSpecializations()
     //   .then(((data = []) => {
@@ -160,27 +186,13 @@ const InterviewForm = ({
     //   }));
     if (isEditForm) {
       setLoading(true);
-      getInterview(id)
-        .then((data = { sections: [] }) => {
-          data.visibility = data.visibility === 'PUBLIC';
-          form.setFieldsValue({
-            ...data,
-            // specializationId: data.specialization.id,
-            defaultDuration: data.defaultDuration === -1 ? '' : data.defaultDuration
-          });
-          setAnchorSections(data.sections.map((section, index) => ({
-            href: `#section_${index}`,
-            title: section.title,
-            subAnchors: section.questions?.map((question, qindex) =>
-              ({
-                href: `#section_${index}_question_${qindex}`,
-                title: `Q ${qindex + 1}`
-              }))
-          })));
-          setPublishedInterviewId(data.publishedInterviewId);
-          setLoading(false);
-        });
+      populateInterviewById();
+
     } else {
+      if (id && copy) {
+        populateInterviewById();
+        return;
+      }
       const formdata = {
         sections: [{
           title: defaultSectionTitle,
@@ -829,5 +841,6 @@ InterviewForm.propTypes = {
 
 InterviewForm.defaultProps = {
   onPublished: () => {
-  }
+  },
+  copy: false
 };

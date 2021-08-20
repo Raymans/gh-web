@@ -8,6 +8,7 @@ let _useLocalStorage = () =>
   ];
 
 if (isBrowser) {
+  // cannot upgrade local-storage version because of waiting https://github.com/rehooks/local-storage/issues/77 been fixed.
   const { useLocalStorage } = require('@rehooks/local-storage');
   _useLocalStorage = useLocalStorage;
 }
@@ -22,47 +23,27 @@ const useGetStarted = () => {
     gsTokens: tokens,
     isTokenValid: !!tokens,
     setTokens: (tokens) => {
-      try {
-        setTokens(tokens);
-      } catch (e) {
-        // waiting https://github.com/rehooks/local-storage/issues/77 been fixed.
-        console.log(e);
-      }
+      setTokens(tokens);
     },
     removeTokens,
     step: step ?? 0,
     setStep: (step) => {
-      try {
-        setStep(step);
-      } catch (e) {
-        // waiting https://github.com/rehooks/local-storage/issues/77 been fixed.
-        console.log(e);
-      }
+      setStep(step);
     },
     removeStep,
     assessmentId,
     setAssessmentId: (id) => {
-      try {
-        setAssessmentId(id);
-      } catch (e) {
-        // waiting https://github.com/rehooks/local-storage/issues/77 been fixed.
-        console.log(e);
-      }
+      setAssessmentId(id);
     },
     removeAssessmentId,
     assessmentSessionId,
     setAssessmentSessionId: (id) => {
-      try {
-        setAssessmentSessionId(id);
-      } catch (e) {
-        // waiting https://github.com/rehooks/local-storage/issues/77 been fixed.
-        console.log(e);
-      }
+      setAssessmentSessionId(id);
     },
     removeAssessmentSessionId,
     isGetStarted: isBrowser && location?.pathname.indexOf('/get-started') !== -1,
     clearGSTokens: () => {
-      setStep(0);
+      removeStep();
       removeTokens();
       removeAssessmentId();
       removeAssessmentSessionId();

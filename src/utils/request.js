@@ -10,7 +10,7 @@ function checkStatus(error, request) {
   const { response } = error;
   if (!response) {
     message.error({
-      content: errorMsg,
+      content: errorMsg
     });
     return;
   }
@@ -39,15 +39,16 @@ export default function request(getAccessTokenSilently, tokens = {
     };
     if (tokens?.accessToken) {
       if (ignoreCache) {
+        console.log('GS token expired, trying to get new one.');
         clearGSTokens();
-        return Promise.reject('token expired!');
+        return;
       }
       options = {
         ...options,
         headers: {
           ...options.headers,
-          Authorization: `Bearer ${tokens.accessToken}`,
-          'x-user-key': tokens.userKey
+          Authorization: `Bearer ${tokens.accessToken}`
+          //'x-user-key': tokens.userKey
         }
       };
     } else {
@@ -63,6 +64,8 @@ export default function request(getAccessTokenSilently, tokens = {
       } catch {
         if (ignoreCache) {
           return Promise.reject('token expired! Cannot renew token.');
+        } else {
+          console.log('Token expired, trying to get new one.');
         }
       }
     }

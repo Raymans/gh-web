@@ -14,6 +14,8 @@ const CreateAssessment = ({
   const intl = useIntl();
   const { getInterviews } = useApi();
   const [templateInterviews, setTemplateInterviews] = useState([]);
+  const [templateId, setTemplateId] = useState('');
+  const [templateSelected, setTemplateSelected] = useState(false);
   const [loading, setLoading] = useState(true);
   const [okButtonDisabled, setOkButtonDisabled] = useState(true);
   const handlePublished = (interview) => {
@@ -29,8 +31,13 @@ const CreateAssessment = ({
       });
   }, []);
 
-  const onTemplateSelect = (template) => {
+  const onTemplateSelect = (templateId) => {
     setOkButtonDisabled(false);
+    setTemplateId(templateId);
+  };
+
+  const handleSelectTemplate = () => {
+    setTemplateSelected(true);
   };
   return (
     <>
@@ -49,11 +56,14 @@ const CreateAssessment = ({
           maskClosable={false}
           cancelButtonHidden={true}
           okButtonDisabled={okButtonDisabled}
+          onOK={handleSelectTemplate}
         >
           <FormattedMessage id={'assessment.template.select.desc'}
-                            defaultMessage={'Please select a template to let us populate Assessment content quickly for you'}/>
+                            defaultMessage={'Please select a template to let us populate Assessment content quickly for you'}
+                            values={{ br: <br/> }}
+          />
           <Select
-            onChange={() => onTemplateSelect()}
+            onChange={(v) => onTemplateSelect(v)}
             style={{
               width: '100%',
               padding: '10px 0'
@@ -62,9 +72,9 @@ const CreateAssessment = ({
             {
               templateInterviews.map((templateInterview) => (
                 <Select.Option key={templateInterview.id}
-                               value={templateInterviews.id}
+                               value={templateInterview.id}
                 >
-                  {templateInterviews.title}
+                  {templateInterview.title}
                 </Select.Option>
               ))
             }
@@ -94,7 +104,9 @@ const CreateAssessment = ({
             </li>
           </ul>
         </GetStartedInformationBox>
-        <InterviewForm onPublished={handlePublished}/>
+        {
+          templateSelected && <InterviewForm id={templateId} onPublished={handlePublished} copy/>
+        }
       </Spin>
     </>
   );
