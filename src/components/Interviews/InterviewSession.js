@@ -8,7 +8,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import useApi from '../../hooks/useApi';
 import ConfirmModal from '../Organization/ConfirmModal';
 import useGetStarted from '../../hooks/useGetStarted';
-import ReactQuill from 'react-quill';
+import { ReactQuill } from '../../utils/ssrHelper';
 import QuillHelpers from '../../utils/QuillHelpers';
 
 const defaultInterviewSession = {

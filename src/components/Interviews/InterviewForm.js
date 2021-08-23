@@ -39,7 +39,7 @@ import AnchorSider from '../Sider/AnchorSider';
 import { Option } from 'antd/lib/mentions';
 import useGetStarted from '../../hooks/useGetStarted';
 import useStore from '../../hooks/useStore';
-import ReactQuill from 'react-quill';
+import { ReactQuill } from '../../utils/ssrHelper';
 import 'react-quill/dist/quill.snow.css';
 import QuillHelpers from '../../utils/QuillHelpers';
 

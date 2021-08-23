@@ -21,7 +21,7 @@ import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import ReactQuill from 'react-quill';
+import { ReactQuill } from '../../utils/ssrHelper';
 import QuillHelpers from '../../utils/QuillHelpers';
 
 const FormItem = Form.Item;
