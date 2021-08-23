@@ -66,8 +66,15 @@ const InterviewSessionResult = ({
     calculateInterviewSession(sessionId)
       .then((is) => {
         setInterviewSession(is);
-        setCalculating(false);
-        message.success(intl.formatMessage({ defaultMessage: 'Success' }));
+        getAverageScore(sessionId)
+          .then((res) => {
+            setAverageScore({ scoreDiff: (is.totalScore - res.averageScore.averageScore) * 100, ...res });
+            setCalculating(false);
+            message.success(intl.formatMessage({
+              id: 'assessment.session.message.score.calculated.success',
+              defaultMessage: 'Score has been calculated Successfully!'
+            }));
+          });
       });
   };
   return (
@@ -94,7 +101,7 @@ const InterviewSessionResult = ({
                 fontSize: '20px'
               }}
             >
-              {interviewSession.interview?.description}
+              <p dangerouslySetInnerHTML={{ __html: interviewSession.interview?.description }}/>
             </Descriptions.Item>
             <Descriptions.Item
               span={2}
@@ -114,26 +121,16 @@ const InterviewSessionResult = ({
                     let sectionScoreDiff = 0;
                     if (interviewSession.answerAttemptSections[section.id]) {
                       const { answerStats } = interviewSession.answerAttemptSections[section.id];
-                      sectionScore = Math.round(answerStats.MULTI_CHOICE.correct / answerStats.MULTI_CHOICE.questionTotal * 100);
+                      sectionScore = Math.round((answerStats.MULTI_CHOICE.correct + answerStats.SHORT_ANSWER.correct) / (answerStats.MULTI_CHOICE.questionTotal + answerStats.SHORT_ANSWER.questionTotal) * 100);
                     }
-                    const averageSectionScore = Math.round(averageScore.sectionsAverageScore[index]?.averageSectionScore * 100 ?? 0);
+                    const sectionsAvgScore = averageScore.sectionsAverageScore.find((element) => element.sectionId === section.id);
+                    const averageSectionScore = Math.round(sectionsAvgScore?.averageSectionScore * 100 ?? 0);
                     sectionScoreDiff = sectionScore - averageSectionScore;
                     return (
                       <Col key={section.id} justify="center" style={{ textAlign: 'center' }}>
                         <Tooltip
-                          title={<FormattedMessage
-                            defaultMessage="Compares to average score: {averageSectionScore}"
-                            values={{ averageSectionScore: averageSectionScore }}/>}>
-                        <Statistic
-                          value={sectionScoreDiff}
-                          valueStyle={{ color: sectionScoreDiff === 0 ? '#276dba' : (sectionScoreDiff > 0 ? '#138651' : 'red') }}
-                          prefix={sectionScoreDiff === 0 ? '= ' : (sectionScoreDiff > 0
-                            ? <ArrowUpOutlined/> : <ArrowDownOutlined/>)}
-                        />
-                        </Tooltip>
-                        <Tooltip
                           title={section.title}
-                          >
+                        >
                           <Progress
                             type="circle"
                             percent={sectionScore}
@@ -142,6 +139,17 @@ const InterviewSessionResult = ({
                             status={sectionScore < averageSectionScore ? 'exception' : ''}
                           />
                           {/*<div>{section.title}</div>*/}
+                        </Tooltip>
+                        <Tooltip
+                          title={<FormattedMessage
+                            defaultMessage="Compares to average score: {averageSectionScore}"
+                            values={{ averageSectionScore: averageSectionScore }}/>}>
+                          <Statistic
+                            value={sectionScoreDiff}
+                            valueStyle={{ color: sectionScoreDiff === 0 ? '#276dba' : (sectionScoreDiff > 0 ? '#138651' : 'red') }}
+                            prefix={sectionScoreDiff === 0 ? '= ' : (sectionScoreDiff > 0
+                              ? <ArrowUpOutlined/> : <ArrowDownOutlined/>)}
+                          />
                         </Tooltip>
                       </Col>
                     );
@@ -152,17 +160,17 @@ const InterviewSessionResult = ({
                     title={<FormattedMessage
                       defaultMessage="Compares to average score: {averageScore}"
                       values={{ averageScore: averageScore.averageScore?.averageScore * 100 }}/>}>
-                    <Statistic
-                      value={averageScore.scoreDiff}
-                      valueStyle={{ color: averageScore.scoreDiff === 0 ? '#2f9eba' : (averageScore.scoreDiff > 0 ? '#3f8600' : 'red') }}
-                      prefix={averageScore.scoreDiff === 0 ? '= ' : (averageScore.scoreDiff > 0
-                        ? <ArrowUpOutlined/> : <ArrowDownOutlined/>)}
-                    />
                     <Progress
                       type="circle"
                       percent={interviewSession.totalScore * 100}
                       format={(totalScore) => totalScore}
                       status={interviewSession.totalScore < averageScore.averageScore?.averageScore ? 'exception' : ''}
+                    />
+                    <Statistic
+                      value={averageScore.scoreDiff}
+                      valueStyle={{ color: averageScore.scoreDiff === 0 ? '#2f9eba' : (averageScore.scoreDiff > 0 ? '#3f8600' : 'red') }}
+                      prefix={averageScore.scoreDiff === 0 ? '= ' : (averageScore.scoreDiff > 0
+                        ? <ArrowUpOutlined/> : <ArrowDownOutlined/>)}
                     />
                   </Tooltip>
                 </StyleTotalScoreCol>

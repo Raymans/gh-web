@@ -41,6 +41,7 @@ import useGetStarted from '../../hooks/useGetStarted';
 import useStore from '../../hooks/useStore';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import QuillHelpers from '../../utils/QuillHelpers';
 
 const {
   Content
@@ -531,11 +532,15 @@ const InterviewForm = ({
                   rules={[{
                     required: true,
                     message: intl.formatMessage({ defaultMessage: 'Assessment description' }),
-                    whitespace: true
+                    whitespace: true,
+                    transform: (value) => (' ' + value).replace(/<(.|\n)*?>/g, '')
+                      .trim().length === 0 ? '' : value
                   }]}
                 >
                   <ReactQuill theme="snow"
                               placeholder={intl.formatMessage({ defaultMessage: 'Assessment description' })}
+                              modules={QuillHelpers.modules.normal}
+
                   />
                 </FormItem>
                 <FormItem

@@ -22,6 +22,7 @@ import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import ReactQuill from 'react-quill';
+import QuillHelpers from '../../utils/QuillHelpers';
 
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
@@ -110,11 +111,14 @@ const QuestionForm = (props) => {
         rules={[{
           required: true,
           message: intl.formatMessage({ defaultMessage: 'Please enter description.' }),
-          whitespace: true
+          whitespace: true,
+          transform: (value) => (' ' + value).replace(/<(.|\n)*?>/g, '')
+            .trim().length === 0 ? '' : value
         }]}
       >
         <ReactQuill theme="snow"
                     placeholder={intl.formatMessage({ defaultMessage: 'Question description' })}
+                    modules={QuillHelpers.modules.normal}
         />
       </FormItem>
       <Tabs activeKey={questionType} onChange={(key) => {
@@ -342,13 +346,16 @@ const QuestionFormItem = (props) => {
                               {
                                 required: true,
                                 whitespace: true,
-                                message: intl.formatMessage({ defaultMessage: 'Please input answer option' })
+                                message: intl.formatMessage({ defaultMessage: 'Please input answer option' }),
+                                transform: (value) => (' ' + value).replace(/<(.|\n)*?>/g, '')
+                                  .trim().length === 0 ? '' : value
                               }
                             ]}
                             noStyle
                           >
                             <ReactQuill
                               theme="snow"
+                              modules={QuillHelpers.modules.slim}
                               placeholder={intl.formatMessage({ defaultMessage: 'Please input answer option' })}
                               onFocus={(selection, source, editor) => console.log(123)}
                               onBlur={(selection, source, editor) => console.debug(selection)}

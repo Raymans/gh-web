@@ -121,7 +121,8 @@ const InterviewGrid = (props) => {
                     <Moment date={lastModifiedDate} format="ll"/>
                   </Descriptions.Item>
                   <Descriptions.Item
-                    span={2}><StyledDescription>{description}</StyledDescription></Descriptions.Item>
+                    span={2}><StyledDescription dangerouslySetInnerHTML={{ __html: description }}>
+                  </StyledDescription></Descriptions.Item>
                   <Descriptions.Item span={2}>
                     <AuthorBy clientUser={clientUser}/>
                   </Descriptions.Item>

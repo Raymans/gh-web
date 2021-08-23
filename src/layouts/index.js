@@ -48,6 +48,10 @@ const GlobalStyle = createGlobalStyle`
     margin: 30px 0 20px;
   }
 
+  p {
+    margin-bottom: 0px;
+  }
+
   .ant-btn-primary:not(.ant-input-search-button) {
     margin: 5px 5px;
   }

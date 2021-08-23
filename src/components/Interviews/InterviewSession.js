@@ -8,6 +8,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import useApi from '../../hooks/useApi';
 import ConfirmModal from '../Organization/ConfirmModal';
 import useGetStarted from '../../hooks/useGetStarted';
+import ReactQuill from 'react-quill';
+import QuillHelpers from '../../utils/QuillHelpers';
 
 const defaultInterviewSession = {
   id: '',
@@ -26,9 +28,9 @@ const defaultInterviewSession = {
 
 const StyledQuestionBlock = styled.div`
   div {
-    white-space: pre-wrap;
     flex-grow: 10;
     flex-basis: 50%;
+    margin: 0 5px;
   }
 
   display: flex;
@@ -107,15 +109,15 @@ const InterviewSession = ({
     const isOwner = isGetStarted || user?.sub === interview.clientUser.id;
     const isAnswersVisible = isOwner || interview.releaseResult === 'YES';
     const [isSubmitted, setIsSubmitted] = useState(!!interviewEndDate);
-    const handleSubmitQuestionAttempt = (sectionId, questionId, type, values) => {
+    const handleSubmitQuestionAttempt = (sectionId, questionId, type, ...args) => {
       if (preview) {
         return;
       }
       let answer = {};
       if (type === 'SHORT_ANSWER') {
-        answer = { answer: values.target.value };
+        answer = { answer: args[2].getHTML() };
       } else if (type === 'MULTI_CHOICE') {
-        answer = { answerId: values };
+        answer = { answerId: args[0] };
       }
       addAnswerToInterviewSession({
         id,
@@ -224,7 +226,7 @@ const InterviewSession = ({
                                     }
                                   </StyledQuestionH2>
                                   <StyledQuestionBlock>
-                                    <div>{question.question}</div>
+                                    <div dangerouslySetInnerHTML={{ __html: question.question }}/>
                                     <div>
                                       {
                                         question.questionType === 'MULTI_CHOICE' &&
@@ -243,7 +245,8 @@ const InterviewSession = ({
                                                 value={possibleAnswer.answerId}
                                                 className={preview && viewResult && isAnswersVisible && (correctOption ? ' answer ' : '') + ((correctOption && answered) ? 'correct' : (!correctOption && !answered) || 'wrong')}
                                               >
-                                                {possibleAnswer.answer}
+                                                <span
+                                                  dangerouslySetInnerHTML={{ __html: possibleAnswer.answer }}/>
                                               </StyledCheckbox>
                                             );
                                           })}
@@ -251,13 +254,11 @@ const InterviewSession = ({
                                       }
                                       {
                                         question.questionType === 'SHORT_ANSWER' &&
-                                        <TextArea
-                                          autoSize={{
-                                            minRows: 4
-                                          }}
-                                          //onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
-                                          onBlur={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
-                                          defaultValue={answerAttemptQuestion}
+                                        <ReactQuill theme="snow"
+                                                    modules={QuillHelpers.modules.normal}
+                                                    onBlur={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
+                                                    defaultValue={answerAttemptQuestion}
+                                                    readOnly={isOwner}
                                         />
                                       }
                                     </div>

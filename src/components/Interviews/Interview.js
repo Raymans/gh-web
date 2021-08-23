@@ -231,13 +231,19 @@ const Interview = ({
                   span={2}
                 >
                   {isOwner && interview.visibility === 'PRIVATE' &&
-                  <Tag color="default"><FormattedMessage defaultMessage="private"/></Tag>
+                  <Tag color="default"><FormattedMessage id="assessment.tag.private"
+                                                         defaultMessage="private"/></Tag>
                   }
                   {isViewPublished &&
-                  <Tag color="default"><FormattedMessage defaultMessage="Published Version"/></Tag>
+                  <Tag color="blue"><FormattedMessage id="assessment.tag.published.version"
+                                                      defaultMessage="Published Version"/></Tag>
+                  }
+                  {
+                    isOwner && !interview.publishedInterviewId &&
+                    <Tag color="red"><FormattedMessage id="assessment.tag.no.publish.version"
+                                                       defaultMessage="No Published version"/></Tag>
                   }
                 </Descriptions.Item>
-
                 <Descriptions.Item
                   label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{interview.jobTitle}</Descriptions.Item>
                 <Descriptions.Item
