@@ -20,7 +20,7 @@ if (isBrowser) {
     aos = module;
   });
   import('react-quill').then((module) => {
-    ReactQuill = module;
+    ReactQuill = module.default;
   });
 }
 
