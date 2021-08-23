@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useLocation } from '@reach/router';
 import { useAuth0 } from '@auth0/auth0-react';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
+import useAuth from '../../hooks/useAuth';
 
 
 const LoginPrompt = ({
@@ -12,9 +13,9 @@ const LoginPrompt = ({
   isLoginNeeded
 }) => {
   const {
-    isAuthenticated,
-    loginWithRedirect
+    isAuthenticated
   } = useAuth0();
+  const { handleLogin } = useAuth();
   const location = useLocation();
   const intl = useIntl();
   const [isLoginPrompt, setIsLoginPrompt] = useState(false);
@@ -31,7 +32,7 @@ const LoginPrompt = ({
         visible={isLoginPrompt}
         onCancel={() => setIsLoginPrompt(false)}
         footer={[
-          <Button key="submit" type="primary" onClick={() => loginWithRedirect(location.pathname)}>
+          <Button key="submit" type="primary" onClick={() => handleLogin(location.pathname)}>
             <FormattedMessage defaultMessage={'Login'}/>
           </Button>
         ]}

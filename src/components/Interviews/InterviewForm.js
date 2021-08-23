@@ -117,9 +117,10 @@ const defaultSectionTitle = 'default section';
 
 const InterviewForm = ({
   id,
-  onPublished
+  onPublished,
+  copy
 }) => {
-  const isEditForm = !!id;
+  const isEditForm = !!id && !copy;
   const intl = useIntl();
   const {
     createInterview,
@@ -143,6 +144,30 @@ const InterviewForm = ({
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
   const [publishedInterviewId, setPublishedInterviewId] = useState(null);
 
+  const populateInterviewById = () => {
+    getInterview(id)
+      .then((data = { sections: [] }) => {
+        data.visibility = data.visibility === 'PUBLIC';
+        form.setFieldsValue({
+          ...data,
+          // specializationId: data.specialization.id,
+          defaultDuration: data.defaultDuration === -1 ? '' : data.defaultDuration
+        });
+        setAnchorSections(data.sections.map((section, index) => ({
+          href: `#section_${index}`,
+          title: section.title,
+          subAnchors: section.questions?.map((question, qindex) =>
+            ({
+              href: `#section_${index}_question_${qindex}`,
+              title: `Q ${qindex + 1}`
+            }))
+        })));
+        if (!copy) {
+          setPublishedInterviewId(data.publishedInterviewId);
+        }
+        setLoading(false);
+      });
+  };
   useEffect(() => {
     const historyUnsubscribe = globalHistory.listen((listener) => {
     });
@@ -155,6 +180,7 @@ const InterviewForm = ({
       window.onbeforeunload = undefined;
     };
   }, []);
+
   useEffect(() => {
     // getSpecializations()
     //   .then(((data = []) => {
@@ -162,27 +188,13 @@ const InterviewForm = ({
     //   }));
     if (isEditForm) {
       setLoading(true);
-      getInterview(id)
-        .then((data = { sections: [] }) => {
-          data.visibility = data.visibility === 'PUBLIC';
-          form.setFieldsValue({
-            ...data,
-            // specializationId: data.specialization.id,
-            defaultDuration: data.defaultDuration === -1 ? '' : data.defaultDuration
-          });
-          setAnchorSections(data.sections.map((section, index) => ({
-            href: `#section_${index}`,
-            title: section.title,
-            subAnchors: section.questions?.map((question, qindex) =>
-              ({
-                href: `#section_${index}_question_${qindex}`,
-                title: `Q ${qindex + 1}`
-              }))
-          })));
-          setPublishedInterviewId(data.publishedInterviewId);
-          setLoading(false);
-        });
+      populateInterviewById();
+
     } else {
+      if (id && copy) {
+        populateInterviewById();
+        return;
+      }
       const formdata = {
         sections: [{
           title: defaultSectionTitle,
@@ -551,6 +563,8 @@ const InterviewForm = ({
                     placeholder={intl.formatMessage({ defaultMessage: 'Please select assess duration' })}
                     allowClear
                   >
+                    <Option value={0}><FormattedMessage defaultMessage="No limit"
+                                                        values={{ minutes: 0 }}/> </Option>
                     <Option value={30}><FormattedMessage defaultMessage="{minutes} Minutes"
                                                          values={{ minutes: 30 }}/> </Option>
                     <Option value={60}><FormattedMessage defaultMessage="{minutes} Minutes"
@@ -562,14 +576,12 @@ const InterviewForm = ({
                   </Select>
                 </FormItem>
                 <FormItem
-                  label={
-                    <FormattedMessage defaultMessage={'Show Answer Immediately:'}/>
-                  }
+                  label={intl.formatMessage({ defaultMessage: 'Show Answer Immediately:' })}
                   name="releaseResult"
                   tooltip={intl.formatMessage({ defaultMessage: 'choose yes if you want your candidate can see answers right after submitting.' })}
                 >
                   <Select
-                    defaultValue="NO"
+                    defaultValue="YES"
                   >
                     <Option value="YES"><FormattedMessage defaultMessage="YES"/></Option>
                     <Option value="NO"><FormattedMessage defaultMessage="NO"/> </Option>
@@ -830,5 +842,6 @@ InterviewForm.propTypes = {
 
 InterviewForm.defaultProps = {
   onPublished: () => {
-  }
+  },
+  copy: false
 };

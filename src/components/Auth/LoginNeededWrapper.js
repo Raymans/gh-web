@@ -3,6 +3,7 @@ import { Button, Result } from 'antd';
 import { FormattedMessage } from 'gatsby-plugin-intl';
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import useAuth from '../../hooks/useAuth';
 
 const LoginNeededWrapper = ({
   title,
@@ -11,10 +12,10 @@ const LoginNeededWrapper = ({
   children
 }) => {
   const {
-    loginWithRedirect,
     isLoading,
     isAuthenticated
   } = useAuth0();
+  const { handleLogin } = useAuth();
   if (!isLoginNeeded) {
     return children;
   }
@@ -28,7 +29,7 @@ const LoginNeededWrapper = ({
         subTitle={subTitle}
         extra={[
           <Button type="primary" key="enableOrg"
-                  onClick={() => loginWithRedirect(location.pathname)}>
+                  onClick={() => handleLogin(location.pathname)}>
             <FormattedMessage defaultMessage="Login here"/>
           </Button>
         ]}
