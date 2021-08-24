@@ -10,7 +10,7 @@ let useLocalStorage = () =>
 
 let aos = {};
 
-let ReactQuill = {};
+let ReactQuill = ()=> <></>;
 
 if (isBrowser) {
   import('@rehooks/local-storage').then((module) => {
