@@ -8,15 +8,14 @@ import styled, { useTheme } from 'styled-components';
 import { FormattedMessage, navigate, useIntl } from 'gatsby-plugin-intl';
 import PropTypes from 'prop-types';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import AnalysisImg from '../../images/Analysis.jpg';
-import CreateAssessmentImg from '../../images/CreateAssessment.jpg';
-import ShareAssessmentImg from '../../images/ShareAssessment.jpg';
-import EnglishAssessmentImg from '../../images/EnglishAssessment.jpg';
-import TechniqueAssessmentImg from '../../images/TechniqueAssessment.jpg';
 import CreateAssessmentExample from '../../images/CreateAssessmentExample.png';
 import ShareAssessmentExample from '../../images/ShareAssessmentExample.png';
 import ReviewAssessmentExample from '../../images/ReviewAssessmentExample.png';
 import useGetStarted from '../../hooks/useGetStarted';
+import Lottie from 'react-lottie';
+import jsonAnalysis from '../../animation/AnalysisAssessment.json';
+import jsonShare from '../../animation/ShareAssessment.json';
+import jsonCreate from '../../animation/CreateAssessment.json';
 
 const Section = styled.section`
   :nth-child(even) {
@@ -138,21 +137,6 @@ const SectionDesc = styled.p`
   font-size: 24px;
 `;
 
-const IconDescription = ({
-  icon,
-  title,
-  description,
-  className
-}) =>
-  <Col style={{
-    textAlign: 'center',
-    marginTop: 10
-  }} className={className}>
-    {/*<FontAwesomeIcon icon={icon} size="7x"/>*/}
-    <h3 style={{ paddingTop: '10px' }}>{title}</h3>
-    <IconImage src={icon} alt="Analysis" className={className}/>
-    <p>{description}</p>
-  </Col>;
 
 const FeatureListItem = ({
   children
@@ -167,11 +151,39 @@ const FeatureListItem = ({
     </li>);
 };
 
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice'
+  }
+};
+
 const Home = (props) => {
   const { backgrounds } = props;
   const intl = useIntl();
   const theme = useTheme();
   const { step } = useGetStarted();
+
+  const IconDescription = ({
+    icon,
+    title,
+    description,
+    className
+  }) =>
+    <Col style={{
+      textAlign: 'center',
+      marginTop: 10
+    }} className={className}>
+      {/*<FontAwesomeIcon icon={icon} size="7x"/>*/}
+      <h3 style={{ paddingTop: '10px' }}>{title}</h3>
+      <Lottie options={{ animationData: icon, ...defaultOptions }}
+              height={400}
+              width={400}
+      />
+      <p>{description}</p>
+    </Col>;
+
   return (
     <>
       <Section className="no-pic">
@@ -183,7 +195,7 @@ const Home = (props) => {
             />
           </h1>
           <h2><FormattedMessage id="home.template.title2" defaultMessage="GeekHub Templates"/></h2>
-          <IconDescription icon={TechniqueAssessmentImg}
+          <IconDescription icon={jsonAnalysis}
                            className="big template"
                            title={intl.formatMessage({ defaultMessage: 'Technical Interviews' })}
                            description={
@@ -200,7 +212,7 @@ const Home = (props) => {
                              </FeatureList>
                            }
           />
-          <IconDescription icon={EnglishAssessmentImg}
+          <IconDescription icon={jsonAnalysis}
                            className="big template"
                            title={intl.formatMessage({
                              defaultMessage: 'Online Assessment',
@@ -223,7 +235,7 @@ const Home = (props) => {
         <StyledImagesRow type="flex" justify="space-around">
           <h1><FormattedMessage id="home.easy.steps"
                                 defaultMessage="Easy Steps to Online Assessment"/></h1>
-          <IconDescription icon={CreateAssessmentImg}
+          <IconDescription icon={jsonCreate}
                            title={intl.formatMessage({
                              defaultMessage: 'Create Assessment',
                              id: 'home.easy.steps.create.title'
@@ -233,7 +245,7 @@ const Home = (props) => {
                              id: 'home.easy.steps.create.desc'
                            })}
           />
-          <IconDescription icon={ShareAssessmentImg}
+          <IconDescription icon={jsonShare}
                            title={intl.formatMessage({
                              defaultMessage: 'Share Assessment',
                              id: 'home.easy.steps.share.title'
@@ -243,7 +255,7 @@ const Home = (props) => {
                              id: 'home.easy.steps.share.desc'
                            })}
           />
-          <IconDescription icon={AnalysisImg}
+          <IconDescription icon={jsonAnalysis}
                            title={intl.formatMessage({
                              defaultMessage: 'Analyze Result',
                              id: 'home.easy.steps.analyze.title'
