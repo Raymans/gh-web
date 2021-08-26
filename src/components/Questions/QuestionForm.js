@@ -151,14 +151,39 @@ const QuestionForm = (props) => {
           key="MULTI_CHOICE"
         >
           {questionType === 'MULTI_CHOICE' &&
-          <Form.List name={form ? [id, 'possibleAnswers'] : 'possibleAnswers'}>
+          <Form.List name={form ? [id, 'possibleAnswers'] : 'possibleAnswers'}
+                     validateTrigger={[]}
+                     rules={[
+                       {
+                         validator: async (_, possibleAnswers) => {
+                           if (!possibleAnswers || possibleAnswers.length < 2) {
+                             const error1 = intl.formatMessage({
+                               id: 'assessment.question.error.at.least.2.answer.options',
+                               defaultMessage: 'At least 2 Answer Options'
+                             });
+                             return Promise.reject(new Error(error1));
+                           }
+                           if (!possibleAnswers?.some((possibleAnswer) => possibleAnswer?.correctAnswer)) {
+                             const error2 = intl.formatMessage({
+                               id: 'assessment.question.error.at.least.1.correct.answer',
+                               defaultMessage: 'At least 1 correct answer'
+                             });
+                             return Promise.reject(new Error(error2));
+                           }
+                         }
+                       }
+                     ]}
+          >
             {(fields, {
               add,
               remove,
               move
-            }) => (
-              <QuestionFormItem form={form} id={id} fields={fields} add={add} remove={remove}
-                                move={move}/>
+            }, { errors }) => (
+              <>
+                <Form.ErrorList errors={errors}/>
+                <QuestionFormItem form={form} id={id} fields={fields} add={add} remove={remove}
+                                  move={move}/>
+              </>
             )}
           </Form.List>
           }
@@ -357,8 +382,6 @@ const QuestionFormItem = (props) => {
                               theme="snow"
                               modules={QuillHelpers.modules.slim}
                               placeholder={intl.formatMessage({ defaultMessage: 'Please input answer option' })}
-                              onFocus={(selection, source, editor) => console.log(123)}
-                              onBlur={(selection, source, editor) => console.debug(selection)}
                             />
                           </Form.Item>
                           {fields.length > 1 ? (

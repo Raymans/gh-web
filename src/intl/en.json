@@ -164,6 +164,8 @@
   "a3gsXn": "Top engineering roles come to you",
   "aY1msd": "UnInvite User",
   "assessment.details": "Assessment Details",
+  "assessment.question.error.at.least.1.correct.answer": "At least 1 correct answer",
+  "assessment.question.error.at.least.2.answer.options": "At least 2 Answer Options",
   "assessment.session.message.score.calculated.success": "Score has been calculated Successfully!",
   "assessment.tag.no.publish.version": "No Published version",
   "assessment.tag.private": "private",

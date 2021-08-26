@@ -121,7 +121,7 @@ const InterviewSessionResult = ({
                     let sectionScoreDiff = 0;
                     if (interviewSession.answerAttemptSections[section.id]) {
                       const { answerStats } = interviewSession.answerAttemptSections[section.id];
-                      sectionScore = Math.round((answerStats.MULTI_CHOICE.correct + answerStats.SHORT_ANSWER.correct) / (answerStats.MULTI_CHOICE.questionTotal + answerStats.SHORT_ANSWER.questionTotal) * 100);
+                      sectionScore = Math.round((answerStats.MULTI_CHOICE.correct + (answerStats.SHORT_ANSWER?.correct ?? 0)) / (answerStats.MULTI_CHOICE.questionTotal + (answerStats.SHORT_ANSWER?.questionTotal ?? 0)) * 100);
                     }
                     const sectionsAvgScore = averageScore.sectionsAverageScore.find((element) => element.sectionId === section.id);
                     const averageSectionScore = Math.round(sectionsAvgScore?.averageSectionScore * 100 ?? 0);

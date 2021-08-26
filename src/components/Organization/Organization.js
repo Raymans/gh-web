@@ -24,16 +24,17 @@ const H2 = styled.h2`
   margin: 68px 0 0;
 `;
 
-const anchors = [{
-  href: '#departments',
-  title: <FormattedMessage defaultMessage="Departments"/>
-}, {
-  href: '#invitations',
-  title: <FormattedMessage defaultMessage="Invitations"/>
-}, {
-  href: '#members',
-  title: <FormattedMessage defaultMessage="Members"/>
-}];
+const anchors = [
+  {
+    href: '#members',
+    title: <FormattedMessage defaultMessage="Members"/>
+  }, {
+    href: '#departments',
+    title: <FormattedMessage defaultMessage="Departments"/>
+  }, {
+    href: '#invitations',
+    title: <FormattedMessage defaultMessage="Invitations"/>
+  }];
 
 const Organization = () => {
   const intl = useIntl();
@@ -298,13 +299,6 @@ const Organization = () => {
                   </>
               }
 
-              <H2 id="departments"><FormattedMessage defaultMessage="Departments"/></H2>
-              <Departments/>
-
-              <H2 id="invitations"><FormattedMessage defaultMessage="Invitations"/></H2>
-
-              <Invitations invitations={organization.userInvitations} orgId={organization.id}/>
-
               <H2 id="members"><FormattedMessage defaultMessage="Members"/></H2>
               {
                 isOwner &&
@@ -334,8 +328,14 @@ const Organization = () => {
 
                 </ConfirmModal>
               }
-
               <UserList users={organization.users}/>
+
+              <H2 id="departments"><FormattedMessage defaultMessage="Departments"/></H2>
+              <Departments/>
+
+              <H2 id="invitations"><FormattedMessage defaultMessage="Invitations"/></H2>
+
+              <Invitations invitations={organization.userInvitations} orgId={organization.id}/>
 
               {/* <h2>Interviews</h2> */}
               {/* <h3>In Progress</h3> */}

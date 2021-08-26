@@ -279,7 +279,7 @@ const InterviewSession = ({
                                                       modules={QuillHelpers.modules.slim}
                                                       onBlur={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
                                                       defaultValue={answerAttemptQuestion}
-                                                      readOnly={isOwner}
+                                                      readOnly={preview || isOwner}
                                           />
                                         }
                                       </div>
