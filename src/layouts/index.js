@@ -12,7 +12,7 @@ import Seo from '../components/Seo';
 import { useIntl } from 'gatsby-plugin-intl';
 import 'moment/locale/zh-tw';
 import Moment from 'react-moment';
-import { message } from 'antd';
+import { ConfigProvider, Empty, message } from 'antd';
 import { aos } from '../utils/ssrHelper.js';
 import 'aos/dist/aos.css';
 
@@ -26,6 +26,11 @@ export const FontLoadedContext = React.createContext(false);
 
 const Main = styled.main`
   min-height: 89vh;
+  background-color: ${(props) => props.theme.color.brand.background};
+
+  .ant-anchor-wrapper {
+    background-color: ${(props) => props.theme.color.brand.background};
+  }
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -38,7 +43,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h2, h3 {
-    border-bottom: 1px solid #e8e8e8;
     padding-bottom: 10px;
     margin: 20px 0;
   }
@@ -48,12 +52,34 @@ const GlobalStyle = createGlobalStyle`
     margin: 30px 0 20px;
   }
 
+  input::placeholder {
+    font-size: 14px
+  }
+
   p {
     margin-bottom: 0px;
   }
 
   .ant-btn-primary:not(.ant-input-search-button) {
     margin: 5px 5px;
+  }
+
+  .ant-checkbox-inner {
+    border-radius: 2px !important;
+  }
+
+  .ant-modal-footer {
+    border-top: none;
+  }
+
+  .ant-modal-title {
+    font-size: 24px;
+  }
+
+  .ant-btn-icon-only {
+    width: 34px;
+    height: 34px;
+    padding: 0.9px 0;
   }
 `;
 export const Layout = (props) => {
@@ -96,6 +122,7 @@ export const Layout = (props) => {
   }, []);
   useEffect(() => {
     Moment.globalLocale = locale;
+    Moment.globalFormat = 'YYYY.MM.DD';
     aos.init?.();
   }, [locale]);
 
@@ -141,17 +168,19 @@ export const Layout = (props) => {
           <ThemeProvider theme={theme}>
             <FontLoadedContext.Provider value={layoutState.font400loaded}>
               <ScreenWidthContext.Provider value={layoutState.screenWidth}>
-                <>
-                  {
-                    theme.isDark &&
-                    <link rel="stylesheet" type="text/css" href="https://ant.design/dark.css"/>
-                  }
-                  <GlobalStyle/>
-                  <Seo/>
-                  <Header path={location.pathname} pages={pages}/>
-                  <Main>{children}</Main>
-                  <Footer body={footnoteHTML} pages={pages}/>
-                </>
+                <ConfigProvider renderEmpty={() => <Empty description={false}/>}>
+                  <>
+                    {
+                      theme.isDark &&
+                      <link rel="stylesheet" type="text/css" href="https://ant.design/dark.css"/>
+                    }
+                    <GlobalStyle/>
+                    <Seo/>
+                    <Header path={location.pathname} pages={pages}/>
+                    <Main>{children}</Main>
+                    <Footer body={footnoteHTML} pages={pages}/>
+                  </>
+                </ConfigProvider>
               </ScreenWidthContext.Provider>
             </FontLoadedContext.Provider>
           </ThemeProvider>

@@ -92,7 +92,7 @@ const InterviewsSummary = ({
                         {/*</Descriptions.Item>*/}
                         <Descriptions.Item
                           label={<FormattedMessage defaultMessage="Updated on"/>}>
-                          <Moment date={interview.lastModifiedDate} format="ll"/>
+                          <Moment date={interview.lastModifiedDate}/>
                         </Descriptions.Item>
                         <Descriptions.Item
                           span={2}

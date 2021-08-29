@@ -14,11 +14,10 @@ const StyledList = styled(List)`
   }
 
   .ant-list-item {
-    padding: 22px 0 0 22px;
+    padding: 22px;
     margin: 22px 0;
-    border: 1px solid #e8e8e8 !important;
     border-top: 2px solid #1088ae !important;
-    border-radius: 9px;
+    border-radius: 12px;
   }
 `;
 

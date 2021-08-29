@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Badge, Descriptions, List, Spin, Tag, Tooltip } from 'antd';
+import { List, Spin, Tag, Tooltip } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -10,40 +10,65 @@ import AuthorBy from '../AuthorBy';
 import InterviewActionsRow from './InterviewActionsRow';
 import Moment from 'react-moment';
 import ShareInterview from './ShareInterview';
+import Icon from '../Icon/Icon';
 
 const H1 = styled.h1`
   font-size: 26px;
   letter-spacing: 1px;
   font-weight: 400;
 `;
+
+const StyledInfoRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 40px 0 0;
+
+  .updated-time {
+    font-size: 14px;
+    position: absolute;
+    top: 70px;
+    right: 24px;
+  }
+`;
+
+const StyledFooterRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+`;
+
 const StyledListItem = styled(List.Item)`
   box-shadow: 4px 7px 8px 0px hsl(0deg 0% 53% / 6%), 0 11px 15px 1px hsl(0deg 0% 53% / 4%), 0 4px 20px 3px hsl(0deg 0% 53% / 4%);
-}
+  background-color: white;
 
-.ant-list-item-extra {
-  position: absolute;
-  right: 25px;
-  top: 16px;
-}
+  .ant-list-item-extra {
+    position: absolute;
+    right: 17px;
+    top: 16px;
+
+    button {
+      margin-right: 5px;
+    }
+  }
 `;
 
 const StyledVisibilityTag = styled(Tag)`
   position: absolute;
   top: -9px;
   background-color: ${(props) => (props.theme.isDark ? 'darkslategray !important' : undefined)};
+  color: gray;
 `;
 
 const StyledDescription = styled.div`
-  margin: 10px 0;
+  margin: 10px 0 30px;
   font-size: 20px;
   letter-spacing: 1px;
   white-space: pre-line;
+  min-height: 100px;
 `;
 
-const StyledStatusBar = styled.div`
-  position: absolute;
-  right: 30px;
-  bottom: 19px;
+const StyledStatusBar = styled.span`
+  margin-right: 20px;
 
   .ant-badge {
     margin: 0 10px 0 0;
@@ -106,53 +131,49 @@ const InterviewGrid = (props) => {
                   &&
                   <Tooltip
                     title={<FormattedMessage defaultMessage="Only you can see this interview"/>}>
-                    <StyledVisibilityTag color="default"><FormattedMessage
-                      defaultMessage="private"/></StyledVisibilityTag>
+                    <StyledVisibilityTag color="#ffc93c">
+                      <FormattedMessage id="assessment.tag.private"
+                                        defaultMessage="private"/>
+                    </StyledVisibilityTag>
                   </Tooltip>
                 }
                 <H1><Link to={`/interviews/${id}`}>{title}</Link></H1>
-                <Descriptions column={2}>
-                  {/*<Descriptions.Item*/}
-                  {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}>{specializationName}</Descriptions.Item>*/}
-                  <Descriptions.Item
-                    label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{jobTitle}</Descriptions.Item>
-                  <Descriptions.Item
-                    label={<FormattedMessage defaultMessage="Updated on"/>}>
-                    <Moment date={lastModifiedDate} format="ll"/>
-                  </Descriptions.Item>
-                  <Descriptions.Item
-                    span={2}><StyledDescription dangerouslySetInnerHTML={{ __html: description }}>
-                  </StyledDescription></Descriptions.Item>
-                  <Descriptions.Item span={2}>
-                    <AuthorBy clientUser={clientUser}/>
-                  </Descriptions.Item>
-                  <Descriptions.Item span={2}>
-                    <InterviewLike
-                      id={id}
-                      liked={liked}
-                      likeCount={likeCount}
-                    />
+                <StyledInfoRow>
+                  <div>{intl.formatMessage({ defaultMessage: 'Job Title: {jobTitle}' }, { jobTitle })}</div>
+                  <div className={'updated-time'}><FormattedMessage
+                    defaultMessage="Updated on"/>: <Moment date={lastModifiedDate}/></div>
+                </StyledInfoRow>
+                <StyledDescription dangerouslySetInnerHTML={{ __html: description }}/>
+                {/*<Descriptions.Item*/}
+                {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}>{specializationName}</Descriptions.Item>*/}
+                <StyledFooterRow>
+                  <AuthorBy clientUser={clientUser}/>
+                  <div>
                     <StyledStatusBar>
                       {/*<Badge*/}
                       {/*  status="processing"*/}
                       {/*  text={<FormattedMessage defaultMessage="10 In testing"/>}*/}
                       {/*/>*/}
-                      <Badge
-                        status="success"
-                        text={
-                          clientUser.id === user?.sub ?
-                            (<Link to={`/manageInterviews/${id}`}
-                                   state={{ interviewName: title }}>
-                              <FormattedMessage defaultMessage="{totalCount} people Assessed"
-                                                values={{ totalCount: totalGeeks }}/>
-                            </Link>) :
+                      {/*<SvgAssessmentCompleted />*/}
+                      <Icon type="assessmentCompleted"/>
+                      {
+                        clientUser.id === user?.sub ?
+                          (<Link to={`/manageInterviews/${id}`}
+                                 state={{ interviewName: title }}>
                             <FormattedMessage defaultMessage="{totalCount} people Assessed"
                                               values={{ totalCount: totalGeeks }}/>
-                        }
-                      />
+                          </Link>) :
+                          <FormattedMessage defaultMessage="{totalCount} people Assessed"
+                                            values={{ totalCount: totalGeeks }}/>
+                      }
                     </StyledStatusBar>
-                  </Descriptions.Item>
-                </Descriptions>
+                    <InterviewLike
+                      id={id}
+                      liked={liked}
+                      likeCount={likeCount}
+                    />
+                  </div>
+                </StyledFooterRow>
               </StyledListItem>
             </Spin>
           </>

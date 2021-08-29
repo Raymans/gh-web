@@ -1,6 +1,6 @@
-import { Badge, Col, Descriptions, Layout, Modal, Row, Spin, Statistic, Tag } from 'antd';
+import { Col, Descriptions, Layout, Modal, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { ExclamationCircleOutlined, LoadingOutlined, UserOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import Countdown from 'antd/lib/statistic/Countdown';
 import styled from 'styled-components';
 import moment from 'moment';
@@ -9,24 +9,19 @@ import { FormattedMessage, navigate, useIntl } from 'gatsby-plugin-intl';
 import Headline from '../Article/Headline';
 import InterviewSession from './InterviewSession';
 import LoginPrompt from '../Login/LoginPrompt';
-import AuthorBy from '../AuthorBy';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
-import Moment from 'react-moment';
 import InterviewActionsRow from './InterviewActionsRow';
 import ShareInterview from './ShareInterview';
 import ConfirmModal from '../Organization/ConfirmModal';
 import { guest } from '../../../content/meta/config';
+import ContentLayout from '../Layout/ContentLayout';
+import InterviewDescription from './InterviewDescription';
+import Icon from '../Icon/Icon';
 
 const StyledInterviewGeekStatus = styled.div`
   margin: 30px 0 20px;
-`;
-
-const StyledDescription = styled.div`
-  font-size: 20px;
-  margin: 10px 0;
-  white-space: pre-line;
 `;
 
 const Interview = ({
@@ -204,143 +199,96 @@ const Interview = ({
           </>
         }
       </Headline>
-      <Layout>
+      <ContentLayout loading={loading}>
         {/*<AnchorSider />*/}
-        <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
-          {!loading && (
-            <Layout.Content>
-              {
-                isTesting && interviewSession && interviewSession.duration > 0
-                && (
-                  <Countdown
-                    title="Remaining"
-                    value={deadline}
-                    format="HH:mm:ss"
-                    onFinish={handleTimesUp}
-                  />
-                )
-              }
-              <Descriptions column={2}>
-                {/*<Descriptions.Item*/}
-                {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}*/}
-                {/*>*/}
-                {/*  {interview.specialization.name}*/}
-                {/*</Descriptions.Item>*/}
-
-                <Descriptions.Item
-                  span={2}
-                >
-                  {isOwner && interview.visibility === 'PRIVATE' &&
-                  <Tag color="default"><FormattedMessage id="assessment.tag.private"
-                                                         defaultMessage="private"/></Tag>
-                  }
-                  {isViewPublished &&
-                  <Tag color="blue"><FormattedMessage id="assessment.tag.published.version"
-                                                      defaultMessage="Published Version"/></Tag>
-                  }
-                  {
-                    isOwner && !interview.publishedInterviewId &&
-                    <Tag color="red"><FormattedMessage id="assessment.tag.no.publish.version"
-                                                       defaultMessage="No Published version"/></Tag>
-                  }
-                </Descriptions.Item>
-                <Descriptions.Item
-                  label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{interview.jobTitle}</Descriptions.Item>
-                <Descriptions.Item
-                  label={<FormattedMessage defaultMessage="Updated on"/>}>
-                  <Moment date={interview.lastModifiedDate} format="ll"/>
-                </Descriptions.Item>
-                <Descriptions.Item
-                  span={2}
-                >
-                  <StyledDescription dangerouslySetInnerHTML={{ __html: interview.description }}/>
-                </Descriptions.Item>
-                <Descriptions.Item
-                  span={2}
-                >
-                  <AuthorBy
-                    clientUser={interview.clientUser}
-                  />
-                </Descriptions.Item>
-              </Descriptions>
-              {
-                !isTesting && !isViewPublished
-                && (
-                  <StyledInterviewGeekStatus>
-                    <Row gutter={16}>
-                      <Col span={12}>
-                        <Statistic
-                          title={<Badge status="processing"
-                                        text={intl.formatMessage({ defaultMessage: 'In Testing' })}/>}
-                          value={(interview.groupedInterviewSessions?.STARTED?.length ?? 0) + (interview.groupedInterviewSessions?.NOT_STARTED?.length ?? 0)}
-                          prefix={<UserOutlined/>}
-                          suffix={intl.formatMessage({ defaultMessage: ' People' })}
-                        />
-                      </Col>
-                      <Col span={12}>
-                        <Statistic
-                          title={<Badge status="success"
-                                        text={intl.formatMessage({ defaultMessage: 'Completed' })}/>}
-                          value={interview.groupedInterviewSessions?.ENDED?.length ?? 0}
-                          prefix={<UserOutlined/>}
-                          suffix={intl.formatMessage({ defaultMessage: ' People' })}
-                        />
-                      </Col>
-                    </Row>
-                  </StyledInterviewGeekStatus>
-                )
-              }
-              {
-                !interviewSession && !isOwner && !!interview.publishedInterviewId
-                && (
-                  <>
-                    <LoginPrompt
-                      title={intl.formatMessage({ defaultMessage: 'Login to Test Assessment' })}
-                      isLoginNeeded={!isGetStarted}
-                    >
-                      {(isAuth) => (
-                        <ConfirmModal
-                          title={intl.formatMessage({ defaultMessage: 'Test the assessment' })}
-                          onOK={startTest}
-                          onOpen={() => isAuth ? Promise.resolve() : Promise.reject()}
-                          openButtonTitle={intl.formatMessage({ defaultMessage: 'Start Testing Assessment' })}
-                          openButtonType={'primary'}
-                          successMessage={intl.formatMessage({ defaultMessage: 'Testing the assessment' })}
-                          submitButtonTitle={intl.formatMessage({ defaultMessage: 'Start' })}
-                        >
-                          <p><FormattedMessage defaultMessage="Start testing the assessment!!"/></p>
-                          {
-                            (interviewSession?.duration > 0 || interview.defaultDuration > 0)
-                            &&
-                            <p>
-                              <FormattedMessage
-                                defaultMessage="You will have {duration} minutes complete the assessment."
-                                values={{ duration: interviewSession?.duration || interview.defaultDuration }}/>
-                            </p>
-                          }
-                        </ConfirmModal>
-                      )}
-                    </LoginPrompt>
-                  </>
-                )
-              }
-              {
-                isOwner
-                && <InterviewSession interviewSession={{ interview }} preview viewResult={false}/>
-              }
-              {
-                interviewSession && (
-                  <InterviewSession
-                    interviewSession={interviewSession}
-                    onEndInterviewSession={handleEndInterviewSession}
-                    endSession={isTimeUp}
-                  />
-                )
-              }
-            </Layout.Content>
-          )}
-        </Spin>
-      </Layout>
+        {!loading && (
+          <Layout.Content>
+            {
+              isTesting && interviewSession && interviewSession.duration > 0
+              && (
+                <Countdown
+                  title="Remaining"
+                  value={deadline}
+                  format="HH:mm:ss"
+                  onFinish={handleTimesUp}
+                />
+              )
+            }
+            <InterviewDescription interview={interview} isViewPublished={isViewPublished}
+                                  collapse={isTesting}/>
+            {
+              !isTesting && !isViewPublished
+              && (
+                <StyledInterviewGeekStatus>
+                  <Row gutter={16}>
+                    <Col span={12}>
+                      <Icon type="assessmentTesting"/>
+                      <FormattedMessage id="assessment.testing.count"
+                                        defaultMessage="{people} In Testing"
+                                        values={{ people: (interview.groupedInterviewSessions?.STARTED?.length ?? 0) + (interview.groupedInterviewSessions?.NOT_STARTED?.length ?? 0) }}
+                      />
+                    </Col>
+                    <Col span={12}>
+                      <Icon type="assessmentTested"/>
+                      <FormattedMessage id="assessment.testing.count"
+                                        defaultMessage="{people} Completed"
+                                        values={{ people: interview.groupedInterviewSessions?.ENDED?.length ?? 0 }}
+                      />
+                    </Col>
+                  </Row>
+                </StyledInterviewGeekStatus>
+              )
+            }
+            {
+              !interviewSession && !isOwner && !!interview.publishedInterviewId
+              && (
+                <>
+                  <LoginPrompt
+                    title={intl.formatMessage({ defaultMessage: 'Login to Test Assessment' })}
+                    isLoginNeeded={!isGetStarted}
+                  >
+                    {(isAuth) => (
+                      <ConfirmModal
+                        title={intl.formatMessage({ defaultMessage: 'Test the assessment' })}
+                        onOK={startTest}
+                        onOpen={() => isAuth ? Promise.resolve() : Promise.reject()}
+                        openButtonTitle={intl.formatMessage({ defaultMessage: 'Start Testing Assessment' })}
+                        openButtonType={'primary'}
+                        successMessage={intl.formatMessage({ defaultMessage: 'Testing the assessment' })}
+                        submitButtonTitle={intl.formatMessage({ defaultMessage: 'Start' })}
+                      >
+                        <p><FormattedMessage defaultMessage="Start testing the assessment!!"/></p>
+                        {
+                          (interviewSession?.duration > 0 || interview.defaultDuration > 0)
+                          &&
+                          <p>
+                            <FormattedMessage
+                              defaultMessage="You will have {duration} minutes complete the assessment."
+                              values={{ duration: interviewSession?.duration || interview.defaultDuration }}/>
+                          </p>
+                        }
+                      </ConfirmModal>
+                    )}
+                  </LoginPrompt>
+                </>
+              )
+            }
+            {
+              isOwner
+              && <InterviewSession interviewSession={{ interview }} preview viewResult={false}/>
+            }
+            {
+              interviewSession && (
+                <InterviewSession
+                  interviewSession={interviewSession}
+                  onEndInterviewSession={handleEndInterviewSession}
+                  endSession={isTimeUp}
+                />
+              )
+            }
+          </Layout.Content>
+        )}
+      </ContentLayout>
       <Seo subTitle={interview.title}/>
     </>
   );

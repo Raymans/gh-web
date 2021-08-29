@@ -6,13 +6,13 @@ export const StoreContext = React.createContext({});
 
 const StoreProvider = ({ children }) => {
   const {
-    user,
-    isLoading
+    user
   } = useAuth0();
   const [userProfile, setUserProfile] = useState(null);
   const [organization, setOrganization] = useState(null);
   const [interviews, setInterviews] = useState([]);
   const [specializations, setSpecializations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchedInterviewCriteria, setSearchedInterviewCriteria] = useState({
     specialization: '',
     keyword: '',
@@ -34,7 +34,10 @@ const StoreProvider = ({ children }) => {
       });
       return data.organization ? getMyOrganization() : null;
     })
-    .then((data) => setOrganization(data))
+    .then((data) => {
+      setOrganization(data);
+      setIsLoading(false);
+    })
     .catch(() => setTimeout(refreshUserProfile, 10000));
 
   const refreshUserOrg = () => {
@@ -75,7 +78,7 @@ const StoreProvider = ({ children }) => {
       departments,
       refreshDepartments,
       isLoading,
-      userId: user?.sub,
+      userId: user?.sub
     }}
     >
       {children}

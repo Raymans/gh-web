@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Form, Input, message, Spin } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-import { LoadingOutlined } from '@ant-design/icons';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
@@ -10,6 +9,7 @@ import UploadImage from '../UploadImgae/UploadImage';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 import { StoreContext } from '../../context/ContextProvider';
 import AnchorSider from '../Sider/AnchorSider';
+import ContentLayout from '../Layout/ContentLayout';
 
 const Setting = () => {
   const intl = useIntl();
@@ -81,7 +81,7 @@ const Setting = () => {
       }]}
       />
       <Headline title={intl.formatMessage({ defaultMessage: 'Setting' })}/>
-      <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
+      <ContentLayout loading={loading}>
         <AnchorSider anchors={[{
           href: '#profile',
           title: <FormattedMessage defaultMessage="Profile"/>
@@ -182,7 +182,7 @@ const Setting = () => {
             <br/>
           </Form>
         }
-      </Spin>
+      </ContentLayout>
       <Seo subTitle={intl.formatMessage({ defaultMessage: 'Setting' })}/>
     </>
   );

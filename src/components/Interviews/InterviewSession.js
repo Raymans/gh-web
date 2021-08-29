@@ -26,6 +26,14 @@ const defaultInterviewSession = {
   }
 };
 
+const StyledTabs = styled(Tabs)`
+  .ant-tabs-content {
+    border: 1px solid #e0dddd;
+    border-radius: 6px;
+    margin-top: -17px;
+    padding: 0 15px;
+  }
+`;
 const StyledQuestionBlock = styled.div`
   div {
     flex-grow: 10;
@@ -36,7 +44,7 @@ const StyledQuestionBlock = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: end;
-  margin: 24px;
+  min-height: 140px;
 
   .ant-checkbox-group {
     display: flex;
@@ -74,8 +82,20 @@ const StyledCheckbox = styled(Checkbox)`
   }
 `;
 
+const StyledQuestionSection = styled.div`
+  padding: 10px;
+  margin-bottom: 24px;
+
+  :not(:last-child) {
+    border-bottom: 1px solid #e0dddd;
+  }
+
+`;
+
 const StyledQuestionH2 = styled.h2`
   display: flex;
+  margin: 20px 0 0;
+  font-weight: bold;
 
   > span, button {
     margin-left: auto;
@@ -175,7 +195,7 @@ const InterviewSession = ({
               {
                 interview.sections
                 && (
-                  <Tabs>
+                  <StyledTabs>
                     {
                       interview.sections.map(({
                         id: sectionId,
@@ -196,9 +216,9 @@ const InterviewSession = ({
                               const answerAttemptQuestion = isNoAnswerAttemptForQuestion ? [] : answerAttemptSections[sectionId].answerAttempts[questionId].answer;
                               const valueProps = !viewResult && isOwner ? { value: correctAnswers } : isSubmitted && (answerAttemptQuestionIds?.length > 0 ? { value: answerAttemptQuestionIds } : { value: [] });
                               return (
-                                <div key={questionId}>
+                                <>
                                   <StyledQuestionH2>
-                                    {`Q${questionIndex + 1}`}
+                                    {`Q.${questionIndex + 1}`}
                                     {
                                       (() => {
                                           if (!preview || !viewResult || !isAnswersVisible) {
@@ -225,52 +245,54 @@ const InterviewSession = ({
                                       )()
                                     }
                                   </StyledQuestionH2>
-                                  <StyledQuestionBlock>
-                                    <div dangerouslySetInnerHTML={{ __html: question.question }}/>
-                                    <div>
-                                      {
-                                        question.questionType === 'MULTI_CHOICE' &&
-                                        <Checkbox.Group
-                                          name={questionId}
-                                          {...valueProps}
-                                          defaultValue={answerAttemptQuestionIds}
-                                          onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
-                                        >
-                                          {possibleAnswers.map((possibleAnswer) => {
-                                            const correctOption = correctAnswers.includes(possibleAnswer.answerId);
-                                            const answered = answerAttemptQuestionIds?.includes(possibleAnswer.answerId);
-                                            return (
-                                              <StyledCheckbox
-                                                key={possibleAnswer.answerId}
-                                                value={possibleAnswer.answerId}
-                                                className={preview && viewResult && isAnswersVisible && (correctOption ? ' answer ' : '') + ((correctOption && answered) ? 'correct' : (!correctOption && !answered) || 'wrong')}
-                                              >
+                                  <StyledQuestionSection key={questionId}>
+                                    <StyledQuestionBlock>
+                                      <div dangerouslySetInnerHTML={{ __html: question.question }}/>
+                                      <div>
+                                        {
+                                          question.questionType === 'MULTI_CHOICE' &&
+                                          <Checkbox.Group
+                                            name={questionId}
+                                            {...valueProps}
+                                            defaultValue={answerAttemptQuestionIds}
+                                            onChange={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
+                                          >
+                                            {possibleAnswers.map((possibleAnswer) => {
+                                              const correctOption = correctAnswers.includes(possibleAnswer.answerId);
+                                              const answered = answerAttemptQuestionIds?.includes(possibleAnswer.answerId);
+                                              return (
+                                                <StyledCheckbox
+                                                  key={possibleAnswer.answerId}
+                                                  value={possibleAnswer.answerId}
+                                                  className={preview && viewResult && isAnswersVisible && (correctOption ? ' answer ' : '') + ((correctOption && answered) ? 'correct' : (!correctOption && !answered) || 'wrong')}
+                                                >
                                                 <span
                                                   dangerouslySetInnerHTML={{ __html: possibleAnswer.answer }}/>
-                                              </StyledCheckbox>
-                                            );
-                                          })}
-                                        </Checkbox.Group>
-                                      }
-                                      {
-                                        question.questionType === 'SHORT_ANSWER' &&
-                                        <ReactQuill theme="snow"
-                                                    modules={QuillHelpers.modules.normal}
-                                                    onBlur={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
-                                                    defaultValue={answerAttemptQuestion}
-                                                    readOnly={isOwner}
-                                        />
-                                      }
-                                    </div>
-                                  </StyledQuestionBlock>
-                                </div>
+                                                </StyledCheckbox>
+                                              );
+                                            })}
+                                          </Checkbox.Group>
+                                        }
+                                        {
+                                          question.questionType === 'SHORT_ANSWER' &&
+                                          <ReactQuill theme="snow"
+                                                      modules={QuillHelpers.modules.slim}
+                                                      onBlur={handleSubmitQuestionAttempt.bind(this, sectionId, questionId, question.questionType)}
+                                                      defaultValue={answerAttemptQuestion}
+                                                      readOnly={isOwner}
+                                          />
+                                        }
+                                      </div>
+                                    </StyledQuestionBlock>
+                                  </StyledQuestionSection>
+                                </>
                               );
                             })
                           }
                         </Tabs.TabPane>
                       ))
                     }
-                  </Tabs>
+                  </StyledTabs>
                 )
               }
               {

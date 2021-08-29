@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Col, Descriptions, Row, Spin } from 'antd';
-import { GithubOutlined, LinkedinOutlined, LoadingOutlined, MailOutlined } from '@ant-design/icons';
+import { Avatar, Col, Descriptions, Row } from 'antd';
+import { GithubOutlined, LinkedinOutlined, MailOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
+import ContentLayout from '../Layout/ContentLayout';
 
 const StyledBasicProfileRow = styled(Row)`
   padding: 50px;
@@ -37,7 +38,7 @@ const Profile = ({ userId }) => {
       }]}/>
       <Headline title={<FormattedMessage defaultMessage="Profile - {name}"
                                          values={{ name: profile.name }}/>}/>
-      <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
+      <ContentLayout loading={loading}>
         {
           <StyledBasicProfileRow align="middle">
             {
@@ -85,7 +86,7 @@ const Profile = ({ userId }) => {
             }
           </StyledBasicProfileRow>
         }
-      </Spin>
+      </ContentLayout>
       {/* <MyInterview /> */}
       {/*<h2><FormattedMessage defaultMessage="{name}'s interviews"*/}
       {/*                      values={{ name: profile.name }}/></h2>*/}

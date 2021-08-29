@@ -43,7 +43,7 @@ const columns = [
     title: 'Complete Date',
     dataIndex: 'interviewEndDate',
     render: (endDate) => (
-      endDate && <Moment date={endDate} format="lll"/>
+      endDate && <Moment date={endDate}/>
     )
   },
   {

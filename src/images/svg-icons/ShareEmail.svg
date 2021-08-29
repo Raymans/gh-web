@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 59">
+  <defs>
+    <style>
+      .cls-1{fill:#ffc93c;}.cls-2,.cls-3{fill:#fff;}.cls-3,.cls-5,.cls-6{stroke:#2b4457;stroke-miterlimit:10;}.cls-3{stroke-width:2px;}.cls-4{fill:#2b4457;}.cls-5,.cls-6{fill:none;}.cls-5{stroke-width:3px;}
+    </style>
+  </defs>
+  <g id="ICON_群" data-name="ICON 群">
+    <rect class="cls-1" x="0.44" y="27.78" width="50.34" height="31.53"/>
+    <rect class="cls-2" x="15.86" y="17.08" width="51" height="33"/>
+    <polyline class="cls-3" points="67.07 31.06 67.07 50.3 15.44 50.3 15.44 16.43 22.29 16.43 38.53 29.62"/>
+    <polyline class="cls-3" points="44.53 29.2 60.98 16.43 67.07 16.43 67.07 22.26"/>
+    <circle class="cls-4" cx="41.44" cy="29.96" r="4.03"/>
+    <line class="cls-5" x1="33.14" y1="18.84" x2="50.2" y2="18.84"/>
+    <line class="cls-5" x1="33.14" y1="12.75" x2="50.2" y2="12.75"/>
+    <polyline class="cls-6" points="21.97 16.43 21.97 1.08 60.29 1.08 60.29 16.97"/>
+  </g>
+</svg>

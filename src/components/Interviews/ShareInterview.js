@@ -1,13 +1,13 @@
 import { ShareAltOutlined } from '@ant-design/icons';
-import { Button, Divider, Form, Input, message, Modal } from 'antd';
+import { Button, Divider, Form, message, Modal } from 'antd';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
-import { CopyToClipboard } from 'react-copy-to-clipboard/lib/Component';
 import Search from 'antd/es/input/Search';
 import useApi from '../../hooks/useApi';
 import { useForm } from 'antd/lib/form/Form';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
+import copy from 'copy-to-clipboard';
 
 const StyleReSendRow = styled.div`
   display: flex;
@@ -68,13 +68,13 @@ const ShareInterview = ({ id }) => {
     <>
       <Button
         icon={<ShareAltOutlined/>}
-        style={{ marginRight: '3px' }}
         onClick={() => {
           setIsShareModalVisible(true);
         }}
       />
       <Modal
         title={intl.formatMessage({ defaultMessage: 'Share Assessment' })}
+        centered
         visible={isShareModalVisible}
         onCancel={() => setIsShareModalVisible(false)}
         footer={[
@@ -83,20 +83,19 @@ const ShareInterview = ({ id }) => {
           </Button>
         ]}
       >
-        <div style={{ display: 'flex' }}>
-          <Input placeholder={intl.formatMessage({ defaultMessage: 'Email' })} size="small"
-                 value={shareLink}/>
-          <CopyToClipboard
-            text={shareLink}
-            onCopy={() => message.info(intl.formatMessage({ defaultMessage: 'Copied.' }))}
-          >
-            <Button><FormattedMessage defaultMessage="Copy"/></Button>
-          </CopyToClipboard>
-        </div>
+        <Search
+          placeholder={intl.formatMessage({ defaultMessage: 'Email' })}
+          value={shareLink}
+          enterButton={<FormattedMessage defaultMessage="Copy"/>}
+          onSearch={() => {
+            copy(shareLink);
+            message.info(intl.formatMessage({ defaultMessage: 'Copied.' }));
+          }}
+        />
         {
           isAuthenticated &&
           <>
-            <Divider orientation="left"><FormattedMessage defaultMessage="Or"/></Divider>
+            <Divider><FormattedMessage defaultMessage="Or"/></Divider>
             <Form form={sharedForm}>
               <Form.Item
                 name="email"

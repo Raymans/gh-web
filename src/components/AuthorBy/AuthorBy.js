@@ -6,6 +6,7 @@ import { FormattedMessage, Link } from 'gatsby-plugin-intl';
 
 const StyledAvatar = styled(Avatar)`
   margin: 0 5px;
+  vertical-align: bottom;
 `;
 
 function getRandomInt(max, min = 0) {
@@ -61,7 +62,7 @@ const AuthorBy = ({
   return (
     <>
       <div>
-        <FormattedMessage defaultMessage="by {avatar} {author} " values={{
+        <FormattedMessage defaultMessage="{avatar} {author} " values={{
           avatar: <StyledAvatar
             src={clientUser.avatar}
           >

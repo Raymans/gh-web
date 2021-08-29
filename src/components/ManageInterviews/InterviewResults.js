@@ -85,7 +85,7 @@ const buildColumns = (isGetStarted = false, setStep = () => {
         return '';
       }
       return (
-        <Moment date={endDate} format="lll"/>
+        <Moment date={endDate}/>
       );
     }
   },

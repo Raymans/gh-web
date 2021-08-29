@@ -43,6 +43,10 @@ const StyledSubHeader = styled.div`
   div {
     float: left;
   }
+
+  button {
+    margin-right: 5px;
+  }
 `;
 const Headline = (props) => {
   const intl = useIntl();

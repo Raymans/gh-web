@@ -9,6 +9,7 @@ const StyledLayoutSider = styled(Layout.Sider)`
   left: -200px;
   min-width: 160px !important;
   width: 160px !important;
+  background-color: ${(props) => props.theme.color.brand.background};
 `;
 
 const AnchorSider = (props) => {
@@ -16,7 +17,7 @@ const AnchorSider = (props) => {
     anchors = []
   } = props;
   return (
-    <StyledLayoutSider theme="light">
+    <StyledLayoutSider>
       <Anchor offsetTop={60}>
         {
           anchors.map((anchor) => (

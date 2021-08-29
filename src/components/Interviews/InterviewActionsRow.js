@@ -26,9 +26,7 @@ const InterviewActionsRow = ({
   return (
     <>
       <Button
-        shape="circle"
         icon={<EditOutlined/>}
-        style={{ marginRight: '3px' }}
         onClick={() => {
           navigate(`/interviews/${id}/edit`);
         }}
@@ -38,9 +36,11 @@ const InterviewActionsRow = ({
         onOK={handleDeleteInterview}
         icon={<DeleteOutlined/>}
         danger
-        shape="circle"
-        size="small"
         openButtonTitle=""
+        submitButtonTitle={intl.formatMessage({
+          id: 'general.button.delete',
+          defaultMessage: 'Delete'
+        })}
         successMessage={intl.formatMessage({
           defaultMessage: 'Assessment has been deleted: {interviewTitle}'
         }, { interviewTitle })}

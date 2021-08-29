@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 34">
+  <defs>
+    <style>
+      .cls-1{fill:#2b4457;}.cls-2,.cls-3,.cls-4{fill:none;stroke:#2b4457;stroke-miterlimit:10;}.cls-3{stroke-width:0.3px;}.cls-4{stroke-width:0.6px;}.cls-5{fill:#526677;}
+    </style>
+  </defs>
+  <g id="ICON_群" data-name="ICON 群">
+    <g id="ICON_碼表" data-name="ICON 碼表">
+      <path class="cls-1"
+            d="M13.26,7.47A3.7,3.7,0,1,1,17,3.77,3.7,3.7,0,0,1,13.26,7.47Zm0-6.8a3.11,3.11,0,1,0,3.1,3.1A3.11,3.11,0,0,0,13.26.67Z"/>
+      <path class="cls-2" d="M26,20.94A12.75,12.75,0,1,1,13.26,8.19,12.75,12.75,0,0,1,26,20.94Z"/>
+      <path class="cls-1" d="M16.23,15.72a3,3,0,1,1-3-3A3,3,0,0,1,16.23,15.72Z"/>
+      <path
+        d="M13.26,24.45a1.7,1.7,0,1,0,1.7,1.7,1.7,1.7,0,0,0-1.7-1.7Zm0,3a1.28,1.28,0,1,1,1.27-1.28,1.28,1.28,0,0,1-1.27,1.28Z"/>
+      <rect class="cls-3" x="13.15" y="10.41" width="0.21" height="0.94"/>
+      <rect class="cls-3" x="12.1" y="10.47" width="0.21" height="0.94"
+            transform="translate(-1.07 1.33) rotate(-5.98)"/>
+      <rect class="cls-3" x="11.06" y="10.63" width="0.21" height="0.93"
+            transform="translate(-2.06 2.56) rotate(-11.99)"/>
+      <rect class="cls-3" x="10.04" y="10.91" width="0.21" height="0.94"
+            transform="translate(-3.02 3.7) rotate(-18.03)"/>
+      <rect class="cls-3" x="9.06" y="11.28" width="0.21" height="0.93"
+            transform="translate(-3.98 4.72) rotate(-23.9)"/>
+      <rect class="cls-3" x="8.12" y="11.76" width="0.21" height="0.93"
+            transform="translate(-4.98 5.69) rotate(-29.72)"/>
+      <rect class="cls-3" x="7.24" y="12.33" width="0.21" height="0.94"
+            transform="translate(-6.12 6.77) rotate(-36.02)"/>
+      <polygon class="cls-3" points="6.92 13.74 6.76 13.88 6.14 13.19 6.29 13.04 6.92 13.74"/>
+      <polygon class="cls-3" points="6.2 14.44 6.06 14.6 5.37 13.97 5.51 13.82 6.2 14.44"/>
+      <rect class="cls-3" x="5.02" y="14.56" width="0.21" height="0.93"
+            transform="translate(-10.04 10.33) rotate(-53.98)"/>
+      <polygon class="cls-3" points="5 16.05 4.9 16.23 4.09 15.77 4.2 15.58 5 16.05"/>
+      <rect class="cls-3" x="3.96" y="16.38" width="0.21" height="0.93"
+            transform="translate(-12.97 13.68) rotate(-65.9)"/>
+      <polygon class="cls-3" points="4.17 17.87 4.11 18.07 3.22 17.79 3.28 17.58 4.17 17.87"/>
+      <rect class="cls-3" x="3.31" y="18.38" width="0.21" height="0.94"
+            transform="translate(-15.72 18.25) rotate(-77.94)"/>
+      <rect class="cls-3" x="3.15" y="19.42" width="0.21" height="0.94"
+            transform="translate(-16.86 21.05) rotate(-84.01)"/>
+      <rect class="cls-3" x="2.73" y="20.83" width="0.94" height="0.21"/>
+      <rect class="cls-3" x="2.79" y="21.88" width="0.93" height="0.21"
+            transform="translate(-2.28 0.46) rotate(-6.01)"/>
+      <rect class="cls-3" x="2.95" y="22.92" width="0.94" height="0.21"
+            transform="translate(-4.74 1.22) rotate(-12.07)"/>
+      <rect class="cls-3" x="3.22" y="23.94" width="0.94" height="0.21"
+            transform="translate(-7.25 2.32) rotate(-18.01)"/>
+      <polygon class="cls-3" points="4.45 24.74 4.54 24.93 3.69 25.31 3.6 25.12 4.45 24.74"/>
+      <rect class="cls-3" x="4.08" y="25.86" width="0.93" height="0.21"
+            transform="translate(-12.35 5.73) rotate(-29.94)"/>
+      <rect class="cls-3" x="4.65" y="26.74" width="0.93" height="0.21"
+            transform="translate(-14.76 8.1) rotate(-35.89)"/>
+      <rect class="cls-3" x="5.32" y="27.56" width="0.94" height="0.21"
+            transform="translate(-16.99 10.93) rotate(-41.88)"/>
+      <polygon class="cls-3" points="6.76 27.99 6.92 28.13 6.29 28.83 6.14 28.68 6.76 27.99"/>
+      <rect class="cls-3" x="6.88" y="28.96" width="0.94" height="0.21"
+            transform="translate(-20.48 17.91) rotate(-53.96)"/>
+      <rect class="cls-3" x="7.76" y="29.54" width="0.94" height="0.21"
+            transform="translate(-21.6 22.1) rotate(-60.3)"/>
+      <rect class="cls-3" x="8.7" y="30.01" width="0.93" height="0.21"
+            transform="translate(-22.09 26.31) rotate(-66.12)"/>
+      <rect class="cls-3" x="9.68" y="30.39" width="0.93" height="0.21"
+            transform="translate(-21.99 30.72) rotate(-72)"/>
+      <polygon class="cls-3" points="11.16 30.29 11.37 30.34 11.17 31.25 10.96 31.21 11.16 30.29"/>
+      <rect class="cls-3" x="11.74" y="30.83" width="0.94" height="0.21"
+            transform="translate(-19.8 39.97) rotate(-84.24)"/>
+      <rect class="cls-3" x="13.15" y="30.52" width="0.21" height="0.93"
+            transform="translate(-0.12 0.05) rotate(-0.23)"/>
+      <rect class="cls-3" x="14.2" y="30.47" width="0.21" height="0.94"
+            transform="translate(-3.13 1.65) rotate(-5.96)"/>
+      <polygon class="cls-3" points="15.14 30.34 15.35 30.29 15.55 31.21 15.34 31.25 15.14 30.34"/>
+      <polygon class="cls-3" points="16.12 30.09 16.32 30.02 16.61 30.91 16.41 30.98 16.12 30.09"/>
+      <rect class="cls-3" x="17.24" y="29.65" width="0.21" height="0.93"
+            transform="matrix(0.91, -0.41, 0.41, 0.91, -10.85, 9.79)"/>
+      <polygon class="cls-3" points="17.96 29.29 18.14 29.18 18.61 30 18.42 30.1 17.96 29.29"/>
+      <polygon class="cls-3" points="18.8 28.75 18.98 28.63 19.53 29.39 19.35 29.51 18.8 28.75"/>
+      <polygon class="cls-3" points="19.59 28.13 19.75 27.99 20.38 28.68 20.22 28.83 19.59 28.13"/>
+      <polygon class="cls-3" points="20.31 27.43 20.45 27.27 21.15 27.9 21 28.05 20.31 27.43"/>
+      <polygon class="cls-3" points="20.95 26.66 21.07 26.48 21.83 27.03 21.7 27.2 20.95 26.66"/>
+      <rect class="cls-3" x="21.86" y="25.49" width="0.21" height="0.94"
+            transform="translate(-11.49 32.05) rotate(-60.08)"/>
+      <polygon class="cls-3" points="21.97 24.93 22.06 24.74 22.91 25.12 22.82 25.31 21.97 24.93"/>
+      <rect class="cls-3" x="22.71" y="23.58" width="0.21" height="0.93"
+            transform="translate(-7.08 38.34) rotate(-72.06)"/>
+      <rect class="cls-3" x="22.98" y="22.56" width="0.21" height="0.93"
+            transform="translate(-4.22 40.84) rotate(-78.03)"/>
+      <polygon class="cls-3" points="22.78 22.04 22.8 21.83 23.73 21.93 23.71 22.14 22.78 22.04"/>
+      <rect class="cls-3" x="22.84" y="20.83" width="0.94" height="0.21"/>
+      <polygon class="cls-3" points="22.8 20.04 22.78 19.83 23.71 19.73 23.73 19.94 22.8 20.04"/>
+      <rect class="cls-3" x="22.62" y="18.74" width="0.93" height="0.21"
+            transform="translate(-3.42 5.22) rotate(-12.01)"/>
+      <rect class="cls-3" x="22.35" y="17.72" width="0.93" height="0.21" transform="translate(-4.39 7.93) rotate(-18)"/>
+      <rect class="cls-3" x="21.97" y="16.74" width="0.94" height="0.21"
+            transform="translate(-4.9 10.54) rotate(-23.91)"/>
+      <polygon class="cls-3" points="21.61 16.23 21.5 16.05 22.31 15.58 22.42 15.77 21.61 16.23"/>
+      <rect class="cls-3" x="20.92" y="14.92" width="0.94" height="0.21"
+            transform="translate(-4.75 15.41) rotate(-35.92)"/>
+      <rect class="cls-3" x="20.26" y="14.1" width="0.93" height="0.21"
+            transform="translate(-4.18 17.54) rotate(-42.06)"/>
+      <rect class="cls-3" x="19.52" y="13.36" width="0.93" height="0.21"
+            transform="translate(-3.39 19.3) rotate(-47.99)"/>
+      <rect class="cls-3" x="18.7" y="12.7" width="0.94" height="0.21"
+            transform="translate(-2.48 20.72) rotate(-53.85)"/>
+      <rect class="cls-3" x="17.82" y="12.12" width="0.93" height="0.21"
+            transform="matrix(0.5, -0.87, 0.87, 0.5, -1.44, 21.97)"/>
+      <rect class="cls-3" x="16.88" y="11.64" width="0.94" height="0.21"
+            transform="matrix(0.41, -0.91, 0.91, 0.41, -0.46, 22.79)"/>
+      <rect class="cls-3" x="15.89" y="11.27" width="0.94" height="0.21"
+            transform="translate(0.5 23.43) rotate(-72.04)"/>
+      <rect class="cls-3" x="14.88" y="10.99" width="0.93" height="0.21"
+            transform="translate(1.29 23.79) rotate(-77.96)"/>
+      <polygon class="cls-3" points="14.36 11.41 14.15 11.39 14.25 10.46 14.46 10.48 14.36 11.41"/>
+      <polygon class="cls-4" points="11.3 22.04 11.13 21.65 22.82 16.45 23 16.84 11.3 22.04"/>
+      <path class="cls-5" d="M14.1,20.94a.84.84,0,0,1-.84.84.85.85,0,1,1,.84-.84Z"/>
+      <rect class="cls-5" x="12.19" y="6.11" width="2.12" height="2.12"/>
+      <rect class="cls-1" x="11.56" y="4.41" width="3.4" height="1.7"/>
+      <rect class="cls-5" x="22.12" y="10.7" width="0.85" height="1.9" transform="translate(-1.64 19.35) rotate(-45)"/>
+      <rect class="cls-1" x="22.59" y="9.42" width="1.7" height="2.66"
+            transform="translate(-0.73 19.73) rotate(-45.01)"/>
+      <rect class="cls-1" x="23.98" y="8.46" width="0.48" height="3.04"
+            transform="translate(0.04 20.05) rotate(-45.01)"/>
+      <rect class="cls-5" x="3.02" y="11.23" width="1.9" height="0.85"
+            transform="translate(-7.08 6.22) rotate(-45.02)"/>
+      <rect class="cls-1" x="1.74" y="9.9" width="2.66" height="1.7" transform="translate(-6.7 5.32) rotate(-45)"/>
+      <polygon class="cls-1" points="3.54 9.07 1.39 11.22 1.05 10.89 3.2 8.74 3.54 9.07"/>
+    </g>
+  </g>
+</svg>

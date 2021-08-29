@@ -18,6 +18,10 @@ import ShareAssessmentExample from '../../images/ShareAssessmentExample.png';
 import ReviewAssessmentExample from '../../images/ReviewAssessmentExample.png';
 import useGetStarted from '../../hooks/useGetStarted';
 
+const StyledHome = styled.div`
+  background-color: white;
+`;
+
 const Section = styled.section`
   :nth-child(even) {
     background-color: hsla(180, 5%, 96%, .7)
@@ -173,7 +177,7 @@ const Home = (props) => {
   const theme = useTheme();
   const { step } = useGetStarted();
   return (
-    <>
+    <StyledHome>
       <Section className="no-pic">
         <StyledImagesRow type="flex" justify="space-around">
           <h1>
@@ -387,7 +391,7 @@ const Home = (props) => {
       {/*<Section className="no-pic">*/}
       {/*  <PlanAndPrice/>*/}
       {/*</Section>*/}
-    </>
+    </StyledHome>
   );
 };
 

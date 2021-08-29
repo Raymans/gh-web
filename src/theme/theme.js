@@ -3,5 +3,6 @@ module.exports = {
   'font-family': 'Montserrat, Noto Sans TC, \'微軟正黑體\', Open Sans, sans-serif !important',
   'layout-body-background': 'white',
   'font-size-base': '16px',
-  'height-base': '38px'
+  'height-base': '38px',
+  'border-radius-base': '6px'
 };

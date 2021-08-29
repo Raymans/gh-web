@@ -14,9 +14,7 @@ export default {
     slim: {
       toolbar: [
         ['bold', 'italic', 'underline', 'strike'],
-        [{ 'color': [] }, { 'background': [] }],
-        [{ 'indent': '-1' }, { 'indent': '+1' }, { 'align': [] }],
-        ['clean']
+        [{ 'color': [] }]
       ]
     }
   }

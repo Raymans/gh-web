@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Avatar, Button, Form, Input, message, Result, Spin } from 'antd';
+import { Avatar, Button, Form, Input, message, Result } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-import { LoadingOutlined } from '@ant-design/icons';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
@@ -13,11 +12,17 @@ import UserList from './UserList';
 import Invitations from './Invitations';
 import ConfirmModal from './ConfirmModal';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
-import { useAuth0 } from '@auth0/auth0-react';
 import LoginNeededWrapper from '../Auth/LoginNeededWrapper';
 import UserSelect from '../User';
 import AnchorSider from '../Sider/AnchorSider';
+import ContentLayout from '../Layout/ContentLayout';
+import styled from 'styled-components';
 
+
+const H2 = styled.h2`
+  padding-bottom: 10px;
+  margin: 68px 0 0;
+`;
 
 const anchors = [{
   href: '#departments',
@@ -33,12 +38,10 @@ const anchors = [{
 const Organization = () => {
   const intl = useIntl();
   const {
-    isLoading
-  } = useAuth0();
-  const {
     userProfile,
     refreshUserProfile,
-    organization
+    organization,
+    isLoading
   } = useContext(StoreContext);
   const {
     enableOrganization,
@@ -209,7 +212,7 @@ const Organization = () => {
       />
       <Headline title={<FormattedMessage defaultMessage="Organization - {orgName}"
                                          values={{ orgName: organization?.name }}/>}/>
-      <Spin spinning={isLoading} indicator={<LoadingOutlined spin/>}>
+      <ContentLayout loading={isLoading}>
         <LoginNeededWrapper
           title={<FormattedMessage defaultMessage="Login to see your organization info."/>}
           subTitle={<FormattedMessage
@@ -295,14 +298,14 @@ const Organization = () => {
                   </>
               }
 
-              <h2 id="departments"><FormattedMessage defaultMessage="Departments"/></h2>
+              <H2 id="departments"><FormattedMessage defaultMessage="Departments"/></H2>
               <Departments/>
 
-              <h2 id="invitations"><FormattedMessage defaultMessage="Invitations"/></h2>
+              <H2 id="invitations"><FormattedMessage defaultMessage="Invitations"/></H2>
 
               <Invitations invitations={organization.userInvitations} orgId={organization.id}/>
 
-              <h2 id="members"><FormattedMessage defaultMessage="Members"/></h2>
+              <H2 id="members"><FormattedMessage defaultMessage="Members"/></H2>
               {
                 isOwner &&
                 <ConfirmModal
@@ -350,7 +353,7 @@ const Organization = () => {
             </>
           )}
         </LoginNeededWrapper>
-      </Spin>
+      </ContentLayout>
 
       <Seo subTitle={intl.formatMessage({ defaultMessage: 'Organization' })}/>
     </>

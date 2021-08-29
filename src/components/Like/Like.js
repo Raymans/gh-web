@@ -1,18 +1,21 @@
 import React from 'react';
-import { LikeOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import LoginPrompt from '../Login/LoginPrompt';
-
+import { FormattedMessage } from 'gatsby-plugin-intl';
+import Icon from '../Icon/Icon';
 
 const StyledLike = styled.span`
   width: 70px;
   padding: 10px 0;
+
   &.active {
     color: ${(props) => `${props.theme.color.brand.primary}`};
   }
+
   &.active:hover {
-    color: gray;
+    fill: gray;
   }
+
   :hover {
     color: ${(props) => `${props.theme.color.brand.primary}`};
     cursor: pointer;
@@ -29,8 +32,11 @@ const Like = ({
     {(isAuth) => (
       <StyledLike className={active && 'active'} onClick={isAuth ? onClick : () => {
       }}>
-        <LikeOutlined/>
-        {` ${count}`}
+        {
+          active ? <Icon type="like"/> : <Icon type="unlike"/>
+        }
+
+        <FormattedMessage id="general.likes" defaultMessage="{count}" values={{ count }}/>
       </StyledLike>
     )}
   </LoginPrompt>
