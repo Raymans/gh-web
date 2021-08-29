@@ -164,6 +164,8 @@
   "a3gsXn": "超棒的工作機會等著你",
   "aY1msd": "取消邀請用戶",
   "assessment.details": "試卷內容",
+  "assessment.question.error.at.least.1.correct.answer": "請選擇一個正確答案",
+  "assessment.question.error.at.least.2.answer.options": "至少兩個答案選項",
   "assessment.session.message.score.calculated.success": "計算試卷分數成功!",
   "assessment.tag.no.publish.version": "尚未有發布版本",
   "assessment.tag.private": "私人",
