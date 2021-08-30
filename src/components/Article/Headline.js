@@ -5,6 +5,7 @@ import { SwapLeftOutlined } from '@ant-design/icons';
 import { navigate } from 'gatsby-link';
 import { Tooltip } from 'antd';
 import { useIntl } from 'gatsby-plugin-intl';
+import useGetStarted from '../../hooks/useGetStarted';
 
 const H1 = styled.h1`
   white-space: nowrap;
@@ -54,6 +55,10 @@ const Headline = (props) => {
     title,
     children
   } = props;
+  const { isGetStarted } = useGetStarted();
+  if (isGetStarted) {
+    return <></>;
+  }
   return (
     <header>
       <section>

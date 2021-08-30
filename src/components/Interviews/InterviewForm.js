@@ -753,7 +753,6 @@ const InterviewForm = ({
                                                         }
                                                         <span
                                                           id={`section_${sectionIndex}_question_${question.name}`}>{`Q ${question.name + 1}`}</span>
-                                                        {console.debug(form.getFieldsValue())}
                                                         <QuestionForm id={question.name}
                                                                       sectionId={sectionIndex}
                                                                       form={form}/>
