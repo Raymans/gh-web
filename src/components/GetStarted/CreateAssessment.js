@@ -5,7 +5,6 @@ import GetStartedInformationBox from './GetStartedInformationBox';
 import ConfirmModal from '../Organization/ConfirmModal';
 import { Select } from 'antd';
 import useApi from '../../hooks/useApi';
-import ContentLayout from '../Layout/ContentLayout';
 
 const CreateAssessment = ({
   setStep,
@@ -105,11 +104,9 @@ const CreateAssessment = ({
       </GetStartedInformationBox>
       {
         templateSelected &&
-        <ContentLayout loading={loading}>
-          <InterviewForm id={templateId}
-                         onPublished={handlePublished}
-                         copy/>
-        </ContentLayout>
+        <InterviewForm id={templateId}
+                       onPublished={handlePublished}
+                       copy/>
       }
     </>
   );
