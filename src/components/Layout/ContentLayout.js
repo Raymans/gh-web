@@ -11,6 +11,7 @@ const StyledLayout = styled(Layout)`
   box-shadow: 0px 0px 2px 1px rgb(0 0 0 / 20%);
   min-height: 300px;
   border-radius: 8px;
+
   .ant-spin-nested-loading {
     width: 100%;
   }
@@ -18,10 +19,11 @@ const StyledLayout = styled(Layout)`
 
 const ContentLayout = ({
   loading,
-  children
+  children,
+  updating
 }) => (
   <StyledLayout>
-    <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
+    <Spin spinning={loading || updating} indicator={<LoadingOutlined spin/>}>
       {
         loading ? <Skeleton active/> : children
       }
@@ -34,9 +36,11 @@ export default ContentLayout;
 
 ContentLayout.propTypes = {
   children: PropTypes.element,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  updating: PropTypes.bool
 };
 
 ContentLayout.defaultProps = {
-  loading: false
+  loading: false,
+  updating: false
 };

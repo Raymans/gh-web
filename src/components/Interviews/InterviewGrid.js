@@ -76,17 +76,20 @@ const StyledStatusBar = styled.span`
 `;
 const InterviewGrid = (props) => {
   const {
-    id,
-    title,
-    description = '',
-    // specialization: { name: specializationName },
-    jobTitle,
-    clientUser = {},
-    visibility,
-    likeCount,
-    liked,
-    lastModifiedDate,
-    interviewSessions
+    interview,
+    interview: {
+      id,
+      title,
+      description = '',
+      // specialization: { name: specializationName },
+      jobTitle,
+      clientUser = {},
+      visibility,
+      likeCount,
+      liked,
+      lastModifiedDate,
+      groupedInterviewSessions = []
+    }
   } = props;
   const intl = useIntl();
   const { user } = useAuth0();
@@ -101,8 +104,7 @@ const InterviewGrid = (props) => {
         isOwner
         && (
           <InterviewActionsRow
-            id={id}
-            interviewTitle={title}
+            interview={interview}
             onDeleting={() => setSaving(true)}
             onDeleted={() => setDeleted(true)}
           />
@@ -111,8 +113,8 @@ const InterviewGrid = (props) => {
     </>];
 
   let totalGeeks = 0;
-  for (const key in interviewSessions) {
-    totalGeeks += interviewSessions[key]?.length;
+  for (const key in groupedInterviewSessions) {
+    totalGeeks += groupedInterviewSessions[key]?.length;
   }
 
   return (

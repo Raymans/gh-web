@@ -7,6 +7,7 @@ import {
   Layout,
   message,
   Modal,
+  Result,
   Select,
   Switch,
   Tooltip
@@ -41,6 +42,7 @@ import { ReactQuill } from '../../utils/ssrHelper';
 import 'react-quill/dist/quill.snow.css';
 import QuillHelpers from '../../utils/QuillHelpers';
 import ContentLayout from '../Layout/ContentLayout';
+import _ from 'lodash';
 
 const {
   Content
@@ -143,6 +145,7 @@ const InterviewForm = ({
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [jobTitle, setJobTitle] = useState('');
   const [jobOptions, setJobTitleOptions] = useState([]);
   const [anchorSections, setAnchorSections] = useState([]);
@@ -151,10 +154,16 @@ const InterviewForm = ({
   const [questionList, setQuestionList] = useState([]);
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
   const [publishedInterviewId, setPublishedInterviewId] = useState(null);
+  const [canEdit, setCanEdit] = useState(true);
 
   const populateInterviewById = () => {
     getInterview(id)
       .then((data = { sections: [] }) => {
+        if (isEditForm && !_.isEmpty(data.groupedInterviewSessions)) {
+          setCanEdit(false);
+          setLoading(false);
+          return;
+        }
         data.visibility = data.visibility === 'PUBLIC';
         form.setFieldsValue({
           ...data,
@@ -225,7 +234,7 @@ const InterviewForm = ({
   };
 
   const beforeSaving = () => {
-    setLoading(true);
+    setUpdating(true);
     message.loading({
       content: intl.formatMessage({ defaultMessage: 'Saving' }),
       key: interviewMessageKey
@@ -238,7 +247,7 @@ const InterviewForm = ({
       content,
       key: interviewMessageKey
     });
-    setLoading(false);
+    setUpdating(false);
   };
 
   const publish = (data) => {
@@ -286,7 +295,7 @@ const InterviewForm = ({
             key: interviewMessageKey,
             duration: 5
           });
-          setLoading(false);
+          setUpdating(false);
         });
     } else {
       createInterview(values)
@@ -477,355 +486,370 @@ const InterviewForm = ({
               }
             </>
           }
-
         </Headline>
-        <ContentLayout loading={loading}>
-          <AnchorSider anchors={anchorSections}/>
-          <Content>
-            <Form
-              layout={'vertical'}
-              onFinish={onFinish}
-              form={form}
-              scrollToFirstError
-            >
-              <StyledVisibilityDiv>
-                <FormItem label="Visibility" name="visibility" valuePropName="checked" noStyle>
-                  <Switch checkedChildren={intl.formatMessage({ defaultMessage: 'Public' })}
-                          unCheckedChildren={intl.formatMessage({ defaultMessage: 'Private' })}/>
-                </FormItem>
-              </StyledVisibilityDiv>
-              <FormItem
-                label={intl.formatMessage({ defaultMessage: 'Title' })}
-                name="title"
-                rules={[{
-                  required: true,
-                  message: intl.formatMessage({ defaultMessage: 'Please enter interview\'s Title' })
-                }]}
-              >
-                <Input/>
-              </FormItem>
-              {/*<FormItem*/}
-              {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}*/}
-              {/*  name="specializationId"*/}
-              {/*  rules={[{*/}
-              {/*    required: true,*/}
-              {/*    message: intl.formatMessage({ defaultMessage: 'Please choose a Specialization' })*/}
-              {/*  }]}*/}
-              {/*>*/}
-              {/*  <Select*/}
-              {/*    showSearch*/}
-              {/*    style={{ width: 200 }}*/}
-              {/*    placeholder={intl.formatMessage({ defaultMessage: 'Select a Specialization' })}*/}
-              {/*    optionFilterProp="children"*/}
-              {/*    filterOption={(input, option) => option.children.toLowerCase()*/}
-              {/*      .indexOf(input.toLowerCase()) >= 0}*/}
-              {/*  >*/}
-              {/*    {specializations.map((spec) => (*/}
-              {/*      <Select.Option key={spec.id} value={spec.id}>{spec.name}</Select.Option>*/}
-              {/*    ))}*/}
-              {/*  </Select>*/}
-              {/*</FormItem>*/}
-              <FormItem
-                label={intl.formatMessage({ defaultMessage: 'Job Title' })}
-                name="jobTitle"
-                rules={[{
-                  required: true,
-                  message: intl.formatMessage({ defaultMessage: 'Please enter Job Title' })
-                }]}
-                size="small"
-              >
-                {/*<StyledAutoComplete*/}
-                {/*  value={jobTitle}*/}
-                {/*  options={jobOptions}*/}
-                {/*  style={{*/}
-                {/*    width: 200*/}
-                {/*  }}*/}
-                {/*  onSearch={onJobTitleSearch}*/}
-                {/*  onChange={onJobTitleChange}*/}
-                {/*/>*/}
-                <Input/>
-              </FormItem>
-              <FormItem
-                label={intl.formatMessage({ defaultMessage: 'Description' })}
-                name="description"
-                rules={[{
-                  required: true,
-                  message: intl.formatMessage({ defaultMessage: 'Assessment description' }),
-                  whitespace: true,
-                  transform: (value) => (' ' + value).replace(/<(.|\n)*?>/g, '')
-                    .trim().length === 0 ? '' : value
-                }]}
-              >
-                <ReactQuill theme="snow"
-                            placeholder={intl.formatMessage({ defaultMessage: 'Assessment description' })}
-                            modules={QuillHelpers.modules.normal}
-
-                />
-              </FormItem>
-              <FormItem
-                label={intl.formatMessage({ defaultMessage: 'Duration' })}
-                name="defaultDuration"
-              >
-                <Select
-                  placeholder={intl.formatMessage({ defaultMessage: 'Please select assess duration' })}
-                  allowClear
-                >
-                  <Option value={0}><FormattedMessage defaultMessage="No limit"
-                                                      values={{ minutes: 0 }}/> </Option>
-                  <Option value={30}><FormattedMessage defaultMessage="{minutes} Minutes"
-                                                       values={{ minutes: 30 }}/> </Option>
-                  <Option value={60}><FormattedMessage defaultMessage="{minutes} Minutes"
-                                                       values={{ minutes: 60 }}/></Option>
-                  <Option value={90}><FormattedMessage defaultMessage="{minutes} Minutes"
-                                                       values={{ minutes: 90 }}/></Option>
-                  <Option value={120}><FormattedMessage defaultMessage="{minutes} Minutes"
-                                                        values={{ minutes: 120 }}/></Option>
-                </Select>
-              </FormItem>
-              <FormItem
-                label={intl.formatMessage({ defaultMessage: 'Show Answer Immediately:' })}
-                name="releaseResult"
-                tooltip={intl.formatMessage({ defaultMessage: 'choose yes if you want your candidate can see answers right after submitting.' })}
-              >
-                <Select
-                  defaultValue="YES"
-                >
-                  <Option value="YES"><FormattedMessage defaultMessage="YES"/></Option>
-                  <Option value="NO"><FormattedMessage defaultMessage="NO"/> </Option>
-                </Select>
-              </FormItem>
-              {(!!organization || isGetStarted) &&
-              <FormItem
-                label={
-                  <FormattedMessage id="interview.form.ownershipType"
-                                    defaultMessage={'Belongs to:'}/>
-                }
-                name="ownershipType"
-                tooltip={intl.formatMessage({
-                  id: 'interview.form.ownershipType.tooltip',
-                  defaultMessage: 'Whether the assessment should belongs to yourself or organization.'
+        <ContentLayout loading={loading} updating={updating}>
+          {
+            !canEdit ?
+              <Result
+                status="warning"
+                title={intl.formatMessage({
+                  id: 'assessment.cannot.edit',
+                  defaultMessage: 'The assessment cannot be edited once your assessment has been shared with candidate and there is a test started.'
                 })}
-              >
-                <Select
-                  defaultValue="DEFAULT"
-                  disabled={isEditForm}
-                >
-                  <Option value="PERSONAL"><FormattedMessage
-                    id="interview.form.ownershipType.individual"
-                    defaultMessage="Individual"/></Option>
-                  <Option value="DEFAULT"><FormattedMessage
-                    id="interview.form.ownershipType.organization" defaultMessage="Organization"/>
-                  </Option>
-                </Select>
-              </FormItem>
-              }
-              <Form.List name="sections">
-                {(sections, {
-                  add: addSection,
-                  remove: removeSection
-                }) => (
-                  <>
-                    {sections.map((section, sectionIndex) => (
-                      <div key={`section_${section.name}`}>
-                        <h2 id={`section_${section.name}`}>
-                          {
-                            sections.length > 1 &&
-                            <ConfirmModal
-                              title={<FormattedMessage defaultMessage="Remove Section"/>}
-                              danger
-                              openButtonTitle=""
-                              submitButtonTitle={<FormattedMessage defaultMessage="Remove"/>}
-                              icon={<Tooltip title={<FormattedMessage
-                                defaultMessage="Remove Section"/>}><MinusCircleOutlined/></Tooltip>}
-                              shape={'circle'}
-                              style={{ border: '0px' }}
-                              onOK={() => {
-                                removeSection(section.name);
-                                popSection(sectionIndex);
+              /> : (
+                <>
+                  <AnchorSider anchors={anchorSections}/>
+                  <Content>
+                    <Form
+                      layout={'vertical'}
+                      onFinish={onFinish}
+                      form={form}
+                      scrollToFirstError
+                    >
+                      <StyledVisibilityDiv>
+                        <FormItem label="Visibility" name="visibility" valuePropName="checked"
+                                  noStyle>
+                          <Switch checkedChildren={intl.formatMessage({ defaultMessage: 'Public' })}
+                                  unCheckedChildren={intl.formatMessage({ defaultMessage: 'Private' })}/>
+                        </FormItem>
+                      </StyledVisibilityDiv>
+                      <FormItem
+                        label={intl.formatMessage({ defaultMessage: 'Title' })}
+                        name="title"
+                        rules={[{
+                          required: true,
+                          message: intl.formatMessage({ defaultMessage: 'Please enter interview\'s Title' })
+                        }]}
+                      >
+                        <Input/>
+                      </FormItem>
+                      {/*<FormItem*/}
+                      {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}*/}
+                      {/*  name="specializationId"*/}
+                      {/*  rules={[{*/}
+                      {/*    required: true,*/}
+                      {/*    message: intl.formatMessage({ defaultMessage: 'Please choose a Specialization' })*/}
+                      {/*  }]}*/}
+                      {/*>*/}
+                      {/*  <Select*/}
+                      {/*    showSearch*/}
+                      {/*    style={{ width: 200 }}*/}
+                      {/*    placeholder={intl.formatMessage({ defaultMessage: 'Select a Specialization' })}*/}
+                      {/*    optionFilterProp="children"*/}
+                      {/*    filterOption={(input, option) => option.children.toLowerCase()*/}
+                      {/*      .indexOf(input.toLowerCase()) >= 0}*/}
+                      {/*  >*/}
+                      {/*    {specializations.map((spec) => (*/}
+                      {/*      <Select.Option key={spec.id} value={spec.id}>{spec.name}</Select.Option>*/}
+                      {/*    ))}*/}
+                      {/*  </Select>*/}
+                      {/*</FormItem>*/}
+                      <FormItem
+                        label={intl.formatMessage({ defaultMessage: 'Job Title' })}
+                        name="jobTitle"
+                        rules={[{
+                          required: true,
+                          message: intl.formatMessage({ defaultMessage: 'Please enter Job Title' })
+                        }]}
+                        size="small"
+                      >
+                        {/*<StyledAutoComplete*/}
+                        {/*  value={jobTitle}*/}
+                        {/*  options={jobOptions}*/}
+                        {/*  style={{*/}
+                        {/*    width: 200*/}
+                        {/*  }}*/}
+                        {/*  onSearch={onJobTitleSearch}*/}
+                        {/*  onChange={onJobTitleChange}*/}
+                        {/*/>*/}
+                        <Input/>
+                      </FormItem>
+                      <FormItem
+                        label={intl.formatMessage({ defaultMessage: 'Description' })}
+                        name="description"
+                        rules={[{
+                          required: true,
+                          message: intl.formatMessage({ defaultMessage: 'Assessment description' }),
+                          whitespace: true,
+                          transform: (value) => (' ' + value).replace(/<(.|\n)*?>/g, '')
+                            .trim().length === 0 ? '' : value
+                        }]}
+                      >
+                        <ReactQuill theme="snow"
+                                    placeholder={intl.formatMessage({ defaultMessage: 'Assessment description' })}
+                                    modules={QuillHelpers.modules.normal}
+
+                        />
+                      </FormItem>
+                      <FormItem
+                        label={intl.formatMessage({ defaultMessage: 'Duration' })}
+                        name="defaultDuration"
+                      >
+                        <Select
+                          placeholder={intl.formatMessage({ defaultMessage: 'Please select assess duration' })}
+                          allowClear
+                        >
+                          <Option value={0}><FormattedMessage defaultMessage="No limit"
+                                                              values={{ minutes: 0 }}/> </Option>
+                          <Option value={30}><FormattedMessage defaultMessage="{minutes} Minutes"
+                                                               values={{ minutes: 30 }}/> </Option>
+                          <Option value={60}><FormattedMessage defaultMessage="{minutes} Minutes"
+                                                               values={{ minutes: 60 }}/></Option>
+                          <Option value={90}><FormattedMessage defaultMessage="{minutes} Minutes"
+                                                               values={{ minutes: 90 }}/></Option>
+                          <Option value={120}><FormattedMessage defaultMessage="{minutes} Minutes"
+                                                                values={{ minutes: 120 }}/></Option>
+                        </Select>
+                      </FormItem>
+                      <FormItem
+                        label={intl.formatMessage({ defaultMessage: 'Show Answer Immediately:' })}
+                        name="releaseResult"
+                        tooltip={intl.formatMessage({ defaultMessage: 'choose yes if you want your candidate can see answers right after submitting.' })}
+                      >
+                        <Select
+                          defaultValue="YES"
+                        >
+                          <Option value="YES"><FormattedMessage defaultMessage="YES"/></Option>
+                          <Option value="NO"><FormattedMessage defaultMessage="NO"/> </Option>
+                        </Select>
+                      </FormItem>
+                      {(!!organization || isGetStarted) &&
+                      <FormItem
+                        label={
+                          <FormattedMessage id="interview.form.ownershipType"
+                                            defaultMessage={'Belongs to:'}/>
+                        }
+                        name="ownershipType"
+                        tooltip={intl.formatMessage({
+                          id: 'interview.form.ownershipType.tooltip',
+                          defaultMessage: 'Whether the assessment should belongs to yourself or organization.'
+                        })}
+                      >
+                        <Select
+                          defaultValue="DEFAULT"
+                          disabled={isEditForm}
+                        >
+                          <Option value="PERSONAL"><FormattedMessage
+                            id="interview.form.ownershipType.individual"
+                            defaultMessage="Individual"/></Option>
+                          <Option value="DEFAULT"><FormattedMessage
+                            id="interview.form.ownershipType.organization"
+                            defaultMessage="Organization"/>
+                          </Option>
+                        </Select>
+                      </FormItem>
+                      }
+                      <Form.List name="sections">
+                        {(sections, {
+                          add: addSection,
+                          remove: removeSection
+                        }) => (
+                          <>
+                            {sections.map((section, sectionIndex) => (
+                              <div key={`section_${section.name}`}>
+                                <h2 id={`section_${section.name}`}>
+                                  {
+                                    sections.length > 1 &&
+                                    <ConfirmModal
+                                      title={<FormattedMessage defaultMessage="Remove Section"/>}
+                                      danger
+                                      openButtonTitle=""
+                                      submitButtonTitle={<FormattedMessage defaultMessage="Remove"/>}
+                                      icon={<Tooltip title={<FormattedMessage
+                                        defaultMessage="Remove Section"/>}><MinusCircleOutlined/></Tooltip>}
+                                      shape={'circle'}
+                                      style={{ border: '0px' }}
+                                      onOK={() => {
+                                        removeSection(section.name);
+                                        popSection(sectionIndex);
+                                      }}
+                                    >
+                                      <FormattedMessage
+                                        defaultMessage="Are you sure to remove the section?"/>
+                                    </ConfirmModal>
+                                  }
+                                  <FormattedMessage defaultMessage="Section"/>
+                                  {' '}
+                                  <FormItem name={[sectionIndex, 'title']} noStyle>
+                                    <Input
+                                      style={{ width: 160 }}
+                                      onChange={onSectionTitleChange.bind(this, sectionIndex)}
+                                    />
+                                  </FormItem>
+                                  <Tooltip
+                                    title={intl.formatMessage({ defaultMessage: 'Organize your questions via Sections like Basic Concept or Design Pattern' })}
+                                  >
+                                    <StyledQuestionCircleOutlined/>
+                                  </Tooltip>
+                                </h2>
+
+                                <DragDropContext onDragEnd={handleReorderQuestions}>
+                                  <Droppable droppableId="droppable">
+                                    {(provided, snapshot) => (
+                                      <div {...provided.droppableProps}
+                                           ref={provided.innerRef}
+                                           style={getListStyle(snapshot.isDraggingOver)}>
+                                        <Form.List
+                                          name={[sectionIndex, 'questions']}
+                                        >
+                                          {(questions, {
+                                            add: addQuestion,
+                                            remove: removeQuestion,
+                                            move
+                                          }) => {
+                                            moveQuestions = move;
+                                            return (
+                                              <>
+                                                {questions.map((question, questionIndex) => (
+                                                  <Draggable key={`question_${questionIndex}`}
+                                                             draggableId={`question_${questionIndex}`}
+                                                             index={questionIndex}
+                                                  >
+                                                    {(provided, snapshot) => (
+                                                      <StyledQuestionSection
+                                                        key={question.name}
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        style={getItemStyle(
+                                                          snapshot.isDragging,
+                                                          provided.draggableProps.style
+                                                        )}
+                                                      >
+                                                        {
+                                                          questions.length > 1 &&
+                                                          <>
+                                                            <ConfirmModal title={<FormattedMessage
+                                                              defaultMessage="Remove Question"/>}
+                                                                          danger
+                                                                          openButtonTitle=""
+                                                                          submitButtonTitle={
+                                                                            <FormattedMessage
+                                                                              defaultMessage="Remove"/>}
+                                                                          icon={<Tooltip
+                                                                            title={<FormattedMessage
+                                                                              defaultMessage="Remove Question"/>}><MinusCircleOutlined/></Tooltip>}
+                                                                          shape={'circle'}
+                                                                          style={{ border: '0px' }}
+                                                                          onOK={() => {
+                                                                            removeQuestion(question.name);
+                                                                            popQuestion(questionIndex, sectionIndex);
+                                                                          }}
+                                                            >
+                                                              <FormattedMessage
+                                                                defaultMessage="Are you sure to remove the question?"/>
+                                                            </ConfirmModal>
+                                                            <Tooltip
+                                                              title={intl.formatMessage({
+                                                                id: 'interview.questions.reorder.tooltip',
+                                                                defaultMessage: 'Reorder questions in section'
+                                                              })}>
+                                                              <RetweetOutlined {...provided.dragHandleProps}
+                                                                               style={{
+                                                                                 float: 'right',
+                                                                                 fontSize: '20px'
+                                                                               }}/>
+                                                            </Tooltip>
+                                                          </>
+                                                        }
+                                                        <span
+                                                          id={`section_${sectionIndex}_question_${question.name}`}>{`Q ${question.name + 1}`}</span>
+                                                        {console.debug(form.getFieldsValue())}
+                                                        <QuestionForm id={question.name}
+                                                                      sectionId={sectionIndex}
+                                                                      form={form}/>
+                                                      </StyledQuestionSection>
+                                                    )}
+                                                  </Draggable>
+                                                ))}
+                                                <StyledQuestionSection key={section}
+                                                                       className="add-question">
+                                                  <Button
+                                                    onClick={() => {
+                                                      addQuestion({ ...defaultQuestion });
+                                                      pushQuestion(questions.length, sectionIndex);
+                                                    }}
+                                                  >
+                                                    <PlusOutlined/>
+                                                    {' '}
+                                                    <FormattedMessage
+                                                      defaultMessage="Add a New Question"/>
+                                                  </Button>
+                                                  {/*<Button*/}
+                                                  {/*  onClick={onOpenSelectQuestionModal.bind(this, sectionIndex)}*/}
+                                                  {/*>*/}
+                                                  {/*  <PlusOutlined/>*/}
+                                                  {/*  {' '}*/}
+                                                  {/*  <FormattedMessage*/}
+                                                  {/*    defaultMessage="Select an Existed Question"/>*/}
+                                                  {/*</Button>*/}
+                                                </StyledQuestionSection>
+                                              </>
+                                            );
+                                          }}
+                                        </Form.List>
+                                        {provided.placeholder}
+                                      </div>
+                                    )}
+                                  </Droppable>
+                                </DragDropContext>
+
+                              </div>
+                            ))}
+                            <Divider/>
+                            <Button
+                              onClick={() => {
+                                addSection({
+                                  title: defaultSectionTitle,
+                                  questions: [{ ...defaultQuestion }]
+                                });
+                                pushSection(`section_${sections.length}`, defaultSectionTitle);
+                              }}
+                              style={{
+                                width: '100%',
+                                margin: '10px 0'
                               }}
                             >
-                              <FormattedMessage
-                                defaultMessage="Are you sure to remove the section?"/>
-                            </ConfirmModal>
+                              <PlusOutlined/>
+                              {' '}
+                              <FormattedMessage defaultMessage="Add Section"/>
+                            </Button>
+                          </>
+                        )}
+                      </Form.List>
+                      <Button type="link">
+                        <Link to="/interviews" replace><FormattedMessage
+                          defaultMessage="Back to List"/></Link>
+                      </Button>
+                      {/*wrap tooltip if it's getStarted mode*/}
+                      {
+                        (() => {
+                          const _button = (
+                            <Button type="primary" onClick={handleSave} disabled={isGetStarted}>
+                              {isEditForm ? <FormattedMessage defaultMessage="Update"/> :
+                                <FormattedMessage defaultMessage="Create"/>}
+                            </Button>
+                          );
+                          if (isGetStarted) {
+                            return (
+                              <Tooltip
+                                title={intl.formatMessage({ defaultMessage: 'cannot do this in Get Started' })}
+                                popupVisible={isGetStarted}
+                              >
+                                {_button}
+                              </Tooltip>
+                            );
                           }
-                          <FormattedMessage defaultMessage="Section"/>
-                          {' '}
-                          <FormItem name={[sectionIndex, 'title']} noStyle>
-                            <Input
-                              style={{ width: 160 }}
-                              onChange={onSectionTitleChange.bind(this, sectionIndex)}
-                            />
-                          </FormItem>
-                          <Tooltip
-                            title={intl.formatMessage({ defaultMessage: 'Organize your questions via Sections like Basic Concept or Design Pattern' })}
-                          >
-                            <StyledQuestionCircleOutlined/>
-                          </Tooltip>
-                        </h2>
-
-                        <DragDropContext onDragEnd={handleReorderQuestions}>
-                          <Droppable droppableId="droppable">
-                            {(provided, snapshot) => (
-                              <div {...provided.droppableProps}
-                                   ref={provided.innerRef}
-                                   style={getListStyle(snapshot.isDraggingOver)}>
-                                <Form.List
-                                  name={[sectionIndex, 'questions']}
-                                >
-                                  {(questions, {
-                                    add: addQuestion,
-                                    remove: removeQuestion,
-                                    move
-                                  }) => {
-                                    moveQuestions = move;
-                                    return (
-                                      <>
-                                        {questions.map((question, questionIndex) => (
-                                          <Draggable key={`question_${questionIndex}`}
-                                                     draggableId={`question_${questionIndex}`}
-                                                     index={questionIndex}
-                                          >
-                                            {(provided, snapshot) => (
-                                              <StyledQuestionSection
-                                                key={question.name}
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                style={getItemStyle(
-                                                  snapshot.isDragging,
-                                                  provided.draggableProps.style
-                                                )}
-                                              >
-                                                {
-                                                  questions.length > 1 &&
-                                                  <>
-                                                    <ConfirmModal title={<FormattedMessage
-                                                      defaultMessage="Remove Question"/>}
-                                                                  danger
-                                                                  openButtonTitle=""
-                                                                  submitButtonTitle={
-                                                                    <FormattedMessage
-                                                                      defaultMessage="Remove"/>}
-                                                                  icon={<Tooltip
-                                                                    title={<FormattedMessage
-                                                                      defaultMessage="Remove Question"/>}><MinusCircleOutlined/></Tooltip>}
-                                                                  shape={'circle'}
-                                                                  style={{ border: '0px' }}
-                                                                  onOK={() => {
-                                                                    removeQuestion(question.name);
-                                                                    popQuestion(questionIndex, sectionIndex);
-                                                                  }}
-                                                    >
-                                                      <FormattedMessage
-                                                        defaultMessage="Are you sure to remove the question?"/>
-                                                    </ConfirmModal>
-                                                    <Tooltip
-                                                      title={intl.formatMessage({
-                                                        id: 'interview.questions.reorder.tooltip',
-                                                        defaultMessage: 'Reorder questions in section'
-                                                      })}>
-                                                      <RetweetOutlined {...provided.dragHandleProps}
-                                                                       style={{
-                                                                         float: 'right',
-                                                                         fontSize: '20px'
-                                                                       }}/>
-                                                    </Tooltip>
-                                                  </>
-                                                }
-                                                <span
-                                                  id={`section_${sectionIndex}_question_${question.name}`}>{`Q ${question.name + 1}`}</span>
-                                                <QuestionForm id={question.name}
-                                                              sectionId={sectionIndex}
-                                                              form={form}/>
-                                              </StyledQuestionSection>
-                                            )}
-                                          </Draggable>
-                                        ))}
-                                        <StyledQuestionSection key={section}
-                                                               className="add-question">
-                                          <Button
-                                            onClick={() => {
-                                              addQuestion({ ...defaultQuestion });
-                                              pushQuestion(questions.length, sectionIndex);
-                                            }}
-                                          >
-                                            <PlusOutlined/>
-                                            {' '}
-                                            <FormattedMessage
-                                              defaultMessage="Add a New Question"/>
-                                          </Button>
-                                          {/*<Button*/}
-                                          {/*  onClick={onOpenSelectQuestionModal.bind(this, sectionIndex)}*/}
-                                          {/*>*/}
-                                          {/*  <PlusOutlined/>*/}
-                                          {/*  {' '}*/}
-                                          {/*  <FormattedMessage*/}
-                                          {/*    defaultMessage="Select an Existed Question"/>*/}
-                                          {/*</Button>*/}
-                                        </StyledQuestionSection>
-                                      </>
-                                    );
-                                  }}
-                                </Form.List>
-                                {provided.placeholder}
-                              </div>
-                            )}
-                          </Droppable>
-                        </DragDropContext>
-
-                      </div>
-                    ))}
-                    <Divider/>
-                    <Button
-                      onClick={() => {
-                        addSection({
-                          title: defaultSectionTitle,
-                          questions: [{ ...defaultQuestion }]
-                        });
-                        pushSection(`section_${sections.length}`, defaultSectionTitle);
-                      }}
-                      style={{
-                        width: '100%',
-                        margin: '10px 0'
-                      }}
-                    >
-                      <PlusOutlined/>
-                      {' '}
-                      <FormattedMessage defaultMessage="Add Section"/>
-                    </Button>
-                  </>
-                )}
-              </Form.List>
-              <Button type="link">
-                <Link to="/interviews" replace><FormattedMessage
-                  defaultMessage="Back to List"/></Link>
-              </Button>
-              {/*wrap tooltip if it's getStarted mode*/}
-              {
-                (() => {
-                  const _button = (
-                    <Button type="primary" onClick={handleSave} disabled={isGetStarted}>
-                      {isEditForm ? <FormattedMessage defaultMessage="Update"/> :
-                        <FormattedMessage defaultMessage="Create"/>}
-                    </Button>
-                  );
-                  if (isGetStarted) {
-                    return (
-                      <Tooltip
-                        title={intl.formatMessage({ defaultMessage: 'cannot do this in Get Started' })}
-                        popupVisible={isGetStarted}
-                      >
-                        {_button}
-                      </Tooltip>
-                    );
-                  }
-                  return _button;
-                })()
-              }
-              <Button type="primary" onClick={handlePublish}>
-                <FormattedMessage defaultMessage="Publish"/>
-              </Button>
-            </Form>
-          </Content>
+                          return _button;
+                        })()
+                      }
+                      <Button type="primary" onClick={handlePublish}>
+                        <FormattedMessage defaultMessage="Publish"/>
+                      </Button>
+                    </Form>
+                  </Content>
+                </>
+              )
+          }
         </ContentLayout>
       </LoginNeededWrapper>
       <Seo

@@ -206,6 +206,7 @@ module.exports = {
         showSpinner: true
       }
     },
-    'gatsby-plugin-netlify'
+    'gatsby-plugin-netlify',
+    'gatsby-plugin-lodash'
   ]
 };

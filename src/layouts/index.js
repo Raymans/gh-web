@@ -76,7 +76,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 24px;
   }
 
-  .ant-btn-icon-only {
+  .ant-btn-icon-only:not(.ant-input-search-button) {
     width: 34px;
     height: 34px;
     padding: 0.9px 0;

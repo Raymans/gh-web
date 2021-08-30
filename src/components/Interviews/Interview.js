@@ -1,4 +1,4 @@
-import { Col, Descriptions, Layout, Modal, Row } from 'antd';
+import { Col, Layout, Modal, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import Countdown from 'antd/lib/statistic/Countdown';
@@ -183,8 +183,7 @@ const Interview = ({
               !loading && isOwner
               &&
               <InterviewActionsRow
-                id={id}
-                interviewTitle={interview.title}
+                interview={interview}
                 onDeleted={() => navigate('/interviews')}
               />
             }
@@ -230,7 +229,7 @@ const Interview = ({
                     </Col>
                     <Col span={12}>
                       <Icon type="assessmentTested"/>
-                      <FormattedMessage id="assessment.testing.count"
+                      <FormattedMessage id="assessment.completed.count"
                                         defaultMessage="{people} Completed"
                                         values={{ people: interview.groupedInterviewSessions?.ENDED?.length ?? 0 }}
                       />

@@ -193,17 +193,7 @@ const InterviewList = ({ location }) => {
                 onLoadMore={handleLoadMore}
                 renderItem={(item) => (
                   <InterviewGrid
-                    id={item.id}
-                    visibility={item.visibility}
-                    title={item.title}
-                    description={item.description}
-                    clientUser={item.clientUser}
-                    jobTitle={item.jobTitle}
-                    // specialization={item.specialization}
-                    likeCount={item.likeCount}
-                    liked={item.liked}
-                    lastModifiedDate={item.lastModifiedDate}
-                    interviewSessions={item.groupedInterviewSessions}
+                    interview={item}
                   />
                 )}
               />
