@@ -298,7 +298,7 @@ const Home = (props) => {
                                             defaultMessage="Share"/></StyledLeftH2>
             <SectionDesc><FormattedMessage
               id="home.share.desc"
-              defaultMessage="Publish and share your assessment with anyone via email invitation or direct URL."/>
+              defaultMessage="Share your assessment with anyone via email invitation or direct URL."/>
             </SectionDesc>
             <FeatureList>
               <FeatureListItem><FormattedMessage

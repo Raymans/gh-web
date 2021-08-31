@@ -13,7 +13,6 @@ const Interviews = (props) => {
       <InterviewList path="/"/>
       <Interview path="/:id"/>
       <Interview path="/:sessionId/test"/>
-      <Interview path="/:publishedId/published"/>
       <InterviewForm path="/create"/>
       <InterviewForm path="/:id/edit"/>
     </Router>

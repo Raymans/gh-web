@@ -17,7 +17,7 @@ const CreateAssessment = ({
   const [templateSelected, setTemplateSelected] = useState(false);
   const [loading, setLoading] = useState(true);
   const [okButtonDisabled, setOkButtonDisabled] = useState(true);
-  const handlePublished = (interview) => {
+  const handleUpdated = (interview) => {
     setAssessmentId(interview.id);
     setStep(1);
     navigate('/get-started');
@@ -105,7 +105,7 @@ const CreateAssessment = ({
       {
         templateSelected &&
         <InterviewForm id={templateId}
-                       onPublished={handlePublished}
+                       onUpdated={handleUpdated}
                        copy/>
       }
     </>
