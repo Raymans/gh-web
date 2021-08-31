@@ -8,9 +8,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 import InterviewLike from '../Like/InterviewLike';
 import AuthorBy from '../AuthorBy';
 import InterviewActionsRow from './InterviewActionsRow';
-import Moment from 'react-moment';
 import ShareInterview from './ShareInterview';
 import Icon from '../Icon/Icon';
+import DateTime from '../General/DateTime';
 
 const H1 = styled.h1`
   font-size: 26px;
@@ -142,8 +142,8 @@ const InterviewGrid = (props) => {
                 <H1><Link to={`/interviews/${id}`}>{title}</Link></H1>
                 <StyledInfoRow>
                   <div>{intl.formatMessage({ defaultMessage: 'Job Title: {jobTitle}' }, { jobTitle })}</div>
-                  <div className={'updated-time'}><FormattedMessage
-                    defaultMessage="Updated on"/>: <Moment date={lastModifiedDate}/></div>
+                  <div className={'updated-time'}><DateTime date={interview.lastModifiedDate}/>
+                  </div>
                 </StyledInfoRow>
                 <StyledDescription dangerouslySetInnerHTML={{ __html: description }}/>
                 {/*<Descriptions.Item*/}

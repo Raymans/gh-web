@@ -1,24 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  Col,
-  Descriptions,
-  Layout,
-  message,
-  Progress,
-  Row,
-  Statistic,
-  Tooltip
-} from 'antd';
+import { Button, Col, Layout, message, Progress, Row, Statistic, Tooltip } from 'antd';
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import useApi from '../../hooks/useApi';
-import AuthorBy from '../AuthorBy';
 import InterviewSession from './InterviewSession';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
-import Moment from 'react-moment';
 import ContentLayout from '../Layout/ContentLayout';
+import InterviewDescription from './InterviewDescription';
 
 const StyleTotalScoreCol = styled(Col)`
   text-align: center;
@@ -82,35 +71,7 @@ const InterviewSessionResult = ({
       {/*<AnchorSider/>*/}
       <ContentLayout loading={loading}>
         <Layout.Content>
-          <Descriptions column={2}>
-            {/*<Descriptions.Item*/}
-            {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}*/}
-            {/*>*/}
-            {/*  {interviewSession.interview?.specialization.name}*/}
-            {/*</Descriptions.Item>*/}
-            <Descriptions.Item
-              label={intl.formatMessage({ defaultMessage: 'Job Title' })}>{interviewSession.interview?.jobTitle}</Descriptions.Item>
-            <Descriptions.Item
-              label={<FormattedMessage defaultMessage="Updated on"/>}>
-              <Moment date={interviewSession.interview?.lastModifiedDate}/>
-            </Descriptions.Item>
-            <Descriptions.Item
-              span={2}
-              style={{
-                whiteSpace: 'pre-line',
-                fontSize: '20px'
-              }}
-            >
-              <p dangerouslySetInnerHTML={{ __html: interviewSession.interview?.description }}/>
-            </Descriptions.Item>
-            <Descriptions.Item
-              span={2}
-            >
-              <AuthorBy
-                clientUser={interviewSession.interview?.clientUser}
-              />
-            </Descriptions.Item>
-          </Descriptions>
+          <InterviewDescription interview={interviewSession.interview}/>
           {
             !loading && interviewSession.status === 'ENDED' && interviewSession.answerAttemptSections && isAnswerVisible
             && (

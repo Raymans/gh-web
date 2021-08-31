@@ -70,6 +70,7 @@ const GlobalStyle = createGlobalStyle`
 
   .ant-modal-footer {
     border-top: none;
+    padding: 10px 24px;
   }
 
   .ant-modal-title {
@@ -80,6 +81,14 @@ const GlobalStyle = createGlobalStyle`
     width: 34px;
     height: 34px;
     padding: 0.9px 0;
+  }
+
+  .ant-modal-header {
+    padding: 20px 24px;
+  }
+
+  .ant-modal-body {
+    padding: 24px 24px 0;
   }
 `;
 export const Layout = (props) => {

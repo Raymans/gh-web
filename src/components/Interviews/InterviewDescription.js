@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import { Collapse, Descriptions, Tag } from 'antd';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
-import Moment from 'react-moment';
 import AuthorBy from '../AuthorBy';
 import React from 'react';
 import useStore from '../../hooks/useStore';
 import styled from 'styled-components';
+import DateTime from '../General/DateTime';
 
 const StyledDescription = styled.div`
   font-size: 20px;
@@ -51,18 +51,12 @@ const InterviewDescription = ({
                                                defaultMessage="private"/></Tag>
         }
       </Descriptions.Item>
-      {/*<StyledInfoRow>*/}
-      {/*  <div>{intl.formatMessage({ defaultMessage: 'Job Title: {jobTitle}' }, { jobTitle: interview.jobTitle })}</div>*/}
-      {/*  <div className={'updated-time'}><FormattedMessage*/}
-      {/*    defaultMessage="Updated on"/>: <Moment date={interview.lastModifiedDate}/></div>*/}
-      {/*</StyledInfoRow>*/}
       <Descriptions.Item
         label={intl.formatMessage({ defaultMessage: 'Job Title' })}
       >
         {interview.jobTitle}
       </Descriptions.Item>
       <Descriptions.Item
-        label={<FormattedMessage defaultMessage="Updated on"/>}
         style={{
           float: 'right',
           marginTop: '-14px'
@@ -70,7 +64,7 @@ const InterviewDescription = ({
         labelStyle={{ fontSize: '14px' }}
         contentStyle={{ fontSize: '14px' }}
       >
-        <Moment date={interview.lastModifiedDate}/>
+        <DateTime date={interview.lastModifiedDate}/>
       </Descriptions.Item>
       <Descriptions.Item
         span={2}
