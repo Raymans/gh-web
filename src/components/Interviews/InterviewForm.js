@@ -98,8 +98,6 @@ const mockVal = (str, repeat = 1) => ({
 let sectionIndexOfAddingQuestion = 0;
 const interviewMessageKey = 'interviewMessage';
 let selectedQuestions = [];
-let isPublishAction = false;
-
 
 const grid = 8;
 
@@ -127,7 +125,7 @@ const defaultSectionTitle = 'default section';
 
 const InterviewForm = ({
   id,
-  onPublished,
+  onUpdated,
   copy
 }) => {
   const isEditForm = !!id && !copy;
@@ -137,8 +135,7 @@ const InterviewForm = ({
     getInterview,
     getQuestions,
     //getSpecializations,
-    updateInterview,
-    publishInterview
+    updateInterview
   } = useApi();
   const { isGetStarted } = useGetStarted();
   const { organization } = useStore();
@@ -153,7 +150,6 @@ const InterviewForm = ({
   const [isSelectedQuestionVisible, setIsSelectedQuestionVisible] = useState(false);
   const [questionList, setQuestionList] = useState([]);
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
-  const [publishedInterviewId, setPublishedInterviewId] = useState(null);
   const [canEdit, setCanEdit] = useState(true);
 
   const populateInterviewById = () => {
@@ -179,9 +175,6 @@ const InterviewForm = ({
               title: `Q ${qindex + 1}`
             }))
         })));
-        if (!copy) {
-          setPublishedInterviewId(data.publishedInterviewId);
-        }
         setLoading(false);
       });
   };
@@ -250,24 +243,15 @@ const InterviewForm = ({
     setUpdating(false);
   };
 
-  const publish = (data) => {
-    if (isPublishAction) {
-      return publishInterview({ id: data.id })
-        .then((pi) => {
-          setPublishedInterviewId(pi.interview.publishedInterviewId);
-          onPublished(data);
-          return data;
-        });
-    }
+  const _onUpdated = (data) => {
+    onUpdated(data);
     return data;
   };
   const onFinish = (values) => {
-    if (isPublishAction) {
-      if (!values.sections[0]?.questions) {
-        message.error(<FormattedMessage
-          defaultMessage="Publish Assessment needs at least one section and one question."/>);
-        return;
-      }
+    if (!values.sections[0]?.questions) {
+      message.error(<FormattedMessage
+        defaultMessage="Assessment needs at least one section and one question."/>);
+      return;
     }
     beforeSaving();
     values.sections && values.sections.map((section) => (
@@ -285,9 +269,9 @@ const InterviewForm = ({
         id,
         params: values
       })
-        .then(publish)
+        .then(_onUpdated)
         .then(() => {
-          afterSaving(isPublishAction ? intl.formatMessage({ defaultMessage: 'Assessment Published.' }) : intl.formatMessage({ defaultMessage: 'Assessment Saved.' }));
+          afterSaving(intl.formatMessage({ defaultMessage: 'Assessment Saved.' }));
         })
         .catch((error) => {
           message.error({
@@ -299,9 +283,9 @@ const InterviewForm = ({
         });
     } else {
       createInterview(values)
-        .then(publish)
+        .then(_onUpdated)
         .then((data) => {
-          afterSaving(isPublishAction ? intl.formatMessage({ defaultMessage: 'Assessment Published.' }) : intl.formatMessage({ defaultMessage: 'Assessment Created.' }));
+          afterSaving(intl.formatMessage({ defaultMessage: 'Assessment Created.' }));
           navigate(`/interviews/${data.id}/edit`);
         });
     }
@@ -411,11 +395,6 @@ const InterviewForm = ({
   };
 
   const handleSave = () => {
-    isPublishAction = false;
-    form.submit();
-  };
-  const handlePublish = () => {
-    isPublishAction = true;
     form.submit();
   };
 
@@ -475,15 +454,7 @@ const InterviewForm = ({
             <>
               <a href={location.pathname.replace(`${id}/edit`, `${id}`)}
                  target="_blank">
-                <FormattedMessage defaultMessage="view latest Assessment"/></a>
-              {
-                publishedInterviewId
-                &&
-                <a
-                  href={location.pathname.replace(`${id}/edit`, `${publishedInterviewId}/published`)}
-                  target="_blank">
-                  <FormattedMessage defaultMessage="view live version"/></a>
-              }
+                <FormattedMessage id="assessment.view.assessment" defaultMessage="view Assessment"/></a>
             </>
           }
         </Headline>
@@ -819,30 +790,9 @@ const InterviewForm = ({
                         <Link to="/interviews" replace><FormattedMessage
                           defaultMessage="Back to List"/></Link>
                       </Button>
-                      {/*wrap tooltip if it's getStarted mode*/}
-                      {
-                        (() => {
-                          const _button = (
-                            <Button type="primary" onClick={handleSave} disabled={isGetStarted}>
-                              {isEditForm ? <FormattedMessage defaultMessage="Update"/> :
-                                <FormattedMessage defaultMessage="Create"/>}
-                            </Button>
-                          );
-                          if (isGetStarted) {
-                            return (
-                              <Tooltip
-                                title={intl.formatMessage({ defaultMessage: 'cannot do this in Get Started' })}
-                                popupVisible={isGetStarted}
-                              >
-                                {_button}
-                              </Tooltip>
-                            );
-                          }
-                          return _button;
-                        })()
-                      }
-                      <Button type="primary" onClick={handlePublish}>
-                        <FormattedMessage defaultMessage="Publish"/>
+                      <Button type="primary" onClick={handleSave}>
+                        {isEditForm ? <FormattedMessage defaultMessage="Update"/> :
+                          <FormattedMessage defaultMessage="Create"/>}
                       </Button>
                     </Form>
                   </Content>
@@ -861,11 +811,11 @@ export default InterviewForm;
 
 InterviewForm.propTypes = {
   id: PropTypes.any,
-  onPublished: PropTypes.func
+  onUpdated: PropTypes.func
 };
 
 InterviewForm.defaultProps = {
-  onPublished: () => {
+  onUpdated: () => {
   },
   copy: false
 };

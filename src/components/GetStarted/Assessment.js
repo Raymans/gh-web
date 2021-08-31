@@ -20,7 +20,7 @@ const Assessment = ({
       <GetStartedInformationBox
         title={intl.formatMessage({ defaultMessage: 'Get started - Preview and assess an Assessment' })}>
         <FormattedMessage
-          defaultMessage={'Here is assessment page other can see if you publish your assessments.'}/>
+          defaultMessage={'Here is assessment page other can see if you make your assessments as public.'}/>
         <br/>
         <FormattedMessage
           defaultMessage={'Normally you won\'t be able to test your own assessments, but here is an example to simulate a user see your assessment and do test '}/>

@@ -8,17 +8,17 @@ import {
   message,
   Progress,
   Row,
-  Spin,
   Statistic,
   Tooltip
 } from 'antd';
-import { ArrowDownOutlined, ArrowUpOutlined, LoadingOutlined } from '@ant-design/icons';
+import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import useApi from '../../hooks/useApi';
 import AuthorBy from '../AuthorBy';
 import InterviewSession from './InterviewSession';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 import Moment from 'react-moment';
+import ContentLayout from '../Layout/ContentLayout';
 
 const StyleTotalScoreCol = styled(Col)`
   text-align: center;
@@ -80,7 +80,7 @@ const InterviewSessionResult = ({
   return (
     <Layout>
       {/*<AnchorSider/>*/}
-      <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
+      <ContentLayout loading={loading}>
         <Layout.Content>
           <Descriptions column={2}>
             {/*<Descriptions.Item*/}
@@ -190,7 +190,7 @@ const InterviewSessionResult = ({
             </Button>
           )
         }
-      </Spin>
+      </ContentLayout>
     </Layout>
   );
 };

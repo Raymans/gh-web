@@ -27,7 +27,6 @@ const StyledInterviewGeekStatus = styled.div`
 const Interview = ({
   id,
   sessionId = '',
-  publishedId = '',
   isGetStarted = false,
   onSubmit = () => {
   }
@@ -40,7 +39,6 @@ const Interview = ({
     getCurrentInterviewSession,
     getInterview,
     getInterviewSession,
-    getPublishedInterview,
     startInterviewSession
   } = useApi();
   const intl = useIntl();
@@ -54,7 +52,6 @@ const Interview = ({
   });
   const [interviewSession, setInterviewSession] = useState(null);
   const isOwner = user?.sub === interview.clientUser.id;
-  const isViewPublished = publishedId !== '';
 
   const handleTimesUp = () => {
     Modal.warning({
@@ -86,14 +83,6 @@ const Interview = ({
   };
 
   useEffect(() => {
-    if (isViewPublished) {
-      getPublishedInterview(publishedId)
-        .then((pi) => {
-          setInterview(pi.interview);
-          setLoading(false);
-        });
-      return;
-    }
     if (sessionId) {
       getInterviewSession(sessionId)
         .then((interviewS) => {
@@ -174,28 +163,15 @@ const Interview = ({
       />
       <Headline title={interview.title}>
         {
-          !isViewPublished &&
-          <>
-            {
-              !loading && <ShareInterview id={interview.id}/>
-            }
-            {
-              !loading && isOwner
-              &&
-              <InterviewActionsRow
-                interview={interview}
-                onDeleted={() => navigate('/interviews')}
-              />
-            }
-            {
-              isOwner && interview.publishedInterviewId
-              &&
-              <a
-                href={location.pathname.replace(`${id}`, `${interview.publishedInterviewId}/published`)}
-                target="_blank">
-                <FormattedMessage defaultMessage="view live version"/></a>
-            }
-          </>
+          !loading && <ShareInterview id={interview.id}/>
+        }
+        {
+          !loading && isOwner
+          &&
+          <InterviewActionsRow
+            interview={interview}
+            onDeleted={() => navigate('/interviews')}
+          />
         }
       </Headline>
       <ContentLayout loading={loading}>
@@ -213,10 +189,10 @@ const Interview = ({
                 />
               )
             }
-            <InterviewDescription interview={interview} isViewPublished={isViewPublished}
+            <InterviewDescription interview={interview}
                                   collapse={isTesting}/>
             {
-              !isTesting && !isViewPublished
+              !isTesting
               && (
                 <StyledInterviewGeekStatus>
                   <Row gutter={16}>
@@ -239,7 +215,7 @@ const Interview = ({
               )
             }
             {
-              !interviewSession && !isOwner && !!interview.publishedInterviewId
+              !interviewSession && !isOwner
               && (
                 <>
                   <LoginPrompt

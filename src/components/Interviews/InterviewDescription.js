@@ -15,7 +15,6 @@ const StyledDescription = styled.div`
 
 const InterviewDescription = ({
   interview,
-  isViewPublished,
   collapse
 }) => {
   const { userId } = useStore();
@@ -50,15 +49,6 @@ const InterviewDescription = ({
         {isOwner && interview.visibility === 'PRIVATE' &&
         <Tag color="#ffc93c"><FormattedMessage id="assessment.tag.private"
                                                defaultMessage="private"/></Tag>
-        }
-        {isViewPublished &&
-        <Tag color="blue"><FormattedMessage id="assessment.tag.published.version"
-                                            defaultMessage="Published Version"/></Tag>
-        }
-        {
-          isOwner && !interview.publishedInterviewId &&
-          <Tag color="red"><FormattedMessage id="assessment.tag.no.publish.version"
-                                             defaultMessage="No Published version"/></Tag>
         }
       </Descriptions.Item>
       {/*<StyledInfoRow>*/}
@@ -101,12 +91,10 @@ export default InterviewDescription;
 
 InterviewDescription.propTypes = {
   collapse: PropTypes.bool,
-  interview: PropTypes.object.isRequired,
-  isViewPublished: PropTypes.bool
+  interview: PropTypes.object.isRequired
 };
 
 InterviewDescription.defaultProps = {
   collapse: false,
-  interview: {},
-  isViewPublished: false
+  interview: {}
 };

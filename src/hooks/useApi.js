@@ -83,10 +83,6 @@ export default () => {
       data: params
     }),
 
-    publishInterview: ({ id }) => request(`${config.ghServiceUrl}/api/interviews/${id}/publish`, {
-      method: 'POST'
-    }),
-
     getInterviews: ({
       url = `${config.ghServiceUrl}/api/interviews`,
       ...params
@@ -117,10 +113,6 @@ export default () => {
       .then((res) => (!res ? {} : res)),
 
     getInterview: (id) => request(`${config.ghServiceUrl}/api/interviews/${id}`, {
-      method: 'GET'
-    }),
-
-    getPublishedInterview: (id) => request(`${config.ghServiceUrl}/api/publishedInterviews/${id}`, {
       method: 'GET'
     }),
 
