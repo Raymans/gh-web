@@ -6,6 +6,7 @@ import React from 'react';
 import useStore from '../../hooks/useStore';
 import styled from 'styled-components';
 import DateTime from '../General/DateTime';
+import DOMPurify from 'dompurify';
 
 const StyledDescription = styled.div`
   font-size: 20px;
@@ -69,7 +70,8 @@ const InterviewDescription = ({
       <Descriptions.Item
         span={2}
       >
-        <StyledDescription dangerouslySetInnerHTML={{ __html: interview.description }}/>
+        <StyledDescription
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(interview.description) }}/>
       </Descriptions.Item>
       <Descriptions.Item
         span={2}

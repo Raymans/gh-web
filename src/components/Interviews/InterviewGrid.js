@@ -11,6 +11,7 @@ import InterviewActionsRow from './InterviewActionsRow';
 import ShareInterview from './ShareInterview';
 import Icon from '../Icon/Icon';
 import DateTime from '../General/DateTime';
+import DOMPurify from 'dompurify';
 
 const H1 = styled.h1`
   font-size: 26px;
@@ -145,7 +146,8 @@ const InterviewGrid = (props) => {
                   <div className={'updated-time'}><DateTime date={interview.lastModifiedDate}/>
                   </div>
                 </StyledInfoRow>
-                <StyledDescription dangerouslySetInnerHTML={{ __html: description }}/>
+                <StyledDescription
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(description) }}/>
                 {/*<Descriptions.Item*/}
                 {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}>{specializationName}</Descriptions.Item>*/}
                 <StyledFooterRow>

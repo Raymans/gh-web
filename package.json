@@ -48,6 +48,7 @@
     "codemirror": "^5.51.0",
     "cookieconsent": "^3.1.1",
     "copy-to-clipboard": "^3.3.1",
+    "dompurify": "^2.3.1",
     "fontfaceobserver": "^2.1.0",
     "gatsby": "2.24.66",
     "gatsby-codemods": "^1.1.22",
