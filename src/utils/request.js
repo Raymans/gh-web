@@ -47,8 +47,8 @@ export default function request(getAccessTokenSilently, tokens = {
         ...options,
         headers: {
           ...options.headers,
-          Authorization: `Bearer ${tokens.accessToken}`
-          //'x-user-key': tokens.userKey
+          Authorization: `Bearer ${tokens.accessToken}`,
+          'x-user-key': tokens.userKey
         }
       };
     } else {

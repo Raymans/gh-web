@@ -36,7 +36,6 @@ const GetStartedPage = (props) => {
   const [loading, setLoading] = useState(true);
   const { getGuestUserToken } = useApi();
   useEffect(() => {
-
     if (isTokenValid) {
       setLoading(false);
       return;

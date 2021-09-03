@@ -1,10 +1,11 @@
 import InterviewForm from '../Interviews/InterviewForm';
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage, navigate, useIntl } from 'gatsby-plugin-intl';
+import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 import GetStartedInformationBox from './GetStartedInformationBox';
 import ConfirmModal from '../Organization/ConfirmModal';
 import { Select } from 'antd';
 import useApi from '../../hooks/useApi';
+import useGetStarted from '../../hooks/useGetStarted';
 
 const CreateAssessment = ({
   setStep,
@@ -17,10 +18,10 @@ const CreateAssessment = ({
   const [templateSelected, setTemplateSelected] = useState(false);
   const [loading, setLoading] = useState(true);
   const [okButtonDisabled, setOkButtonDisabled] = useState(true);
+  const { gsTokens } = useGetStarted();
   const handleUpdated = (interview) => {
     setAssessmentId(interview.id);
     setStep(1);
-    navigate('/get-started');
   };
   useEffect(() => {
     getInterviews({ template: true })
@@ -28,7 +29,7 @@ const CreateAssessment = ({
         setTemplateInterviews(results);
         setLoading(false);
       });
-  }, []);
+  }, [gsTokens]);
 
   const onTemplateSelect = (templateId) => {
     setOkButtonDisabled(false);
@@ -68,7 +69,7 @@ const CreateAssessment = ({
           }}
         >
           {
-            templateInterviews.map((templateInterview) => (
+            templateInterviews?.map((templateInterview) => (
               <Select.Option key={templateInterview.id}
                              value={templateInterview.id}
               >

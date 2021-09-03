@@ -286,7 +286,9 @@ const InterviewForm = ({
         .then(_onUpdated)
         .then((data) => {
           afterSaving(intl.formatMessage({ defaultMessage: 'Assessment Created.' }));
-          navigate(`/interviews/${data.id}/edit`);
+          if (!isGetStarted) {
+            navigate(`/interviews/${data.id}/edit`);
+          }
         });
     }
   };

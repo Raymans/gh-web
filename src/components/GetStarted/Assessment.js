@@ -1,6 +1,6 @@
 import Interview from '../Interviews/Interview';
 import React from 'react';
-import { FormattedMessage, navigate, useIntl } from 'gatsby-plugin-intl';
+import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 import GetStartedInformationBox from './GetStartedInformationBox';
 
 const Assessment = ({
@@ -13,7 +13,6 @@ const Assessment = ({
   const handleSubmit = (sid) => {
     setStep(2);
     setAssessmentSessionId(sid);
-    navigate('/get-started');
   };
   return (
     <>
