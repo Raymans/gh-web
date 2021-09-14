@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Button, message, Modal as AntdModal } from 'antd';
+import { Button, message, Modal as AntdModal, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'gatsby-plugin-intl';
 
@@ -62,17 +62,21 @@ const ConfirmModal = ({
 
   return (
     <>
-      <Button
-        type={openButtonType}
-        onClick={() => handleOpen()}
-        style={style}
-        danger={danger}
-        icon={icon}
-        shape={shape}
-        hidden={showDirectly}
+      <Tooltip title={title}
+               trigger={!!openButtonTitle ? [] : 'hover'}
       >
-        {openButtonTitle}
-      </Button>
+        <Button
+          type={openButtonType}
+          onClick={() => handleOpen()}
+          style={style}
+          danger={danger}
+          icon={icon}
+          shape={shape}
+          hidden={showDirectly}
+        >
+          {openButtonTitle}
+        </Button>
+      </Tooltip>
       <AntdModal
         visible={modalVisible}
         title={title}

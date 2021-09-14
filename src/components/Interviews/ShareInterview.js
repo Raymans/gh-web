@@ -1,5 +1,5 @@
 import { ShareAltOutlined } from '@ant-design/icons';
-import { Button, Divider, Form, message, Modal } from 'antd';
+import { Button, Divider, Form, message, Modal, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 import Search from 'antd/es/input/Search';
@@ -66,14 +66,23 @@ const ShareInterview = ({ id }) => {
 
   return (
     <>
-      <Button
-        icon={<ShareAltOutlined/>}
-        onClick={() => {
-          setIsShareModalVisible(true);
-        }}
-      />
+      <Tooltip title={intl.formatMessage({
+        id: 'assessment.share',
+        defaultMessage: 'Share Assessment'
+      })}
+      >
+        <Button
+          icon={<ShareAltOutlined/>}
+          onClick={() => {
+            setIsShareModalVisible(true);
+          }}
+        />
+      </Tooltip>
       <Modal
-        title={intl.formatMessage({ defaultMessage: 'Share Assessment' })}
+        title={intl.formatMessage({
+          id: 'assessment.share',
+          defaultMessage: 'Share Assessment'
+        })}
         centered
         visible={isShareModalVisible}
         onCancel={() => setIsShareModalVisible(false)}

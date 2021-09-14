@@ -6,13 +6,17 @@ import React from 'react';
 import useApi from '../../hooks/useApi';
 import ConfirmModal from '../Organization/ConfirmModal';
 import _ from 'lodash';
+import { FaRegClone } from 'react-icons/all';
 
 const InterviewActionsRow = ({
   interview = {},
   onDeleting,
   onDeleted
 }) => {
-  const { deleteInterview } = useApi();
+  const {
+    deleteInterview,
+    copyInterview
+  } = useApi();
   const intl = useIntl();
   const canEdit = _.isEmpty(interview.groupedInterviewSessions);
 
@@ -24,13 +28,22 @@ const InterviewActionsRow = ({
       });
   };
 
+  const handleCloneInterview = () => {
+    copyInterview({ id: interview.id })
+      .then(({ id }) => {
+        navigate(`/interviews/${id}/edit`);
+      });
+  };
+
   return (
     <>
-      <Tooltip title={intl.formatMessage({
+      <Tooltip title={canEdit ? intl.formatMessage({
+        id: 'assessment.edit',
+        defaultMessage: 'Edit Assessment'
+      }) : intl.formatMessage({
         id: 'assessment.cannot.edit',
         defaultMessage: 'The assessment cannot be edited once your assessment has been shared with candidate and there is a test started.'
       })}
-               trigger={canEdit ? [] : 'hover'}
       >
         <Button
           icon={<EditOutlined/>}
@@ -40,6 +53,28 @@ const InterviewActionsRow = ({
           }}
         />
       </Tooltip>
+      <ConfirmModal
+        title={intl.formatMessage({
+          id: 'assessment.clone.title',
+          defaultMessage: 'Clone Assessment'
+        })}
+        onOK={handleCloneInterview}
+        icon={<FaRegClone className="anticon"/>}
+        openButtonTitle=""
+        submitButtonTitle={intl.formatMessage({
+          id: 'general.button.clone',
+          defaultMessage: 'Clone'
+        })}
+        successMessage={intl.formatMessage({
+          id: 'assessment.clone.message.successfully',
+          defaultMessage: 'Assessment has been Cloned: {interviewTitle}'
+        }, { interviewTitle: interview.title })}
+      >
+        <p><FormattedMessage id="assessment.clone.message"
+                             defaultMessage="Are you sure to clone the assessment: {title}?"
+                             values={{ title: interview.title }}/></p>
+      </ConfirmModal>
+
       <ConfirmModal
         title={intl.formatMessage({ defaultMessage: 'Delete Assessment' })}
         onOK={handleDeleteInterview}

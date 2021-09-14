@@ -9,8 +9,7 @@ import {
   FormOutlined,
   LoadingOutlined,
   MinusCircleOutlined,
-  PlusOutlined,
-  RetweetOutlined
+  PlusOutlined
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -23,6 +22,7 @@ import Seo from '../Seo';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { ReactQuill } from '../../utils/ssrHelper';
 import QuillHelpers from '../../utils/QuillHelpers';
+import { HiSwitchVertical } from 'react-icons/all';
 
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
@@ -397,7 +397,9 @@ const QuestionFormItem = (props) => {
                                   id: 'question.options.reorder.tooltip',
                                   defaultMessage: 'Reorder answer options'
                                 })}>
-                                <RetweetOutlined {...provided.dragHandleProps} />
+                                <span {...provided.dragHandleProps}>
+                                  <HiSwitchVertical/>
+                                </span>
                               </Tooltip>
                             </StyledActionIconsSection>
                           ) : null}

@@ -17,12 +17,7 @@ import styled from 'styled-components';
 import Divider from 'antd/lib/divider';
 import FormItem from 'antd/lib/form/FormItem';
 import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
-import {
-  MinusCircleOutlined,
-  PlusOutlined,
-  QuestionCircleOutlined,
-  RetweetOutlined
-} from '@ant-design/icons';
+import { MinusCircleOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import transformSwitchValue from '../../utils/questionHelpers';
 import Headline from '../Article/Headline';
 import QuestionList from '../Questions/QuestionList';
@@ -43,6 +38,7 @@ import 'react-quill/dist/quill.snow.css';
 import QuillHelpers from '../../utils/QuillHelpers';
 import ContentLayout from '../Layout/ContentLayout';
 import _ from 'lodash';
+import { HiSwitchVertical } from 'react-icons/all';
 
 const {
   Content
@@ -716,11 +712,13 @@ const InterviewForm = ({
                                                                 id: 'interview.questions.reorder.tooltip',
                                                                 defaultMessage: 'Reorder questions in section'
                                                               })}>
-                                                              <RetweetOutlined {...provided.dragHandleProps}
-                                                                               style={{
-                                                                                 float: 'right',
-                                                                                 fontSize: '20px'
-                                                                               }}/>
+                                                              <span {...provided.dragHandleProps}
+                                                                    style={{
+                                                                      float: 'right',
+                                                                      fontSize: '20px'
+                                                                    }}>
+                                                                <HiSwitchVertical/>
+                                                              </span>
                                                             </Tooltip>
                                                           </>
                                                         }

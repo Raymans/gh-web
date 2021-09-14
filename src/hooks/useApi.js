@@ -83,6 +83,14 @@ export default () => {
       data: params
     }),
 
+    copyInterview: ({
+      params,
+      id
+    }) => request(`${config.ghServiceUrl}/api/interviews/${id}/copy`, {
+      method: 'POST',
+      data: params
+    }),
+
     getInterviews: ({
       url = `${config.ghServiceUrl}/api/interviews`,
       ...params
