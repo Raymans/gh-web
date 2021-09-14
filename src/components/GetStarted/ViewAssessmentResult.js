@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 const StyledCompleteButton = styled(Button)`
   float: right;
-  margin-top: -42px;
+  margin: -62px 20px;
 `;
 const ViewAssessmentResult = ({
   id,

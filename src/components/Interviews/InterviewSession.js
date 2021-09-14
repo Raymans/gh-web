@@ -224,8 +224,7 @@ const InterviewSession = ({
                                           if (!preview || !viewResult || !isAnswersVisible) {
                                             return;
                                           }
-                                          const isCorrect = isOwner ? answerAttemptSections?.[sectionId]?.answerAttempts[questionId]?.correct ||
-                                            (answerAttemptQuestionIds?.length === correctAnswers?.length) && answerAttemptQuestionIds?.every((v) => correctAnswers.includes(v)) : answerAttemptSections[sectionId]?.answerAttempts[questionId]?.correct;
+                                          const isCorrect = answerAttemptSections?.[sectionId]?.answerAttempts[questionId]?.correct ?? false;
                                           if (isOwner && question.questionType !== 'MULTI_CHOICE') {
                                             return (
                                               <Tooltip
