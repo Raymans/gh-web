@@ -5,7 +5,13 @@ import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
 import Seo from '../Seo';
 import InterviewSessionResult from '../Interviews/InterviewSessionResult';
+import DateTime from '../General/DateTime';
+import styled from 'styled-components';
 
+const StyledDateTime = styled(DateTime)`
+  font-size: 0.4em;
+  margin-left: 10px;
+`;
 const InterviewResult = ({ sessionId }) => {
   const {
     user
@@ -40,6 +46,7 @@ const InterviewResult = ({ sessionId }) => {
               >
                 {interviewSession.candidateUser.name}
               </Link>
+              <StyledDateTime date={interviewSession.interviewEndDate}/>
             </>
           )
         }

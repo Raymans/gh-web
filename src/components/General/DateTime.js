@@ -7,16 +7,26 @@ import styled from 'styled-components';
 const StyledCalendarOutlined = styled(CalendarOutlined)`
   margin-right: 5px;
 `;
-const DateTime = ({ date }) => (
-  <div><StyledCalendarOutlined/> <Moment date={date}/></div>
+const DateTime = ({
+  date,
+  className
+}) => (
+  <>
+    {
+      date &&
+      <span className={className}><StyledCalendarOutlined/> <Moment date={date}/></span>
+    }
+  </>
 );
 
 export default DateTime;
 
 DateTime.propTypes = {
-  date: PropTypes.string.isRequired
+  date: PropTypes.string.isRequired,
+  style: PropTypes.string
 };
 
 DateTime.defaultProps = {
-  date: ''
+  date: '',
+  className: ''
 };

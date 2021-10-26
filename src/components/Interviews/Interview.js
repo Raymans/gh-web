@@ -5,7 +5,7 @@ import Countdown from 'antd/lib/statistic/Countdown';
 import styled from 'styled-components';
 import moment from 'moment';
 import { useAuth0 } from '@auth0/auth0-react';
-import { FormattedMessage, navigate, useIntl } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, navigate, useIntl } from 'gatsby-plugin-intl';
 import Headline from '../Article/Headline';
 import InterviewSession from './InterviewSession';
 import LoginPrompt from '../Login/LoginPrompt';
@@ -205,10 +205,20 @@ const Interview = ({
                     </Col>
                     <Col span={12}>
                       <Icon type="assessmentTested"/>
-                      <FormattedMessage id="assessment.completed.count"
-                                        defaultMessage="{people} Completed"
-                                        values={{ people: interview.groupedInterviewSessions?.ENDED?.length ?? 0 }}
-                      />
+                      {
+                        isOwner ?
+                          (<Link to={`/manageInterviews/${id}`}
+                                 state={{ interviewName: interview.title }}>
+                            <FormattedMessage id="assessment.completed.count"
+                                              defaultMessage="{people} Completed"
+                                              values={{ people: interview.groupedInterviewSessions?.ENDED?.length ?? 0 }}
+                            />
+                          </Link>) :
+                          <FormattedMessage id="assessment.completed.count"
+                                            defaultMessage="{people} Completed"
+                                            values={{ people: interview.groupedInterviewSessions?.ENDED?.length ?? 0 }}
+                          />
+                      }
                     </Col>
                   </Row>
                 </StyledInterviewGeekStatus>
