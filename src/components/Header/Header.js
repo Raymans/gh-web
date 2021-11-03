@@ -14,8 +14,8 @@ const StyledHeader = styled.header`
   height: ${props => props.theme.header.height.default};
   top: 0;
   width: 100%;
-  position: absolute;
-  background-color: transparent;
+  position: fixed;
+  background-color: #1088ae;
   height: ${props => props.theme.header.height.homepage};
   justify-content: space-between;
   transition: padding 0.5s;
@@ -88,7 +88,7 @@ const Logo = styled.div`
 
   img {
     width: 100%;
-    height: 120px;
+    height: 100px;
   }
 
   .fixed & {

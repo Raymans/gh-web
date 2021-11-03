@@ -37,6 +37,14 @@ const StyledMenu = styled.div`
   .ant-menu {
     font-size: 16px;
   }
+  .ant-menu-submenu-open, .ant-menu-light .ant-menu-submenu-title:hover, .ant-menu-horizontal > .ant-menu-item a:hover, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover{
+    color: black !important;
+  }
+  .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-active:after,
+  .ant-menu-horizontal:not(.ant-menu-dark)> .ant-menu-submenu:hover:after,
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after{
+    border-bottom: solid #ff4150;
+  }
 `;
 const Menu = (props) => {
   const {

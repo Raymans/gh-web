@@ -11,6 +11,9 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import CreateAssessmentExample from '../../images/CreateAssessmentExample.png';
 import ShareAssessmentExample from '../../images/ShareAssessmentExample.png';
 import ReviewAssessmentExample from '../../images/ReviewAssessmentExample.png';
+import EnglishAssessmentImg from '../../images/EnglishAssessment.jpg';
+import TechniqueAssessmentImg from '../../images/TechniqueAssessment.jpg';
+import AboutUsImg from '../../images/AboutUs.jpg';
 import useGetStarted from '../../hooks/useGetStarted';
 import Lottie from 'react-lottie';
 import jsonAnalysis from '../../animation/AnalysisAssessment.json';
@@ -26,7 +29,7 @@ const Section = styled.section`
     background-color: hsla(180, 5%, 96%, .7)
   }
 
-  padding: 0 50px;
+  padding: 0 150px;
   min-height: 500px;
 
   h1 {
@@ -59,6 +62,10 @@ const StyledLeftH2 = styled.h2`
   margin-top: 0 !important;
 `;
 
+const StyledLeftH2Blue = styled(StyledLeftH2)`
+  color: ${(props) => props.theme.color.brand.primary};
+`;
+
 const StyledRow = styled(Row)`
   padding: 70px 0;
   justify-content: center;
@@ -80,7 +87,7 @@ const StyledImagesRow = styled(Row)`
   justify-content: center;
 
   div {
-    padding: 0 50px;
+    margin: 0 50px;
     max-width: 430px;
   }
 
@@ -173,7 +180,8 @@ const Home = (props) => {
     icon,
     title,
     description,
-    className
+    className,
+    image
   }) =>
     <Col style={{
       textAlign: 'center',
@@ -181,15 +189,33 @@ const Home = (props) => {
     }} className={className}>
       {/*<FontAwesomeIcon icon={icon} size="7x"/>*/}
       <h3 style={{ paddingTop: '10px' }}>{title}</h3>
-      <Lottie options={{ animationData: icon, ...defaultOptions }}
-              height={400}
-              width={400}
-      />
+      {
+        !!image ? <IconImage src={icon} alt="Analysis" className={className}/> :
+          <Lottie options={{ animationData: icon, ...defaultOptions }}
+                  width={300}
+                  height={240}
+          />
+      }
       <p>{description}</p>
     </Col>;
 
   return (
     <StyledHome>
+      <Section>
+        <StyledRow type="flex">
+          <Col span={12} data-aos="fade-up-right">
+            <StyledLeftH2><FormattedMessage id="home.about.us.title.2"
+                                            defaultMessage="GeekHub - the best assessment platform for seeking talents"/></StyledLeftH2>
+            <SectionDesc><FormattedMessage
+              id="home.about.us.desc"
+              defaultMessage="TBD"/>
+            </SectionDesc>
+          </Col>
+          <Col span={12} data-aos="fade-in">
+            <ImageSection position="right" image={AboutUsImg}/>
+          </Col>
+        </StyledRow>
+      </Section>
       <Section className="no-pic">
         <StyledImagesRow type="flex" justify="space-around">
           <h1>
@@ -198,10 +224,11 @@ const Home = (props) => {
               defaultMessage="Our tool is perfectly suited for conducting technical interviews, online learning assessments and popup quiz"
             />
           </h1>
-          <h2><FormattedMessage id="home.template.title2" defaultMessage="GeekHub Templates"/></h2>
-          <IconDescription icon={jsonAnalysis}
+          {/*<h2><FormattedMessage id="home.template.title2" defaultMessage="GeekHub Templates"/></h2>*/}
+          <IconDescription icon={TechniqueAssessmentImg}
                            className="big template"
                            title={intl.formatMessage({ defaultMessage: 'Technical Interviews' })}
+                           image
                            description={
                              <FeatureList>
                                <FeatureListItem><FormattedMessage
@@ -216,12 +243,13 @@ const Home = (props) => {
                              </FeatureList>
                            }
           />
-          <IconDescription icon={jsonAnalysis}
+          <IconDescription icon={EnglishAssessmentImg}
                            className="big template"
                            title={intl.formatMessage({
                              defaultMessage: 'Online Assessment',
                              id: 'home.template.online'
                            })}
+                           image
                            description={
                              <FeatureList>
                                <FeatureListItem><FormattedMessage
@@ -274,8 +302,8 @@ const Home = (props) => {
       <Section>
         <StyledRow type="flex">
           <Col span={12} data-aos="fade-up-right">
-            <StyledLeftH2><FormattedMessage id="home.create.title"
-                                            defaultMessage="Create"/></StyledLeftH2>
+            <StyledLeftH2Blue><FormattedMessage id="home.create.title"
+                                                defaultMessage="Create"/></StyledLeftH2Blue>
             <SectionDesc><FormattedMessage
               id="home.create.desc"
               defaultMessage="Start organizing your assessment with defined sections and questions. Compose your questions and answers with our easy-to-use User Interface. We also support a range of assessment options, including:"/>
@@ -306,8 +334,8 @@ const Home = (props) => {
             <ImageSection position="left" image={ShareAssessmentExample}/>
           </Col>
           <Col span={12} data-aos="fade-up-left">
-            <StyledLeftH2><FormattedMessage id="home.share.title"
-                                            defaultMessage="Share"/></StyledLeftH2>
+            <StyledLeftH2Blue><FormattedMessage id="home.share.title"
+                                                defaultMessage="Share"/></StyledLeftH2Blue>
             <SectionDesc><FormattedMessage
               id="home.share.desc"
               defaultMessage="Share your assessment with anyone via email invitation or direct URL."/>
@@ -326,9 +354,9 @@ const Home = (props) => {
       <Section>
         <StyledRow type="flex" justify="space-around">
           <Col span={12} data-aos="fade-up-right">
-            <StyledLeftH2><FormattedMessage
+            <StyledLeftH2Blue><FormattedMessage
               id="home.analyze.title"
-              defaultMessage="Analyze"/></StyledLeftH2>
+              defaultMessage="Analyze"/></StyledLeftH2Blue>
             <SectionDesc><FormattedMessage id="home.analyze.desc"
                                            defaultMessage="Visualize assessment results and make informed decisions"/>
             </SectionDesc>

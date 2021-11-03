@@ -62,7 +62,7 @@ export const query = graphql`
       }
     }
     bgDesktop: imageSharp(fluid: { originalName: { regex: "/hero-background/" } }) {
-      resize(width: 1200, quality: 90, cropFocus: CENTER) {
+      resize(width: 1920, quality: 100, cropFocus: CENTER) {
         src
       }
     }
