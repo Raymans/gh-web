@@ -91,12 +91,8 @@ const StyledImagesRow = styled(Row)`
   justify-content: center;
 
   div {
-    margin: 0 50px;
+    margin: 0 22px;
     max-width: 430px;
-  }
-
-  div.template {
-    max-width: 100%;
   }
 
   @media (max-width: 768px) {
@@ -124,9 +120,9 @@ const IconImage = styled.img`
   margin: 10px 0 20px;
 
   &.big {
-    width: 500px;
-    height: 300px;
-    border-radius: 9%;
+    width: 400px;
+    height: 250px;
+    border-radius: 5%;
   }
 
   @media (max-width: 768px) {
