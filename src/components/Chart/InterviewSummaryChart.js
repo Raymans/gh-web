@@ -6,13 +6,10 @@ import useApi from '../../hooks/useApi';
 
 const options = {
   scales: {
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: true
-        }
-      }
-    ]
+    y: {
+      suggestedMin: 0,
+      suggestedMax: 100
+    },
   },
   elements: {
     point: { radius: 5 }
