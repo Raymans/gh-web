@@ -27,6 +27,9 @@ const InterviewSummaryChart = ({
   const [loading, setLoading] = useState(true);
   const [averageScore, setAverageScore] = useState({ sectionsAverageScore: [{ averageSectionScore: 0 }] });
   useEffect(() => {
+    if (_.isEmpty(interview)) {
+      return;
+    }
     if (_.isEmpty(interviewSessions)) {
       return;
     }
@@ -35,9 +38,9 @@ const InterviewSummaryChart = ({
         setAverageScore({ scoreDiff: (interviewSessions[0].totalScore - res.averageScore.averageScore) * 100, ...res });
         setLoading(false);
       });
-  }, [interviewSessions]);
+  }, [interview, interviewSessions]);
 
-  if (_.isEmpty(interviewSessions)) {
+  if (_.isEmpty(interview) || _.isEmpty(interviewSessions)) {
     return <></>;
   }
   const interviewSession = interviewSessions[0];
@@ -76,7 +79,6 @@ const InterviewSummaryChart = ({
     borderColor: 'rgba(38,83,169,0.2)'
   }];
 
-  console.debug(dataSets);
   const data = {
     labels: sectionLabels,
     datasets: dataSets

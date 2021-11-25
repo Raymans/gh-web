@@ -6,7 +6,8 @@ export const StoreContext = React.createContext({});
 
 const StoreProvider = ({ children }) => {
   const {
-    user
+    user,
+    isLoading: auth0Loading
   } = useAuth0();
   const [userProfile, setUserProfile] = useState(null);
   const [organization, setOrganization] = useState(null);
@@ -51,16 +52,16 @@ const StoreProvider = ({ children }) => {
     });
 
   useEffect(() => {
+    if (auth0Loading) {
+      return;
+    }
     if (user) {
       refreshUserProfile();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (user) {
       refreshDepartments();
+    } else {
+      setIsLoading(false);
     }
-  }, []);
+  }, [auth0Loading]);
 
   return (
     <StoreContext.Provider value={{

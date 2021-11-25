@@ -7,6 +7,7 @@ import Seo from '../Seo';
 import InterviewSessionResult from '../Interviews/InterviewSessionResult';
 import DateTime from '../General/DateTime';
 import styled from 'styled-components';
+import { Avatar } from 'antd';
 
 const StyledDateTime = styled(DateTime)`
   font-size: 0.4em;
@@ -41,6 +42,11 @@ const InterviewResult = ({ sessionId }) => {
             <>
               <span style={{ fontSize: '0.4em' }}><FormattedMessage
                 defaultMessage="Tester:"/></span>
+              <Avatar
+                src={interviewSession.candidateUser.avatar}
+              >
+                {interviewSession.candidateUser.name}
+              </Avatar>
               <Link
                 to={`/profile/${interviewSession.candidateUser.id}`}
               >

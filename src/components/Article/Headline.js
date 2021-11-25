@@ -27,7 +27,7 @@ const H1 = styled.h1`
     font-weight: ${(props) => props.theme.font.weight.standard};
     font-size: 0.5em;
     letter-spacing: 0;
-    margin-left: 20px;
+    margin-left: 10px;
   }
 `;
 

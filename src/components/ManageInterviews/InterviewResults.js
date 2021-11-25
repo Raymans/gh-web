@@ -9,6 +9,7 @@ import CustomBreadcrumb from '../CustomBreadcrumb';
 import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import useGetStarted from '../../hooks/useGetStarted';
+import InterviewSummaryChart from '../Chart/InterviewSummaryChart';
 
 const StyledScore = styled.span`
   color: cadetblue;
@@ -35,6 +36,9 @@ const StyledRank = styled.span`
   }
 `;
 
+const StyledTable = styled(Table)`
+  margin-top: 50px;
+`;
 
 const buildColumns = (isGetStarted = false, setStep = () => {
 }) => [
@@ -113,15 +117,24 @@ const InterviewResults = ({
   id,
   location
 }) => {
-  const { getInterviewSessions } = useApi();
+  const {
+    getInterviewSessions,
+    getInterview
+  } = useApi();
   const intl = useIntl();
   const [myInterviewsSessions, setMyInterviewsSessions] = useState([]);
+  const [interview, setInterview] = useState({});
   const [loading, setLoading] = useState(true);
   const {
     isGetStarted,
     setStep
   } = useGetStarted();
   useEffect(() => {
+    getInterview(id)
+      .then((data) => {
+        setInterview(data);
+      });
+
     getInterviewSessions({
       interviewId: id,
       owner: false
@@ -156,7 +169,10 @@ const InterviewResults = ({
       }
 
       <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
-        <Table
+        <InterviewSummaryChart interview={interview}
+                               interviewSessions={myInterviewsSessions}/>
+
+        <StyledTable
           rowKey={(interviewSession) => interviewSession.id}
           showHeader={false}
           columns={buildColumns(isGetStarted, setStep)}
