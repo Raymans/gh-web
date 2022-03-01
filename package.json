@@ -117,6 +117,8 @@
     "tinycolor2": "^1.4.1",
     "typeface-open-sans": "^0.0.75",
     "typography": "^0.16.21",
+    "video.js": "^7.17.0",
+    "videojs-youtube": "^2.6.1",
     "yaml-loader": "^0.5.0"
   },
   "devDependencies": {

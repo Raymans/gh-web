@@ -73,8 +73,12 @@ const Logo = styled.div`
   img {
     width: 100%;
     height: 100px;
+    transition: all 0.5s;
   }
 
+  .fixed & img {
+    height: 80px;
+  }
 `;
 
 const Sensor = styled.div`

@@ -13,12 +13,12 @@ import ShareAssessmentExample from '../../images/ShareAssessmentExample.png';
 import ReviewAssessmentExample from '../../images/ReviewAssessmentExample.png';
 import EnglishAssessmentImg from '../../images/EnglishAssessment.jpg';
 import TechniqueAssessmentImg from '../../images/TechniqueAssessment.jpg';
-import AboutUsImg from '../../images/AboutUs.jpg';
 import useGetStarted from '../../hooks/useGetStarted';
 import Lottie from 'react-lottie';
 import jsonAnalysis from '../../animation/AnalysisAssessment.json';
 import jsonShare from '../../animation/ShareAssessment.json';
 import jsonCreate from '../../animation/CreateAssessment.json';
+import VideoJS from '../VideoPlayer/VideoJS';
 
 const StyledHome = styled.div`
   background-color: white;
@@ -165,13 +165,38 @@ const FeatureListItem = ({
 
 const defaultOptions = {
   loop: true,
-  autoplay: true,
   rendererSettings: {
     preserveAspectRatio: 'xMidYMid slice'
   }
 };
 
 const Home = (props) => {
+  const playerRef = React.useRef(null);
+
+  const videoJsOptions = {
+    controls: true,
+    responsive: true,
+    fluid: true,
+    techOrder: ['youtube'],
+    sources: [{
+      src: 'https://www.youtube.com/watch?v=feo59oZAbr0',
+      type: 'video/youtube'
+    }]
+  };
+
+  const handlePlayerReady = (player) => {
+    playerRef.current = player;
+
+    // you can handle player events here
+    player.on('waiting', () => {
+      console.log('player is waiting');
+    });
+
+    player.on('dispose', () => {
+      console.log('player will dispose');
+    });
+  };
+
   const { backgrounds } = props;
   const intl = useIntl();
   const theme = useTheme();
@@ -213,7 +238,7 @@ const Home = (props) => {
             </SectionDesc>
           </Col>
           <Col span={12} data-aos="fade-in">
-            <ImageSection position="right" image={AboutUsImg}/>
+            <VideoJS options={videoJsOptions} onReady={handlePlayerReady}/>
           </Col>
         </StyledRow>
       </Section>
