@@ -206,7 +206,7 @@ const Home = (props) => {
         <StyledRow type="flex">
           <Col span={12} data-aos="fade-up-right">
             <StyledLeftH2><FormattedMessage id="home.about.us.title.2"
-                                            defaultMessage="GeekHub - the best assessment platform for seeking talents"/></StyledLeftH2>
+                                            defaultMessage="GeekHub - the best cloud-based assessment platform for seeking talents"/></StyledLeftH2>
             <SectionDesc><FormattedMessage
               id="home.about.us.desc"
               defaultMessage="TBD"/>

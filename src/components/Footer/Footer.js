@@ -56,6 +56,8 @@ const Footer = (props) => {
               <ul>
                 <StyledTitleLi><FormattedMessage defaultMessage="ABOUT"/></StyledTitleLi>
                 {pages.map((page) => <li key={page.to}><Link to={page.to}>{page.label}</Link></li>)}
+                <li key={'resources'}><Link to="/resources/faq">
+                  <FormattedMessage id="home.footer.faq" defaultMessage="FAQ"/> </Link></li>
               </ul>
             </div>
           </Col>
