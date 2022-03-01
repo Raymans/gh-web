@@ -74,7 +74,7 @@ const StyledRow = styled(Row)`
   padding: 70px 0;
   justify-content: center;
 
-  div {
+  > div {
     padding: 0 30px;
   }
 
@@ -230,11 +230,13 @@ const Home = (props) => {
       <Section>
         <StyledRow type="flex">
           <Col span={12} data-aos="fade-up-right">
-            <StyledLeftH2><FormattedMessage id="home.about.us.title.2"
+            <StyledLeftH2><FormattedMessage id="home.company.title"
                                             defaultMessage="GeekHub - the best cloud-based assessment platform for seeking talents"/></StyledLeftH2>
             <SectionDesc><FormattedMessage
-              id="home.about.us.desc"
-              defaultMessage="TBD"/>
+              id="home.company.desc"
+              defaultMessage="TBD"
+              values={{ br: <br/> }}
+            />
             </SectionDesc>
           </Col>
           <Col span={12} data-aos="fade-in">
