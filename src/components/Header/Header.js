@@ -18,7 +18,7 @@ const StyledHeader = styled.header`
   background-color: #1088ae;
   height: ${props => props.theme.header.height.homepage};
   justify-content: space-between;
-  transition: padding 0.5s;
+  transition: all 0.5s;
   padding: 0 150px;
   z-index: 100;
 
@@ -38,22 +38,6 @@ const StyledHeader = styled.header`
 
   &.fixed {
     height: ${props => props.theme.header.height.fixed};
-    background-color: ${props => props.theme.color.neutral.gray.a};
-    left: 0;
-    padding: 0 ${props => props.theme.space.m};
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1;
-
-    h1 {
-      margin: ${props => props.theme.space.stack.xxs};
-      color: ${props => props.theme.text.color.primary};
-    }
-
-    h2 {
-      display: none;
-    }
   }
 `;
 const H1 = styled.h1`
@@ -91,10 +75,6 @@ const Logo = styled.div`
     height: 100px;
   }
 
-  .fixed & {
-    height: 36px;
-    width: 36px;
-  }
 `;
 
 const Sensor = styled.div`
@@ -125,8 +105,7 @@ class Header extends React.Component {
     const fixed = this.state.fixed ? 'fixed' : '';
     const homepage = this.props.path === '/' ? 'homepage' : '';
 
-    //return `${fixed} ${homepage}`;
-    return `${homepage}`;
+    return `${fixed} ${homepage}`;
   };
 
   render() {
