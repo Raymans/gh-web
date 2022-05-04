@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { FormattedMessage } from 'gatsby-plugin-intl';
 
 const StyledList = styled(List)`
-  padding-top: 20px;
 
   .ant-list-item-meta-title {
     margin: 18px 0;
@@ -19,6 +18,12 @@ const StyledList = styled(List)`
     border-top: 2px solid #1088ae !important;
     border-radius: 12px;
   }
+
+  // grid item
+  &.ant-list-grid .ant-col > .ant-list-item {
+    padding: ${(props) => !props.gridMode ? '54px 22px 22px;' : ''};
+    margin-top: 0;
+  }
 `;
 
 const CardList = (props) => {
@@ -28,7 +33,8 @@ const CardList = (props) => {
     dataSource,
     renderItem,
     hasMore,
-    onLoadMore
+    onLoadMore,
+    gridMode
   } = props;
 
   const handleLoadMore = () => {
@@ -51,9 +57,14 @@ const CardList = (props) => {
         defaultMessage="loading more"/></Button>
     </div>
   ) : null;
+  const grid = gridMode ? {
+    gutter: 16,
+    column: 2
+  } : null;
   return (
     <Spin spinning={loading} indicator={<LoadingOutlined spin/>}>
       <StyledList
+        grid={grid}
         itemLayout="vertical"
         size="large"
         dataSource={dataSource}
@@ -69,7 +80,8 @@ CardList.propTypes = {
   hasMore: PropTypes.bool,
   loading: PropTypes.bool,
   onLoadMore: PropTypes.func,
-  renderItem: PropTypes.func
+  renderItem: PropTypes.func,
+  gridMode: PropTypes.bool
 };
 
 export default CardList;

@@ -1,24 +1,12 @@
+import useLocalStorage from './useLocalStorage';
+
 const isBrowser = typeof window !== 'undefined';
-let _useLocalStorage = () =>
-  [{},
-    () => {
-    },
-    () => {
-    }
-  ];
-
-if (isBrowser) {
-  // cannot upgrade local-storage version because of waiting https://github.com/rehooks/local-storage/issues/77 been fixed.
-  const { useLocalStorage } = require('@rehooks/local-storage');
-  _useLocalStorage = useLocalStorage;
-}
-
 
 const useGetStarted = () => {
-  const [tokens, setTokens, removeTokens] = _useLocalStorage('gs-guest-token');
-  const [step, setStep, removeStep] = _useLocalStorage('gs-progress');
-  const [assessmentId, setAssessmentId, removeAssessmentId] = _useLocalStorage('gs-assessment-id');
-  const [assessmentSessionId, setAssessmentSessionId, removeAssessmentSessionId] = _useLocalStorage('gs-assessment-session-id');
+  const [tokens, setTokens, removeTokens] = useLocalStorage('gs-guest-token');
+  const [step, setStep, removeStep] = useLocalStorage('gs-progress');
+  const [assessmentId, setAssessmentId, removeAssessmentId] = useLocalStorage('gs-assessment-id');
+  const [assessmentSessionId, setAssessmentSessionId, removeAssessmentSessionId] = useLocalStorage('gs-assessment-session-id');
   return {
     gsTokens: tokens,
     isTokenValid: !!tokens,

@@ -25,9 +25,6 @@ const StyledInfoRow = styled.div`
 
   .updated-time {
     font-size: 14px;
-    position: absolute;
-    top: 70px;
-    right: 24px;
   }
 `;
 
@@ -65,6 +62,12 @@ const StyledDescription = styled.div`
   letter-spacing: 1px;
   white-space: pre-line;
   min-height: 100px;
+  height: 157px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+
 `;
 
 const StyledStatusBar = styled.span`

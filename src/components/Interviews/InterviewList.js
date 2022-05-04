@@ -1,4 +1,4 @@
-import { Input, Layout } from 'antd';
+import { Input, Layout, Radio } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 
@@ -14,7 +14,8 @@ import Seo from '../Seo';
 import styled from 'styled-components';
 import queryString from 'query-string';
 import { navigate } from 'gatsby-link';
-import { PlusOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, PlusOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 const { Search } = Input;
 const { Content } = Layout;
@@ -29,10 +30,15 @@ const StyledSearchBar = styled.div`
     }
   }
 
-  .ant-input-search {
-    width: 300px;
+  .ant-input-search, .ant-radio-group {
     margin-left: auto
   }
+
+  .ant-input-search {
+    width: 300px;
+  }
+
+  padding-bottom: 10px;
 `;
 
 const filterOptions = [
@@ -73,6 +79,7 @@ const InterviewList = ({ location }) => {
   } = useContext(StoreContext);
   const [loading, setLoading] = useState(false);
   const [next, setNext] = useState();
+  const [gridMode, setGridMode] = useLocalStorage('interview-list-mode');
   const searchInterviews = ({
     isAppend = false,
     showLoading = true,
@@ -123,6 +130,8 @@ const InterviewList = ({ location }) => {
     url: next
   });
 
+  const handleModeChange = (e) => setGridMode(e.target.value);
+
   const { tab = 'explore' } = queryString.parse(location?.search);
 
   // TODO double run this hook, maybe remount by upper component.
@@ -158,22 +167,22 @@ const InterviewList = ({ location }) => {
       }]}/>
       <Headline title={intl.formatMessage({ defaultMessage: 'List Assessments' })}>
         {isAuthenticated &&
-        <Link to="/interviews/create"><PlusOutlined/> <FormattedMessage
-          defaultMessage="Create Assessment"/></Link>}
+          <Link to="/interviews/create"><PlusOutlined/> <FormattedMessage
+            defaultMessage="Create Assessment"/></Link>}
       </Headline>
       {/* <GatsbyLink to={'/interviews/1/test'}>Test interview 1</GatsbyLink> */}
       <div className="form">
         <div>
           <Layout>
             {!isLoading && isAuthenticated && searchedInterviewCriteria.tab &&
-            <FilterSider onChange={handleTabChange}
-                         defaultOpenKeys={searchedInterviewCriteria.tab}
-                         options={organization ? [...filterOptions, {
-                           value: 'org',
-                           message: <FormattedMessage defaultMessage="Organization"/>
-                         }] : filterOptions}
-                         disabled={loading}
-            />
+              <FilterSider onChange={handleTabChange}
+                           defaultOpenKeys={searchedInterviewCriteria.tab}
+                           options={organization ? [...filterOptions, {
+                             value: 'org',
+                             message: <FormattedMessage defaultMessage="Organization"/>
+                           }] : filterOptions}
+                           disabled={loading}
+              />
             }
             <Content>
               <StyledSearchBar>
@@ -185,8 +194,14 @@ const InterviewList = ({ location }) => {
                   defaultValue={searchedInterviewCriteria.keyword}
                 />
               </StyledSearchBar>
-
+              <StyledSearchBar>
+                <Radio.Group onChange={handleModeChange} value={gridMode} size={'middle'}>
+                  <Radio.Button value="gridMode"><AppstoreOutlined/></Radio.Button>
+                  <Radio.Button value="listMode"><UnorderedListOutlined/></Radio.Button>
+                </Radio.Group>
+              </StyledSearchBar>
               <CardList
+                gridMode={gridMode === 'gridMode'}
                 loading={loading}
                 hasMore={!!next}
                 dataSource={interviews}

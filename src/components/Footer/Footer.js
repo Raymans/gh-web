@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
 import { changeLocale, FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
-import { Col, Row, Switch } from 'antd';
+import { Col, Row } from 'antd';
 
 const StyledTitleLi = styled.li`
   font-weight: bold;
@@ -54,25 +54,35 @@ const Footer = (props) => {
           <Col span={6}>
             <div>
               <ul>
-                <StyledTitleLi><FormattedMessage defaultMessage="ABOUT"/></StyledTitleLi>
-                {pages.map((page) => <li key={page.to}><Link to={page.to}>{page.label}</Link></li>)}
-                <li key={'resources'}><Link to="/resources/faq">
-                  <FormattedMessage id="home.footer.faq" defaultMessage="FAQ"/> </Link></li>
+                {/*{pages.map((page) => <li key={page.to}><Link to={page.to}>{page.label}</Link></li>)}*/}
+                <li key={'about'}><Link to="/resources/about">
+                  <FormattedMessage id="home.footer.about" defaultMessage="About US"/> </Link>
+                </li>
+                <li key={'faq'}><Link to="/resources/faq">
+                  <FormattedMessage id="home.footer.faq" defaultMessage="FAQ"/> </Link>
+                </li>
+                <li key={'privacy'}><Link to="/resources/privacy">
+                  <FormattedMessage id="home.footer.privacy" defaultMessage="Privacy Notice"/>
+                </Link>
+                </li>
+                <li key={'terms'}><Link to="/resources/terms">
+                  <FormattedMessage id="home.footer.terms" defaultMessage="Terms of Use"/> </Link>
+                </li>
               </ul>
             </div>
           </Col>
           <Col span={6}>
             <ul>
-              <li>
-                <span><FormattedMessage defaultMessage="Theme:"/> </span>
-                <Switch
-                  checkedChildren={formatMessage({ defaultMessage: 'light' })}
-                  unCheckedChildren={formatMessage({ defaultMessage: 'dark' })}
-                  defaultChecked={!isDark}
-                  onChange={changeTheme}
-                  size="medium"
-                />
-              </li>
+              {/*<li>*/}
+              {/*  <span><FormattedMessage defaultMessage="Theme:"/> </span>*/}
+              {/*  <Switch*/}
+              {/*    checkedChildren={formatMessage({ defaultMessage: 'light' })}*/}
+              {/*    unCheckedChildren={formatMessage({ defaultMessage: 'dark' })}*/}
+              {/*    defaultChecked={!isDark}*/}
+              {/*    onChange={changeTheme}*/}
+              {/*    size="medium"*/}
+              {/*  />*/}
+              {/*</li>*/}
               <li>
                 {
                   locale === 'en' ? <span>English</span> :
