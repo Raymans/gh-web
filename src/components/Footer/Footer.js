@@ -55,17 +55,17 @@ const Footer = (props) => {
             <div>
               <ul>
                 {/*{pages.map((page) => <li key={page.to}><Link to={page.to}>{page.label}</Link></li>)}*/}
-                <li key={'about'}><Link to="/resources/about">
+                <li key={'about'}><Link to="/about">
                   <FormattedMessage id="home.footer.about" defaultMessage="About US"/> </Link>
                 </li>
                 <li key={'faq'}><Link to="/resources/faq">
                   <FormattedMessage id="home.footer.faq" defaultMessage="FAQ"/> </Link>
                 </li>
-                <li key={'privacy'}><Link to="/resources/privacy">
+                <li key={'privacy'}><Link to="/privacy">
                   <FormattedMessage id="home.footer.privacy" defaultMessage="Privacy Notice"/>
                 </Link>
                 </li>
-                <li key={'terms'}><Link to="/resources/terms">
+                <li key={'terms'}><Link to="/terms">
                   <FormattedMessage id="home.footer.terms" defaultMessage="Terms of Use"/> </Link>
                 </li>
               </ul>
@@ -99,7 +99,7 @@ const Footer = (props) => {
         </Row>
         <Row justify="center" align="top">
           <Col span={12}>
-            <div>©2021 GeekHub Inc.Made with in Taiwan.</div>
+            <div>© GeekHub 2022. All Rights Reserved.</div>
           </Col>
 
         </Row>
