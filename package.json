@@ -22,7 +22,7 @@
     "clean": "rm -r .cache public",
     "clean-all": "rm -r .cache public node_modules",
     "extract": "formatjs extract",
-    "message": "npm run extract -- \"src/**/**/*.js*\" --out-file src/intl/en.json --format simple && npm run copymessage",
+    "message": "npm run extract -- \"src/**/**/*.js*\" --out-file src/intl/en.json --format scripts/formatter.js simple && npm run copymessage",
     "compile": "formatjs compile",
     "copymessage": "node scripts/copy-message.js"
   },

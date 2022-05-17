@@ -418,7 +418,7 @@ const Home = (props) => {
             </h2>
             <p><FormattedMessage
               id="home.getstarted.desc"
-              defaultMessage="Click on Get Started to experience the entire online assessment lifecycle without needing to create an account."/>
+              />
             </p>
             <Button type={'primary'} onClick={() => navigate('/get-started')}>
               {

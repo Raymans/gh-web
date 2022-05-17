@@ -4,11 +4,12 @@ menuTitle: About
 icon: info-circle
 ---
 
-### About GeekHub
+import { FormattedMessage } from 'gatsby-plugin-intl'
 
-We are a bunch of software professionals based in the exciting city of Taipei.
-Our mission statement is to recalibrate the way people conduct assessment this this modern day and age.
-Each of us comes from different realm of the software industry, and we all have a common consensus that we can do better in online assessments.
+### <FormattedMessage id="page.about.us.title" />
 
-GeekHub endeavors to bring professionals of all field together into this very online hub, and start collaboration with anyone, in anywhere!
+<FormattedMessage
+                id="page.about.us.desc"
+                values={{ br: <br/> }}
+              />
 
