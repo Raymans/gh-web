@@ -16,6 +16,7 @@ import queryString from 'query-string';
 import { navigate } from 'gatsby-link';
 import { AppstoreOutlined, PlusOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import useLayout from '../../hooks/useLayout';
 
 const { Search } = Input;
 const { Content } = Layout;
@@ -64,6 +65,7 @@ const filterOptions = [
 const InterviewList = ({ location }) => {
   const intl = useIntl();
   const { isAuthenticated } = useAuth0();
+  const [layout] = useLayout();
   const {
     getInterviews,
     getInterviewsByUserLiked
@@ -194,14 +196,18 @@ const InterviewList = ({ location }) => {
                   defaultValue={searchedInterviewCriteria.keyword}
                 />
               </StyledSearchBar>
-              <StyledSearchBar>
-                <Radio.Group onChange={handleModeChange} value={gridMode} size={'middle'}>
-                  <Radio.Button value="gridMode"><AppstoreOutlined/></Radio.Button>
-                  <Radio.Button value="listMode"><UnorderedListOutlined/></Radio.Button>
-                </Radio.Group>
-              </StyledSearchBar>
+              {
+                !layout.isWidthLower768 &&
+                <StyledSearchBar>
+                  <Radio.Group onChange={handleModeChange} value={gridMode} size={'middle'}>
+                    <Radio.Button value="gridMode"><AppstoreOutlined/></Radio.Button>
+                    <Radio.Button value="listMode"><UnorderedListOutlined/></Radio.Button>
+                  </Radio.Group>
+                </StyledSearchBar>
+              }
+
               <CardList
-                gridMode={gridMode === 'gridMode'}
+                gridMode={layout.isWidthLower768 ? false : gridMode === 'gridMode'}
                 loading={loading}
                 hasMore={!!next}
                 dataSource={interviews}

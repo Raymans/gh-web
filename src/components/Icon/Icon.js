@@ -3,15 +3,21 @@ import styled from 'styled-components';
 import AntdIcon from '@ant-design/icons';
 import { ReactComponent as SvgLike } from '../../images/svg-icons/like.svg';
 import { ReactComponent as SvgUnlike } from '../../images/svg-icons/unlike.svg';
-import { ReactComponent as SvgAssessmentTesting } from '../../images/svg-icons/assessment-testing.svg';
-import { ReactComponent as SvgAssessmentTested } from '../../images/svg-icons/assessment-tested.svg';
-import { ReactComponent as SvgAssessmentCompleted } from '../../images/svg-icons/assessment-completed.svg';
+import {
+  ReactComponent as SvgAssessmentTesting
+} from '../../images/svg-icons/assessment-testing.svg';
+import {
+  ReactComponent as SvgAssessmentTested
+} from '../../images/svg-icons/assessment-tested.svg';
+import {
+  ReactComponent as SvgAssessmentCompleted
+} from '../../images/svg-icons/assessment-completed.svg';
 import React from 'react';
 
 
 const StyledIcon = styled(AntdIcon)`
   font-size: 25px;
-  padding-right: 5px;
+  padding: 4px;
 `;
 
 const svgMap = {

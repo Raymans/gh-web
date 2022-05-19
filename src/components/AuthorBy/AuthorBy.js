@@ -5,7 +5,6 @@ import { AutoComplete, Avatar, Button, Input, Modal } from 'antd';
 import { FormattedMessage, Link } from 'gatsby-plugin-intl';
 
 const StyledAvatar = styled(Avatar)`
-  margin: 0 5px;
   vertical-align: bottom;
 `;
 

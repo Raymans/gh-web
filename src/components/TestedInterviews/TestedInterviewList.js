@@ -25,7 +25,7 @@ const columns = [
   {
     title: 'Status',
     dataIndex: 'status',
-    width: 150,
+    responsive: ['md'],
     render: (status) => (
       <span>
         {
@@ -49,7 +49,6 @@ const columns = [
   {
     title: 'Action',
     key: 'action',
-    width: 150,
     render: (action, {
       id,
       status

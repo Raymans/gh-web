@@ -36,7 +36,7 @@ const InterviewDescription = ({
   };
 
   return withCollapse(
-    <Descriptions column={2}>
+    <Descriptions column={1}>
       {/*<Descriptions.Item*/}
       {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}*/}
       {/*>*/}
@@ -44,21 +44,15 @@ const InterviewDescription = ({
       {/*</Descriptions.Item>*/}
 
       <Descriptions.Item
-        span={2}
       >
         {isOwner && interview.visibility === 'PRIVATE' &&
-        <Tag color="#ffc93c"><FormattedMessage id="assessment.tag.private"
-                                               defaultMessage="private"/></Tag>
+          <Tag color="#ffc93c"><FormattedMessage id="assessment.tag.private"
+                                                 defaultMessage="private"/></Tag>
         }
       </Descriptions.Item>
-      <Descriptions.Item
-        label={intl.formatMessage({ defaultMessage: 'Job Title' })}
-      >
-        {interview.jobTitle}
-      </Descriptions.Item>
+
       <Descriptions.Item
         style={{
-          float: 'right',
           marginTop: '-14px'
         }}
         labelStyle={{ fontSize: '14px' }}
@@ -67,12 +61,15 @@ const InterviewDescription = ({
         <DateTime date={interview.lastModifiedDate}/>
       </Descriptions.Item>
       <Descriptions.Item
-        span={2}
+        label={intl.formatMessage({ defaultMessage: 'Job Title' })}
+      >
+        {interview.jobTitle}
+      </Descriptions.Item>
+      <Descriptions.Item
       >
         <StyledDescription dangerouslySetInnerHTML={{ __html: interview.description }}/>
       </Descriptions.Item>
       <Descriptions.Item
-        span={2}
       >
         <AuthorBy
           clientUser={interview.clientUser}

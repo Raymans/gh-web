@@ -9,6 +9,7 @@ import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 import ContentLayout from '../Layout/ContentLayout';
 import InterviewDescription from './InterviewDescription';
 import InterviewSummaryChart from '../Chart/InterviewSummaryChart';
+import useLayout from '../../hooks/useLayout';
 
 const ScoreSectionCol = styled(Col)`
   margin: 32px -24px;
@@ -16,6 +17,9 @@ const ScoreSectionCol = styled(Col)`
 
 const ChartSummaryRow = styled(Row)`
   margin: 50px 5px;
+  @media (max-width: 768px) {
+    margin: 0;
+  }
 `;
 
 
@@ -23,6 +27,9 @@ const SectionsScoreDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: right;
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 `;
 
 const SectionScoreDiv = styled.div`
@@ -37,6 +44,9 @@ const SectionScoreDiv = styled.div`
 const StyleTotalScoreCol = styled.div`
   text-align: right;
   margin: 0 10px 32px;
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 const StyledScoresRow = styled(Row)`
@@ -60,6 +70,7 @@ const InterviewSessionResult = ({
   const [averageScore, setAverageScore] = useState({ sectionsAverageScore: [{ averageSectionScore: 0 }] });
   const [calculating, setCalculating] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [layout] = useLayout();
   const isAnswerVisible = isOwner || interviewSession.interview?.releaseResult === 'YES';
   useEffect(() => {
     getInterviewSession(sessionId)
@@ -105,11 +116,11 @@ const InterviewSessionResult = ({
             !loading && interviewSession.status === 'ENDED' && interviewSession.answerAttemptSections && isAnswerVisible
             && (
               <ChartSummaryRow>
-                <Col span={18}>
+                <Col span={layout.isWidthLower768 ? 24 : 18}>
                   <InterviewSummaryChart interview={interviewSession.interview}
                                          interviewSessions={[interviewSession]}/>
                 </Col>
-                <ScoreSectionCol span={6}>
+                <ScoreSectionCol span={layout.isWidthLower768 ? 24 : 6}>
                   <StyleTotalScoreCol justify="center">
                     <Tooltip
                       title={<FormattedMessage
@@ -117,7 +128,7 @@ const InterviewSessionResult = ({
                         values={{ averageScore: averageScore.averageScore?.averageScore * 100 }}/>}>
                       <Progress
                         type="circle"
-                        width={120}
+                        width={layout.isWidthLower768 ? 200 : 120}
                         percent={interviewSession.totalScore * 100}
                         format={(totalScore) => totalScore}
                         status={interviewSession.totalScore < averageScore.averageScore?.averageScore ? 'exception' : ''}

@@ -66,11 +66,12 @@ const Invitations = ({
       <StyledTable dataSource={invitations} pagination={false} size="small">
         <Column title={<FormattedMessage defaultMessage="Email"/>} dataIndex="email" key="email"/>
         <Column title={<FormattedMessage defaultMessage="Inviter"/>} dataIndex="inviterName"
-                key="inviterName"/>
+                key="inviterName" responsive={['md']}/>
         <Column title={<FormattedMessage defaultMessage="Inviter's email"/>}
-                dataIndex="inviterEmail" key="inviterEmail"/>
+                dataIndex="inviterEmail" key="inviterEmail" responsive={['md']}/>
         <Column
           align="right"
+          responsive={['md']}
           render={(text, record) => (
             <Space key={record.email} size="middle">
               {
@@ -83,21 +84,21 @@ const Invitations = ({
                   <FormattedMessage defaultMessage="Resend Invitation"/></a>
               }
               {isOwner &&
-              <ConfirmModal
-                title={intl.formatMessage({ defaultMessage: 'UnInvite User' })}
-                onOK={() => handleUnInviteUserFromOrg(record)}
-                openButtonTitle={intl.formatMessage({ defaultMessage: 'UnInvite' })}
-                submitButtonTitle={intl.formatMessage({ defaultMessage: 'UnInvite' })}
-                openButtonType="link"
-                successMessage={intl.formatMessage({ defaultMessage: '{email} has been Removed from Organization' }, { email: record.email })}
-                danger
-              >
-                {intl.formatMessage({ defaultMessage: 'Are you sure to cancel the invitation for' })}
-                <b>
-                  {record.email}
-                </b>
-                ?
-              </ConfirmModal>
+                <ConfirmModal
+                  title={intl.formatMessage({ defaultMessage: 'UnInvite User' })}
+                  onOK={() => handleUnInviteUserFromOrg(record)}
+                  openButtonTitle={intl.formatMessage({ defaultMessage: 'UnInvite' })}
+                  submitButtonTitle={intl.formatMessage({ defaultMessage: 'UnInvite' })}
+                  openButtonType="link"
+                  successMessage={intl.formatMessage({ defaultMessage: '{email} has been Removed from Organization' }, { email: record.email })}
+                  danger
+                >
+                  {intl.formatMessage({ defaultMessage: 'Are you sure to cancel the invitation for' })}
+                  <b>
+                    {record.email}
+                  </b>
+                  ?
+                </ConfirmModal>
               }
             </Space>
           )}

@@ -7,6 +7,7 @@ export default function () {
     font400loaded: false,
     font600loaded: false,
     screenWidth: getScreenWidth(),
+    isWidthLower768: getScreenWidth() < 768,
     headerMinimized: false
   });
   const timeouts = {};

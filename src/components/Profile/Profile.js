@@ -8,13 +8,15 @@ import useApi from '../../hooks/useApi';
 import Seo from '../Seo';
 import { FormattedMessage, useIntl } from 'gatsby-plugin-intl';
 import ContentLayout from '../Layout/ContentLayout';
+import useLayout from '../../hooks/useLayout';
 
 const StyledBasicProfileRow = styled(Row)`
   padding: 50px;
 
-  @media (max-width: 700px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     align-items: baseline;
+    padding: 0;
   }
 
 `;
@@ -22,6 +24,7 @@ const Profile = ({ userId }) => {
   const { getUserProfile } = useApi();
   const [profile, setProfile] = useState({ nickname: '' });
   const [loading, setLoading] = useState(true);
+  const [layout] = useLayout();
   const intl = useIntl();
   useEffect(() => {
     getUserProfile(userId)
@@ -44,10 +47,10 @@ const Profile = ({ userId }) => {
             {
               !loading &&
               <>
-                <Col span={8}>
+                <Col span={layout.isWidthLower768 ? 24 : 8}>
                   <Avatar size={200} src={profile.avatar}/>
                 </Col>
-                <Col span={16}>
+                <Col span={layout.isWidthLower768 ? 24 : 16}>
                   <Descriptions column={1}>
                     <Descriptions.Item contentStyle={{ fontSize: '30px' }}>
                       {`${profile.name} (${profile.nickname})`}

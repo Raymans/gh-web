@@ -45,6 +45,9 @@ const StyledQuestionBlock = styled.div`
   flex-direction: row;
   justify-content: end;
   min-height: 140px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 
   .ant-checkbox-group {
     display: flex;

@@ -92,7 +92,8 @@ const UserList = ({ users }) => {
                     }
                   </>
                 )}/>
-        <Column title={<FormattedMessage defaultMessage="Email"/>} dataIndex="email" key="email"/>
+        <Column title={<FormattedMessage defaultMessage="Email"/>} dataIndex="email" key="email"
+                responsive={['md']}/>
         <Column title={<FormattedMessage defaultMessage="Department"/>} dataIndex="department"
                 key="department" render={renderDept}/>
         {

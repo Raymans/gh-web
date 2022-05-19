@@ -26,12 +26,22 @@ const StyledInfoRow = styled.div`
   .updated-time {
     font-size: 14px;
   }
+
+  @media (max-width: 768px) {
+    margin: 0;
+  }
 `;
 
 const StyledFooterRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  @media (max-width: 768px) {
+    display: block;
+    div {
+      padding-bottom: 10px;
+    }
+  }
 `;
 
 const StyledListItem = styled(List.Item)`
@@ -152,7 +162,6 @@ const InterviewGrid = (props) => {
                 {/*<Descriptions.Item*/}
                 {/*  label={intl.formatMessage({ defaultMessage: 'Specialization' })}>{specializationName}</Descriptions.Item>*/}
                 <StyledFooterRow>
-                  <AuthorBy clientUser={clientUser}/>
                   <div>
                     <StyledStatusBar>
                       {/*<Badge*/}
@@ -178,6 +187,7 @@ const InterviewGrid = (props) => {
                       likeCount={likeCount}
                     />
                   </div>
+                  <AuthorBy clientUser={clientUser}/>
                 </StyledFooterRow>
               </StyledListItem>
             </Spin>

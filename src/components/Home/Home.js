@@ -79,6 +79,7 @@ const StyledRow = styled(Row)`
   }
 
   @media (max-width: 768px) {
+    padding: 0;
     flex-direction: column;
     div {
       max-width: 100%;
@@ -418,7 +419,7 @@ const Home = (props) => {
             </h2>
             <p><FormattedMessage
               id="home.getstarted.desc"
-              />
+            />
             </p>
             <Button type={'primary'} onClick={() => navigate('/get-started')}>
               {

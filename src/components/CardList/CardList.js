@@ -17,6 +17,9 @@ const StyledList = styled(List)`
     margin: 22px 0;
     border-top: 2px solid #1088ae !important;
     border-radius: 12px;
+    @media (max-width: 768px) {
+      padding-top: 60px;
+    }
   }
 
   // grid item

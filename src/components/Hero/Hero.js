@@ -20,6 +20,9 @@ const HeroSection = styled.section`
   height: 10px;
   padding: ${(props) => props.theme.space.inset.l};
   padding-top: ${(props) => props.theme.header.height.homepage};
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 
   h1 {
     text-align: center;

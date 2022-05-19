@@ -37,12 +37,14 @@ const StyledMenu = styled.div`
   .ant-menu {
     font-size: 16px;
   }
-  .ant-menu-submenu-open, .ant-menu-light .ant-menu-submenu-title:hover, .ant-menu-horizontal > .ant-menu-item a:hover, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover{
+
+  .ant-menu-submenu-open, .ant-menu-light .ant-menu-submenu-title:hover, .ant-menu-horizontal > .ant-menu-item a:hover, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover {
     color: black !important;
   }
-  .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-active:after,
-  .ant-menu-horizontal:not(.ant-menu-dark)> .ant-menu-submenu:hover:after,
-  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after{
+
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active:after,
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover:after,
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after {
     border-bottom: solid #ff4150;
   }
 `;
@@ -281,32 +283,32 @@ const Menu = (props) => {
   );
   return (
     <StyledMenu>
-      {layout.screenWidth < 700 && !isLoading
-      && (
-        <>
-          <Affix offsetTop={20}>
-            <Button type="primary" onClick={showMenu}>
-              {React.createElement(menuVisible ? MenuFoldOutlined : MenuUnfoldOutlined)}
-            </Button>
-          </Affix>
-          <Drawer
-            placement="left"
-            closable={false}
-            onClose={onClose}
-            visible={menuVisible}
-            bodyStyle={{ padding: 0 }}
-          >
-            {antdMenu}
-          </Drawer>
-        </>
-      )}
+      {layout.isWidthLower768 && !isLoading
+        && (
+          <>
+            <Affix offsetTop={5}>
+              <Button type="primary" onClick={showMenu}>
+                {React.createElement(menuVisible ? MenuFoldOutlined : MenuUnfoldOutlined)}
+              </Button>
+            </Affix>
+            <Drawer
+              placement="left"
+              closable={false}
+              onClose={onClose}
+              visible={menuVisible}
+              bodyStyle={{ padding: 0 }}
+            >
+              {antdMenu}
+            </Drawer>
+          </>
+        )}
 
       {layout.screenWidth >= 700 && !isLoading
-      &&
-      <>
-        {
-          (!isAuthenticated && !isGetStarted) &&
-          <span>
+        &&
+        <>
+          {
+            (!isAuthenticated && !isGetStarted) &&
+            <span>
             <Button type={'primary'} onClick={() => navigate('/get-started')}>
             {
               step === 0 ?
@@ -316,8 +318,8 @@ const Menu = (props) => {
             }
           </Button>
           </span>
-        }
-        <span>{antdMenu}</span></>
+          }
+          <span>{antdMenu}</span></>
       }
     </StyledMenu>
   );
