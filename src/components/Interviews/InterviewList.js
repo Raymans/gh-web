@@ -45,20 +45,20 @@ const StyledSearchBar = styled.div`
 const filterOptions = [
   {
     value: 'explore',
-    message: <FormattedMessage defaultMessage="Explore"/>
+    message: <FormattedMessage id="browse.tab.explore"/>
   },
   {
     value: 'mine',
-    message: <FormattedMessage defaultMessage="Mine"/>
+    message: <FormattedMessage id="browse.tab.mine"/>
   },
   {
     value: 'liked',
-    message: <FormattedMessage defaultMessage="Liked"/>
+    message: <FormattedMessage id="browse.tab.liked"/>
   },
   // {value: 'assessed', message: <FormattedMessage defaultMessage="Assessed"/>},
   {
     value: 'pending',
-    message: <FormattedMessage defaultMessage="Pending assess"/>
+    message: <FormattedMessage id="browse.tab.pending"/>
   }
 ];
 
@@ -164,10 +164,10 @@ const InterviewList = ({ location }) => {
   return (
     <>
       <CustomBreadcrumb crumbs={[{
-        label: <FormattedMessage defaultMessage="List Assessments"/>,
+        label: <FormattedMessage id="breadcrumb.browse.title"/>,
         path: '/interviews'
       }]}/>
-      <Headline title={intl.formatMessage({ defaultMessage: 'List Assessments' })}>
+      <Headline title={intl.formatMessage({ id: 'breadcrumb.browse.title' })}>
         {isAuthenticated &&
           <Link to="/interviews/create"><PlusOutlined/> <FormattedMessage
             defaultMessage="Create Assessment"/></Link>}

@@ -433,7 +433,7 @@ const InterviewForm = ({
         />
       </Modal>
       <CustomBreadcrumb crumbs={[{
-        label: <FormattedMessage defaultMessage="List Assessments"/>,
+        label: <FormattedMessage id="breadcrumb.browse.title"/>,
         path: '/interviews'
       }, {
         label: isEditForm ? intl.formatMessage({ defaultMessage: 'Edit Assessment' }) : intl.formatMessage({ defaultMessage: 'Create Assessment' }),
@@ -462,8 +462,7 @@ const InterviewForm = ({
               <Result
                 status="warning"
                 title={intl.formatMessage({
-                  id: 'assessment.cannot.edit',
-                  defaultMessage: 'The assessment cannot be edited once your assessment has been shared with candidate and there is a test started.'
+                  id: 'assessment.cannot.edit'
                 })}
               /> : (
                 <>
@@ -551,11 +550,11 @@ const InterviewForm = ({
                         />
                       </FormItem>
                       <FormItem
-                        label={intl.formatMessage({ defaultMessage: 'Duration' })}
+                        label={intl.formatMessage({ id: 'assessment.create.duration.label' })}
                         name="defaultDuration"
                       >
                         <Select
-                          placeholder={intl.formatMessage({ defaultMessage: 'Please select assess duration' })}
+                          placeholder={intl.formatMessage({ id: 'assessment.create.duration.placeholder' })}
                           allowClear
                         >
                           <Option value={0}><FormattedMessage defaultMessage="No limit"
@@ -571,9 +570,9 @@ const InterviewForm = ({
                         </Select>
                       </FormItem>
                       <FormItem
-                        label={intl.formatMessage({ defaultMessage: 'Show Answer Immediately:' })}
+                        label={intl.formatMessage({ id: 'assessment.create.showAnswerImmediately.label' })}
                         name="releaseResult"
-                        tooltip={intl.formatMessage({ defaultMessage: 'choose yes if you want your candidate can see answers right after submitting.' })}
+                        tooltip={intl.formatMessage({ id: 'assessment.create.showAnswerImmediately.tooltip' })}
                       >
                         <Select
                           defaultValue="YES"
@@ -583,30 +582,26 @@ const InterviewForm = ({
                         </Select>
                       </FormItem>
                       {(!!organization || isGetStarted) &&
-                      <FormItem
-                        label={
-                          <FormattedMessage id="interview.form.ownershipType"
-                                            defaultMessage={'Belongs to:'}/>
-                        }
-                        name="ownershipType"
-                        tooltip={intl.formatMessage({
-                          id: 'interview.form.ownershipType.tooltip',
-                          defaultMessage: 'Whether the assessment should belongs to yourself or organization.'
-                        })}
-                      >
-                        <Select
-                          defaultValue="DEFAULT"
-                          disabled={isEditForm}
+                        <FormItem
+                          label={
+                            <FormattedMessage id="assessment.create.ownershipType.label"/>
+                          }
+                          name="ownershipType"
+                          tooltip={intl.formatMessage({
+                            id: 'assessment.create.ownershipType.tooltip'
+                          })}
                         >
-                          <Option value="PERSONAL"><FormattedMessage
-                            id="interview.form.ownershipType.individual"
-                            defaultMessage="Individual"/></Option>
-                          <Option value="DEFAULT"><FormattedMessage
-                            id="interview.form.ownershipType.organization"
-                            defaultMessage="Organization"/>
-                          </Option>
-                        </Select>
-                      </FormItem>
+                          <Select
+                            defaultValue="DEFAULT"
+                            disabled={isEditForm}
+                          >
+                            <Option value="PERSONAL"><FormattedMessage
+                              id="assessment.create.ownershipType.individual"/></Option>
+                            <Option value="DEFAULT"><FormattedMessage
+                              id="assessment.create.ownershipType.organization"/>
+                            </Option>
+                          </Select>
+                        </FormItem>
                       }
                       <Form.List name="sections">
                         {(sections, {
@@ -646,7 +641,7 @@ const InterviewForm = ({
                                     />
                                   </FormItem>
                                   <Tooltip
-                                    title={intl.formatMessage({ defaultMessage: 'Organize your questions via Sections like Basic Concept or Design Pattern' })}
+                                    title={intl.formatMessage({ id: 'assessment.create.section.tooltip' })}
                                   >
                                     <StyledQuestionCircleOutlined/>
                                   </Tooltip>

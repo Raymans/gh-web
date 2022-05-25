@@ -134,58 +134,58 @@ const QuestionForm = (props) => {
           tab={(
             <span>
               <FormOutlined/>
-              <FormattedMessage defaultMessage="Short-Answer"/>
+              <FormattedMessage id="assessment.question.short.answer"/>
             </span>
           )}
           key="SHORT_ANSWER"
         >
-          <FormattedMessage defaultMessage="Ask the question as a Short-Answer type."/>
+          <FormattedMessage id="assessment.question.short.answer.desc"/>
         </TabPane>
         <TabPane
           tab={(
             <span>
               <CheckSquareOutlined/>
-              <FormattedMessage defaultMessage="Multiple Question"/>
+              <FormattedMessage id="assessment.question.multiple.choice"/>
             </span>
           )}
           key="MULTI_CHOICE"
         >
           {questionType === 'MULTI_CHOICE' &&
-          <Form.List name={form ? [id, 'possibleAnswers'] : 'possibleAnswers'}
-                     validateTrigger={[]}
-                     rules={[
-                       {
-                         validator: async (_, possibleAnswers) => {
-                           if (!possibleAnswers || possibleAnswers.length < 2) {
-                             const error1 = intl.formatMessage({
-                               id: 'assessment.question.error.at.least.2.answer.options',
-                               defaultMessage: 'At least 2 Answer Options'
-                             });
-                             return Promise.reject(new Error(error1));
-                           }
-                           if (!possibleAnswers?.some((possibleAnswer) => possibleAnswer?.correctAnswer)) {
-                             const error2 = intl.formatMessage({
-                               id: 'assessment.question.error.at.least.1.correct.answer',
-                               defaultMessage: 'At least 1 correct answer'
-                             });
-                             return Promise.reject(new Error(error2));
+            <Form.List name={form ? [id, 'possibleAnswers'] : 'possibleAnswers'}
+                       validateTrigger={[]}
+                       rules={[
+                         {
+                           validator: async (_, possibleAnswers) => {
+                             if (!possibleAnswers || possibleAnswers.length < 2) {
+                               const error1 = intl.formatMessage({
+                                 id: 'assessment.question.error.at.least.2.answer.options',
+                                 defaultMessage: 'At least 2 Answer Options'
+                               });
+                               return Promise.reject(new Error(error1));
+                             }
+                             if (!possibleAnswers?.some((possibleAnswer) => possibleAnswer?.correctAnswer)) {
+                               const error2 = intl.formatMessage({
+                                 id: 'assessment.question.error.at.least.1.correct.answer',
+                                 defaultMessage: 'At least 1 correct answer'
+                               });
+                               return Promise.reject(new Error(error2));
+                             }
                            }
                          }
-                       }
-                     ]}
-          >
-            {(fields, {
-              add,
-              remove,
-              move
-            }, { errors }) => (
-              <>
-                <Form.ErrorList errors={errors}/>
-                <QuestionFormItem form={form} id={id} fields={fields} add={add} remove={remove}
-                                  move={move}/>
-              </>
-            )}
-          </Form.List>
+                       ]}
+            >
+              {(fields, {
+                add,
+                remove,
+                move
+              }, { errors }) => (
+                <>
+                  <Form.ErrorList errors={errors}/>
+                  <QuestionFormItem form={form} id={id} fields={fields} add={add} remove={remove}
+                                    move={move}/>
+                </>
+              )}
+            </Form.List>
           }
         </TabPane>
         <TabPane
@@ -199,22 +199,22 @@ const QuestionForm = (props) => {
           key="2"
         >
           {CodeMirror
-          && (
-            <FormItem
-              label="code"
-              name="code"
-              rules={[{
-                required: true,
-                message: 'Please enter your code!'
-              }]}
-            >
-              <CodeMirror options={{
-                lineNumbers: true,
-                mode: 'javascript'
-              }}
-              />
-            </FormItem>
-          )}
+            && (
+              <FormItem
+                label="code"
+                name="code"
+                rules={[{
+                  required: true,
+                  message: 'Please enter your code!'
+                }]}
+              >
+                <CodeMirror options={{
+                  lineNumbers: true,
+                  mode: 'javascript'
+                }}
+                />
+              </FormItem>
+            )}
         </TabPane>
       </Tabs>
     </>
@@ -371,7 +371,7 @@ const QuestionFormItem = (props) => {
                               {
                                 required: true,
                                 whitespace: true,
-                                message: intl.formatMessage({ defaultMessage: 'Please input answer option' }),
+                                message: intl.formatMessage({ id: 'assessment.question.multiple.choice.placeholder' }),
                                 transform: (value) => (' ' + value).replace(/<(.|\n)*?>/g, '')
                                   .trim().length === 0 ? '' : value
                               }
@@ -381,7 +381,7 @@ const QuestionFormItem = (props) => {
                             <ReactQuill
                               theme="snow"
                               modules={QuillHelpers.modules.slim}
-                              placeholder={intl.formatMessage({ defaultMessage: 'Please input answer option' })}
+                              placeholder={intl.formatMessage({ id: 'assessment.question.multiple.choice.placeholder' })}
                             />
                           </Form.Item>
                           {fields.length > 1 ? (

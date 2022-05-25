@@ -257,7 +257,7 @@ const Menu = (props) => {
                         defaultMessage="Organization"/></>
                     })}
                     <AntMenu.Item onClick={() => logoutWithRedirect()}>
-                      <LogoutOutlined/> <FormattedMessage defaultMessage="Login out"/>
+                      <LogoutOutlined/> <FormattedMessage id="menu.logout"/>
                     </AntMenu.Item>
                   </AntMenu.SubMenu>
                 </React.Fragment>

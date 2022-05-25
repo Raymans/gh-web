@@ -154,7 +154,7 @@ const InterviewResults = ({
         !isGetStarted &&
         <>
           <CustomBreadcrumb crumbs={[{
-            label: <FormattedMessage defaultMessage="List Assessments"/>,
+            label: <FormattedMessage id="breadcrumb.browse.title"/>,
             path: '/interviews'
           }, {
             label: location?.state?.interviewName,

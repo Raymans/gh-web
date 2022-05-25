@@ -41,8 +41,7 @@ const InterviewActionsRow = ({
         id: 'assessment.edit',
         defaultMessage: 'Edit Assessment'
       }) : intl.formatMessage({
-        id: 'assessment.cannot.edit',
-        defaultMessage: 'The assessment cannot be edited once your assessment has been shared with candidate and there is a test started.'
+        id: 'assessment.cannot.edit'
       })}
       >
         <Button

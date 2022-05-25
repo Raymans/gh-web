@@ -28,7 +28,7 @@ const InterviewResult = ({ sessionId }) => {
   return (
     <>
       <CustomBreadcrumb crumbs={[{
-        label: <FormattedMessage defaultMessage="List Assessments"/>,
+        label: <FormattedMessage id="breadcrumb.browse.title"/>,
         path: '/interviews'
       }, {
         label: interviewSession.interview.title,

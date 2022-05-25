@@ -13,7 +13,7 @@ const StyledLastItem = styled.span`
 `;
 const CustomBreadcrumb = ({
   crumbs = [{
-    label: <FormattedMessage defaultMessage="List Assessments"/>,
+    label: <FormattedMessage id="breadcrumb.browse.title"/>,
     path: '/interviews'
   }]
 }) => {

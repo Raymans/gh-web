@@ -76,7 +76,7 @@ const Setting = () => {
   return (
     <>
       <CustomBreadcrumb crumbs={[{
-        label: <FormattedMessage defaultMessage="Setting"/>,
+        label: <FormattedMessage id="setting.title"/>,
         path: '/setting'
       }]}
       />
