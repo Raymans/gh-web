@@ -227,7 +227,7 @@ const Organization = () => {
               <ConfirmModal
                 style={{
                   position: 'absolute',
-                  right: '30px',
+                  right: 0,
                   zIndex: 999
                 }}
                 openButtonTitle={intl.formatMessage({ defaultMessage: 'Leave Organization' })}

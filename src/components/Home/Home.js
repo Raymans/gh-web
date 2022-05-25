@@ -232,13 +232,7 @@ const Home = (props) => {
         <StyledRow type="flex">
           <Col span={12} data-aos="fade-up-right">
             <StyledLeftH2><FormattedMessage id="home.company.title"
-                                            defaultMessage="GeekHub - the best cloud-based assessment platform for seeking talents"/></StyledLeftH2>
-            <SectionDesc><FormattedMessage
-              id="home.company.desc"
-              defaultMessage="TBD"
-              values={{ br: <br/> }}
-            />
-            </SectionDesc>
+                                            values={{ br: <br/> }}/></StyledLeftH2>
           </Col>
           <Col span={12} data-aos="fade-in">
             <VideoJS options={videoJsOptions} onReady={handlePlayerReady}/>
@@ -298,31 +292,25 @@ const Home = (props) => {
                                 defaultMessage="Easy Steps to Online Assessment"/></h1>
           <IconDescription icon={jsonCreate}
                            title={intl.formatMessage({
-                             defaultMessage: 'Create Assessment',
                              id: 'home.easy.steps.create.title'
                            })}
                            description={intl.formatMessage({
-                             defaultMessage: 'Instantly with our intuitive UI',
                              id: 'home.easy.steps.create.desc'
                            })}
           />
           <IconDescription icon={jsonShare}
                            title={intl.formatMessage({
-                             defaultMessage: 'Share Assessment',
                              id: 'home.easy.steps.share.title'
                            })}
                            description={intl.formatMessage({
-                             defaultMessage: 'With your candidate with a click of a button',
                              id: 'home.easy.steps.share.desc'
                            })}
           />
           <IconDescription icon={jsonAnalysis}
                            title={intl.formatMessage({
-                             defaultMessage: 'Analyze Result',
                              id: 'home.easy.steps.analyze.title'
                            })}
                            description={intl.formatMessage({
-                             defaultMessage: 'Assess candidate\'s result and visual comparison across the board.',
                              id: 'home.easy.steps.analyze.desc'
                            })}
           />
@@ -333,23 +321,17 @@ const Home = (props) => {
           <Col span={12} data-aos="fade-up-right">
             <StyledLeftH2Blue><FormattedMessage id="home.create.title"
                                                 defaultMessage="Create"/></StyledLeftH2Blue>
-            <SectionDesc><FormattedMessage
-              id="home.create.desc"
-              defaultMessage="Start organizing your assessment with defined sections and questions. Compose your questions and answers with our easy-to-use User Interface. We also support a range of assessment options, including:"/>
-            </SectionDesc>
             <FeatureList>
               <FeatureListItem><FormattedMessage
-                id="home.create.item.1"
-                defaultMessage="Assessment visibility to control who can see your assessment"/></FeatureListItem>
+                id="home.create.item.1"/></FeatureListItem>
               <FeatureListItem><FormattedMessage
-                id="home.create.item.2"
-                defaultMessage="Time bound assessment"/></FeatureListItem>
+                id="home.create.item.2"/></FeatureListItem>
               <FeatureListItem><FormattedMessage
-                id="home.create.item.3"
-                defaultMessage="Group your questions by sections"/></FeatureListItem>
+                id="home.create.item.3"/></FeatureListItem>
               <FeatureListItem><FormattedMessage
-                id="home.create.item.4"
-                defaultMessage="Support various question types"/></FeatureListItem>
+                id="home.create.item.4"/></FeatureListItem>
+              <FeatureListItem><FormattedMessage
+                id="home.create.item.5"/></FeatureListItem>
             </FeatureList>
           </Col>
           <Col span={12} data-aos="fade-in">
@@ -365,17 +347,11 @@ const Home = (props) => {
           <Col span={12} data-aos="fade-up-left">
             <StyledLeftH2Blue><FormattedMessage id="home.share.title"
                                                 defaultMessage="Share"/></StyledLeftH2Blue>
-            <SectionDesc><FormattedMessage
-              id="home.share.desc"
-              defaultMessage="Share your assessment with anyone via email invitation or direct URL."/>
-            </SectionDesc>
             <FeatureList>
               <FeatureListItem><FormattedMessage
-                id="home.share.item.1"
-                defaultMessage="Invite candidate to assess via Email Notification"/></FeatureListItem>
+                id="home.share.item.1"/></FeatureListItem>
               <FeatureListItem><FormattedMessage
-                id="home.share.item.2"
-                defaultMessage="Give your candidate Assessment Link or reach them via LinkIn/Facebook any Social Media you used"/></FeatureListItem>
+                id="home.share.item.2"/></FeatureListItem>
             </FeatureList>
           </Col>
         </StyledRow>
@@ -386,24 +362,18 @@ const Home = (props) => {
             <StyledLeftH2Blue><FormattedMessage
               id="home.analyze.title"
               defaultMessage="Analyze"/></StyledLeftH2Blue>
-            <SectionDesc><FormattedMessage id="home.analyze.desc"
-                                           defaultMessage="Visualize assessment results and make informed decisions"/>
-            </SectionDesc>
             <FeatureList>
               <FeatureListItem>
                 <FormattedMessage
-                  id="home.analyze.item.1"
-                  defaultMessage="View overall assessment score and at each question level"/>
+                  id="home.analyze.item.1"/>
               </FeatureListItem>
               <FeatureListItem>
                 <FormattedMessage
-                  id="home.analyze.item.2"
-                  defaultMessage="View score breakdown by sections"/>
+                  id="home.analyze.item.2"/>
               </FeatureListItem>
               <FeatureListItem>
                 <FormattedMessage
-                  id="home.analyze.item.3"
-                  defaultMessage="View assessment benchmark across candidates"/>
+                  id="home.analyze.item.3"/>
               </FeatureListItem>
             </FeatureList>
           </Col>
@@ -429,23 +399,6 @@ const Home = (props) => {
                                     defaultMessage={'Continue Get Started'}/>
               }
             </Button>
-            <FeatureList>
-              <FeatureListItem><FormattedMessage
-                id="home.template.fundamentals"
-                defaultMessage="Programming language fundamentals"/></FeatureListItem>
-              <FeatureListItem><FormattedMessage
-                id="home.template.problem.solving"
-                defaultMessage="Problem solving"/></FeatureListItem>
-              <FeatureListItem><FormattedMessage
-                id="home.template.design.patterns"
-                defaultMessage="Design patterns"/></FeatureListItem>
-              <FeatureListItem><FormattedMessage
-                id="home.template.language.learning"
-                defaultMessage="Language learning"/></FeatureListItem>
-              <FeatureListItem><FormattedMessage
-                id="home.template.tutoring"
-                defaultMessage="Tutoring"/></FeatureListItem>
-            </FeatureList>
           </Col>
         </StyledRow>
       </StyledSectionBlack>

@@ -82,16 +82,11 @@ const Hero = (props) => {
       <HeroSection backgrounds={backgrounds} image={HeroImg}>
         <h1>
           <FormattedMessage
-            id="home.landing.title"
-            defaultMessage="Best Tool for Online Assessment"/>
+            id="home.landing.title"/>
         </h1>
         <SubTitle><FormattedMessage
-          id="home.landing.title2"
-          defaultMessage="Store knowledge as your second brand"/>
+          id="home.landing.title2"/>
           <br/>
-          <FormattedMessage
-            id="home.landing.title3"
-            defaultMessage="Practice anonymously with engineers who have worked at great company"/>
         </SubTitle>
         {/*<StyledDescription>*/}
         {/*  <FormattedMessage*/}

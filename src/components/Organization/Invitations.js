@@ -70,10 +70,9 @@ const Invitations = ({
         <Column title={<FormattedMessage defaultMessage="Inviter's email"/>}
                 dataIndex="inviterEmail" key="inviterEmail" responsive={['md']}/>
         <Column
-          align="right"
-          responsive={['md']}
+          align="center"
           render={(text, record) => (
-            <Space key={record.email} size="middle">
+            <Space key={record.email} size="middle" wrap={true}>
               {
                 record.status === 'DECLINED' &&
                 <Tag color="red"><FormattedMessage defaultMessage="DECLINED"/></Tag>

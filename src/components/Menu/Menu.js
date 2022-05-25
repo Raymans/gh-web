@@ -195,42 +195,43 @@ const Menu = (props) => {
                 <React.Fragment key={item.to}>
                   <AntMenu.SubMenu
                     key={`interview_${index}`}
-                    title={<><EyeOutlined/> <FormattedMessage defaultMessage="Assessments"/></>}
+                    title={<><EyeOutlined/> <FormattedMessage id="menu.assessments"/></>}
                   >
+                    {renderItem({
+                      to: '/interviews/create',
+                      label: <><PlusOutlined/>
+                        <FormattedMessage
+                          id="menu.assessments.create"/></>
+                    })}
                     {renderItem({
                       to: '/interviews?tab=explore',
                       label: <><SearchOutlined/> <FormattedMessage
-                        defaultMessage="Explore Assessments"/></>
+                        id="menu.assessments.explore"/></>
                     })}
                     {renderItem({
                       to: '/interviews?tab=mine',
                       label: <><UserOutlined/> <FormattedMessage
-                        defaultMessage="My Assessments"/></>
+                        id="menu.assessments.mine"/></>
                     })}
                     {renderItem({
                       to: '/interviews?tab=liked',
                       label: <><LikeOutlined/> <FormattedMessage
-                        defaultMessage="Liked Assessments"/></>
+                        id="menu.assessments.like"/></>
                     })}
                     {renderItem({
                       to: '/interviews?tab=pending',
                       label: <><CaretRightOutlined/> <FormattedMessage
-                        defaultMessage="Pending Assessments"/></>
+                        id="menu.assessments.pending"/></>
                     })}
                     {renderItem({
                       to: '/testedInterviews',
                       label: <><ClockCircleOutlined/> <FormattedMessage
-                        defaultMessage="Assessed Assessments"/></>
-                    })}
-                    {renderItem({
-                      to: '/interviews/create',
-                      label: <><PlusOutlined/> <FormattedMessage
-                        defaultMessage="Create Assessments"/></>
+                        id="menu.assessments.completed"/></>
                     })}
                     {organization && renderItem({
                       to: '/interviews?tab=org',
                       label: <><GroupOutlined/> <FormattedMessage
-                        defaultMessage="Organization Assessments"/></>
+                        id="menu.assessments.organization"/></>
                     })}
                   </AntMenu.SubMenu>
                   <AntMenu.SubMenu
