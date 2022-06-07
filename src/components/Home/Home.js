@@ -2,15 +2,17 @@
 
 import React from 'react';
 
-import { Button, Col, Row } from 'antd';
+import { Button, Carousel, Col, Row } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled, { useTheme } from 'styled-components';
 import { FormattedMessage, navigate, useIntl } from 'gatsby-plugin-intl';
 import PropTypes from 'prop-types';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import CreateAssessmentExample from '../../images/CreateAssessmentExample.png';
+import CreateAssessmentExample from '../../images/CreateAssessmentExample.jpg';
+import CreateAssessmentExample2 from '../../images/CreateAssessmentExample2.jpg';
 import ShareAssessmentExample from '../../images/ShareAssessmentExample.png';
 import ReviewAssessmentExample from '../../images/ReviewAssessmentExample.png';
+import ReviewAssessmentExample2 from '../../images/ReviewAssessmentExample2.png';
 import EnglishAssessmentImg from '../../images/EnglishAssessment.jpg';
 import TechniqueAssessmentImg from '../../images/TechniqueAssessment.jpg';
 import useGetStarted from '../../hooks/useGetStarted';
@@ -102,6 +104,12 @@ const StyledImagesRow = styled(Row)`
       max-width: 100%;
       margin: 0;
     }
+  }
+`;
+
+const StyledCarousel = styled(Carousel)`
+  .slick-dots li button, .slick-dots li.slick-active button {
+    background: ${(props) => props.theme.color.brand.primary};
   }
 `;
 
@@ -335,7 +343,15 @@ const Home = (props) => {
             </FeatureList>
           </Col>
           <Col span={12} data-aos="fade-in">
-            <ImageSection position="right" image={CreateAssessmentExample}/>
+            <StyledCarousel>
+              <div>
+                <ImageSection position="right" image={CreateAssessmentExample}/>
+              </div>
+              <div>
+                <ImageSection position="right" image={CreateAssessmentExample2}/>
+              </div>
+            </StyledCarousel>
+
           </Col>
         </StyledRow>
       </Section>
@@ -378,7 +394,14 @@ const Home = (props) => {
             </FeatureList>
           </Col>
           <Col span={12} data-aos="fade-in">
-            <ImageSection position="right" image={ReviewAssessmentExample}/>
+            <StyledCarousel>
+              <div>
+                <ImageSection position="right" image={ReviewAssessmentExample}/>
+              </div>
+              <div>
+                <ImageSection position="right" image={ReviewAssessmentExample2}/>
+              </div>
+            </StyledCarousel>
           </Col>
         </StyledRow>
       </Section>
