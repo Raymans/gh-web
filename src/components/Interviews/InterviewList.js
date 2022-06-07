@@ -134,8 +134,7 @@ const InterviewList = ({ location }) => {
 
   const handleModeChange = (e) => setGridMode(e.target.value);
 
-  const { tab = 'explore' } = queryString.parse(location?.search);
-
+  const { tab = searchedInterviewCriteria.tab ?? 'explore' } = queryString.parse(location?.search);
   // TODO double run this hook, maybe remount by upper component.
   // Reproduce by: enter detail page and back to interviews via menu.
   useEffect(() => {
