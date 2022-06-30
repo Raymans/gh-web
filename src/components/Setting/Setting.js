@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, Input, message, Select } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import Headline from '../Article/Headline';
 import CustomBreadcrumb from '../CustomBreadcrumb';
@@ -111,6 +111,16 @@ const Setting = () => {
           <FormItem name="linkedIn" label="LinkedIn">
             <Input addonBefore="https://www.linkedin.com/in/"/>
           </FormItem>
+          <br/>
+          <Form.Item name="locale" label={<FormattedMessage id="setting.language.label"/>}
+          >
+            <Select
+              placeholder={<FormattedMessage id="setting.language.select"/>}
+            >
+              <Select.Option value="en"><FormattedMessage id="general.language.en"/></Select.Option>
+              <Select.Option value="zh-TW"><FormattedMessage id="general.language.zh-tw"/></Select.Option>
+            </Select>
+          </Form.Item>
           <br/>
           <Form.Item>
             <Button type="primary" loading={saving} htmlType="submit">

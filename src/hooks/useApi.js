@@ -243,7 +243,8 @@ export default () => {
       companyName,
       linkedIn,
       github,
-      note
+      note,
+      locale
     }) => request(`${config.ghServiceUrl}/api/users/me`, {
       method: 'POST',
       data: {
@@ -253,7 +254,8 @@ export default () => {
         companyName,
         linkedIn,
         github,
-        note
+        note,
+        locale
       }
     }),
     updateUserAvatar: ({ file }) => {
