@@ -36,9 +36,9 @@ const StoreProvider = ({ children }) => {
         isSocialMedia: data?.id.indexOf('auth0|') === -1
       });
       if(data.metadata.locale[0] === 'zh-TW'){
-        navigate('/');
+        navigate(location.pathname.replace('/en/', '/') + location.search);
       }else{
-        changeLocale(data.metadata.locale[0], '/');
+        changeLocale(data.metadata.locale[0]);
       }
       return data.organization ? getMyOrganization() : null;
     })
