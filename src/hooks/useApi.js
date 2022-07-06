@@ -258,6 +258,14 @@ export default () => {
         locale
       }
     }),
+    updateUserLocale: ({
+      locale
+    }) => request(`${config.ghServiceUrl}/api/users/me`, {
+      method: 'PATCH',
+      data: {
+        locale
+      }
+    }),
     updateUserAvatar: ({ file }) => {
       const formData = new FormData();
       formData.append('file', file);

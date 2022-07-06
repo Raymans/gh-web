@@ -1,8 +1,12 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled, { ThemeContext } from 'styled-components';
-import { changeLocale, FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
+import { FormattedMessage, Link, useIntl } from 'gatsby-plugin-intl';
 import { Col, Row } from 'antd';
+import { useAuth0 } from '@auth0/auth0-react';
+import useApi from '../../hooks/useApi';
+import { StoreContext } from '../../context/ContextProvider';
+import changeUILocale from '../../utils/userHelpers';
 
 const StyledTitleLi = styled.li`
   font-weight: bold;
@@ -35,6 +39,15 @@ const Footer = (props) => {
     switchDark,
     isDark
   } = useContext(ThemeContext);
+  const {
+    refreshUserProfile
+  } = useContext(StoreContext);
+  const {
+    isAuthenticated
+  } = useAuth0();
+  const {
+    updateUserLocale
+  } = useApi();
 
   const pages = props.pages.map((page) => ({
     to: page.node.fields.slug,
@@ -46,6 +59,17 @@ const Footer = (props) => {
 
   const changeTheme = (checked) => {
     switchDark(!checked);
+  };
+
+  const _changeLocale = (value) => {
+    changeUILocale(value);
+    if (!isAuthenticated) {
+      return;
+    }
+    updateUserLocale({ locale: value })
+      .then(() => {
+        refreshUserProfile();
+      });
   };
   return (
     <>
@@ -86,12 +110,12 @@ const Footer = (props) => {
               <li>
                 {
                   locale === 'en' ? <span>English</span> :
-                    <a onClick={() => changeLocale('en')}>English</a>
+                    <a onClick={() => _changeLocale('en')}>English</a>
                 }
                 {' / '}
                 {
                   locale === 'zh-tw' ? <span>繁體中文</span>
-                    : <a data-slug="/zh-tw" onClick={() => changeLocale('zh-tw')}>繁體中文</a>
+                    : <a data-slug="/zh-tw" onClick={() => _changeLocale('zh-TW')}>繁體中文</a>
                 }
               </li>
             </ul>

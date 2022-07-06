@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import useApi from '../hooks/useApi';
-import { changeLocale } from 'gatsby-plugin-intl';
-import { navigate } from 'gatsby-link';
+import changeUILocale from '../utils/userHelpers';
 
 export const StoreContext = React.createContext({});
 
@@ -35,11 +34,7 @@ const StoreProvider = ({ children }) => {
         ...data,
         isSocialMedia: data?.id.indexOf('auth0|') === -1
       });
-      if(data.metadata.locale[0] === 'zh-TW'){
-        navigate(location.pathname.replace('/en/', '/') + location.search);
-      }else{
-        changeLocale(data.metadata.locale[0]);
-      }
+      changeUILocale(data.locale);
       return data.organization ? getMyOrganization() : null;
     })
     .then((data) => {

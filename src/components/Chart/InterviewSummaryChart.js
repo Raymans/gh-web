@@ -9,7 +9,7 @@ const options = {
     y: {
       suggestedMin: 0,
       suggestedMax: 100
-    },
+    }
   },
   elements: {
     point: { radius: 5 }
@@ -48,7 +48,7 @@ const InterviewSummaryChart = ({
 
   const dataSets = [...interviewSessions?.map((interviewSession, index) => {
     return {
-      label: interviewSession.candidateUser.nickname,
+      label: interviewSession.candidateUser?.nickname ?? interviewSession.name,
       data: [0, ...interview?.sections.map((section, index) => {
         let sectionScore = 0;
         let sectionScoreDiff = 0;
