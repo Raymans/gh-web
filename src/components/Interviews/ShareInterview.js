@@ -48,7 +48,7 @@ const ShareInterview = ({ id }) => {
           email: value,
           name: value.split('@')[0]
         })
-          .then(({ id: interviewSessionId }) => {
+          .finally(({ id: interviewSessionId }) => {
             sendInterviewSessionToCandidate({ id: interviewSessionId })
               .then(() => {
                 if (!sharedEmails.includes(value)) {

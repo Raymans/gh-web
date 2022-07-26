@@ -122,7 +122,8 @@ const defaultSectionTitle = 'default section';
 const InterviewForm = ({
   id,
   onUpdated,
-  copy
+  copy,
+  onLoaded
 }) => {
   const isEditForm = !!id && !copy;
   const intl = useIntl();
@@ -149,11 +150,20 @@ const InterviewForm = ({
   const [canEdit, setCanEdit] = useState(true);
 
   const populateInterviewById = () => {
-    getInterview(id)
-      .then((data = { sections: [] }) => {
+    Promise.allSettled([].concat(id)
+      .map((value) => {
+        return getInterview(value);
+      }))
+      .then((results) => {
+        let data = { sections: [] };
+        data = results.pop().value;
+        results.map((r) => {
+          data.sections = data.sections?.concat(r.value.sections) ?? r.value.sections;
+        });
         if (isEditForm && !_.isEmpty(data.groupedInterviewSessions)) {
           setCanEdit(false);
           setLoading(false);
+          onLoaded();
           return;
         }
         data.visibility = data.visibility === 'PUBLIC';
@@ -172,6 +182,12 @@ const InterviewForm = ({
             }))
         })));
         setLoading(false);
+        onLoaded();
+      })
+      .catch(() => {
+        onLoaded();
+        setLoading(false);
+        console.error('loading templates error.');
       });
   };
   useEffect(() => {
@@ -806,11 +822,14 @@ export default InterviewForm;
 
 InterviewForm.propTypes = {
   id: PropTypes.any,
-  onUpdated: PropTypes.func
+  onUpdated: PropTypes.func,
+  onLoaded: PropTypes.func
 };
 
 InterviewForm.defaultProps = {
   onUpdated: () => {
   },
-  copy: false
+  copy: false,
+  onLoaded: () => {
+  }
 };

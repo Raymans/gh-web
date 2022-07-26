@@ -33,11 +33,11 @@ export default function request(getAccessTokenSilently, tokens = {
   accessToken: '',
   userKey: ''
 }, clearGSTokens) {
-  const _request = async (url, options, ignoreCache = false) => {
+  const _request = async (url, options, ignoreCache = false, isGS = !!tokens) => {
     const defaultOptions = {
       withCredentials: true
     };
-    if (tokens?.accessToken) {
+    if (isGS && tokens?.accessToken) {
       if (ignoreCache) {
         console.log('GS token expired, trying to get new one.');
         clearGSTokens();

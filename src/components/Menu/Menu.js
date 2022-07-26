@@ -308,7 +308,7 @@ const Menu = (props) => {
         &&
         <>
           {
-            (!isAuthenticated && !isGetStarted) &&
+            (!isGetStarted) &&
             <span>
             <Button type={'primary'} onClick={() => navigate('/get-started')}>
             {

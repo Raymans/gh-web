@@ -7,6 +7,8 @@ import { Select } from 'antd';
 import useApi from '../../hooks/useApi';
 import useGetStarted from '../../hooks/useGetStarted';
 
+let interviewFormLoaded = false;
+
 const CreateAssessment = ({
   setStep,
   setAssessmentId
@@ -17,6 +19,7 @@ const CreateAssessment = ({
   const [templateId, setTemplateId] = useState('');
   const [templateSelected, setTemplateSelected] = useState(false);
   const [loading, setLoading] = useState(true);
+  //const [interviewFormLoaded, setInterviewFormLoaded] = useState(false);
   const [okButtonDisabled, setOkButtonDisabled] = useState(true);
   const { gsTokens } = useGetStarted();
   const handleUpdated = (interview) => {
@@ -36,8 +39,18 @@ const CreateAssessment = ({
     setTemplateId(templateId);
   };
 
+  const checkInterviewFormLoaded = () => interviewFormLoaded;
   const handleSelectTemplate = () => {
     setTemplateSelected(true);
+    return new Promise((resolve, reject) => {
+      let t = setInterval(function () {
+        if (checkInterviewFormLoaded()) {
+          clearInterval(t);
+          resolve();
+        }
+      }, 500);
+    });
+
   };
   return (
     <>
@@ -56,6 +69,7 @@ const CreateAssessment = ({
         cancelButtonHidden={true}
         okButtonDisabled={okButtonDisabled}
         onOK={handleSelectTemplate}
+        onBeforeSubmit={handleSelectTemplate}
       >
         <FormattedMessage id={'assessment.template.select.desc'}
                           defaultMessage={'Please select a template to let us populate Assessment content quickly for you'}
@@ -63,6 +77,7 @@ const CreateAssessment = ({
         />
         <Select
           onChange={(v) => onTemplateSelect(v)}
+          mode="multiple"
           style={{
             width: '100%',
             padding: '10px 0'
@@ -107,6 +122,7 @@ const CreateAssessment = ({
         templateSelected &&
         <InterviewForm id={templateId}
                        onUpdated={handleUpdated}
+                       onLoaded={() => interviewFormLoaded = true}
                        copy/>
       }
     </>

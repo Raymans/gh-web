@@ -235,7 +235,7 @@ export default () => {
 
     getMyProfile: () => request(`${config.ghServiceUrl}/api/users/me`, {
       method: 'GET'
-    }),
+    }, false, false),
     updateUserProfile: ({
       email,
       name,
@@ -332,7 +332,7 @@ export default () => {
     }),
     getMyOrganization: () => request(`${config.ghServiceUrl}/api/organizations/me`, {
       method: 'GET'
-    }),
+    }, false, false),
     inviteUserToOrganization: ({
       email,
       organizationId
