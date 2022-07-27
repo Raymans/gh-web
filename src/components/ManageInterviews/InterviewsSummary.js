@@ -53,7 +53,9 @@ const InterviewsSummary = ({
           renderItem={(interview) => {
             let totalGeeks = 0;
             for (const key in interview.interviewSessions) {
-              totalGeeks += interview.interviewSessions[key]?.length;
+              if (key !== 'NOT_STARTED') {
+                totalGeeks += interview.interviewSessions[key]?.length;
+              }
             }
 
             return (
@@ -105,12 +107,12 @@ const InterviewsSummary = ({
                         </Descriptions.Item>
                       </Descriptions>
                       {(!userId || !isOwner)
-                      && (
-                        <AuthorBy
-                          clientUser={interview.clientUser}
-                          isOwnerChangeable={isOwnerChangeable}
-                        />
-                      )}
+                        && (
+                          <AuthorBy
+                            clientUser={interview.clientUser}
+                            isOwnerChangeable={isOwnerChangeable}
+                          />
+                        )}
 
                     </>
                   )}

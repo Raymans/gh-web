@@ -140,8 +140,9 @@ const InterviewResults = ({
       owner: false
     })
       .then(({ results: iss }) => {
-        iss.sort((isa, isb) => isb.score - isa.score);
-        setMyInterviewsSessions(iss);
+        setMyInterviewsSessions(
+          iss.filter((is) => !!is.candidateUser)
+            .sort((isa, isb) => isb.score - isa.score));
         setLoading(false);
       })
       .catch(() => {
@@ -157,8 +158,7 @@ const InterviewResults = ({
             label: <FormattedMessage id="breadcrumb.browse.title"/>,
             path: '/interviews'
           }, {
-            label: location?.state?.interviewName,
-            path: location?.pathname
+            label: interview.title
           }]}
           />
           <Headline title={intl.formatMessage({ defaultMessage: 'Manage Interviews' })}>

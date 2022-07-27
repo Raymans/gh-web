@@ -125,11 +125,11 @@ const InterviewSessionResult = ({
                     <Tooltip
                       title={<FormattedMessage
                         defaultMessage="Compares to average score: {averageScore}"
-                        values={{ averageScore: averageScore.averageScore?.averageScore * 100 }}/>}>
+                        values={{ averageScore: Math.round(averageScore.averageScore?.averageScore * 100) }}/>}>
                       <Progress
                         type="circle"
                         width={layout.isWidthLower768 ? 200 : 120}
-                        percent={interviewSession.totalScore * 100}
+                        percent={Math.round(interviewSession.totalScore * 100)}
                         format={(totalScore) => totalScore}
                         status={interviewSession.totalScore < averageScore.averageScore?.averageScore ? 'exception' : ''}
                       />

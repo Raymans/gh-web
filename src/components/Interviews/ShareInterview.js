@@ -48,19 +48,18 @@ const ShareInterview = ({ id }) => {
           email: value,
           name: value.split('@')[0]
         })
-          .finally(({ id: interviewSessionId }) => {
-            sendInterviewSessionToCandidate({ id: interviewSessionId })
-              .then(() => {
-                if (!sharedEmails.includes(value)) {
-                  setSharedEmails([...sharedEmails, value]);
-                }
-                setSending({
-                  ...sending,
-                  sending: false
-                });
-                message.success(intl.formatMessage({ defaultMessage: 'Sent Assessment to {interviewee}' }, { interviewee: value }));
-              });
-          });
+          .then(({ id: interviewSessionId }) => sendInterviewSessionToCandidate({ id: interviewSessionId }))
+          .then(() => {
+            if (!sharedEmails.includes(value)) {
+              setSharedEmails([...sharedEmails, value]);
+            }
+            setSending({
+              ...sending,
+              sending: false
+            });
+            message.success(intl.formatMessage({ defaultMessage: 'Sent Assessment to {interviewee}' }, { interviewee: value }));
+          })
+          .catch(() => console.error('sending interview session email fail.'));
       });
   };
 

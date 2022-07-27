@@ -127,7 +127,9 @@ const InterviewGrid = (props) => {
 
   let totalGeeks = 0;
   for (const key in groupedInterviewSessions) {
-    totalGeeks += groupedInterviewSessions[key]?.length;
+    if (key !== 'NOT_STARTED') {
+      totalGeeks += groupedInterviewSessions[key]?.length;
+    }
   }
 
   return (
