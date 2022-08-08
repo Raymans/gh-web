@@ -5,6 +5,9 @@ import styled from 'styled-components';
 import { FormattedMessage } from 'gatsby-plugin-intl';
 import particleConfig from './particle-option.json';
 import HeroImg from '../../images/png/hero-background.jpg';
+import useLayout from '../../hooks/useLayout';
+import GetStartedButton from '../Home/GetStartedButton';
+import useGetStarted from '../../hooks/useGetStarted';
 
 const HeroSection = styled.section`
   align-items: center;
@@ -15,7 +18,7 @@ const HeroSection = styled.section`
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  min-height: 98vh;
+  min-height: 84vh;
   margin-top: -3vh;
   height: 10px;
   padding: ${(props) => props.theme.space.inset.l};
@@ -26,12 +29,16 @@ const HeroSection = styled.section`
 
   h1 {
     text-align: center;
-    font-size: ${(props) => props.theme.hero.h1.size};
-    margin: ${(props) => props.theme.space.stack.l};
     color: ${(props) => props.theme.hero.h1.color};
     line-height: ${(props) => props.theme.hero.h1.lineHeight};
     text-remove-gap: both 0 "Open Sans";
     font-weight: 400;
+    margin: 12px;
+    max-width: 85%;
+    font-size: ${(props) => `calc(${props.theme.hero.h1.size} * 1.2)`};
+    div {
+      color: ${(props) => props.theme.color.brand.primary};
+    }
   }
 
   // @media (min-width: 768px) {
@@ -43,19 +50,16 @@ const HeroSection = styled.section`
   // }
   //@media (min-width: 1024px) {
   background-image: url(${(props) => props.image});
-
-  h1 {
-    max-width: 85%;
-    font-size: ${(props) => `calc(${props.theme.hero.h1.size} * 1.2)`};
-  }
-
   //}
 `;
 
-const SubTitle = styled.h2`
+const SubTitle = styled.div`
   color: #ffffff;
   border: 0;
   text-align: center;
+  margin: 0;
+  font-size: 23px;
+  padding-bottom: 23px;
 `;
 
 const StyledDescription = styled.h3`
@@ -70,24 +74,30 @@ const ParticlesWrapper = styled.div`
 `;
 const Hero = (props) => {
   const { backgrounds } = props;
+  const { isWidthLower768 } = useLayout();
+  const {step} = useGetStarted();
   return (
     <>
       <ParticlesWrapper>
         <Particles
           params={particleConfig}
           width="100%"
-          height="90vh"
+          height={isWidthLower768 ? '50vh' : '70vh'}
         />
       </ParticlesWrapper>
       <HeroSection backgrounds={backgrounds} image={HeroImg}>
         <h1>
           <FormattedMessage
             id="home.landing.title"/>
+          <div><FormattedMessage
+            id="home.landing.title2"/>
+          </div>
         </h1>
-        <SubTitle><FormattedMessage
-          id="home.landing.title2"/>
-          <br/>
+        <SubTitle>
+          <FormattedMessage
+            id="home.landing.title3" values={{ br: <br/> }}/>
         </SubTitle>
+        <GetStartedButton />
         {/*<StyledDescription>*/}
         {/*  <FormattedMessage*/}
         {/*    id="home.landing.title2"*/}

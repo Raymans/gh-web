@@ -24,7 +24,8 @@
     "extract": "formatjs extract",
     "message": "npm run extract -- \"src/**/**/*.js*\" --out-file src/intl/en.json --format scripts/formatter.js simple && npm run copymessage",
     "compile": "formatjs compile",
-    "copymessage": "node scripts/copy-message.js"
+    "copymessage": "node scripts/copy-message.js",
+    "auth0-sync-prd": "node scripts/sync-auth0-tenants.js"
   },
   "dependencies": {
     "@ant-design/compatible": "^1.0.1",
@@ -131,6 +132,7 @@
     "@storybook/addon-essentials": "^6.0.22",
     "@storybook/addon-links": "^6.0.22",
     "@storybook/react": "^6.0.22",
+    "auth0-deploy-cli": "^7.14.1",
     "babel-loader": "^8.1.0",
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
     "babel-plugin-import": "^1.13.0",

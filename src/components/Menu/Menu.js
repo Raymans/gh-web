@@ -24,6 +24,7 @@ import useLayout from '../../hooks/useLayout';
 import useStore from '../../hooks/useStore';
 import useGetStarted from '../../hooks/useGetStarted';
 import useAuth from '../../hooks/useAuth';
+import GetStartedButton from '../Home/GetStartedButton';
 
 const StyledAlignSpan = styled.span`
   display: flex;
@@ -33,6 +34,7 @@ const StyledAlignSpan = styled.span`
 
 const StyledMenu = styled.div`
   display: flex;
+  align-items: center;
 
   .ant-menu {
     font-size: 16px;
@@ -293,7 +295,7 @@ const Menu = (props) => {
               </Button>
             </Affix>
             <Drawer
-              placement="left"
+              placement="right"
               closable={false}
               onClose={onClose}
               visible={menuVisible}
@@ -310,14 +312,7 @@ const Menu = (props) => {
           {
             (!isGetStarted) &&
             <span>
-            <Button type={'primary'} onClick={() => navigate('/get-started')}>
-            {
-              step === 0 ?
-                <FormattedMessage id="menu.getstarted.start" defaultMessage={'Get Started'}/> :
-                <FormattedMessage id="menu.getstarted.continue"
-                                  defaultMessage={'Continue Get Started'}/>
-            }
-          </Button>
+            <GetStartedButton />
           </span>
           }
           <span>{antdMenu}</span></>

@@ -12,7 +12,7 @@ import Seo from '../components/Seo';
 import { useIntl } from 'gatsby-plugin-intl';
 import 'moment/locale/zh-tw';
 import Moment from 'react-moment';
-import { ConfigProvider, Empty, message } from 'antd';
+import { BackTop, ConfigProvider, Empty, message } from 'antd';
 import { aos } from '../utils/ssrHelper.js';
 import 'aos/dist/aos.css';
 
@@ -187,6 +187,7 @@ export const Layout = (props) => {
                     <Seo/>
                     <Header path={location.pathname} pages={pages}/>
                     <Main>{children}</Main>
+                    <BackTop />
                     <Footer body={footnoteHTML} pages={pages}/>
                   </>
                 </ConfigProvider>

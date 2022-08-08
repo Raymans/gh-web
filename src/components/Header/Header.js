@@ -11,10 +11,9 @@ import styled from 'styled-components';
 const StyledHeader = styled.header`
   align-items: center;
   display: flex;
-  height: ${props => props.theme.header.height.default};
   top: 0;
   width: 100%;
-  position: fixed;
+  position: absolute;
   background-color: #1088ae;
   height: ${props => props.theme.header.height.homepage};
   justify-content: space-between;
@@ -28,6 +27,7 @@ const StyledHeader = styled.header`
 
   @media (max-width: 768px) {
     padding: 0 30px;
+    height: 50px;
   }
 
   &:not(.homepage) {

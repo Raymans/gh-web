@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { Button, Carousel, Col, Row } from 'antd';
+import { Carousel, Col, Row } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled, { useTheme } from 'styled-components';
 import { FormattedMessage, navigate, useIntl } from 'gatsby-plugin-intl';
@@ -10,72 +10,95 @@ import PropTypes from 'prop-types';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import CreateAssessmentExample from '../../images/CreateAssessmentExample.jpg';
 import CreateAssessmentExample2 from '../../images/CreateAssessmentExample2.jpg';
-import ShareAssessmentExample from '../../images/ShareAssessmentExample.png';
-import ReviewAssessmentExample from '../../images/ReviewAssessmentExample.png';
+import ShareAssessmentExample from '../../images/ShareAssessmentExample.jpg';
+import ReviewAssessmentExample from '../../images/ReviewAssessmentExample.jpg';
 import ReviewAssessmentExample2 from '../../images/ReviewAssessmentExample2.png';
 import EnglishAssessmentImg from '../../images/EnglishAssessment.jpg';
 import TechniqueAssessmentImg from '../../images/TechniqueAssessment.jpg';
+import StepsBackgroundImg from '../../images/StepsBackground.jpg';
+
 import useGetStarted from '../../hooks/useGetStarted';
 import Lottie from 'react-lottie';
 import jsonAnalysis from '../../animation/AnalysisAssessment.json';
 import jsonShare from '../../animation/ShareAssessment.json';
 import jsonCreate from '../../animation/CreateAssessment.json';
 import VideoJS from '../VideoPlayer/VideoJS';
+import GetStartedButton from './GetStartedButton';
+import SectionTitle from './SectionTitle';
+import SectionInnerTitle from './SectionInnerTitle';
+import ActionButton from './ActionButton';
+import IconDescription from './IconDescription';
 
 const StyledHome = styled.div`
   background-color: white;
 `;
 
 const Section = styled.section`
+  &.dark{
+    color: white;
+     div.ant-col {
+      background-color: white;
+    }
+  }
   :nth-child(even) {
+    border-top: #f2f0f0 2px solid;
     background-color: hsla(180, 5%, 96%, .7)
   }
+  background: ${(props) => props.image? `url(${props.image}) round`: undefined};
 
-  padding: 0 150px;
-  min-height: 500px;
+  padding: 20px 150px;
+  min-height: 600px;
 
   h1 {
     font-weight: 500;
-    font-size: 36px;
-    text-align: center;
+    font-size: 31px;
+    //text-align: center;
     width: 100%;
   }
 
+  h2, h3 {
+    margin: 0;
+    padding: 0;
+  }
   h2 {
-    text-align: center;
-    border: 0;
-    font-size: 32px;
-    margin-top: 60px;
+    //text-align: center;
+    font-size: 28px;
+    //margin-top: 60px;
     width: 100%;
   }
 
   h3 {
-    font-size: 28px;
+    font-size: 23px;
   }
 
   @media (max-width: 768px) {
-    padding: 0 20px;
+    padding: 10px 20px;
   }
 `;
 
 const StyledSectionBlack = styled(Section)`
   background-color: black !important;
   color: white;
+  display: flex;
+  justify-content: center;
 `;
 
-const StyledLeftH2 = styled.h2`
+const StyledLeftTitle = styled.h2`
   text-align: left !important;
   margin-top: 0 !important;
 `;
 
-const StyledLeftH2Blue = styled(StyledLeftH2)`
+const StyledLeftH2Blue = styled(StyledLeftTitle)`
   color: ${(props) => props.theme.color.brand.primary};
+  border-image-slice: 1;
+  border-image: linear-gradient(to right, rgb(16 136 174) 0%, rgba(240, 64, 149, 0) 50%);
+  border-bottom: 2px solid;
 `;
 
 const StyledRow = styled(Row)`
-  padding: 70px 0;
+  //padding: 70px 0;
   justify-content: center;
-
+  flex-direction: ${(props) => props.reverse? 'row-reverse': 'row'};
   > div {
     padding: 0 30px;
   }
@@ -83,16 +106,19 @@ const StyledRow = styled(Row)`
   @media (max-width: 768px) {
     padding: 0;
     flex-direction: column;
-    div {
+     > div {
       max-width: 100%;
     }
   }
 `;
 
-const StyledImagesRow = styled(Row)`
-  padding: 70px 0;
-  justify-content: center;
+const StyledCenterCol = styled(Col)`
+  align-self: center;
+`
 
+const StyledImagesRow = styled(Row)`
+  justify-content: center;
+  row-gap: 30px !important;
   div {
     margin: 0 22px;
     max-width: 430px;
@@ -108,6 +134,7 @@ const StyledImagesRow = styled(Row)`
 `;
 
 const StyledCarousel = styled(Carousel)`
+  box-shadow: 0px 0px 20px #ced1d3;
   .slick-dots li button, .slick-dots li.slick-active button {
     background: ${(props) => props.theme.color.brand.primary};
   }
@@ -122,28 +149,9 @@ const ImageSection = styled.section`
   background-position: center;
 `;
 
-const IconImage = styled.img`
-  width: 300px;
-  height: 235px;
-  border-radius: 50%;
-  margin: 10px 0 20px;
-
-  &.big {
-    width: 400px;
-    height: 250px;
-    border-radius: 5%;
-  }
-
-  @media (max-width: 768px) {
-    &.big {
-      width: 100%;
-    }
-  }
-`;
-
 const FeatureList = styled.ul`
   padding: 0;
-  margin: 0 40px;
+  margin: 0 10px;
   display: inline-block;
 
   li {
@@ -170,13 +178,6 @@ const FeatureListItem = ({
       }}/>
       <span>{children}</span>
     </li>);
-};
-
-const defaultOptions = {
-  loop: true,
-  rendererSettings: {
-    preserveAspectRatio: 'xMidYMid slice'
-  }
 };
 
 const Home = (props) => {
@@ -211,50 +212,39 @@ const Home = (props) => {
   const theme = useTheme();
   const { step } = useGetStarted();
 
-  const IconDescription = ({
-    icon,
-    title,
-    description,
-    className,
-    image
-  }) =>
-    <Col style={{
-      textAlign: 'center',
-      marginTop: 10
-    }} className={className}>
-      {/*<FontAwesomeIcon icon={icon} size="7x"/>*/}
-      <h3 style={{ paddingTop: '10px' }}>{title}</h3>
-      {
-        !!image ? <IconImage src={icon} alt="Analysis" className={className}/> :
-          <Lottie options={{ animationData: icon, ...defaultOptions }}
-                  width={300}
-                  height={240}
-          />
-      }
-      <p>{description}</p>
-    </Col>;
-
   return (
     <StyledHome>
       <Section>
+        <SectionTitle title={intl.formatMessage({ id: 'home.company.title' })}
+                      subtitle={intl.formatMessage({ id: 'home.company.title.subtitle' })}/>
         <StyledRow type="flex">
-          <Col span={12} data-aos="fade-up-right">
-            <StyledLeftH2><FormattedMessage id="home.company.title"
-                                            values={{ br: <br/> }}/></StyledLeftH2>
+          <Col span={12}>
+            <SectionInnerTitle
+              title={intl.formatMessage({ id: 'home.company.title1' }, { br: <br/> })}
+              subtitle={intl.formatMessage({ id: 'home.company.title1.subtitle' })}
+              align={'left'}/>
+            <br/>
+            <div>
+              {/*<FormattedMessage id="home.company.desc"/>*/}
+              透線上測試流程，
+              <br/>快速篩選出最適合的人才，
+              <br/>極大化時間應用價值。
+            </div>
+            <br/>
+            <br/>
+            <ActionButton danger onClick={()=> {document.querySelector('#steps').scrollIntoView({behavior: "smooth"})}}>
+              LEARN MORE
+            </ActionButton>
           </Col>
-          <Col span={12} data-aos="fade-in">
+          <Col span={12} style={{width: 640, height: 360}}>
             <VideoJS options={videoJsOptions} onReady={handlePlayerReady}/>
           </Col>
         </StyledRow>
       </Section>
-      <Section className="no-pic">
+      <Section id="templates"  className="no-pic">
+        <SectionTitle title={intl.formatMessage({ id: 'home.template.title' })}
+                      subtitle={intl.formatMessage({ id: 'home.template.title.subtitle' })}/>
         <StyledImagesRow type="flex" justify="space-around">
-          <h1>
-            <FormattedMessage
-              id="home.template.title"
-              defaultMessage="Our tool is perfectly suited for conducting technical interviews, online learning assessments and popup quiz"
-            />
-          </h1>
           {/*<h2><FormattedMessage id="home.template.title2" defaultMessage="GeekHub Templates"/></h2>*/}
           <IconDescription icon={TechniqueAssessmentImg}
                            className="big template"
@@ -293,11 +283,14 @@ const Home = (props) => {
                            }
           />
         </StyledImagesRow>
+        <ActionButton align={'center'} onClick={()=> navigate('/interviews?tab=explore')}>
+          <FormattedMessage id={'home.template.discover'}/>
+        </ActionButton>
       </Section>
-      <Section className="no-pic" data-aos="zoom-in">
+      <Section id="steps" className="no-pic dark" image={StepsBackgroundImg}>
+        <SectionTitle title={intl.formatMessage({ id: 'home.easy.steps' })}
+                      subtitle={intl.formatMessage({id: 'home.easy.steps.subtitle'})}/>
         <StyledImagesRow type="flex" justify="space-around">
-          <h1><FormattedMessage id="home.easy.steps"
-                                defaultMessage="Easy Steps to Online Assessment"/></h1>
           <IconDescription icon={jsonCreate}
                            title={intl.formatMessage({
                              id: 'home.easy.steps.create.title'
@@ -325,9 +318,11 @@ const Home = (props) => {
         </StyledImagesRow>
       </Section>
       <Section>
+        <SectionTitle title={intl.formatMessage({ id: 'home.create.title' })}
+                      subtitle={intl.formatMessage({id: 'home.create.title.subtitle'})}/>
         <StyledRow type="flex">
-          <Col span={12} data-aos="fade-up-right">
-            <StyledLeftH2Blue><FormattedMessage id="home.create.title"
+          <StyledCenterCol span={12} data-aos="fade-up-right">
+            <StyledLeftH2Blue><FormattedMessage id="home.create.title.inner"
                                                 defaultMessage="Create"/></StyledLeftH2Blue>
             <FeatureList>
               <FeatureListItem><FormattedMessage
@@ -341,7 +336,7 @@ const Home = (props) => {
               <FeatureListItem><FormattedMessage
                 id="home.create.item.5"/></FeatureListItem>
             </FeatureList>
-          </Col>
+          </StyledCenterCol>
           <Col span={12} data-aos="fade-in">
             <StyledCarousel>
               <div>
@@ -351,17 +346,15 @@ const Home = (props) => {
                 <ImageSection position="right" image={CreateAssessmentExample2}/>
               </div>
             </StyledCarousel>
-
           </Col>
         </StyledRow>
       </Section>
       <Section>
-        <StyledRow type="flex" justify="space-around">
-          <Col span={12} data-aos="fade-in">
-            <ImageSection position="left" image={ShareAssessmentExample}/>
-          </Col>
-          <Col span={12} data-aos="fade-up-left">
-            <StyledLeftH2Blue><FormattedMessage id="home.share.title"
+        <SectionTitle title={intl.formatMessage({ id: 'home.share.title' })}
+                      subtitle={intl.formatMessage({id: 'home.share.subtitle'})}/>
+        <StyledRow type="flex" justify="space-around" reverse>
+          <StyledCenterCol span={12} data-aos="fade-up-left">
+            <StyledLeftH2Blue><FormattedMessage id="home.share.title.inner"
                                                 defaultMessage="Share"/></StyledLeftH2Blue>
             <FeatureList>
               <FeatureListItem><FormattedMessage
@@ -369,14 +362,19 @@ const Home = (props) => {
               <FeatureListItem><FormattedMessage
                 id="home.share.item.2"/></FeatureListItem>
             </FeatureList>
+          </StyledCenterCol>
+          <Col span={12} data-aos="fade-in">
+            <ImageSection position="left" image={ShareAssessmentExample}/>
           </Col>
         </StyledRow>
       </Section>
       <Section>
+        <SectionTitle title={intl.formatMessage({ id: 'home.analyze.title' })}
+                      subtitle={intl.formatMessage({id: 'home.analyze.title.subtitle'})}/>
         <StyledRow type="flex" justify="space-around">
-          <Col span={12} data-aos="fade-up-right">
+          <StyledCenterCol span={12} data-aos="fade-up-right">
             <StyledLeftH2Blue><FormattedMessage
-              id="home.analyze.title"
+              id="home.analyze.title.inner"
               defaultMessage="Analyze"/></StyledLeftH2Blue>
             <FeatureList>
               <FeatureListItem>
@@ -392,7 +390,7 @@ const Home = (props) => {
                   id="home.analyze.item.3"/>
               </FeatureListItem>
             </FeatureList>
-          </Col>
+          </StyledCenterCol>
           <Col span={12} data-aos="fade-in">
             <StyledCarousel>
               <div>
@@ -406,22 +404,18 @@ const Home = (props) => {
         </StyledRow>
       </Section>
       <StyledSectionBlack className="no-pic">
-        <StyledRow type="flex" justify="space-around" data-aos="zoom-in">
+        <StyledRow type="flex" justify="space-around" data-aos="zoom-in" style={{alignSelf: 'center'}}>
           <Col span={24} style={{ textAlign: 'center' }}>
-            <h2><FormattedMessage id="home.getstarted.title" defaultMessage="Get Started for Free"/>
-            </h2>
-            <p><FormattedMessage
+            <h1><FormattedMessage id="home.getstarted.title" defaultMessage="Get Started for Free"/>
+            </h1>
+            <p>
+              <FormattedMessage
               id="home.getstarted.desc"
             />
             </p>
-            <Button type={'primary'} onClick={() => navigate('/get-started')}>
-              {
-                step === 0 ?
-                  <FormattedMessage id="home.getstarted.button" defaultMessage={'Get Started'}/> :
-                  <FormattedMessage id="home.getstarted.continue"
-                                    defaultMessage={'Continue Get Started'}/>
-              }
-            </Button>
+            <div style={{margin: 20}}>
+              <GetStartedButton/>
+            </div>
           </Col>
         </StyledRow>
       </StyledSectionBlack>
